@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npx prisma db push && next build",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "functions": {
+    "app/api/chat/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}
