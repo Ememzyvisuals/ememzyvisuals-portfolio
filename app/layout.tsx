@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   category: "technology",
   verification: {
-     google: "wv1kiSqlhdc7RJ1foB6FN9IGKHtz7LgJ8Zt4NRHrnGs",
+     google:"wv1kiSqlhdc7RJ1foB6FN9IGKHtz7LgJ8Zt4NRHrnGs",
   },
 };
 
