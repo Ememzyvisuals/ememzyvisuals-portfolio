@@ -1,20 +1,22 @@
-// app/project/[slug]/page.tsx
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ALL_PROJECTS } from "@/data/projects";
 import { ProjectDetailClient } from "./ProjectDetailClient";
 import { siteConfig } from "@/config/site";
 
+// 1. Wrap params inside a Promise for Next.js 15
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
   return ALL_PROJECTS.map((p) => ({ slug: p.slug }));
 }
 
+// 2. Await params inside your metadata generator
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = ALL_PROJECTS.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const project = ALL_PROJECTS.find((p) => p.slug === slug);
   if (!project) return {};
 
   return {
@@ -35,8 +37,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function ProjectPage({ params }: Props) {
-  const project = ALL_PROJECTS.find((p) => p.slug === params.slug);
+// 3. Make the main page component async and await params
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params;
+  const project = ALL_PROJECTS.find((p) => p.slug === slug);
   if (!project) notFound();
 
   return <ProjectDetailClient project={project} />;
