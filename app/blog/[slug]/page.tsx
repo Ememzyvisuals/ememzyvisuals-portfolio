@@ -1,4 +1,3 @@
-// app/blog/[slug]/page.tsx
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -9,7 +8,10 @@ import { ArrowLeft, Clock, Tag } from "lucide-react";
 
 export const revalidate = 60;
 
-interface Props { params: { slug: string } }
+// 1. Update Props interface for Next.js 15 Promise requirement
+interface Props { 
+  params: Promise<{ slug: string }>;
+}
 
 async function getBlog(slug: string) {
   try {
@@ -17,8 +19,10 @@ async function getBlog(slug: string) {
   } catch { return null; }
 }
 
+// 2. Await params here for metadata generation
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const blog = await getBlog(params.slug);
+  const { slug } = await params;
+  const blog = await getBlog(slug);
   if (!blog) return {};
   return {
     title: blog.metaTitle || blog.title,
@@ -79,8 +83,10 @@ function renderMarkdown(content: string): string {
     .replace(/<p[^>]*>\s*<\/p>/g, '');
 }
 
+// 3. Await params inside the main page component
 export default async function BlogPostPage({ params }: Props) {
-  const blog = await getBlog(params.slug);
+  const { slug } = await params;
+  const blog = await getBlog(slug);
   if (!blog) notFound();
 
   const htmlContent = renderMarkdown(blog.content);
