@@ -1,6 +1,7 @@
 "use client";
 // components/sections/AskAboutMe.tsx
 
+import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, RotateCcw, Bot } from "lucide-react";
@@ -38,11 +39,12 @@ export function AskAboutMe() {
       timestamp: new Date(),
     };
 
+    // Update messages with user message
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setIsLoading(true);
 
-    // Add streaming assistant message
+    // Add empty assistant message for streaming
     const assistantId = crypto.randomUUID();
     setMessages((prev) => [
       ...prev,
@@ -54,6 +56,7 @@ export function AskAboutMe() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          // Use latest messages including the new user message
           messages: [...messages, userMsg].map((m) => ({
             role: m.role,
             content: m.content,
@@ -83,6 +86,7 @@ export function AskAboutMe() {
                 const parsed = JSON.parse(data);
                 const content = parsed.choices?.[0]?.delta?.content ?? "";
                 accum += content;
+
                 setMessages((prev) =>
                   prev.map((m) =>
                     m.id === assistantId ? { ...m, content: accum } : m
@@ -218,7 +222,7 @@ export function AskAboutMe() {
             {/* Divider */}
             <div className="section-divider" />
 
-                       {/* Input area */}
+            {/* Input area */}
             <div className="p-4 flex items-end gap-3">
               <textarea
                 ref={inputRef}
@@ -233,7 +237,7 @@ export function AskAboutMe() {
                 )}
                 disabled={isLoading}
               />
-              
+
               {messages.length > 0 && (
                 <button
                   onClick={reset}
@@ -253,3 +257,9 @@ export function AskAboutMe() {
                 <Send size={16} />
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
