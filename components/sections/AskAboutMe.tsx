@@ -39,12 +39,10 @@ export function AskAboutMe() {
       timestamp: new Date(),
     };
 
-    // Update messages with user message
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setIsLoading(true);
 
-    // Add empty assistant message for streaming
     const assistantId = crypto.randomUUID();
     setMessages((prev) => [
       ...prev,
@@ -56,7 +54,6 @@ export function AskAboutMe() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // Use latest messages including the new user message
           messages: [...messages, userMsg].map((m) => ({
             role: m.role,
             content: m.content,
@@ -86,7 +83,6 @@ export function AskAboutMe() {
                 const parsed = JSON.parse(data);
                 const content = parsed.choices?.[0]?.delta?.content ?? "";
                 accum += content;
-
                 setMessages((prev) =>
                   prev.map((m) =>
                     m.id === assistantId ? { ...m, content: accum } : m
@@ -167,7 +163,6 @@ export function AskAboutMe() {
                     </p>
                   </div>
 
-                  {/* Suggested questions */}
                   <div className="flex flex-wrap gap-2 justify-center">
                     {SUGGESTED_QUESTIONS.map((q) => (
                       <button
@@ -203,9 +198,7 @@ export function AskAboutMe() {
                         <div
                           className={cn(
                             "max-w-[80%] text-sm leading-relaxed",
-                            msg.role === "user"
-                              ? "chat-bubble-user"
-                              : "chat-bubble-assistant",
+                            msg.role === "user" ? "chat-bubble-user" : "chat-bubble-assistant",
                             msg.role === "assistant" && !msg.content && "typing-cursor"
                           )}
                         >
@@ -219,7 +212,6 @@ export function AskAboutMe() {
               )}
             </div>
 
-            {/* Divider */}
             <div className="section-divider" />
 
             {/* Input area */}
@@ -257,7 +249,7 @@ export function AskAboutMe() {
                 <Send size={16} />
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
