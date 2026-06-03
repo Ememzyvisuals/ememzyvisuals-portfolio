@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Cabinet Grotesk — exact Allwell font via Fontshare CDN ─────────────── */
+@import url("https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@100,200,300,400,500,600,700,800,900&display=swap");
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 0 0% 5%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 46%;
+    --accent: 0 0% 92%;
+    --accent-foreground: 0 0% 10%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 5%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 0 0% 80%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 56%;
+    --accent: 0 0% 13%;
+    --accent-foreground: 0 0% 90%;
+    --border: 0 0% 16%;
+    --input: 0 0% 13%;
+    --ring: 0 0% 90%;
+  }
+}
+
+/* ── BASE ───────────────────────────────────────────────────────────────── */
+@layer base {
+  * { @apply border-border box-sizing-border; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Force Cabinet Grotesk everywhere */
+    font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-weight: 400;
+  }
+
+  /* All headings — Cabinet Grotesk Extra Bold, tight tracking */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Cabinet Grotesk", -apple-system, sans-serif !important;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  /* Smooth scrolling for hash links */
+  section { scroll-margin-top: 80px; }
+  ::selection { @apply bg-foreground text-background; }
+}
+
+/* ── UTILITY CLASSES ────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Responsive container */
+  .container-padded {
+    @apply max-w-5xl mx-auto px-5 md:px-8 lg:px-10;
+  }
+
+  /* Section headings — "Projects." "Tech Stack." style */
+  .section-heading {
+    font-family: "Cabinet Grotesk", sans-serif !important;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+
+  /* Black filled pill button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
+           bg-foreground text-background font-bold text-sm
+           hover:opacity-85 transition-opacity duration-200
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    font-family: "Cabinet Grotesk", sans-serif !important;
+  }
+
+  /* Outlined button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
+           border-2 border-foreground bg-transparent text-foreground font-bold text-sm
+           hover:bg-foreground hover:text-background transition-all duration-200
+           focus-visible:outline-none;
+    font-family: "Cabinet Grotesk", sans-serif !important;
+  }
+
+  .card-surface {
+    @apply bg-card rounded-2xl border border-border overflow-hidden;
+  }
+
+  .tech-badge {
+    @apply text-xs font-bold px-3 py-1 rounded-full border border-border
+           text-muted-foreground uppercase tracking-wider;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs
+           font-semibold border border-border bg-secondary text-muted-foreground;
+  }
+
+  .section-divider { @apply w-full border-t border-border; }
+
+  .chat-bubble-assistant {
+    @apply bg-secondary text-foreground rounded-2xl rounded-tl-sm px-4 py-3;
+  }
+  .chat-bubble-user {
+    @apply bg-foreground text-background rounded-2xl rounded-tr-sm px-4 py-3;
+  }
+
+  /* Subtle grid bg */
+  .bg-grid-pattern {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(0 0 0 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  }
+  .dark .bg-grid-pattern {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  }
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  .typing-cursor::after {
+    content: "▋";
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+}
