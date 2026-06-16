@@ -6,7 +6,7 @@ export const siteConfig = {
   title: "Emmanuel Ariyo — Web Developer, AI Engineer & Automation Expert | Ememzyvisuals",
   shortTitle: "Emmanuel Ariyo | Ememzyvisuals",
   description:
-    "Need a high-quality website, AI system, or business automation? Emmanuel Ariyo (Ememzyvisuals) is a self-taught Creative Software Developer and AI Systems Engineer from Nigeria. Builds premium web apps, AI-powered tools, and automation systems worldwide.",
+    "Need a high-quality website, AI system, or business automation? Emmanuel Ariyo (Ememzyvisuals) is a self-taught Creative Software Developer and AI Systems Engineer from Nigeria. Founder of Axiveri AI Research. Builds premium web apps, AI-powered tools, and automation systems worldwide.",
   url: process.env.NEXT_PUBLIC_APP_URL || "https://ememzyvisuals.vercel.app",
   ogImage: "/og/og-image.png",
 
@@ -31,6 +31,9 @@ export const siteConfig = {
     "hire Nigerian developer", "freelance developer Nigeria",
     "remote developer Nigeria", "developer for startup Nigeria",
     "SaaS developer Nigeria", "build web application Nigeria",
+    "Axiveri", "Axiveri AI", "Africlaude", "Africlaude-7B",
+    "African AI model", "African language model",
+    "founder Axiveri", "Emmanuel Ariyo AI research",
   ],
 
   author: {
@@ -39,7 +42,7 @@ export const siteConfig = {
     email: "contact@ememzyvisuals.com",
     twitter: "@ememzyvisuals",
     location: "Nigeria",
-    jobTitle: "Web Developer, AI Engineer & Automation Expert",
+    jobTitle: "Web Developer, AI Engineer & Automation Expert | Founder of Axiveri",
   },
 
   socials: {
@@ -47,6 +50,12 @@ export const siteConfig = {
     twitter: "https://twitter.com/ememzyvisuals",
     tiktok: "https://tiktok.com/@ememzyvisuals",
     kaggle: "https://www.kaggle.com/ememzyvisuals",
+    linkedin: "https://www.linkedin.com/in/ememzyvisuals",
+  },
+
+  axiveri: {
+    huggingface: "https://huggingface.co/Axiveri",
+    africlaude: "https://huggingface.co/Axiveri/Africlaude-7B",
   },
 
   services: [
@@ -64,6 +73,7 @@ export const navItems = [
   { label: "Work",         href: "/work" },
   { label: "About",        href: "/about" },
   { label: "Services",     href: "/services" },
+  { label: "Axiveri",      href: "/axiveri" },
   { label: "Automation",   href: "/automation" },
   { label: "Benchmarks",   href: "/benchmarks" },
   { label: "Blogs",        href: "/blogs" },

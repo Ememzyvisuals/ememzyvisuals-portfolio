@@ -1,6 +1,7 @@
 "use client";
 // components/sections/AskAboutMe.tsx
 
+import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, RotateCcw, Bot } from "lucide-react";
@@ -42,7 +43,6 @@ export function AskAboutMe() {
     setInput("");
     setIsLoading(true);
 
-    // Add streaming assistant message
     const assistantId = crypto.randomUUID();
     setMessages((prev) => [
       ...prev,
@@ -163,7 +163,6 @@ export function AskAboutMe() {
                     </p>
                   </div>
 
-                  {/* Suggested questions */}
                   <div className="flex flex-wrap gap-2 justify-center">
                     {SUGGESTED_QUESTIONS.map((q) => (
                       <button
@@ -199,9 +198,7 @@ export function AskAboutMe() {
                         <div
                           className={cn(
                             "max-w-[80%] text-sm leading-relaxed",
-                            msg.role === "user"
-                              ? "chat-bubble-user"
-                              : "chat-bubble-assistant",
+                            msg.role === "user" ? "chat-bubble-user" : "chat-bubble-assistant",
                             msg.role === "assistant" && !msg.content && "typing-cursor"
                           )}
                         >
@@ -215,7 +212,6 @@ export function AskAboutMe() {
               )}
             </div>
 
-            {/* Divider */}
             <div className="section-divider" />
 
             {/* Input area */}
@@ -228,43 +224,32 @@ export function AskAboutMe() {
                 placeholder="Ask about projects, skills, experience..."
                 rows={1}
                 className={cn(
-                  "flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground",
-                  "outline-none focus:outline-none border-0 leading-relaxed",
+                  "flex-1 resize-none bg-transparent text-sm py-2 px-3 focus:outline-none placeholder:text-muted-foreground",
                   "max-h-28 overflow-y-auto"
                 )}
-                rows={1}
                 disabled={isLoading}
               />
 
-              <div className="flex items-center gap-2 flex-shrink-0">
-                {messages.length > 0 && (
-                  <button
-                    onClick={reset}
-                    className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
-                    title="Clear chat"
-                  >
-                    <RotateCcw size={15} />
-                  </button>
-                )}
+              {messages.length > 0 && (
                 <button
-                  onClick={() => sendMessage(input)}
-                  disabled={!input.trim() || isLoading}
-                  className={cn(
-                    "p-2.5 rounded-xl transition-all duration-150",
-                    input.trim() && !isLoading
-                      ? "bg-foreground text-background hover:opacity-80"
-                      : "bg-secondary text-muted-foreground cursor-not-allowed"
-                  )}
+                  onClick={reset}
+                  disabled={isLoading}
+                  className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-50 transition-colors"
+                  title="Reset conversation"
                 >
-                  <Send size={15} />
+                  <RotateCcw size={18} />
                 </button>
-              </div>
+              )}
+
+              <button
+                onClick={() => sendMessage(input)}
+                disabled={!input.trim() || isLoading}
+                className="p-2 bg-foreground text-background rounded-xl hover:opacity-90 disabled:opacity-50 transition-all flex-shrink-0"
+              >
+                <Send size={16} />
+              </button>
             </div>
           </motion.div>
-
-          <p className="text-center text-xs text-muted-foreground">
-            This assistant knows about Emmanuel&apos;s work, skills, and projects.
-          </p>
         </div>
       </div>
     </section>

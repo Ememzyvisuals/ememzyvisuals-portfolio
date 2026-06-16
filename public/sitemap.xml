@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ememzyvisuals.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://ememzyvisuals.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.97</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/services</loc><changefreq>monthly</changefreq><priority>0.98</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/work</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/contact</loc><changefreq>yearly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://ememzyvisuals.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://ememzyvisuals.vercel.app/axiveri</loc><changefreq>weekly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://ememzyvisuals.vercel.app/axiveri/africlaude</loc><changefreq>weekly</changefreq><priority>0.92</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/automation</loc><changefreq>monthly</changefreq><priority>0.90</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/benchmarks</loc><changefreq>monthly</changefreq><priority>0.88</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/platforms</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/blogs</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://ememzyvisuals.vercel.app/faq</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/ask-about-me</loc><changefreq>monthly</changefreq><priority>0.80</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/reviews</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
   <url><loc>https://ememzyvisuals.vercel.app/gallery</loc><changefreq>monthly</changefreq><priority>0.70</priority></url>

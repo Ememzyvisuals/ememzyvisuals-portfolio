@@ -51,7 +51,7 @@
 
 /* ── BASE ───────────────────────────────────────────────────────────────── */
 @layer base {
-  * { @apply border-border box-sizing-border; }
+ *, *::before, *::after { @apply border-border; box-sizing: border-box; }
 
   html {
     scroll-behavior: smooth;

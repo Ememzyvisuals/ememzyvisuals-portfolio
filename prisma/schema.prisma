@@ -10,9 +10,27 @@ datasource db {
   extensions = [pgvector(map: "vector")]
 }
 
-enum ProjectStatus { COMPLETED IN_DEVELOPMENT ARCHIVED }
-enum ProjectCategory { AI_ML WEB_APP AUTOMATION BENCHMARK MOBILE FINTECH EDTECH }
-enum ReviewStatus { PENDING APPROVED REJECTED }
+enum ProjectStatus {
+  COMPLETED
+  IN_DEVELOPMENT
+  ARCHIVED
+}
+
+enum ProjectCategory {
+  AI_ML
+  WEB_APP
+  AUTOMATION
+  BENCHMARK
+  MOBILE
+  FINTECH
+  EDTECH
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
 
 model Project {
   id              String          @id @default(cuid())
@@ -34,6 +52,7 @@ model Project {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   publishedAt     DateTime?
+
   @@index([slug])
 }
 
@@ -54,6 +73,7 @@ model Blog {
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
   comments    Comment[]
+
   @@index([slug])
   @@index([published])
 }
@@ -67,6 +87,7 @@ model Comment {
   content   String   @db.Text
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
+
   @@index([blogId])
 }
 
@@ -95,6 +116,7 @@ model Review {
   moderatedAt DateTime?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+
   @@index([status])
 }
 
@@ -116,6 +138,7 @@ model KnowledgeChunk {
   metadata  Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@index([source])
 }
 

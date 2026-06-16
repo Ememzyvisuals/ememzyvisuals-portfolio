@@ -29,17 +29,13 @@ export function Navbar() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  // Desktop nav items — split into visible + overflow
-  const visibleItems = navItems.slice(0, 6);
-  const moreItems = navItems.slice(6);
-
   return (
     <>
       {/* ─── DESKTOP NAV ──────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
         <nav
           className={cn(
-            "hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-full border border-border",
+            "hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border",
             "bg-background/85 backdrop-blur-xl transition-shadow duration-300",
             scrolled && "shadow-card"
           )}
@@ -47,7 +43,7 @@ export function Navbar() {
           {/* Brand */}
           <Link
             href="/"
-            className="px-3.5 py-1.5 rounded-full text-sm font-bold text-foreground hover:bg-secondary transition-colors mr-1"
+            className="px-3.5 py-1.5 rounded-lg text-sm font-bold text-foreground hover:bg-secondary transition-colors mr-1"
           >
             {siteConfig.name}
           </Link>
@@ -59,7 +55,7 @@ export function Navbar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-150 whitespace-nowrap",
+                "px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap",
                 isActive(item.href)
                   ? "bg-foreground text-background"
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary"
@@ -73,7 +69,7 @@ export function Navbar() {
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="ml-1 p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+              className="ml-1 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
@@ -85,7 +81,7 @@ export function Navbar() {
         <div className="md:hidden w-full">
           <div
             className={cn(
-              "flex w-full items-center justify-between px-5 py-3 rounded-full border border-border",
+              "flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border",
               "bg-background/85 backdrop-blur-xl transition-shadow duration-300",
               scrolled && "shadow-card"
             )}
@@ -98,7 +94,7 @@ export function Navbar() {
               {mounted && (
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-1.5 rounded-full text-muted-foreground hover:text-foreground"
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
@@ -106,7 +102,7 @@ export function Navbar() {
               )}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-1.5 rounded-full text-muted-foreground hover:text-foreground"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={17} /> : <Menu size={17} />}
@@ -123,14 +119,14 @@ export function Navbar() {
             className="absolute inset-0 bg-black/20 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute top-20 left-4 right-4 bg-background border border-border rounded-2xl shadow-card-hover overflow-hidden">
+          <div className="absolute top-20 left-4 right-4 bg-background border border-border rounded-xl shadow-card-hover overflow-hidden">
             <nav className="p-2 grid grid-cols-2 gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-center",
+                    "px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-center",
                     isActive(item.href)
                       ? "bg-foreground text-background"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary"

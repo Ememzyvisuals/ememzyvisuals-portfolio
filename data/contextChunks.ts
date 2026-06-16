@@ -98,4 +98,18 @@ export const knowledgeChunks = [
     source: "philosophy",
     content: `Emmanuel believes AI should be honest and self-aware. This drove him to create TruthGuard — a benchmark that exposes LLM overconfidence. He contributes to AI safety through practical tools the community can use and build upon.`,
   },
+
+  // ─── AXIVERI ──────────────────────────────────────────────────────────────
+  {
+    source: "axiveri",
+    content: `Emmanuel Ariyo is the founder of Axiveri — an African AI research initiative. Axiveri builds open-source language models for African contexts. The Axiveri HuggingFace organization is at huggingface.co/Axiveri.`,
+  },
+  {
+    source: "axiveri",
+    content: `Africlaude is a series of open-source language models developed by Axiveri, founded by Emmanuel Ariyo. Africlaude-7B is the first model in the series — a 7-billion parameter open-source language model freely available on HuggingFace at huggingface.co/Axiveri/Africlaude-7B. More models (13B, 70B) are in development.`,
+  },
+  {
+    source: "axiveri",
+    content: `Axiveri's mission is to build AI that understands African languages, African contexts, and African problems. All models are published open-source. Researchers, developers, and businesses can download, fine-tune, and deploy Africlaude models freely. Support Axiveri via crypto or partnership at ememzyvisuals.vercel.app/axiveri.`,
+  },
 ];
