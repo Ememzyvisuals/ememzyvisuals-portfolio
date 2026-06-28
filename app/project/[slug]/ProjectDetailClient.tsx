@@ -16,8 +16,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   EDTECH: "EdTech",
 };
 
-
-
 interface Props {
   project: Partial<Project>;
 }
@@ -46,10 +44,8 @@ export function ProjectDetailClient({ project }: Props) {
               <span className="badge-done"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" /> Completed</span>
             )}
           </div>
-
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight">{project.title}</h1>
           <p className="text-xl text-muted-foreground">{project.subtitle}</p>
-
           <div className="flex flex-wrap gap-3 pt-2">
             {project.liveUrl && (
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
@@ -64,25 +60,23 @@ export function ProjectDetailClient({ project }: Props) {
           </div>
         </motion.div>
 
-
         {/* Cover image */}
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="aspect-[16/9] rounded-2xl overflow-hidden bg-secondary border border-border flex items-center justify-center"
-          >
-            {project.coverImage ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" />
-            ) : (
-              <div className="text-center space-y-2 p-8">
-                <p className="text-4xl font-extrabold text-muted-foreground/20">{project.title}</p>
-                <p className="text-sm text-muted-foreground">Screenshot coming soon</p>
-              </div>
-            )}
-          </motion.div>
-        )}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="aspect-[16/9] rounded-2xl overflow-hidden bg-secondary border border-border flex items-center justify-center"
+        >
+          {project.coverImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="text-center space-y-2 p-8">
+              <p className="text-4xl font-extrabold text-muted-foreground/20">{project.title}</p>
+              <p className="text-sm text-muted-foreground">Screenshot coming soon</p>
+            </div>
+          )}
+        </motion.div>
 
         {/* Main content */}
         <motion.div
@@ -128,7 +122,7 @@ export function ProjectDetailClient({ project }: Props) {
                     <Github size={13} /> Source Code
                   </a>
                 )}
-                  </div>
+              </div>
             </div>
           </aside>
         </motion.div>
@@ -141,7 +135,7 @@ export function ProjectDetailClient({ project }: Props) {
               {project.mobileImages.map((img, i) => (
                 <div key={i} className="flex-shrink-0 w-56 aspect-[9/19] rounded-3xl overflow-hidden border-4 border-foreground/10 shadow-phone">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt={`${project.title} mobile view ${i + 1}`} className="w-full h-full object-cover" />
+                  <img src={img} alt={`${project.title} mobile ${i + 1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
@@ -156,12 +150,16 @@ export function ProjectDetailClient({ project }: Props) {
               {project.webImages.map((img, i) => (
                 <div key={i} className="rounded-2xl overflow-hidden border border-border shadow-card">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt={`${project.title} web view ${i + 1}`} className="w-full" />
+                  <img src={img} alt={`${project.title} web ${i + 1}`} className="w-full" />
                 </div>
               ))}
             </div>
           </div>
         )}
+
+        <div className="pt-4">
+          <Link href="/work" className="btn-outline text-sm"><ArrowLeft size={14} /> All Work</Link>
+        </div>
       </div>
     </article>
   );
