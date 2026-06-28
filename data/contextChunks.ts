@@ -112,11 +112,8 @@ export const knowledgeChunks = [
     source: "axiveri",
     content: `Axiveri's mission is to build AI that understands African languages, African contexts, and African problems. All models are published open-source. Researchers, developers, and businesses can download, fine-tune, and deploy Africlaude models freely. Support Axiveri via crypto or partnership at ememzyvisuals.vercel.app/axiveri.`,
   },
-];
-// Note: this line intentionally left — NaijaVox chunks added above the closing 
-  // ─── NAIJAVOX ─────────────────────────────────────────────────────────────
   {
-    source: 'axiveri',
+    source: "axiveri",
     content: `NaijaVox is a Nigerian speech recognition (ASR) model series by Axiveri, founded by Emmanuel Ariyo. NaijaVox-V1 is live on HuggingFace at huggingface.co/Axiveri/Naijavox-V1. It supports Yoruba, Hausa, Igbo, Nigerian Pidgin Creole, and Nigerian Accented English.`,
   },
 ];
