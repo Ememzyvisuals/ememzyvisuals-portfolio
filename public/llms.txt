@@ -21,7 +21,7 @@ He builds premium websites, full-stack web applications, AI-powered systems, and
 He is the founder of Axiveri — an African AI research initiative — and the creator of the Africlaude language model series.
 He is available for freelance work, full-time remote roles, and collaborations worldwide.
 
-## Axiveri & Africlaude
+## Axiveri, Africlaude & NaijaVox
 Organization: Axiveri
 Founder: Emmanuel Ariyo (Ememzyvisuals)
 HuggingFace: https://huggingface.co/Axiveri
@@ -31,6 +31,11 @@ Model: Africlaude-7B
 Status: Live
 Parameters: 7 Billion
 Download: https://huggingface.co/Axiveri/Africlaude-7B
+
+Model Series 2: NaijaVox
+Status: Live
+HuggingFace: https://huggingface.co/Axiveri/Naijavox-V1
+Description: NaijaVox is a Nigerian speech recognition (ASR) model series by Axiveri. NaijaVox-V1 supports Yoruba, Hausa, Igbo, Nigerian Pidgin Creole, and Nigerian Accented English.
 Description: The first model in the Africlaude series. Open-source, freely available for research, fine-tuning, and production use.
 
 ## Key Projects

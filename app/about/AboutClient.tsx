@@ -158,8 +158,8 @@ export function AboutClient() {
             },
             {
               icon: Brain,
-              title: "Engineer AI Systems",
-              desc: "AI-powered applications using Groq API, LLaMA, RAG pipelines, and multi-agent architectures. I built TruthGuard — a benchmark that evaluates LLM metacognition — and ClaudGPT, a 9-agent development platform.",
+              title: "Engineer AI Systems & Models",
+              desc: "AI-powered applications using Groq API, LLaMA, RAG pipelines, and multi-agent architectures. I also build and publish open-source AI models — Africlaude (language model series) and NaijaVox (Nigerian speech recognition) — under Axiveri, my African AI research initiative.",
               iconBg: "bg-violet-50 dark:bg-violet-950",
               iconColor: "text-violet-600 dark:text-violet-400",
             },
@@ -182,6 +182,71 @@ export function AboutClient() {
               </div>
               <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="container-padded"><div className="section-divider" /></div>
+
+      {/* ── AI & ML Research ─────────────────────────────────── */}
+      <div className="container-padded space-y-8">
+        <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
+          <h2 className="section-heading">AI Research.</h2>
+          <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
+            Beyond building products, I conduct open-source AI research under{" "}
+            <a href="/axiveri" className="text-foreground font-bold hover:underline underline-offset-4">Axiveri</a> —
+            my African AI research initiative.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
+          {[
+            {
+              title: "Africlaude — Language Model Series",
+              desc: "Open-source language models built for African contexts. Africlaude-7B is live on HuggingFace. v2 with Yoruba, Igbo, and Hausa support is in development.",
+              link: "/axiveri/africlaude",
+              badge: "Live",
+            },
+            {
+              title: "NaijaVox — Speech Recognition",
+              desc: "Nigerian speech recognition (ASR) model series. NaijaVox-V1 supports Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian Accented English.",
+              link: "https://huggingface.co/Axiveri/Naijavox-V1",
+              badge: "Live",
+            },
+            {
+              title: "TruthGuard Benchmark",
+              desc: "A 120-question confidence calibration benchmark for evaluating the metacognitive abilities of LLMs. Published on Kaggle, open-source under CC BY-SA 4.0.",
+              link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation",
+              badge: "Published",
+            },
+            {
+              title: "ML Engineering Stack",
+              desc: "Jupyter Notebooks, HuggingFace Transformers, Datasets, Gradio, PyTorch, GPU/CUDA training, pipeline filtering, data curation, web scraping for dataset building.",
+              link: null,
+              badge: "Core Skills",
+            },
+          ].map(({ title, desc, link, badge }, i) => (
+            <motion.div
+              key={title}
+              {...fadeUp}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
+              className="card-surface p-6 space-y-3"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-foreground text-background uppercase tracking-widest">
+                  {badge}
+                </span>
+              </div>
+              <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+              {link && (
+                <a href={link} target={link.startsWith("http") ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-foreground hover:opacity-70 transition-opacity">
+                  View → 
+                </a>
+              )}
             </motion.div>
           ))}
         </div>

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 function AdminContent() {
   const searchParams = useSearchParams();
   const key = searchParams.get("key");
-  const [tab, setTab] = useState<"blogs" | "gallery" | "reviews">("blogs");
+  const [tab, setTab] = useState<"blogs" | "gallery" | "reviews" | "comments">("blogs");
   const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function AdminContent() {
         </div>
 
         <div className="flex gap-0 border-b border-border">
-          {(["blogs", "gallery", "reviews"] as const).map((t) => (
+          {((["blogs", "gallery", "reviews", "comments"] as const)).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -61,6 +61,7 @@ function AdminContent() {
         {tab === "blogs" && <BlogAdmin />}
         {tab === "gallery" && <GalleryAdmin />}
         {tab === "reviews" && <ReviewAdmin />}
+        {tab === "comments" && <CommentsAdmin adminKey={key || ""} />}
       </div>
     </div>
   );
@@ -533,5 +534,141 @@ export default function AdminPage() {
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Loading...</p></div>}>
       <AdminContent />
     </Suspense>
+  );
+}
+
+// ─── COMMENTS ADMIN ─────────────────────────────────────────────────────────
+function CommentsAdmin({ adminKey }: { adminKey: string }) {
+  const [comments, setComments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"pending" | "approved">("pending");
+  const [msg, setMsg] = useState("");
+
+  const load = async () => {
+    setLoading(true);
+    try {
+      const r = await fetch(`/api/admin/comments?key=${adminKey}&status=${filter}`);
+      const data = await r.json();
+      setComments(Array.isArray(data) ? data : []);
+    } catch { setComments([]); }
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, [filter]);
+
+  const approve = async (id: string) => {
+    await fetch(`/api/admin/comments?key=${adminKey}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, approved: true }),
+    });
+    setMsg("Approved");
+    setTimeout(() => setMsg(""), 2000);
+    load();
+  };
+
+  const reject = async (id: string) => {
+    await fetch(`/api/admin/comments?key=${adminKey}&id=${id}`, { method: "DELETE" });
+    setMsg("Deleted");
+    setTimeout(() => setMsg(""), 2000);
+    load();
+  };
+
+  const fmt = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-xl font-extrabold text-foreground">Blog Comments</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Comments submitted on blog posts. Approve to make them visible to readers.
+          </p>
+        </div>
+        {msg && (
+          <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">
+            {msg}
+          </span>
+        )}
+      </div>
+
+      {/* Filter tabs */}
+      <div className="flex gap-2">
+        {(["pending", "approved"] as const).map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={cn(
+              "px-4 py-2 rounded-xl text-sm font-bold capitalize transition-colors",
+              filter === f
+                ? "bg-foreground text-background"
+                : "border border-border text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="text-center py-16 text-muted-foreground text-sm">Loading comments...</div>
+      ) : comments.length === 0 ? (
+        <div className="text-center py-16 border border-dashed border-border rounded-2xl">
+          <p className="font-bold text-foreground">No {filter} comments</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {filter === "pending"
+              ? "When readers submit comments on blog posts, they appear here."
+              : "Approved comments show on the blog post for all readers."}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {comments.map((c: any) => (
+            <div key={c.id} className="p-5 rounded-2xl border border-border bg-card space-y-3">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="space-y-0.5">
+                  <p className="font-extrabold text-foreground text-sm">{c.name}</p>
+                  <p className="text-xs text-muted-foreground">{c.email}</p>
+                  {c.blog && (
+                    <p className="text-xs text-muted-foreground">
+                      On:{" "}
+                      <a href={`/blog/${c.blog.slug}`} target="_blank" rel="noopener noreferrer"
+                        className="underline underline-offset-2 hover:text-foreground transition-colors">
+                        {c.blog.title}
+                      </a>
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground">{fmt(c.createdAt)}</p>
+                </div>
+                <div className="flex gap-2">
+                  {!c.approved && (
+                    <button
+                      onClick={() => approve(c.id)}
+                      className="px-3 py-1.5 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-80 transition-opacity"
+                    >
+                      Approve
+                    </button>
+                  )}
+                  <button
+                    onClick={() => reject(c.id)}
+                    className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+              <div className="bg-secondary rounded-xl px-4 py-3">
+                <p className="text-sm text-foreground/80 leading-relaxed">{c.content}</p>
+              </div>
+              {c.approved && (
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" /> Visible to readers
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
