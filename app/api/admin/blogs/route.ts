@@ -49,3 +49,30 @@ export async function GET() {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { id, ...data } = body;
+    if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    const { publishedAt, ...rest } = data;
+    const blog = await prisma.blog.update({
+      where: { id },
+      data: { ...rest, ...(publishedAt !== undefined ? { publishedAt: publishedAt ? new Date(publishedAt) : null } : {}) },
+    });
+    return NextResponse.json(blog);
+  } catch {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const id = req.nextUrl.searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    await prisma.blog.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}

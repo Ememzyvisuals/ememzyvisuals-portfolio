@@ -70,395 +70,361 @@ function AdminContent() {
 // ─── BLOG ADMIN ──────────────────────────────────────────────────────────────
 
 function BlogAdmin() {
-  const [form, setForm] = useState({
-    title: "", slug: "", excerpt: "", content: "",
-    category: "Engineering", tags: "", published: true,
-  });
-  const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
+  type BlogItem = { id: string; title: string; slug: string; excerpt: string; content: string; category: string; tags: string[]; published: boolean; publishedAt: string | null; readingTime?: number; views: number; createdAt: string };
+  const [blogs, setBlogs] = useState<BlogItem[]>([]);
+  const [view, setView] = useState<"list" | "new" | "edit">("list");
+  const [editing, setEditing] = useState<BlogItem | null>(null);
+  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const autoSlug = (title: string) =>
-    title.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "").replace(/--+/g, "-");
+  // Form fields
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [category, setCategory] = useState("Engineering");
+  const [excerpt, setExcerpt] = useState("");
+  const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
+  const [published, setPublished] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!form.title || !form.content) return;
-    setStatus("saving");
+  const loadBlogs = async () => {
+    setLoading(true);
     try {
-      const res = await fetch("/api/admin/blogs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          slug: form.slug || autoSlug(form.title),
-          tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
-          readingTime: Math.ceil(form.content.split(" ").length / 200),
-          publishedAt: form.published ? new Date().toISOString() : null,
-        }),
-      });
-      if (res.ok) {
-        setStatus("done");
-        setForm({ title: "", slug: "", excerpt: "", content: "", category: "Engineering", tags: "", published: true });
-        setTimeout(() => setStatus("idle"), 3000);
-      } else setStatus("error");
-    } catch { setStatus("error"); }
+      const r = await fetch("/api/admin/blogs");
+      const d = await r.json();
+      setBlogs(Array.isArray(d) ? d : []);
+    } catch { setBlogs([]); }
+    setLoading(false);
   };
 
-  return (
-    <div className="space-y-6 max-w-3xl">
-      {/* Info box */}
-      <div className="card-surface p-4 border-l-4 border-emerald-500">
-        <p className="text-sm font-semibold text-foreground">Blog posts are public</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Once published, your blog post appears at <strong>/blogs</strong> and its own page at <strong>/blog/your-slug</strong>.
-          All visitors can read it — no login required.
-        </p>
+  useEffect(() => { loadBlogs(); }, []);
+
+  const openEdit = (b: BlogItem) => {
+    setEditing(b);
+    setTitle(b.title); setSlug(b.slug); setCategory(b.category);
+    setExcerpt(b.excerpt); setContent(b.content);
+    setTags(b.tags.join(", ")); setPublished(b.published);
+    setView("edit");
+  };
+
+  const openNew = () => {
+    setEditing(null);
+    setTitle(""); setSlug(""); setCategory("Engineering");
+    setExcerpt(""); setContent(""); setTags(""); setPublished(false);
+    setView("new");
+  };
+
+  const autoSlug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+  const save = async () => {
+    if (!title || !slug || !excerpt || !content) { setMsg("Fill all required fields"); return; }
+    setSaving(true);
+    const payload = { title, slug, excerpt, content, category, tags: tags.split(",").map(t => t.trim()).filter(Boolean), published, readingTime: Math.ceil(content.split(" ").length / 200), publishedAt: published ? new Date().toISOString() : null };
+    try {
+      let res;
+      if (editing) {
+        res = await fetch("/api/admin/blogs", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: editing.id, ...payload }) });
+      } else {
+        res = await fetch("/api/admin/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      }
+      if (res.ok) { setMsg(editing ? "Updated!" : "Published!"); await loadBlogs(); setView("list"); }
+      else setMsg("Save failed");
+    } catch { setMsg("Error"); }
+    setSaving(false);
+    setTimeout(() => setMsg(""), 3000);
+  };
+
+  const deleteBlog = async (id: string, title: string) => {
+    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+    await fetch(`/api/admin/blogs?id=${id}`, { method: "DELETE" });
+    setMsg("Deleted"); await loadBlogs();
+    setTimeout(() => setMsg(""), 2500);
+  };
+
+  const inputCls = "w-full px-4 py-3 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring";
+
+  if (view === "new" || view === "edit") return (
+    <div className="space-y-5 max-w-2xl">
+      <div className="flex items-center gap-3">
+        <button onClick={() => setView("list")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">← Back</button>
+        <h2 className="text-xl font-extrabold text-foreground">{view === "edit" ? "Edit Post" : "New Post"}</h2>
       </div>
-
-      <div className="card-surface p-6 space-y-5">
-        <h2 className="font-bold text-lg">Write a Blog Post</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="md:col-span-2 space-y-1.5">
-            <label className="text-sm font-medium">Title *</label>
-            <input
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value, slug: autoSlug(e.target.value) })}
-              placeholder="e.g. How I Built TruthGuard"
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Slug (auto-fills)</label>
-            <input
-              value={form.slug}
-              onChange={(e) => setForm({ ...form, slug: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring font-mono"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Category</label>
-            <select
-              value={form.category}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none"
-            >
-              {["Engineering", "AI/ML", "Automation", "Benchmarks", "Career", "Tutorial"].map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="md:col-span-2 space-y-1.5">
-            <label className="text-sm font-medium">Excerpt (short summary shown on listing page)</label>
-            <textarea
-              value={form.excerpt}
-              onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
-              rows={2}
-              placeholder="A short summary of the post..."
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring resize-none"
-            />
-          </div>
-
-          <div className="md:col-span-2 space-y-1.5">
-            <label className="text-sm font-medium">Content — Markdown supported</label>
-            <textarea
-              value={form.content}
-              onChange={(e) => setForm({ ...form, content: e.target.value })}
-              rows={18}
-              placeholder={`# Your heading\n\nWrite your post here. Markdown works:\n\n**Bold text**, *italic*, [links](https://url.com)\n\n## Section heading\n\nParagraph text...\n\n\`\`\`python\nprint("code blocks work too")\n\`\`\``}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring resize-none font-mono"
-            />
-            <p className="text-xs text-muted-foreground">
-              To add an image in your post: upload it to Cloudinary, copy the URL, then write{" "}
-              <code className="bg-secondary px-1 rounded">![description](URL)</code> in your content
-            </p>
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Tags (comma separated)</label>
-            <input
-              value={form.tags}
-              onChange={(e) => setForm({ ...form, tags: e.target.value })}
-              placeholder="AI, LLM, Python, Benchmark"
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <div className="flex items-end pb-1">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <div
-                onClick={() => setForm({ ...form, published: !form.published })}
-                className={cn(
-                  "w-11 h-6 rounded-full transition-colors cursor-pointer relative",
-                  form.published ? "bg-foreground" : "bg-border"
-                )}
-              >
-                <div className={cn(
-                  "absolute top-1 w-4 h-4 rounded-full bg-white transition-transform",
-                  form.published ? "translate-x-6" : "translate-x-1"
-                )} />
-              </div>
-              <span className="text-sm font-medium">
-                {form.published ? "Publish immediately (visible to everyone)" : "Save as draft (hidden)"}
-              </span>
-            </label>
-          </div>
-        </div>
-
-        {status === "error" && (
-          <p className="text-sm text-red-500 flex items-center gap-2">
-            <AlertCircle size={14} /> Error saving. Check your database connection.
-          </p>
-        )}
-
-        <button
-          onClick={handleSubmit}
-          disabled={!form.title || !form.content || status === "saving"}
-          className={cn("btn-primary", (!form.title || !form.content || status === "saving") && "opacity-50")}
-        >
-          {status === "saving" ? "Publishing..." : status === "done" ? "✓ Published!" : "Publish Post"}
-        </button>
-      </div>
+      {msg && <p className="text-sm font-bold text-emerald-600">{msg}</p>}
+      <input value={title} onChange={e => { setTitle(e.target.value); if (!editing) setSlug(autoSlug(e.target.value)); }} placeholder="Post title *" className={inputCls} />
+      <input value={slug} onChange={e => setSlug(e.target.value)} placeholder="slug (auto-filled)" className={inputCls} />
+      <input value={excerpt} onChange={e => setExcerpt(e.target.value)} placeholder="Short excerpt *" className={inputCls} />
+      <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
+        {["Engineering","AI/ML","Career","Product","Tutorial","Other"].map(c => <option key={c}>{c}</option>)}
+      </select>
+      <input value={tags} onChange={e => setTags(e.target.value)} placeholder="Tags (comma separated)" className={inputCls} />
+      <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="Write your post in Markdown *" rows={16} className={cn(inputCls, "resize-none font-mono text-xs")} />
+      <label className="flex items-center gap-3 cursor-pointer">
+        <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} className="w-4 h-4 rounded" />
+        <span className="text-sm font-bold text-foreground">Publish immediately</span>
+      </label>
+      <button onClick={save} disabled={saving} className="btn-primary w-full justify-center">
+        {saving ? "Saving..." : view === "edit" ? "Save Changes" : "Publish Post"}
+      </button>
     </div>
   );
-}
-
-// ─── GALLERY ADMIN ────────────────────────────────────────────────────────────
-
-function GalleryAdmin() {
-  const [imageUrl, setImageUrl] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [form, setForm] = useState({ title: "", description: "", category: "creative" });
-  const [saving, setSaving] = useState(false);
-  const [done, setDone] = useState(false);
-  const [cloudName, setCloudName] = useState("");
-  const [uploadPreset, setUploadPreset] = useState("");
-  const [configSaved, setConfigSaved] = useState(false);
-
-  // Load saved Cloudinary config from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("cloudinary_config");
-    if (saved) {
-      const { cloud, preset } = JSON.parse(saved);
-      setCloudName(cloud);
-      setUploadPreset(preset);
-      setConfigSaved(true);
-    }
-  }, []);
-
-  const saveConfig = () => {
-    localStorage.setItem("cloudinary_config", JSON.stringify({ cloud: cloudName, preset: uploadPreset }));
-    setConfigSaved(true);
-  };
-
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!cloudName || !uploadPreset) {
-      alert("Please enter your Cloudinary Cloud Name and Upload Preset first");
-      return;
-    }
-
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", uploadPreset);
-
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Upload failed");
-      const data = await res.json();
-      setImageUrl(data.secure_url);
-    } catch {
-      alert("Upload failed. Check your Cloud Name and Upload Preset.");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleSave = async () => {
-    if (!imageUrl || !form.title) return;
-    setSaving(true);
-    try {
-      const res = await fetch("/api/admin/gallery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, imageUrl, published: true }),
-      });
-      if (res.ok) {
-        setDone(true);
-        setImageUrl("");
-        setForm({ title: "", description: "", category: "creative" });
-        setTimeout(() => setDone(false), 3000);
-      }
-    } catch {}
-    setSaving(false);
-  };
 
   return (
-    <div className="space-y-6 max-w-2xl">
-      {/* Info box */}
-      <div className="card-surface p-4 border-l-4 border-emerald-500">
-        <p className="text-sm font-semibold text-foreground">Gallery images are public</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Once uploaded, images appear at <strong>/gallery</strong> for all visitors to see.
-          Images are stored on Cloudinary (free CDN) — not your database — so no storage limits.
-        </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-xl font-extrabold text-foreground">Blog Posts</h2>
+          <p className="text-sm text-muted-foreground mt-1">{blogs.length} posts total</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {msg && <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">{msg}</span>}
+          <button onClick={openNew} className="btn-primary text-sm">+ New Post</button>
+        </div>
       </div>
 
-      {/* Step 1 — Cloudinary config */}
-      <div className="card-surface p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold">Step 1 — Connect Cloudinary (one time setup)</h3>
-          {configSaved && <span className="text-xs text-emerald-600 font-semibold">✓ Saved</span>}
+      {loading ? (
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      ) : blogs.length === 0 ? (
+        <div className="text-center py-16 border border-dashed border-border rounded-2xl">
+          <p className="font-bold text-foreground">No posts yet</p>
+          <button onClick={openNew} className="btn-outline text-sm mt-4">Write your first post</button>
         </div>
-
-        <div className="card-surface p-4 bg-secondary space-y-2">
-          <p className="text-xs font-semibold text-foreground">How to get these values (2 minutes, free):</p>
-          <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-            <li>Go to <strong>cloudinary.com</strong> → Sign Up (free, 25GB storage)</li>
-            <li>On your dashboard, copy your <strong>Cloud Name</strong></li>
-            <li>Go to Settings → Upload → scroll to <strong>Upload Presets</strong></li>
-            <li>Click Add Upload Preset → set Signing Mode to <strong>Unsigned</strong> → Save</li>
-            <li>Copy the preset name and paste it below</li>
-          </ol>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Cloud Name</label>
-            <input
-              value={cloudName}
-              onChange={(e) => setCloudName(e.target.value)}
-              placeholder="e.g. dxyz123abc"
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring font-mono"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Upload Preset</label>
-            <input
-              value={uploadPreset}
-              onChange={(e) => setUploadPreset(e.target.value)}
-              placeholder="e.g. emmzyvisuals_unsigned"
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring font-mono"
-            />
-          </div>
-        </div>
-
-        <button onClick={saveConfig} className="btn-primary text-sm">
-          Save Config
-        </button>
-      </div>
-
-      {/* Step 2 — Upload image */}
-      <div className="card-surface p-6 space-y-5">
-        <h3 className="font-bold">Step 2 — Upload Image</h3>
-
-        <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleUpload}
-            className="hidden"
-            id="gallery-upload"
-            disabled={!configSaved}
-          />
-          <label
-            htmlFor="gallery-upload"
-            className={cn(
-              "block cursor-pointer space-y-3",
-              !configSaved && "opacity-40 cursor-not-allowed"
-            )}
-          >
-            {imageUrl ? (
-              <div className="space-y-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imageUrl} alt="Preview" className="max-h-52 mx-auto rounded-xl object-cover" />
-                <p className="text-xs text-emerald-600 font-semibold">Uploaded to Cloudinary</p>
+      ) : (
+        <div className="space-y-3">
+          {blogs.map((b) => (
+            <div key={b.id} className="p-5 rounded-2xl border border-border bg-card flex items-start justify-between gap-4 flex-wrap">
+              <div className="space-y-1 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className={cn("text-[10px] font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-widest",
+                    b.published ? "bg-foreground text-background" : "border border-border text-muted-foreground")}>
+                    {b.published ? "Live" : "Draft"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">{b.category}</span>
+                  <span className="text-xs text-muted-foreground">· {b.views} views</span>
+                </div>
+                <p className="font-extrabold text-foreground">{b.title}</p>
+                <p className="text-xs text-muted-foreground line-clamp-1">{b.excerpt}</p>
               </div>
-            ) : (
-              <>
-                <p className="text-3xl">{uploading ? "..." : "+"}</p>
-                <p className="text-sm font-medium">
-                  {uploading ? "Uploading to Cloudinary..." : !configSaved ? "Save your Cloudinary config first" : "Click to choose an image"}
-                </p>
-                <p className="text-xs text-muted-foreground">JPG, PNG, WebP · Stored on Cloudinary CDN</p>
-              </>
-            )}
-          </label>
-        </div>
-
-        {imageUrl && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2 space-y-1.5">
-                <label className="text-sm font-medium">Title / Caption *</label>
-                <input
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  placeholder="e.g. Late night coding session"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring"
-                />
-              </div>
-
-              <div className="md:col-span-2 space-y-1.5">
-                <label className="text-sm font-medium">Description (optional)</label>
-                <input
-                  value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  placeholder="A bit more context..."
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium">Category</label>
-                <select
-                  value={form.category}
-                  onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm outline-none"
-                >
-                  <option value="creative">Creative</option>
-                  <option value="bts">Behind the Scenes</option>
-                  <option value="events">Events</option>
-                  <option value="work">Work</option>
-                </select>
+              <div className="flex gap-2 flex-shrink-0">
+                <button onClick={() => openEdit(b)}
+                  className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
+                  Edit
+                </button>
+                <button onClick={() => deleteBlog(b.id, b.title)}
+                  className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
+                  Delete
+                </button>
               </div>
             </div>
-
-            <button
-              onClick={handleSave}
-              disabled={!form.title || saving}
-              className={cn("btn-primary", (!form.title || saving) && "opacity-50")}
-            >
-              {saving ? "Saving..." : done ? "✓ Added to Gallery!" : "Add to Gallery"}
-            </button>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-// ─── REVIEW ADMIN ─────────────────────────────────────────────────────────────
+function GalleryAdmin() {
+  type GalleryItem = { id: string; title: string; description?: string; imageUrl: string; category?: string; createdAt: string };
+  const [items, setItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDesc, setEditDesc] = useState("");
+  const [msg, setMsg] = useState("");
+
+  // Upload form
+  const [cloudName, setCloudName] = useState("");
+  const [preset, setPreset] = useState("");
+  const [configSaved, setConfigSaved] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [category, setCategory] = useState("Work");
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    const cn = localStorage.getItem("cld_name") || "";
+    const cp = localStorage.getItem("cld_preset") || "";
+    if (cn) { setCloudName(cn); setPreset(cp); setConfigSaved(true); }
+    loadItems();
+  }, []);
+
+  const loadItems = async () => {
+    setLoading(true);
+    try {
+      const r = await fetch("/api/admin/gallery");
+      const d = await r.json();
+      setItems(Array.isArray(d) ? d : []);
+    } catch { setItems([]); }
+    setLoading(false);
+  };
+
+  const saveConfig = () => {
+    localStorage.setItem("cld_name", cloudName);
+    localStorage.setItem("cld_preset", preset);
+    setConfigSaved(true);
+    setMsg("Config saved");
+    setTimeout(() => setMsg(""), 2000);
+  };
+
+  const upload = async () => {
+    if (!file || !title || !cloudName || !preset) { setMsg("Fill all fields and configure Cloudinary"); return; }
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", preset);
+      const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { method: "POST", body: fd });
+      const data = await r.json();
+      if (!data.secure_url) throw new Error("Upload failed");
+      await fetch("/api/admin/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description: desc, imageUrl: data.secure_url, category, published: true, featured: false, sortOrder: 0 }),
+      });
+      setMsg("Uploaded!"); setFile(null); setTitle(""); setDesc("");
+      await loadItems();
+    } catch { setMsg("Upload failed"); }
+    setUploading(false);
+    setTimeout(() => setMsg(""), 3000);
+  };
+
+  const startEdit = (item: GalleryItem) => {
+    setEditingId(item.id);
+    setEditTitle(item.title);
+    setEditDesc(item.description || "");
+  };
+
+  const saveEdit = async (id: string) => {
+    await fetch("/api/admin/gallery", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, title: editTitle, description: editDesc }),
+    });
+    setMsg("Updated!"); setEditingId(null);
+    await loadItems();
+    setTimeout(() => setMsg(""), 2500);
+  };
+
+  const deleteItem = async (id: string) => {
+    if (!confirm("Delete this image permanently?")) return;
+    await fetch(`/api/admin/gallery?id=${id}`, { method: "DELETE" });
+    setMsg("Deleted"); await loadItems();
+    setTimeout(() => setMsg(""), 2500);
+  };
+
+  const inputCls = "w-full px-4 py-3 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring";
+
+  return (
+    <div className="space-y-8 max-w-2xl">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-xl font-extrabold text-foreground">Gallery</h2>
+        {msg && <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">{msg}</span>}
+      </div>
+
+      {/* Cloudinary config */}
+      {!configSaved ? (
+        <div className="card-surface p-5 space-y-3">
+          <p className="text-sm font-bold text-foreground">Set up Cloudinary (one-time)</p>
+          <input value={cloudName} onChange={e => setCloudName(e.target.value)} placeholder="Cloud Name" className={inputCls} />
+          <input value={preset} onChange={e => setPreset(e.target.value)} placeholder="Upload Preset (unsigned)" className={inputCls} />
+          <button onClick={saveConfig} className="btn-primary text-sm">Save Config</button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <p className="text-xs text-muted-foreground font-bold">Cloudinary: {cloudName} · <button onClick={() => setConfigSaved(false)} className="underline">Change</button></p>
+          <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Image title *" className={inputCls} />
+          <input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Caption (optional)" className={inputCls} />
+          <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
+            {["Work","BTS","Events","Creative"].map(c => <option key={c}>{c}</option>)}
+          </select>
+          <button onClick={upload} disabled={uploading} className="btn-primary w-full justify-center text-sm">
+            {uploading ? "Uploading..." : "Upload Image"}
+          </button>
+        </div>
+      )}
+
+      {/* Gallery items */}
+      {loading ? (
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      ) : items.length === 0 ? (
+        <div className="text-center py-12 border border-dashed border-border rounded-2xl">
+          <p className="text-muted-foreground text-sm">No images yet — upload one above</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <p className="text-sm font-extrabold text-foreground">{items.length} images</p>
+          {items.map((item) => (
+            <div key={item.id} className="p-4 rounded-2xl border border-border bg-card space-y-3">
+              <div className="flex gap-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.imageUrl} alt={item.title} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  {editingId === item.id ? (
+                    <div className="space-y-2">
+                      <input value={editTitle} onChange={e => setEditTitle(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring" />
+                      <input value={editDesc} onChange={e => setEditDesc(e.target.value)}
+                        placeholder="Caption"
+                        className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring" />
+                      <div className="flex gap-2">
+                        <button onClick={() => saveEdit(item.id)}
+                          className="px-3 py-1.5 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-80 transition-opacity">
+                          Save
+                        </button>
+                        <button onClick={() => setEditingId(null)}
+                          className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="font-extrabold text-foreground text-sm">{item.title}</p>
+                      {item.description && <p className="text-xs text-muted-foreground">{item.description}</p>}
+                      {item.category && <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{item.category}</p>}
+                    </>
+                  )}
+                </div>
+              </div>
+              {editingId !== item.id && (
+                <div className="flex gap-2">
+                  <button onClick={() => startEdit(item)}
+                    className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
+                    Edit Caption
+                  </button>
+                  <button onClick={() => deleteItem(item.id)}
+                    className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ReviewAdmin() {
   type ReviewItem = { id: string; name: string; role?: string; company?: string; content: string; status: string; rating: number; createdAt: string };
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"PENDING" | "APPROVED" | "REJECTED">("PENDING");
+  const [msg, setMsg] = useState("");
 
-  useEffect(() => {
-    fetch("/api/admin/reviews")
-      .then((r) => r.json())
-      .then((d) => { setReviews(Array.isArray(d) ? d : []); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+  const load = async () => {
+    setLoading(true);
+    try {
+      const r = await fetch("/api/admin/reviews");
+      const d = await r.json();
+      setReviews(Array.isArray(d) ? d : []);
+    } catch { setReviews([]); }
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
 
   const updateStatus = async (id: string, status: string) => {
     await fetch(`/api/admin/reviews/${id}`, {
@@ -466,64 +432,109 @@ function ReviewAdmin() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
     });
-    setReviews((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+    setMsg(status === "APPROVED" ? "Approved!" : status === "REJECTED" ? "Rejected" : "Updated");
+    setTimeout(() => setMsg(""), 2500);
+    load();
   };
 
+  const deleteReview = async (id: string) => {
+    if (!confirm("Delete this review permanently?")) return;
+    await fetch(`/api/admin/reviews/${id}`, { method: "DELETE" });
+    setMsg("Deleted");
+    setTimeout(() => setMsg(""), 2500);
+    load();
+  };
+
+  const filtered = reviews.filter(r => r.status === filter);
+
+  const counts = {
+    PENDING:  reviews.filter(r => r.status === "PENDING").length,
+    APPROVED: reviews.filter(r => r.status === "APPROVED").length,
+    REJECTED: reviews.filter(r => r.status === "REJECTED").length,
+  };
+
+  const fmt = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
   return (
-    <div className="space-y-4 max-w-3xl">
-      <div className="card-surface p-4 border-l-4 border-emerald-500">
-        <p className="text-sm font-semibold text-foreground">Approved reviews are public</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Reviews submitted from the /reviews page come here as <strong>Pending</strong>. Approve them to make them visible to all visitors.
-        </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-xl font-extrabold text-foreground">Reviews</h2>
+          <p className="text-sm text-muted-foreground mt-1">Approve reviews to make them public on /reviews</p>
+        </div>
+        {msg && <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">{msg}</span>}
       </div>
 
-      <h2 className="font-bold text-lg">Moderate Reviews ({reviews.length})</h2>
+      {/* Filter tabs */}
+      <div className="flex gap-2 flex-wrap">
+        {(["PENDING", "APPROVED", "REJECTED"] as const).map((f) => (
+          <button key={f} onClick={() => setFilter(f)}
+            className={cn(
+              "px-4 py-2 rounded-xl text-sm font-bold transition-colors",
+              filter === f ? "bg-foreground text-background" : "border border-border text-muted-foreground hover:text-foreground"
+            )}>
+            {f.charAt(0) + f.slice(1).toLowerCase()} ({counts[f]})
+          </button>
+        ))}
+      </div>
 
       {loading ? (
-        <p className="text-muted-foreground text-sm">Loading...</p>
-      ) : reviews.length === 0 ? (
-        <div className="card-surface p-8 text-center text-muted-foreground text-sm">
-          No reviews yet. They appear here when someone submits one from /reviews
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-16 border border-dashed border-border rounded-2xl">
+          <p className="font-bold text-foreground">No {filter.toLowerCase()} reviews</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {filter === "PENDING" ? "New reviews from /reviews appear here." : `No reviews marked as ${filter.toLowerCase()} yet.`}
+          </p>
         </div>
       ) : (
-        reviews.map((r) => (
-          <div key={r.id} className="card-surface p-5 space-y-3">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="font-semibold">{r.name}</p>
-                {(r.role || r.company) && (
-                  <p className="text-xs text-muted-foreground">{[r.role, r.company].filter(Boolean).join(" · ")}</p>
-                )}
+        <div className="space-y-4">
+          {filtered.map((r) => (
+            <div key={r.id} className="p-5 rounded-2xl border border-border bg-card space-y-3">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div>
+                  <p className="font-extrabold text-foreground">{r.name}</p>
+                  {(r.role || r.company) && (
+                    <p className="text-xs text-muted-foreground">{[r.role, r.company].filter(Boolean).join(" · ")}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-0.5">{fmt(r.createdAt)} · {"★".repeat(r.rating)}</p>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {filter !== "APPROVED" && (
+                    <button onClick={() => updateStatus(r.id, "APPROVED")}
+                      className="px-3 py-1.5 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-80 transition-opacity">
+                      Approve
+                    </button>
+                  )}
+                  {filter !== "REJECTED" && (
+                    <button onClick={() => updateStatus(r.id, "REJECTED")}
+                      className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
+                      Reject
+                    </button>
+                  )}
+                  {filter === "REJECTED" && (
+                    <button onClick={() => updateStatus(r.id, "PENDING")}
+                      className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
+                      Move to Pending
+                    </button>
+                  )}
+                  <button onClick={() => deleteReview(r.id)}
+                    className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
+                    Delete
+                  </button>
+                </div>
               </div>
-              <span className={cn(
-                "text-xs px-2.5 py-1 rounded-full font-semibold",
-                r.status === "APPROVED" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300" :
-                r.status === "REJECTED" ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300" :
-                "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
-              )}>
-                {r.status}
-              </span>
+              <div className="bg-secondary rounded-xl px-4 py-3">
+                <p className="text-sm text-foreground/80 leading-relaxed">{r.content}</p>
+              </div>
+              {filter === "APPROVED" && (
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" /> Visible on /reviews
+                </span>
+              )}
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">{r.content}</p>
-            {r.status === "PENDING" && (
-              <div className="flex gap-2 pt-1">
-                <button
-                  onClick={() => updateStatus(r.id, "APPROVED")}
-                  className="text-xs px-4 py-2 rounded-lg bg-foreground text-background font-semibold hover:opacity-80 transition-opacity"
-                >
-                  Approve — make public
-                </button>
-                <button
-                  onClick={() => updateStatus(r.id, "REJECTED")}
-                  className="text-xs px-4 py-2 rounded-lg bg-secondary border border-border text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Reject
-                </button>
-              </div>
-            )}
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );
