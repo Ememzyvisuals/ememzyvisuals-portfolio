@@ -73,10 +73,10 @@ const STACK_SECTIONS = [
 
 function TechBox({ name, logo }: { name: string; logo: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 p-5 bg-white rounded-2xl aspect-square shadow-[0px_4px_24px_rgba(0,0,0,0.15)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.22)] transition-shadow duration-200">
+    <div className="flex flex-col items-center justify-center gap-3 p-5 md:p-4 bg-white rounded-2xl aspect-square shadow-[0px_4px_24px_rgba(0,0,0,0.15)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.22)] transition-shadow duration-200">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 object-contain" loading="lazy" />
-      <span className="text-[12px] font-semibold text-center leading-tight text-gray-500">{name}</span>
+      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 md:w-9 md:h-9 object-contain" loading="lazy" />
+      <span className="text-[12px] md:text-[10px] font-semibold text-center leading-tight text-gray-500">{name}</span>
     </div>
   );
 }
@@ -107,7 +107,7 @@ export function Stack() {
               <h3 className="text-white text-xl font-extrabold text-center tracking-tight">
                 {section.title}
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {section.items.map((item) => (
                   <TechBox key={item.name} name={item.name} logo={item.logo} />
                 ))}
