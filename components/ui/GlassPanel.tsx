@@ -36,10 +36,16 @@ export function GlassPanel({
   overLight = true,
   ...rest
 }: GlassPanelProps) {
+  // TEMP: liquid-glass-react is rendering a broken full-viewport black
+  // canvas in production (reported 2026-09-11) — forcing the CSS-only
+  // fallback everywhere until that's root-caused. Flip this back to the
+  // mount-detection logic below once fixed.
+  const FORCE_CSS_FALLBACK = true;
+
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
 
-  if (!ready) {
+  if (!ready || FORCE_CSS_FALLBACK) {
     return (
       <div className={`liquid-glass ${fallbackClassName || className}`.trim()}>
         {children}
