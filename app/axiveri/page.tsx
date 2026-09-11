@@ -54,6 +54,28 @@ const MODEL_SERIES = [
     hfLink: "https://huggingface.co/Axiveri/Naijavox-V1",
     internalLink: null,
   },
+  {
+    slug: "wazobiavoice",
+    name: "WazobiaVoice",
+    type: "Text-to-Speech & Voice Cloning Series",
+    status: "live",
+    statusLabel: "Live",
+    desc: "Multilingual TTS and zero-shot voice cloning across Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English — one ~2B-parameter model, one set of weights. Built by extending Chatterbox's multilingual architecture to support orthographies (including Yoruba's tonal diacritics) it was never originally designed for.",
+    tags: ["~2B Parameters", "Voice Cloning", "5 Languages", "Open Source"],
+    hfLink: "https://huggingface.co/Axiveri/WazobiaVoice",
+    internalLink: null,
+  },
+  {
+    slug: "afrivision-base",
+    name: "AfriVision-Base",
+    type: "Image Generation Model",
+    status: "live",
+    statusLabel: "Live",
+    desc: "A FLUX-based LoRA fine-tune trained on African imagery — nearly 15,000 captioned images — for image generation that reflects African people, places, and contexts.",
+    tags: ["FLUX LoRA", "Image Generation", "African Imagery"],
+    hfLink: "https://huggingface.co/Axiveri/AfriVision-Base",
+    internalLink: null,
+  },
 ];
 
 export default function AxiveriPage() {

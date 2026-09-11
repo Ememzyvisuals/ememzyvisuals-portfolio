@@ -129,7 +129,7 @@ const faqSchema = {
       name: "How much does it cost to hire Emmanuel Ariyo for a website?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Pricing depends on the scope and complexity of your project. Emmanuel Ariyo (Ememzyvisuals) works with startups, small businesses, and enterprise clients. Contact him at contact@ememzyvisuals.com or through the contact page to discuss your project and get a quote.",
+        text: "Pricing depends on the scope and complexity of your project. Emmanuel Ariyo (Ememzyvisuals) works with startups, small businesses, and enterprise clients. Contact him at ememzyvisuals@gmail.com or through the contact page to discuss your project and get a quote.",
       },
     },
     {

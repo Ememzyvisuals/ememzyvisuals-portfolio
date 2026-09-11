@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -230,8 +231,16 @@ function ContactInner() {
 
           {/* CTA card */}
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-2xl bg-foreground text-background p-8 space-y-3">
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
+          <GlassPanel
+            cornerRadius={20}
+            displacementScale={36}
+            blurAmount={0.1}
+            elasticity={0.06}
+            overLight={false}
+            className="!block rounded-2xl bg-foreground/90 text-background p-8 space-y-3"
+            fallbackClassName="rounded-2xl bg-foreground text-background p-8 space-y-3"
+          >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-sm font-medium text-background/70">Available for new projects</span>
@@ -241,10 +250,11 @@ function ContactInner() {
               Open to freelance contracts, full-time roles, partnerships, and investment
               conversations around Axiveri. If you have something in mind, reach out below.
             </p>
-            <a href="mailto:contact@ememzyvisuals.com"
+            <a href="mailto:ememzyvisuals@gmail.com"
               className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-xl bg-background text-foreground text-sm font-bold hover:opacity-90 transition-opacity">
-              contact@ememzyvisuals.com →
+              ememzyvisuals@gmail.com →
             </a>
+          </GlassPanel>
           </motion.div>
 
           {/* Form */}

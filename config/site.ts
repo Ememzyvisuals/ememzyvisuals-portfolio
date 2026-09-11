@@ -39,7 +39,7 @@ export const siteConfig = {
   author: {
     name: "Emmanuel Ariyo",
     alternateName: "Ememzyvisuals",
-    email: "contact@ememzyvisuals.com",
+    email: "ememzyvisuals@gmail.com",
     twitter: "@ememzyvisuals",
     location: "Nigeria",
     jobTitle: "Web Developer, AI Engineer & Automation Expert | Founder of Axiveri",
@@ -72,6 +72,7 @@ export const siteConfig = {
 export const navItems = [
   { label: "Work",         href: "/work" },
   { label: "About",        href: "/about" },
+  { label: "Experience",   href: "/#experience" },
   { label: "Services",     href: "/services" },
   { label: "Axiveri",      href: "/axiveri" },
   { label: "Automation",   href: "/automation" },

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
           // IMPORTANT: On Resend free plan without domain verification,
           // you MUST use "onboarding@resend.dev" as the from address.
           // Once you verify your domain on Resend, change this to:
-          // from: "Portfolio <contact@ememzyvisuals.com>"
+          // from: "Portfolio <ememzyvisuals@gmail.com>"
           from: "Ememzyvisuals Portfolio <onboarding@resend.dev>",
           to: [contactEmail],
           replyTo: email,

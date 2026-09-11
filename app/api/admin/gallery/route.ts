@@ -7,6 +7,8 @@ const gallerySchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
   imageUrl: z.string().min(1),
+  mediaType: z.enum(["IMAGE", "VIDEO"]).default("IMAGE"),
+  thumbnailUrl: z.string().optional(),
   category: z.string().optional(),
   published: z.boolean().default(true),
   featured: z.boolean().default(false),
@@ -34,7 +36,6 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     const items = await prisma.gallery.findMany({
-      where: { published: true },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
     return NextResponse.json(items);

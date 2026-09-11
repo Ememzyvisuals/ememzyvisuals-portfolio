@@ -8,6 +8,7 @@ import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { navItems, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -34,9 +35,21 @@ export function Navbar() {
       {/* ─── DESKTOP NAV ──────────────────────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
         <nav
+          aria-label="Main navigation"
+          className="hidden md:flex"
+        >
+        <GlassPanel
+          cornerRadius={16}
+          displacementScale={40}
+          blurAmount={0.1}
+          elasticity={0.08}
           className={cn(
-            "hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border",
-            "bg-background/85 backdrop-blur-xl transition-shadow duration-300",
+            "!flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border",
+            "transition-shadow duration-300",
+            scrolled && "shadow-card"
+          )}
+          fallbackClassName={cn(
+            "!flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border !bg-background/70",
             scrolled && "shadow-card"
           )}
         >
@@ -75,14 +88,23 @@ export function Navbar() {
               {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
             </button>
           )}
+        </GlassPanel>
         </nav>
 
         {/* ─── MOBILE HEADER ───────────────────────────────────────── */}
-        <div className="md:hidden w-full">
-          <div
+        <div className="md:hidden w-full" role="navigation" aria-label="Main navigation">
+          <GlassPanel
+            cornerRadius={16}
+            displacementScale={40}
+            blurAmount={0.1}
+            elasticity={0.08}
             className={cn(
-              "flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border",
-              "bg-background/85 backdrop-blur-xl transition-shadow duration-300",
+              "!flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border",
+              "transition-shadow duration-300",
+              scrolled && "shadow-card"
+            )}
+            fallbackClassName={cn(
+              "flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border !bg-background/70",
               scrolled && "shadow-card"
             )}
           >
@@ -108,7 +130,7 @@ export function Navbar() {
                 {mobileOpen ? <X size={17} /> : <Menu size={17} />}
               </button>
             </div>
-          </div>
+          </GlassPanel>
         </div>
       </header>
 
@@ -116,7 +138,7 @@ export function Navbar() {
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm liquid-glass"
             onClick={() => setMobileOpen(false)}
           />
           <div className="absolute top-20 left-4 right-4 bg-background border border-border rounded-xl shadow-card-hover overflow-hidden">

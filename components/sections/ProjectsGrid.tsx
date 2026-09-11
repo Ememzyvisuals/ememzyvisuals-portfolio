@@ -13,7 +13,7 @@ const FILTERS = [
   { label: "All",     value: "all" },
   { label: "Web",     value: "WEB_APP" },
   { label: "AI / ML", value: "AI_ML" },
-  { label: "Mobile",  value: "EDTECH" },
+  { label: "Mobile",  value: "MOBILE" },
 ];
 
 export function ProjectsGrid() {

@@ -248,7 +248,7 @@ export default function AfriclaудePage() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity">
                 Download Model <ExternalLink size={14} />
               </a>
-              <a href="mailto:contact@ememzyvisuals.com?subject=Africlaude v2 Collaboration"
+              <a href="mailto:ememzyvisuals@gmail.com?subject=Africlaude v2 Collaboration"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border font-bold text-sm hover:bg-muted transition-colors">
                 Contact Emmanuel <ArrowRight size={14} />
               </a>

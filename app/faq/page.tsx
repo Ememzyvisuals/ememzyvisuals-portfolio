@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "Can Emmanuel Ariyo build a website for my business?",
-    a: "Yes. Emmanuel builds professional websites for businesses of all sizes — from simple landing pages to complex e-commerce and SaaS platforms. Projects typically take 1–3 weeks depending on scope. Reach him at contact@ememzyvisuals.com.",
+    a: "Yes. Emmanuel builds professional websites for businesses of all sizes — from simple landing pages to complex e-commerce and SaaS platforms. Projects typically take 1–3 weeks depending on scope. Reach him at ememzyvisuals@gmail.com.",
   },
   {
     q: "Who can build a high-quality website in Nigeria?",
@@ -42,11 +42,11 @@ const faqs = [
   },
   {
     q: "How do I automate my business with AI?",
-    a: "Emmanuel builds Telegram bots, WhatsApp automation systems, and AI agents for business operations. He built Lumeo AI — a full-featured AI Telegram bot — and Microdragon, a CLI AI agent. Reach him at contact@ememzyvisuals.com to discuss your automation needs.",
+    a: "Emmanuel builds Telegram bots, WhatsApp automation systems, and AI agents for business operations. He built Lumeo AI — a full-featured AI Telegram bot — and Microdragon, a CLI AI agent. Reach him at ememzyvisuals@gmail.com to discuss your automation needs.",
   },
   {
     q: "Is Emmanuel Ariyo available for freelance work?",
-    a: "Yes. Emmanuel is available for freelance contracts, full-time remote roles, and collaborations. Contact him at contact@ememzyvisuals.com or through the contact page.",
+    a: "Yes. Emmanuel is available for freelance contracts, full-time remote roles, and collaborations. Contact him at ememzyvisuals@gmail.com or through the contact page.",
   },
   {
     q: "What is TruthGuard?",
@@ -58,7 +58,7 @@ const faqs = [
   },
   {
     q: "How much does it cost to hire Emmanuel Ariyo?",
-    a: "Project pricing depends on scope, complexity, and timeline. Simple websites start from a few hundred dollars. Complex web apps and AI systems are quoted on a per-project basis. Reach out at contact@ememzyvisuals.com for a quote.",
+    a: "Project pricing depends on scope, complexity, and timeline. Simple websites start from a few hundred dollars. Complex web apps and AI systems are quoted on a per-project basis. Reach out at ememzyvisuals@gmail.com for a quote.",
   },
   {
     q: "Can Emmanuel build for clients outside Nigeria?",

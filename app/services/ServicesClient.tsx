@@ -403,7 +403,7 @@ export function ServicesClient() {
           </div>
 
           <p className="text-background/40 text-xs">
-            contact@ememzyvisuals.com · Available worldwide
+            ememzyvisuals@gmail.com · Available worldwide
           </p>
         </motion.div>
       </div>

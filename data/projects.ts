@@ -26,7 +26,7 @@ Challenges Faced & Solutions:
 - Cost Management & Reliability: Implemented multi-Groq API key rotation with automatic failover and usage monitoring.
 - Real-time Streaming & State Management: Handled complex SSE streaming while maintaining consistent project state across agents.
 - Secure Exports & Live Previews: Built robust file generation, validation, and sandboxed live preview systems.`,
-    category: "AI_ML",
+    category: "WEB_APP",
     status: "COMPLETED",
     featured: true,
     githubUrl: "https://github.com/Ememzyvisuals/ClaudGPT",
@@ -60,7 +60,7 @@ Challenges Faced & Solutions:
 - Complex Database Design & RLS: Built and normalized a 15+ table schema with secure Row Level Security policies.
 - Cross-Domain AI Insights: Engineered robust data aggregation pipelines and prompt engineering for meaningful correlations.
 - PWA + Offline Experience: Implemented reliable service workers and local storage strategies while maintaining sync with Supabase.`,
-    category: "AI_ML",
+    category: "WEB_APP",
     status: "COMPLETED",
     featured: true,
     githubUrl: "https://github.com/Ememzyvisuals/aethlife",
@@ -94,7 +94,7 @@ Challenges Faced & Solutions:
 - Academy Workflow Implementation: Built end-to-end course progression, exam submission, task review, verification, and certificate generation systems.
 - Media Streaming & Performance: Optimized video loading, buffering, and player experience across devices.
 - Content Organization: Designed scalable structures for both entertainment catalogs and structured academy courses.`,
-    category: "AI_ML",
+    category: "WEB_APP",
     status: "COMPLETED",
     featured: true,
     githubUrl: "https://github.com/Ememzyvisuals/flonextv",
@@ -272,6 +272,83 @@ Challenges Faced & Solutions:
     coverImage: "/images/projects/artoluwani-web.png",
     webImages: ["/images/projects/artoluwani-web.png"],
     mobileImages: [],
+  },
+  {
+    slug: "ajoflow",
+    title: "AjoFlow",
+    subtitle: "Modern Cooperative Finance Platform for Africa",
+    description:
+      "A production-grade digital Ajo, Esusu, and cooperative finance operating system powered by Nomba's payment infrastructure — automated virtual accounts, AI-weighted trust scoring, and real-time group treasury management. Built for the Nomba Hackathon 2026.",
+    longDesc: `AjoFlow digitizes traditional Ajo, Esusu, and cooperative thrift savings with automated Nomba payments, AI-powered trust scoring, and real-time community collaboration tools. Built for the Nomba Hackathon 2026 — Virtual Accounts Infrastructure Track.
+
+Problem Solved:
+Traditional Ajo relies on paper records, cash handling, and WhatsApp groups — all of which create disputes, lost records, and zero financial transparency. AjoFlow solves each of these with bank-grade digital infrastructure while preserving the cultural and social trust mechanics that make Ajo work.
+
+Key Features:
+- Rotational Ajo, Target Savings, Cooperative, and Investment groups
+- One static, non-expiring NUBAN virtual account per member per group
+- Card + bank transfer checkout via Nomba hosted checkout, plus tokenized recurring cards
+- AI-weighted Trust Score (0-100) built from real payment behavior
+- Conversational AI assistant in English and Nigerian Pidgin
+- Admin-approved payouts with bank-side name verification
+- Trust-score-gated loan requests within groups
+- Group announcements, discussions, and comments
+- Installable PWA on Android, iOS, and desktop
+
+Challenges Faced & Solutions:
+- Reconciliation at Scale: Every transaction is verified via HMAC-signed Nomba webhooks with idempotency checks before it touches the ledger, so group treasuries stay accurate with zero manual intervention.
+- Trust Without a Credit Bureau: Designed a weighted scoring model from on-time payments, consecutive streaks, late payments, missed payments, and loan defaults — a financial reputation system for a market that's never had one.
+- Isolated, Per-Group Treasuries: Every cooperative group gets its own isolated treasury and dedicated virtual accounts on top of a single Nomba sub-account, so funds never cross between groups.`,
+    category: "FINTECH",
+    status: "COMPLETED",
+    featured: true,
+    githubUrl: "https://github.com/Ememzyvisuals/Ajoflow-hackathon",
+    liveUrl: "https://ajoflow.vercel.app",
+    techStack: ["Next.js 15", "TypeScript", "Supabase", "Nomba API", "Groq API", "Resend", "PWA"],
+    isMobilePrimary: false,
+    coverImage: "/images/projects/ajoflow-web.png",
+    webImages: ["/images/projects/ajoflow-web.png", "/images/projects/ajoflow-web-full.png"],
+    mobileImages: [],
+  },
+  {
+    slug: "ekklesia",
+    title: "Ekklesia",
+    subtitle: "Multilingual Bible & Church Companion App",
+    description:
+      "A free, offline-first mobile companion app for reading and listening to the Bible in five languages, keeping up with sermons and live radio, asking an AI assistant for prayer or a devotional, and playing Bible-themed games — all usable with no internet connection.",
+    longDesc: `Ekklesia is a free, offline-first companion app for reading and listening to the Bible in English, Yoruba, Hausa, Igbo, and Nigerian Pidgin, keeping up with sermons and live radio, asking an AI assistant for a prayer or a devotional, and playing a couple of Bible-themed games — all in one place, and all still usable with no internet connection once opened at least once.
+
+Problem Solved:
+Believers in low-connectivity areas need reliable, offline access to Scripture, sermons, and study tools in their own language — not another app that stops working the moment the signal drops.
+
+Key Features:
+- Full Bible in five languages, downloaded on first launch for complete offline reading
+- Chapter-by-chapter audio playback with adjustable speed, verse highlighting, and auto-scroll
+- Live DCLM Radio streaming (persists through screen lock and app switching) plus a full Sermon Library
+- AI Assistant for verse explanations, prayer, and devotionals — powered by the user's own free Groq API key
+- Bible Quiz and Bible Word Search, both fully offline
+- Downloads manager, adjustable text size app-wide, and light/dark appearance
+
+Challenges Faced & Solutions:
+- True Offline-First: All five Bible translations, downloads, bookmarks, and settings are stored entirely on-device, so reading, the games, and playback work with zero network dependency after first setup.
+- Bring-Your-Own-Key AI: The AI Assistant runs on a Groq key the user supplies and stores locally, keeping the app free to run while being transparent that it's the one feature that leaves the device.
+- Audio Sync at Scale: Built a chapter audio player that highlights the exact verse being read and auto-scrolls to follow it, with prev/next chapter navigation that doesn't interrupt playback.`,
+    category: "MOBILE",
+    status: "COMPLETED",
+    featured: true,
+    githubUrl: "https://github.com/Ememzyvisuals/Ekklesia-App/",
+    liveUrl: null,
+    techStack: ["Offline-First Architecture", "Groq API", "Multilingual (5 languages)", "Android"],
+    isMobilePrimary: true,
+    coverImage: "/images/projects/felicia-home.png",
+    webImages: [],
+    mobileImages: [
+      "/images/projects/felicia-home.png",
+      "/images/projects/felicia-bible.png",
+      "/images/projects/felicia-ai.png",
+      "/images/projects/felicia-sermons.png",
+      "/images/projects/felicia-games.png",
+    ],
   },
 ];
 

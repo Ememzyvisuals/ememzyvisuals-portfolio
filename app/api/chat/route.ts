@@ -35,6 +35,11 @@ function retrieveContext(query: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.GROQ_API_KEY) {
+      console.error("Chat API error: GROQ_API_KEY is not set");
+      return new Response("AI assistant is not configured. Missing GROQ_API_KEY.", { status: 500 });
+    }
+
     const { messages } = await req.json();
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {

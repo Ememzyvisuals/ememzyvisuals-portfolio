@@ -14,7 +14,7 @@ export const knowledgeChunks = [
   },
   {
     source: "bio",
-    content: `Emmanuel is available for freelance contracts, full-time roles, and collaborations. He can be reached at contact@ememzyvisuals.com. His GitHub is @ememzyvisuals, his X/Twitter is @ememzyvisuals, and his Kaggle profile is @ememzyvisuals.`,
+    content: `Emmanuel is available for freelance contracts, full-time roles, and collaborations. He can be reached at ememzyvisuals@gmail.com. His GitHub is @ememzyvisuals, his X/Twitter is @ememzyvisuals, and his Kaggle profile is @ememzyvisuals.`,
   },
 
   // ─── PROJECTS ─────────────────────────────────────────────────────────────

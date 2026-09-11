@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/Hero";
+import { Experience } from "@/components/sections/Experience";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { AutomationSection } from "@/components/sections/Automation";
 import { BenchmarkSection } from "@/components/sections/Benchmarks";
@@ -41,6 +42,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      {divider}
+      <Experience />
       {divider}
       <ProjectsGrid />
       {divider}

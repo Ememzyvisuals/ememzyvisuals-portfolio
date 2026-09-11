@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Terminal, Bot, ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { Terminal, Bot, Mic, ArrowUpRight, Github, ExternalLink } from "lucide-react";
 
 const AUTOMATION_PROJECTS = [
   {
@@ -48,6 +48,27 @@ const AUTOMATION_PROJECTS = [
       "9-Phase execution pipeline",
       "Local-first (Ollama) + cloud providers",
       "Published on npm",
+    ],
+  },
+  {
+    id: "wazobiavoice-inference",
+    title: "WazobiaVoice Inference",
+    subtitle: "Nigerian Multilingual TTS & Voice Cloning",
+    description:
+      "Production inference code for WazobiaVoice — a ~2B-parameter multilingual TTS and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, built by Axiveri.",
+    icon: Mic,
+    iconBg: "bg-emerald-50 dark:bg-emerald-950",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+    accentColor: "border-emerald-200 dark:border-emerald-800",
+    techStack: ["PyTorch", "Chatterbox Architecture", "Groq", "Python"],
+    links: {
+      github: "https://github.com/Ememzyvisuals/wazobiavoice-TTS",
+    },
+    highlights: [
+      "5 Nigerian languages, one set of weights",
+      "Zero-shot cross-lingual voice cloning",
+      "Extended Chatterbox for Yoruba tonal diacritics",
+      "Model weights on HuggingFace via Axiveri",
     ],
   },
 ];

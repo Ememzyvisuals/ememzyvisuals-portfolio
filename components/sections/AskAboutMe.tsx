@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, RotateCcw, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 import type { ChatMessage } from "@/types";
 
 const SUGGESTED_QUESTIONS = [
@@ -61,14 +62,18 @@ export function AskAboutMe() {
         }),
       });
 
-      if (!res.ok) throw new Error("Chat request failed");
+      if (!res.ok) {
+        const errText = await res.text().catch(() => "");
+        throw new Error(errText || "Chat request failed");
+      }
 
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
       let accum = "";
+      let streamDone = false;
 
       if (reader) {
-        while (true) {
+        while (!streamDone) {
           const { done, value } = await reader.read();
           if (done) break;
 
@@ -78,7 +83,10 @@ export function AskAboutMe() {
           for (const line of lines) {
             if (line.startsWith("data: ")) {
               const data = line.slice(6);
-              if (data === "[DONE]") break;
+              if (data === "[DONE]") {
+                streamDone = true;
+                break;
+              }
               try {
                 const parsed = JSON.parse(data);
                 const content = parsed.choices?.[0]?.delta?.content ?? "";
@@ -94,6 +102,7 @@ export function AskAboutMe() {
         }
       }
     } catch (err) {
+      console.error("Ask About Me error:", err);
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId
@@ -147,7 +156,15 @@ export function AskAboutMe() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="card-surface overflow-hidden"
+          >
+          <GlassPanel
+            cornerRadius={24}
+            displacementScale={24}
+            blurAmount={0.16}
+            aberrationIntensity={0.8}
+            elasticity={0.05}
+            className="!block rounded-2xl overflow-hidden"
+            fallbackClassName="rounded-2xl overflow-hidden"
           >
             {/* Messages area */}
             <div className="h-[420px] overflow-y-auto p-6 space-y-4 scroll-smooth">
@@ -249,6 +266,7 @@ export function AskAboutMe() {
                 <Send size={16} />
               </button>
             </div>
+          </GlassPanel>
           </motion.div>
         </div>
       </div>

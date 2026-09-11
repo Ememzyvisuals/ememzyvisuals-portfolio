@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 
 function AdminContent() {
   const searchParams = useSearchParams();
@@ -223,7 +224,7 @@ function BlogAdmin() {
 }
 
 function GalleryAdmin() {
-  type GalleryItem = { id: string; title: string; description?: string; imageUrl: string; category?: string; createdAt: string };
+  type GalleryItem = { id: string; title: string; description?: string; imageUrl: string; mediaType?: string; thumbnailUrl?: string; category?: string; createdAt: string };
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -270,16 +271,24 @@ function GalleryAdmin() {
     if (!file || !title || !cloudName || !preset) { setMsg("Fill all fields and configure Cloudinary"); return; }
     setUploading(true);
     try {
+      const isVideo = file.type.startsWith("video/");
       const fd = new FormData();
       fd.append("file", file);
       fd.append("upload_preset", preset);
-      const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { method: "POST", body: fd });
+      const resourceType = isVideo ? "video" : "image";
+      const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, { method: "POST", body: fd });
       const data = await r.json();
       if (!data.secure_url) throw new Error("Upload failed");
+      // Cloudinary serves an auto-generated video thumbnail by swapping the extension for .jpg
+      const thumbnailUrl = isVideo ? data.secure_url.replace(/\.[a-z0-9]+$/i, ".jpg") : undefined;
       await fetch("/api/admin/gallery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description: desc, imageUrl: data.secure_url, category, published: true, featured: false, sortOrder: 0 }),
+        body: JSON.stringify({
+          title, description: desc, imageUrl: data.secure_url,
+          mediaType: isVideo ? "VIDEO" : "IMAGE", thumbnailUrl,
+          category, published: true, featured: false, sortOrder: 0,
+        }),
       });
       setMsg("Uploaded!"); setFile(null); setTitle(""); setDesc("");
       await loadItems();
@@ -322,27 +331,37 @@ function GalleryAdmin() {
       </div>
 
       {/* Cloudinary config */}
+      <GlassPanel
+        cornerRadius={20}
+        displacementScale={28}
+        blurAmount={0.14}
+        elasticity={0.05}
+        className="!block p-5 space-y-3"
+        fallbackClassName="card-surface p-5 space-y-3"
+      >
       {!configSaved ? (
-        <div className="card-surface p-5 space-y-3">
+        <>
           <p className="text-sm font-bold text-foreground">Set up Cloudinary (one-time)</p>
           <input value={cloudName} onChange={e => setCloudName(e.target.value)} placeholder="Cloud Name" className={inputCls} />
           <input value={preset} onChange={e => setPreset(e.target.value)} placeholder="Upload Preset (unsigned)" className={inputCls} />
           <button onClick={saveConfig} className="btn-primary text-sm">Save Config</button>
-        </div>
+        </>
       ) : (
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground font-bold">Cloudinary: {cloudName} · <button onClick={() => setConfigSaved(false)} className="underline">Change</button></p>
-          <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />
+          <input type="file" accept="image/*,video/*" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />
+          <p className="text-[11px] text-muted-foreground">Images or videos — Cloudinary handles both.</p>
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Image title *" className={inputCls} />
           <input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Caption (optional)" className={inputCls} />
           <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
             {["Work","BTS","Events","Creative"].map(c => <option key={c}>{c}</option>)}
           </select>
           <button onClick={upload} disabled={uploading} className="btn-primary w-full justify-center text-sm">
-            {uploading ? "Uploading..." : "Upload Image"}
+            {uploading ? "Uploading..." : "Upload"}
           </button>
         </div>
       )}
+      </GlassPanel>
 
       {/* Gallery items */}
       {loading ? (
@@ -358,7 +377,7 @@ function GalleryAdmin() {
             <div key={item.id} className="p-4 rounded-2xl border border-border bg-card space-y-3">
               <div className="flex gap-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.imageUrl} alt={item.title} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
+                <img src={item.mediaType === "VIDEO" ? (item.thumbnailUrl || item.imageUrl) : item.imageUrl} alt={item.title} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
                 <div className="flex-1 space-y-1">
                   {editingId === item.id ? (
                     <div className="space-y-2">
