@@ -147,7 +147,7 @@ export default function AxiveriPage() {
                 { title: "Research-Grade", desc: "Rigorously benchmarked. We built TruthGuard to evaluate AI — we apply the same standards to our own models." },
                 { title: "Community-Driven", desc: "Partners, contributors, and supporters are welcome. Axiveri is built in public." },
               ].map((item) => (
-                <div key={item.title} className="p-5 rounded-2xl border border-border bg-card space-y-1.5">
+                <div key={item.title} className="p-5 rounded-2xl liquid-glass space-y-1.5">
                   <p className="font-extrabold text-foreground text-sm">{item.title}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>

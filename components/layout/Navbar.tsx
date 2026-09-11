@@ -141,7 +141,7 @@ export function Navbar() {
             className="absolute inset-0 bg-black/20 backdrop-blur-sm liquid-glass"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="absolute top-20 left-4 right-4 bg-background border border-border rounded-xl shadow-card-hover overflow-hidden">
+          <div className="absolute top-20 left-4 right-4 liquid-glass rounded-xl shadow-card-hover overflow-hidden">
             <nav className="p-2 grid grid-cols-2 gap-1">
               {navItems.map((item) => (
                 <Link

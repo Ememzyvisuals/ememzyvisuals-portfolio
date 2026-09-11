@@ -45,7 +45,7 @@ export function ProjectsGrid() {
         </div>
 
         {/* Filter tabs */}
-        <div className="inline-flex items-center gap-1 p-1.5 bg-secondary rounded-full border border-border">
+        <div className="inline-flex items-center gap-1 p-1.5 rounded-full liquid-glass">
           {FILTERS.map((f) => (
             <button
               key={f.value}

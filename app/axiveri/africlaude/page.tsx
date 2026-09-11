@@ -160,7 +160,7 @@ export default function AfriclaудePage() {
           </h2>
           <div className="space-y-4">
             {series.map((model) => (
-              <div key={model.name} className="flex items-center justify-between p-6 rounded-2xl border border-border bg-card gap-4 flex-wrap">
+              <div key={model.name} className="flex items-center justify-between p-6 rounded-2xl liquid-glass gap-4 flex-wrap">
                 <div className="space-y-2 flex-1">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-widest ${
@@ -208,7 +208,7 @@ export default function AfriclaудePage() {
               { title: "Education Tools",         desc: "Intelligent tutoring for African students in local languages." },
               { title: "Business Automation",     desc: "AI-powered workflows for African markets." },
             ].map((item) => (
-              <div key={item.title} className="p-5 rounded-2xl border border-border bg-card space-y-2">
+              <div key={item.title} className="p-5 rounded-2xl liquid-glass space-y-2">
                 <p className="font-extrabold text-foreground text-sm">{item.title}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>

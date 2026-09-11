@@ -35,7 +35,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.48, delay: index * 0.05 }}
       // ── ONE rounded rectangle wrapping EVERYTHING ──────────────────
-      className="group rounded-3xl overflow-hidden border border-border bg-card"
+      className="group rounded-3xl overflow-hidden liquid-glass"
     >
       {/* ── Screenshot image at top of card ─────────────────────── */}
       <div className="relative overflow-hidden bg-[#f0f0f0] dark:bg-zinc-800">

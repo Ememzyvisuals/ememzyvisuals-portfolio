@@ -187,7 +187,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <Link
                     key={post.slug}
                     href={`/blog/${post.slug}`}
-                    className="group block p-5 rounded-2xl border border-border bg-card hover:border-foreground transition-all duration-200 space-y-3"
+                    className="group block p-5 rounded-2xl liquid-glass hover:border-foreground transition-all duration-200 space-y-3"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-border text-muted-foreground uppercase tracking-widest">
