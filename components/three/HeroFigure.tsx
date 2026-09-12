@@ -19,7 +19,7 @@ import { useGLTF, Center } from "@react-three/drei";
 import type { Group } from "three";
 import * as THREE from "three";
 
-function Model() {
+function Model({ mobile }: { mobile: boolean }) {
   const { scene } = useGLTF("/models/hero-figure.glb");
   const ref = useRef<Group>(null);
   const pointer = useRef({ x: 0, y: 0 });
@@ -65,7 +65,15 @@ function Model() {
       0.08
     );
     ref.current.rotation.x = idlePitch + cursorPitch;
-    ref.current.position.y = idleBob;
+
+    // On mobile, the same camera framing that looks right on a wide
+    // desktop viewport ends up overlapping the stacked headline text —
+    // there's much less horizontal room for the text and figure to share.
+    // Shrink and drop the figure down so it clears the text block,
+    // resting lower in the hero (roughly behind the CTA area) instead.
+    const scale = mobile ? 0.55 : 1;
+    ref.current.scale.setScalar(scale);
+    ref.current.position.y = idleBob + (mobile ? -1.35 : 0);
   });
 
   return (
@@ -77,13 +85,13 @@ function Model() {
   );
 }
 
-export function HeroFigure() {
+export function HeroFigure({ mobile = false }: { mobile?: boolean }) {
   return (
     <>
       <ambientLight intensity={0.9} />
       <directionalLight position={[3, 5, 4]} intensity={1.1} />
       <directionalLight position={[-4, 2, -3]} intensity={0.4} />
-      <Model />
+      <Model mobile={mobile} />
     </>
   );
 }

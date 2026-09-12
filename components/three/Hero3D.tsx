@@ -43,8 +43,22 @@ function useGoodConnection() {
   return ok;
 }
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    function check() {
+      setMobile(window.innerWidth < 640);
+    }
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return mobile;
+}
+
 export function Hero3D() {
   const goodConnection = useGoodConnection();
+  const isMobile = useIsMobile();
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -77,7 +91,7 @@ export function Hero3D() {
             style={{ background: "transparent" }}
           >
             <Suspense fallback={null}>
-              <HeroFigureLazy />
+              <HeroFigureLazy mobile={isMobile} />
             </Suspense>
           </Canvas>
         </Suspense>
