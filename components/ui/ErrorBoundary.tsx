@@ -32,12 +32,17 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      // Distinguish "no fallback prop passed" (undefined) from an
+      // explicitly passed `null` (meaning: render nothing on failure).
+      // A plain `??` treats both the same, which silently swapped in the
+      // generic message even where callers asked for a silent failure.
+      if ("fallback" in this.props) {
+        return this.props.fallback;
+      }
       return (
-        this.props.fallback ?? (
-          <div className="card-surface p-8 text-center text-sm text-muted-foreground">
-            Something went wrong loading this section. Try refreshing the page.
-          </div>
-        )
+        <div className="card-surface p-8 text-center text-sm text-muted-foreground">
+          Something went wrong loading this section. Try refreshing the page.
+        </div>
       );
     }
     return this.props.children;
