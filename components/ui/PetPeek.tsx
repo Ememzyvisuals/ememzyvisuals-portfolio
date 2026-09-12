@@ -72,15 +72,27 @@ export function PetPeek() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, []);
 
-  // Idle blink every 3-6s — briefly overrides whatever gaze is active
+  // Idle blink every 2-5s — briefly overrides whatever gaze is active.
+  // Occasionally does a quick double-blink for a bit more life.
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
+    function doBlink(onDone: () => void) {
+      setBlinking(true);
+      setTimeout(() => {
+        setBlinking(false);
+        onDone();
+      }, 160);
+    }
     function scheduleBlink() {
-      const delay = 3000 + Math.random() * 3000;
+      const delay = 2000 + Math.random() * 3000;
       timeout = setTimeout(() => {
-        setBlinking(true);
-        setTimeout(() => setBlinking(false), 140);
-        scheduleBlink();
+        doBlink(() => {
+          if (Math.random() < 0.3) {
+            setTimeout(() => doBlink(scheduleBlink), 180);
+          } else {
+            scheduleBlink();
+          }
+        });
       }, delay);
     }
     scheduleBlink();
