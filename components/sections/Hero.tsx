@@ -4,6 +4,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
+import { Hero3D } from "@/components/three/Hero3D";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -12,7 +13,8 @@ const fadeUp = {
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col items-center justify-center text-center px-5 pt-24 pb-10 md:pt-32 md:pb-16 min-h-[85vh]">
+    <section className="relative flex flex-col items-center justify-center text-center px-5 pt-24 pb-10 md:pt-32 md:pb-16 min-h-[85vh] overflow-hidden">
+      <Hero3D />
       <div className="relative z-10 max-w-2xl mx-auto space-y-6">
 
         <motion.div

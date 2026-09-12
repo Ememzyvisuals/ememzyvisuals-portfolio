@@ -9,6 +9,14 @@ import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import type { ChatMessage } from "@/types";
 
+// Fallback for older WebViews / in-app browsers without crypto.randomUUID()
+function genId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
 const SUGGESTED_QUESTIONS = [
   "What are Emmanuel's featured projects?",
   "Tell me about TruthGuard benchmark",
@@ -34,7 +42,7 @@ export function AskAboutMe() {
     if (!text.trim() || isLoading) return;
 
     const userMsg: ChatMessage = {
-      id: crypto.randomUUID(),
+      id: genId(),
       role: "user",
       content: text.trim(),
       timestamp: new Date(),
@@ -44,7 +52,7 @@ export function AskAboutMe() {
     setInput("");
     setIsLoading(true);
 
-    const assistantId = crypto.randomUUID();
+    const assistantId = genId();
     setMessages((prev) => [
       ...prev,
       { id: assistantId, role: "assistant", content: "", timestamp: new Date() },

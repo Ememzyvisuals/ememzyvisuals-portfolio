@@ -115,6 +115,14 @@
     font-family: "Cabinet Grotesk", sans-serif !important;
   }
 
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .card-surface {
     @apply rounded-2xl border border-border overflow-hidden;
     position: relative;

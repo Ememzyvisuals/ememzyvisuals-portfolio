@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { buildMeta } from "@/lib/metadata";
 import { AskAboutMe } from "@/components/sections/AskAboutMe";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 export const metadata: Metadata = buildMeta({
   title: "Ask About Emmanuel Ariyo | Ememzyvisuals",
@@ -12,5 +13,11 @@ export const metadata: Metadata = buildMeta({
 });
 
 export default function AskPage() {
-  return <div className="min-h-screen py-16 md:py-24"><AskAboutMe /></div>;
+  return (
+    <div className="min-h-screen py-16 md:py-24">
+      <ErrorBoundary>
+        <AskAboutMe />
+      </ErrorBoundary>
+    </div>
+  );
 }

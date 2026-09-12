@@ -11,6 +11,7 @@ const FILTERS = [
   { label: "All",      value: "all" },
   { label: "AI / ML",  value: "AI_ML" },
   { label: "Web Apps", value: "WEB_APP" },
+  { label: "Mobile",   value: "MOBILE" },
   { label: "EdTech",   value: "EDTECH" },
   { label: "Fintech",  value: "FINTECH" },
   { label: "Featured", value: "featured" },
@@ -45,14 +46,14 @@ export function WorkClientPage() {
         </motion.div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-2">
-          <div className="flex items-center gap-1 p-1.5 bg-secondary rounded-full border border-border flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex items-center gap-1 p-1.5 rounded-full liquid-glass overflow-x-auto max-w-full no-scrollbar">
             {FILTERS.map((f) => (
               <button
                 key={f.value}
                 onClick={() => setActiveFilter(f.value)}
                 className={cn(
-                  "px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-150",
+                  "px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-150 flex-shrink-0 whitespace-nowrap",
                   activeFilter === f.value
                     ? "bg-foreground text-background"
                     : "text-muted-foreground hover:text-foreground"
@@ -62,11 +63,9 @@ export function WorkClientPage() {
               </button>
             ))}
           </div>
-          <div className="flex items-center ml-2">
-            <span className="text-xs text-muted-foreground">
-              {filtered.length} project{filtered.length !== 1 ? "s" : ""}
-            </span>
-          </div>
+          <span className="text-xs text-muted-foreground flex-shrink-0">
+            {filtered.length} project{filtered.length !== 1 ? "s" : ""}
+          </span>
         </div>
 
         {/* Grid */}
