@@ -172,7 +172,7 @@ export function AskAboutMe() {
             aberrationIntensity={0.8}
             elasticity={0.05}
             className="!block rounded-2xl overflow-hidden"
-            fallbackClassName="rounded-2xl overflow-hidden"
+            fallbackClassName="liquid-glass rounded-2xl overflow-hidden"
           >
             {/* Messages area */}
             <div className="h-[420px] overflow-y-auto p-6 space-y-4 scroll-smooth">

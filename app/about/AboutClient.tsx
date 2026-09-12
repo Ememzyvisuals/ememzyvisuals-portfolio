@@ -45,7 +45,7 @@ export function AboutClient() {
                 blurAmount={0.08}
                 elasticity={0.1}
                 className="!inline-flex items-center gap-2 px-4 py-2 shadow-card text-sm font-semibold"
-                fallbackClassName="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-card text-sm font-semibold"
+                fallbackClassName="liquid-glass inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-card text-sm font-semibold"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 Available for work
