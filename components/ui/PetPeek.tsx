@@ -2,75 +2,52 @@
 // components/ui/PetPeek.tsx
 //
 // A small illustrated pet that peeks up from the bottom edge of the
-// Contact section and swaps between real eye-direction frames based on
-// where the cursor is (left/right/up/center), blinks on its own on a
-// timer, and blinks on tap/click too. Relies on the parent <section>
-// having `relative overflow-hidden` so it can clip the pet while it's
-// tucked below the fold.
+// Contact section. Uses the two original uploaded frames completely
+// unedited (only the minimum necessary black->transparent conversion,
+// no cropping/rescaling) — blinks on its own on a timer and on tap/click,
+// and does a subtle whole-image cursor tilt for liveliness (a runtime
+// CSS transform, not an edit to the source art).
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
-type Gaze = "center" | "left" | "right" | "up";
-
-const FRAMES: Record<Gaze, string> = {
-  center: "/images/pet/pet-center.png",
-  left: "/images/pet/pet-left.png",
-  right: "/images/pet/pet-right.png",
-  up: "/images/pet/pet-up.png",
-};
+const OPEN_FRAME = "/images/pet/pet-open.png";
 const BLINK_FRAME = "/images/pet/pet-blink.png";
 
 export function PetPeek() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapperRef, { once: true, margin: "-80px" });
-  const [gaze, setGaze] = useState<Gaze>("center");
   const [blinking, setBlinking] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const blinkTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // Preload every frame once on mount so switching gaze/blink is instant.
   useEffect(() => {
-    [...Object.values(FRAMES), BLINK_FRAME].forEach((src) => {
+    [OPEN_FRAME, BLINK_FRAME].forEach((src) => {
       const img = new window.Image();
       img.src = src;
     });
   }, []);
 
-  // Cursor tracking — picks the nearest of the 4 real eye-direction
-  // frames based on the pointer's angle relative to the pet's head.
+  // Subtle cursor tilt on the whole image — liveliness without touching
+  // the source frames at all.
   useEffect(() => {
     function handlePointerMove(e: PointerEvent) {
       const el = wrapperRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.25;
-
-      const dx = e.clientX - centerX;
-      const dy = e.clientY - centerY;
-
-      const dist = Math.hypot(dx, dy);
-      if (dist < 40) {
-        setGaze("center");
-        return;
-      }
-
-      const angle = Math.atan2(dy, dx);
-      const deg = (angle * 180) / Math.PI;
-
-      if (deg < -35 && deg > -145) {
-        setGaze("up");
-      } else if (deg >= -35 && deg <= 55) {
-        setGaze("right");
-      } else {
-        setGaze("left");
-      }
+      const centerY = rect.top;
+      const dx = (e.clientX - centerX) / (window.innerWidth / 2);
+      const dy = (e.clientY - centerY) / (window.innerHeight / 2);
+      setTilt({
+        x: Math.max(-1, Math.min(1, dx)),
+        y: Math.max(-1, Math.min(1, dy)),
+      });
     }
     window.addEventListener("pointermove", handlePointerMove);
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, []);
 
-  // A single blink, callable from the idle timer OR a tap/click.
   const triggerBlink = useCallback((andThen?: () => void) => {
     setBlinking(true);
     blinkTimeoutRef.current = setTimeout(() => {
@@ -101,6 +78,9 @@ export function PetPeek() {
     };
   }, [triggerBlink]);
 
+  const rotate = tilt.x * 4;
+  const translateX = tilt.x * 8;
+
   return (
     <div
       ref={wrapperRef}
@@ -110,17 +90,21 @@ export function PetPeek() {
         initial={{ y: "100%" }}
         animate={{ y: inView ? "0%" : "100%" }}
         transition={{ type: "spring", stiffness: 120, damping: 16, delay: 0.3 }}
-        onClick={() => triggerBlink()}
-        onTouchStart={() => triggerBlink()}
-        className="cursor-pointer"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={blinking ? BLINK_FRAME : FRAMES[gaze]}
-          alt=""
-          className="w-full h-auto select-none block"
-          draggable={false}
-        />
+        <motion.div
+          style={{ rotate, x: translateX }}
+          onClick={() => triggerBlink()}
+          onTouchStart={() => triggerBlink()}
+          className="cursor-pointer"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={blinking ? BLINK_FRAME : OPEN_FRAME}
+            alt=""
+            className="w-full h-auto select-none block"
+            draggable={false}
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

@@ -49,7 +49,7 @@ export function Navbar() {
             scrolled && "shadow-card"
           )}
           fallbackClassName={cn(
-            "!flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border !bg-background/70",
+            "liquid-glass !flex items-center gap-0.5 px-1.5 py-1.5 rounded-xl border border-border !bg-background/70",
             scrolled && "shadow-card"
           )}
         >
@@ -104,7 +104,7 @@ export function Navbar() {
               scrolled && "shadow-card"
             )}
             fallbackClassName={cn(
-              "flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border !bg-background/70",
+              "liquid-glass flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border !bg-background/70",
               scrolled && "shadow-card"
             )}
           >
