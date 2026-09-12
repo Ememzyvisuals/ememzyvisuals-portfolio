@@ -3,11 +3,12 @@
 //
 // A small illustrated pet that peeks up from the bottom edge of the
 // Contact section and swaps between real eye-direction frames based on
-// where the cursor is (left/right/up/center), plus a random idle blink.
-// Relies on the parent <section> having `relative overflow-hidden` so it
-// can clip the pet while it's tucked below the fold.
+// where the cursor is (left/right/up/center), blinks on its own on a
+// timer, and blinks on tap/click too. Relies on the parent <section>
+// having `relative overflow-hidden` so it can clip the pet while it's
+// tucked below the fold.
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 type Gaze = "center" | "left" | "right" | "up";
@@ -25,9 +26,9 @@ export function PetPeek() {
   const inView = useInView(wrapperRef, { once: true, margin: "-80px" });
   const [gaze, setGaze] = useState<Gaze>("center");
   const [blinking, setBlinking] = useState(false);
+  const blinkTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // Preload every frame once on mount so switching gaze/blink is instant
-  // instead of flashing blank while a new frame's image request lands.
+  // Preload every frame once on mount so switching gaze/blink is instant.
   useEffect(() => {
     [...Object.values(FRAMES), BLINK_FRAME].forEach((src) => {
       const img = new window.Image();
@@ -48,18 +49,15 @@ export function PetPeek() {
       const dx = e.clientX - centerX;
       const dy = e.clientY - centerY;
 
-      // Dead zone near the head itself — stay center rather than jitter
       const dist = Math.hypot(dx, dy);
       if (dist < 40) {
         setGaze("center");
         return;
       }
 
-      const angle = Math.atan2(dy, dx); // radians, 0 = right, -90deg = up
+      const angle = Math.atan2(dy, dx);
       const deg = (angle * 180) / Math.PI;
 
-      // Bias upward gaze to a wider band since the cursor is very often
-      // above the pet (it's peeking up from the bottom of the section).
       if (deg < -35 && deg > -145) {
         setGaze("up");
       } else if (deg >= -35 && deg <= 55) {
@@ -72,23 +70,24 @@ export function PetPeek() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, []);
 
-  // Idle blink every 2-5s — briefly overrides whatever gaze is active.
-  // Occasionally does a quick double-blink for a bit more life.
+  // A single blink, callable from the idle timer OR a tap/click.
+  const triggerBlink = useCallback((andThen?: () => void) => {
+    setBlinking(true);
+    blinkTimeoutRef.current = setTimeout(() => {
+      setBlinking(false);
+      andThen?.();
+    }, 160);
+  }, []);
+
+  // Idle blink every 2-5s, with an occasional quick double-blink.
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
-    function doBlink(onDone: () => void) {
-      setBlinking(true);
-      setTimeout(() => {
-        setBlinking(false);
-        onDone();
-      }, 160);
-    }
     function scheduleBlink() {
       const delay = 2000 + Math.random() * 3000;
       timeout = setTimeout(() => {
-        doBlink(() => {
+        triggerBlink(() => {
           if (Math.random() < 0.3) {
-            setTimeout(() => doBlink(scheduleBlink), 180);
+            setTimeout(() => triggerBlink(scheduleBlink), 180);
           } else {
             scheduleBlink();
           }
@@ -96,19 +95,24 @@ export function PetPeek() {
       }, delay);
     }
     scheduleBlink();
-    return () => clearTimeout(timeout);
-  }, []);
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(blinkTimeoutRef.current);
+    };
+  }, [triggerBlink]);
 
   return (
     <div
       ref={wrapperRef}
-      className="pointer-events-none absolute bottom-0 right-4 sm:right-12 w-[200px] sm:w-[260px] z-10"
-      aria-hidden="true"
+      className="absolute bottom-[-24px] right-4 sm:right-12 w-[200px] sm:w-[260px] z-10"
     >
       <motion.div
-        initial={{ y: "88%" }}
-        animate={{ y: inView ? "38%" : "88%" }}
+        initial={{ y: "100%" }}
+        animate={{ y: inView ? "0%" : "100%" }}
         transition={{ type: "spring", stiffness: 120, damping: 16, delay: 0.3 }}
+        onClick={() => triggerBlink()}
+        onTouchStart={() => triggerBlink()}
+        className="cursor-pointer"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
