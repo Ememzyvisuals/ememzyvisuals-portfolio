@@ -22,7 +22,7 @@ const HeroFigureLazy = dynamic(
 export function Hero3D() {
   return (
     <div
-      className="hidden sm:block pointer-events-none absolute inset-0 z-0 opacity-[0.16] dark:opacity-[0.22]"
+      className="block absolute inset-0 z-0 opacity-[0.08] dark:opacity-[0.12] sm:opacity-[0.16] sm:dark:opacity-[0.22]"
       aria-hidden="true"
     >
       <ErrorBoundary fallback={null}>
