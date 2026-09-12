@@ -28,12 +28,17 @@ function useGoodConnection() {
   const [ok, setOk] = useState(true);
   useEffect(() => {
     const nav = navigator as Navigator & {
-      connection?: { effectiveType?: string; saveData?: boolean };
+      connection?: { saveData?: boolean };
     };
     const conn = nav.connection;
-    if (!conn) return; // API unsupported — assume good connection
-    const slow = conn.saveData || ["slow-2g", "2g", "3g"].includes(conn.effectiveType || "");
-    setOk(!slow);
+    // Only respect the explicit "Data Saver" user setting — `effectiveType`
+    // is a rough heuristic that Chrome frequently under-reports (e.g. "3g"
+    // on a perfectly good connection, especially right after page load
+    // before it has throughput samples), and using it here was hiding the
+    // 3D figure unpredictably even on fast connections. saveData reflects
+    // an actual deliberate user choice, so it's safe to act on.
+    if (!conn) return;
+    setOk(!conn.saveData);
   }, []);
   return ok;
 }
