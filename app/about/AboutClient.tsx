@@ -31,7 +31,7 @@ export function AboutClient() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/emmanuel.jpg"
-                alt="Emmanuel Ariyo — Ememzyvisuals"
+                alt="Emmanuel Ariyo, Ememzyvisuals"
                 className="w-full h-full object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
@@ -45,7 +45,7 @@ export function AboutClient() {
                 blurAmount={0.08}
                 elasticity={0.1}
                 className="!inline-flex items-center gap-2 px-4 py-2 shadow-card text-sm font-semibold"
-                fallbackClassName="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-card text-sm font-semibold"
+                fallbackClassName="liquid-glass inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-card text-sm font-semibold"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 Available for work
@@ -73,9 +73,19 @@ export function AboutClient() {
             </h1>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Self-taught Creative Software Developer and AI Systems Engineer
-              based in Nigeria. I build scalable web applications, AI-powered
-              systems, and automation tools that solve real problems.
+              Self-taught Creative Software Developer, AI Systems Engineer, and
+              NLP researcher focused on low-resource African languages, based
+              in Nigeria. I build scalable web applications, production Speech
+              AI and language systems, and automation tools that solve real
+              problems.
+            </p>
+
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Currently a Machine Learning Engineer at Plotweaver, building
+              multilingual Speech AI for Yoruba, Hausa, Igbo, Nigerian Pidgin,
+              and Nigerian English. Founder of Axiveri, my African AI research
+              initiative, where I publish open-source language, speech, and
+              image generation models.
             </p>
 
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -91,6 +101,9 @@ export function AboutClient() {
               <Link href="/work" className="btn-outline text-sm">
                 See My Work
               </Link>
+              <a href="/emmanuel-ariyo-cv.pdf" download className="btn-outline text-sm">
+                Download CV
+              </a>
             </div>
           </motion.div>
         </div>
@@ -113,26 +126,40 @@ export function AboutClient() {
             <p>
               I never went to a university for computer science. I never attended
               a bootcamp. Everything I know about software development, AI systems,
-              and building products — I taught myself.
+              and building products, I taught myself.
             </p>
             <p>
-              I started with the basics. HTML, CSS, JavaScript. The free tutorials,
+              I started with the basics: HTML, CSS, JavaScript. The free tutorials,
               the documentation, the trial and error at 2am. No structured curriculum.
               No professor to ask. Just curiosity and a stubborn refusal to stay confused
               about anything for long.
             </p>
             <p>
               What changed everything was shipping my first real project. Not a tutorial
-              clone. Not a demo. Something real that other people could use. The feedback
+              clone, not a demo. Something real that other people could use. The feedback
               loop of building something, watching people use it, and understanding what
-              actually matters — that became my education.
+              actually matters became my education.
+            </p>
+            <p>
+              That same curiosity eventually pulled me into AI and NLP research,
+              specifically the gap in how well language models and speech systems
+              serve African languages. Under Axiveri, the research initiative I
+              founded, I&apos;ve built and published open-source models addressing
+              that gap directly: Africlaude, an open-source language model series
+              for African contexts; WazobiaVoice, a multilingual text-to-speech and
+              voice-cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and
+              Nigerian English; NaijaVox, a Nigerian speech recognition model; and
+              AfriVision-Base, an image generation model trained on African imagery.
             </p>
             <p>
               Today I build production-grade platforms, AI systems, and automation
               tools used by real users. I published a benchmark on Kaggle that
               contributes to AI safety research. I built a multi-agent AI platform,
-              a streaming and academy product, a fintech simulation, and offline-first
-              PWAs for Nigerian students — all self-taught, all shipped.
+              a cooperative savings fintech platform, a streaming and academy product,
+              a multilingual Bible companion app, and offline-first PWAs for Nigerian
+              students, all self-taught, all shipped. I&apos;m currently a Machine
+              Learning Engineer at Plotweaver, where I work on production speech AI
+              for African languages day to day.
             </p>
             <p>
               Being self-taught isn&apos;t a gap in my background. It&apos;s the most
@@ -162,14 +189,14 @@ export function AboutClient() {
             {
               icon: Code,
               title: "Build Websites & Web Apps",
-              desc: "Premium websites, SaaS platforms, e-commerce stores, and full-stack applications. From landing pages to complex multi-user systems — built clean, fast, and ready for production.",
+              desc: "Premium websites, SaaS platforms, e-commerce stores, and full-stack applications. From landing pages to complex multi-user systems, built clean, fast, and ready for production.",
               iconBg: "bg-blue-50 dark:bg-blue-950",
               iconColor: "text-blue-600 dark:text-blue-400",
             },
             {
               icon: Brain,
               title: "Engineer AI Systems & Models",
-              desc: "AI-powered applications using Groq API, LLaMA, RAG pipelines, and multi-agent architectures. I also build and publish open-source AI models — Africlaude (language model series) and NaijaVox (Nigerian speech recognition) — under Axiveri, my African AI research initiative.",
+              desc: "AI-powered applications using Groq API, LLaMA, RAG pipelines, and multi-agent architectures. As an NLP researcher, I also build and publish open-source AI models, including Africlaude, WazobiaVoice, and NaijaVox, under Axiveri, my African AI research initiative.",
               iconBg: "bg-violet-50 dark:bg-violet-950",
               iconColor: "text-violet-600 dark:text-violet-400",
             },
@@ -204,8 +231,10 @@ export function AboutClient() {
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">AI Research.</h2>
           <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
-            Beyond building products, I conduct open-source AI research under{" "}
-            <a href="/axiveri" className="text-foreground font-bold hover:underline underline-offset-4">Axiveri</a> —
+            Beyond building products, I work as an NLP researcher focused on
+            low-resource African languages, publishing open-source AI research
+            under{" "}
+            <a href="/axiveri" className="text-foreground font-bold hover:underline underline-offset-4">Axiveri</a>,
             my African AI research initiative.
           </p>
         </motion.div>
@@ -213,15 +242,27 @@ export function AboutClient() {
         <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
           {[
             {
-              title: "Africlaude — Language Model Series",
+              title: "Africlaude: Language Model Series",
               desc: "Open-source language models built for African contexts. Africlaude-7B is live on HuggingFace. v2 with Yoruba, Igbo, and Hausa support is in development.",
               link: "/axiveri/africlaude",
               badge: "Live",
             },
             {
-              title: "NaijaVox — Speech Recognition",
+              title: "NaijaVox: Speech Recognition",
               desc: "Nigerian speech recognition (ASR) model series. NaijaVox-V1 supports Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian Accented English.",
               link: "https://huggingface.co/Axiveri/Naijavox-V1",
+              badge: "Live",
+            },
+            {
+              title: "WazobiaVoice: TTS & Voice Cloning",
+              desc: "A ~2B-parameter multilingual text-to-speech and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English in one model.",
+              link: "https://huggingface.co/Axiveri/WazobiaVoice",
+              badge: "Live",
+            },
+            {
+              title: "AfriVision-Base: Image Generation",
+              desc: "A FLUX-based LoRA fine-tune trained on nearly 15,000 captioned images for image generation reflecting African people, places, and contexts.",
+              link: "https://huggingface.co/Axiveri/AfriVision-Base",
               badge: "Live",
             },
             {

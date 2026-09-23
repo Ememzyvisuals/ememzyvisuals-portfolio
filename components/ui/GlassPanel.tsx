@@ -46,11 +46,14 @@ export function GlassPanel({
   useEffect(() => setReady(true), []);
 
   if (!ready || FORCE_CSS_FALLBACK) {
-    return (
-      <div className={`liquid-glass ${fallbackClassName || className}`.trim()}>
-        {children}
-      </div>
-    );
+    // If the caller supplied their own fallback styling, use it exactly as
+    // given — don't also layer the generic `.liquid-glass` class underneath
+    // it, since that class's own background/box-shadow can silently win
+    // the cascade over a plain (non-!important) utility like `bg-foreground`,
+    // making custom-styled fallbacks (e.g. a solid dark-mode CTA card)
+    // blend invisibly into the page instead of showing the intended look.
+    const fallbackClasses = fallbackClassName || `liquid-glass ${className}`.trim();
+    return <div className={fallbackClasses}>{children}</div>;
   }
 
   return (
