@@ -2,34 +2,23 @@
 // components/ui/PetPeek.tsx
 //
 // A small illustrated pet that peeks up from the bottom edge of the
-// Contact section. Uses the two original uploaded frames completely
-// unedited (only the minimum necessary black->transparent conversion,
-// no cropping/rescaling) — blinks on its own on a timer and on tap/click,
-// and does a subtle whole-image cursor tilt for liveliness (a runtime
-// CSS transform, not an edit to the source art).
+// Contact section, gently tilts/shifts toward the cursor (a lightweight
+// stand-in for true per-frame eye-direction art, since the current asset
+// set only has a center-gaze + blink frame), and blinks on a random idle
+// timer. Relies on the parent <section> having `overflow-hidden` +
+// `relative` to clip the pet while it's tucked below the fold.
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-
-const OPEN_FRAME = "/images/pet/pet-open.png";
-const BLINK_FRAME = "/images/pet/pet-blink.png";
 
 export function PetPeek() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapperRef, { once: true, margin: "-80px" });
-  const [blinking, setBlinking] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const blinkTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const [blinking, setBlinking] = useState(false);
 
-  useEffect(() => {
-    [OPEN_FRAME, BLINK_FRAME].forEach((src) => {
-      const img = new window.Image();
-      img.src = src;
-    });
-  }, []);
-
-  // Subtle cursor tilt on the whole image — liveliness without touching
-  // the source frames at all.
+  // Cursor tracking — tilts/shifts the whole pet toward the pointer,
+  // capped to a small natural-looking range.
   useEffect(() => {
     function handlePointerMove(e: PointerEvent) {
       const el = wrapperRef.current;
@@ -37,8 +26,10 @@ export function PetPeek() {
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top;
+
       const dx = (e.clientX - centerX) / (window.innerWidth / 2);
       const dy = (e.clientY - centerY) / (window.innerHeight / 2);
+
       setTilt({
         x: Math.max(-1, Math.min(1, dx)),
         y: Math.max(-1, Math.min(1, dy)),
@@ -48,58 +39,46 @@ export function PetPeek() {
     return () => window.removeEventListener("pointermove", handlePointerMove);
   }, []);
 
-  const triggerBlink = useCallback((andThen?: () => void) => {
-    setBlinking(true);
-    blinkTimeoutRef.current = setTimeout(() => {
-      setBlinking(false);
-      andThen?.();
-    }, 160);
-  }, []);
-
-  // Idle blink every 2-5s, with an occasional quick double-blink.
+  // Idle blink every 3-6s
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
     function scheduleBlink() {
-      const delay = 2000 + Math.random() * 3000;
+      const delay = 3000 + Math.random() * 3000;
       timeout = setTimeout(() => {
-        triggerBlink(() => {
-          if (Math.random() < 0.3) {
-            setTimeout(() => triggerBlink(scheduleBlink), 180);
-          } else {
-            scheduleBlink();
-          }
-        });
+        setBlinking(true);
+        setTimeout(() => setBlinking(false), 140);
+        scheduleBlink();
       }, delay);
     }
     scheduleBlink();
-    return () => {
-      clearTimeout(timeout);
-      clearTimeout(blinkTimeoutRef.current);
-    };
-  }, [triggerBlink]);
+    return () => clearTimeout(timeout);
+  }, []);
 
-  const rotate = tilt.x * 4;
-  const translateX = tilt.x * 8;
+  const rotate = tilt.x * 5; // max ~5deg
+  const translateX = tilt.x * 10; // max ~10px
+  const translateYTilt = tilt.y * 4; // max ~4px, subtle
 
   return (
     <div
       ref={wrapperRef}
-      className="absolute bottom-[-24px] right-4 sm:right-12 w-[200px] sm:w-[260px] z-10"
+      className="pointer-events-none absolute bottom-0 right-4 sm:right-12 w-[200px] sm:w-[260px] z-10"
+      aria-hidden="true"
     >
       <motion.div
-        initial={{ y: "100%" }}
-        animate={{ y: inView ? "0%" : "100%" }}
+        initial={{ y: "88%" }}
+        animate={{ y: inView ? "38%" : "88%" }}
         transition={{ type: "spring", stiffness: 120, damping: 16, delay: 0.3 }}
       >
         <motion.div
-          style={{ rotate, x: translateX }}
-          onClick={() => triggerBlink()}
-          onTouchStart={() => triggerBlink()}
-          className="cursor-pointer"
+          style={{
+            rotate,
+            x: translateX,
+            y: translateYTilt,
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={blinking ? BLINK_FRAME : OPEN_FRAME}
+            src={blinking ? "/images/pet/pet-blink.png" : "/images/pet/pet-peek.png"}
             alt=""
             className="w-full h-auto select-none block"
             draggable={false}
