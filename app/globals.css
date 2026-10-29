@@ -2,206 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Cabinet Grotesk — exact Allwell font via Fontshare CDN ─────────────── */
-@import url("https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@100,200,300,400,500,600,700,800,900&display=swap");
-
-/* ── DESIGN TOKENS ──────────────────────────────────────────────────────── */
+/* Monochrome glass system, kept from v1. Light and dark. */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%;
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
-    --primary: 0 0% 5%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 15%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 46%;
-    --accent: 0 0% 92%;
-    --accent-foreground: 0 0% 10%;
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 0 0% 5%;
-    --radius: 1rem;
+    --bg: 0 0% 98%;
+    --fg: 0 0% 6%;
+    --muted: 0 0% 40%;
+    --line: 0 0% 86%;
+    --card: 0 0% 100%;
+    --glass: 0 0% 100%;
+    --glass-a: 0.55;
+    --shadow: 0 0% 0%;
+    color-scheme: light;
   }
-
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 96%;
+    --bg: 0 0% 4%;
+    --fg: 0 0% 96%;
+    --muted: 0 0% 60%;
+    --line: 0 0% 18%;
     --card: 0 0% 8%;
-    --card-foreground: 0 0% 96%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 11%;
-    --secondary-foreground: 0 0% 80%;
-    --muted: 0 0% 13%;
-    --muted-foreground: 0 0% 56%;
-    --accent: 0 0% 13%;
-    --accent-foreground: 0 0% 90%;
-    --border: 0 0% 16%;
-    --input: 0 0% 13%;
-    --ring: 0 0% 90%;
+    --glass: 0 0% 12%;
+    --glass-a: 0.5;
+    --shadow: 0 0% 0%;
+    color-scheme: dark;
   }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { @apply bg-bg text-fg font-sans; }
+  h1, h2, h3, h4 { @apply font-display; letter-spacing: -0.035em; line-height: 1.02; }
+  ::selection { background: hsl(var(--fg)); color: hsl(var(--bg)); }
+  :focus-visible { outline: 2px solid hsl(var(--fg)); outline-offset: 3px; border-radius: 8px; }
+  section[id] { scroll-margin-top: 88px; }
 }
 
-/* ── BASE ───────────────────────────────────────────────────────────────── */
-@layer base {
- *, *::before, *::after { @apply border-border; box-sizing: border-box; }
-
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Force Cabinet Grotesk everywhere */
-    font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    font-weight: 400;
-  }
-
-  /* All headings — Cabinet Grotesk Extra Bold, tight tracking */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Cabinet Grotesk", -apple-system, sans-serif !important;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-  }
-
-  /* Smooth scrolling for hash links */
-  section { scroll-margin-top: 80px; }
-  ::selection { @apply bg-foreground text-background; }
-}
-
-/* ── UTILITY CLASSES ────────────────────────────────────────────────────── */
 @layer components {
-
-  /* Responsive container */
-  .container-padded {
-    @apply max-w-5xl mx-auto px-5 md:px-8 lg:px-10;
-  }
-
-  /* Section headings — "Projects." "Tech Stack." style */
-  .section-heading {
-    font-family: "Cabinet Grotesk", sans-serif !important;
-    font-weight: 800;
-    font-size: clamp(2.8rem, 7vw, 5rem);
-    letter-spacing: -0.045em;
-    line-height: 1.02;
-  }
-
-  /* Black filled pill button */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
-           bg-foreground text-background font-bold text-sm
-           hover:opacity-85 transition-opacity duration-200
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
-    font-family: "Cabinet Grotesk", sans-serif !important;
-  }
-
-  /* Outlined button */
-  .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
-           border-2 border-foreground bg-transparent text-foreground font-bold text-sm
-           hover:bg-foreground hover:text-background transition-all duration-200
-           focus-visible:outline-none;
-    font-family: "Cabinet Grotesk", sans-serif !important;
-  }
-
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .card-surface {
-    @apply rounded-2xl border border-border overflow-hidden;
+  .page { @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8; }
+  .glass {
     position: relative;
-    background: hsl(var(--background) / 0.55);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    backdrop-filter: url(#liquid-glass-distortion) blur(2px) saturate(160%);
+    background: hsl(var(--glass) / var(--glass-a));
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid hsl(var(--fg) / 0.09);
     box-shadow:
-      inset 0 1px 0 hsl(var(--background) / 0.6),
-      inset 0 0 24px hsl(var(--background) / 0.2),
-      0 10px 40px -12px hsl(var(--foreground) / 0.12);
+      inset 0 1px 0 hsl(0 0% 100% / 0.35),
+      0 12px 40px -16px hsl(var(--shadow) / 0.25);
   }
-
-  .dark .card-surface {
-    background: hsl(var(--background) / 0.55);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--foreground) / 0.06),
-      inset 0 0 24px hsl(var(--background) / 0.25),
-      0 10px 40px -12px hsl(0 0% 0% / 0.4);
+  .dark .glass { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 12px 40px -16px hsl(0 0% 0% / 0.7); }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition
+           active:scale-[0.97];
   }
-
-  /* ── Real liquid glass (SVG feDisplacementMap distortion + backdrop blur) ──
-     Falls back gracefully to a plain frosted-glass blur on Safari/iOS,
-     which doesn't support url() filters inside backdrop-filter yet. */
-  .liquid-glass {
-    position: relative;
-    background: hsl(var(--background) / 0.4);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    backdrop-filter: url(#liquid-glass-distortion) blur(2px) saturate(160%);
-    border: 1px solid hsl(var(--foreground) / 0.1);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--background) / 0.6),
-      inset 0 0 24px hsl(var(--background) / 0.25),
-      0 10px 40px -12px hsl(var(--foreground) / 0.18);
-  }
-
-  .dark .liquid-glass {
-    background: hsl(var(--background) / 0.45);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--foreground) / 0.08),
-      inset 0 0 24px hsl(var(--background) / 0.3),
-      0 10px 40px -12px hsl(0 0% 0% / 0.5);
-  }
-
-  .tech-badge {
-    @apply text-xs font-bold px-3 py-1 rounded-full border border-border
-           text-muted-foreground uppercase tracking-wider;
-  }
-
-  .pill {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs
-           font-semibold border border-border bg-secondary text-muted-foreground;
-  }
-
-  .section-divider { @apply w-full border-t border-border; }
-
-  .chat-bubble-assistant {
-    @apply bg-secondary text-foreground rounded-2xl rounded-tl-sm px-4 py-3;
-  }
-  .chat-bubble-user {
-    @apply bg-foreground text-background rounded-2xl rounded-tr-sm px-4 py-3;
-  }
-
-  /* Subtle grid bg */
-  .bg-grid-pattern {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(0 0 0 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
-  }
-  .dark .bg-grid-pattern {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
-  }
+  .btn-solid { @apply btn bg-fg text-bg hover:opacity-90; }
+  .btn-ghost { @apply btn glass text-fg hover:bg-fg/5; }
+  .tag { @apply inline-flex items-center rounded-full border border-line px-3 py-1 text-xs font-medium text-fg/80; }
+  .kicker { @apply text-xs font-semibold uppercase tracking-[0.18em] text-muted; }
+  .h-section { @apply font-display font-extrabold text-[clamp(2.4rem,7vw,4.6rem)]; }
+  .prose-blog { @apply text-[1.06rem] leading-[1.75] text-fg/90; }
+  .prose-blog h2 { @apply mt-12 mb-4 text-2xl sm:text-3xl font-bold text-fg; }
+  .prose-blog h3 { @apply mt-8 mb-3 text-xl font-bold text-fg; }
+  .prose-blog p { @apply my-5; }
+  .prose-blog a { @apply underline underline-offset-4 decoration-fg/30 hover:decoration-fg break-words; }
+  .prose-blog ul { @apply my-5 list-disc pl-6 space-y-2; }
+  .prose-blog ol { @apply my-5 list-decimal pl-6 space-y-2; }
+  .prose-blog strong { @apply font-semibold text-fg; }
+  .prose-blog em { @apply text-muted; }
+  .prose-blog code { @apply rounded-md bg-fg/10 px-1.5 py-0.5 text-[0.9em] font-mono; }
+  .prose-blog table { @apply my-6 w-full text-left text-sm; }
+  .prose-blog th, .prose-blog td { @apply border-b border-line py-2 pr-4; }
+  .prose-blog blockquote { @apply my-6 border-l-2 border-fg/30 pl-4 text-muted; }
 }
 
-/* ── ANIMATIONS ─────────────────────────────────────────────────────────── */
-@layer utilities {
-  .typing-cursor::after {
-    content: "▋";
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+/* The 3D stage sits above the page but below the nav. Each 3D moment only draws inside
+   its own box, the rest of the canvas is transparent, and clicks pass through to the page. */
+.stage { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+.stage canvas { pointer-events: none; }
+.stage.interactive canvas { pointer-events: auto; }
+main, footer, header { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Footer wordmark */
+        .wordmark { height: 9.5vw; }
+        .wordmark > div { position: absolute; left: 50%; top: 0; transform: translateX(-50%); white-space: nowrap;
+          font-family: var(--font-display); font-weight: 800; letter-spacing: -0.06em; line-height: .8;
+          font-size: 11.4vw; color: hsl(var(--fg)); }
+        .wordmark-crisp { -webkit-mask-image: linear-gradient(180deg,#000 0%,#000 30%,transparent 62%); mask-image: linear-gradient(180deg,#000 0%,#000 30%,transparent 62%); }
+        .wordmark-blur { filter: blur(clamp(6px,1.4vw,16px)); opacity: .8;
+          -webkit-mask-image: linear-gradient(180deg,transparent 22%,#000 60%); mask-image: linear-gradient(180deg,transparent 22%,#000 60%); }
+      
+/* Loader */
+        html.is-loading main, html.is-loading header, html.is-loading footer { visibility: hidden; }
+        html.is-loading body { overflow: hidden; }
+        html.is-loading .stage, html.is-leaving .stage { z-index: 55; }
+        .loader-letter { -webkit-background-clip: text; background-clip: text; color: transparent;
+          animation: drop .9s cubic-bezier(.2,1.6,.4,1) both; }
+        @keyframes drop { 0% { transform: translateY(-120%) scale(.9,1.1); opacity: 0 }
+          60% { transform: translateY(6%) scale(1.08,.9); opacity: 1 }
+          80% { transform: translateY(-3%) scale(.97,1.03) } 100% { transform: none } }
+      

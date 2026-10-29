@@ -1,25 +1,23 @@
 import type { Metadata } from "next";
-import { buildMeta } from "@/lib/metadata";
-import { WorkClientPage } from "./WorkClientPage";
+import { games, projects } from "@/content/site";
+import { SectionHead } from "@/components/ui";
+import WorkIndex from "@/components/work/WorkIndex";
+import { DeviceStage } from "@/components/home/ProjectShowcase";
 
-export const metadata: Metadata = buildMeta({
-  title: "Portfolio — High-Quality Websites & AI Systems | Emmanuel Ariyo",
-  description:
-    "See the premium websites, SaaS platforms, AI systems, and automation tools built by Emmanuel Ariyo (Ememzyvisuals). Real projects, real users, real results.",
-  path: "/work",
-  ogTitle: "Emmanuel Ariyo's Work",
-  ogSubtitle:
-    "10+ production apps — websites, AI platforms & automation tools",
-  ogTag: "Portfolio",
-  tags: [
-    "web developer portfolio Nigeria",
-    "high quality website examples",
-    "AI developer portfolio",
-    "best Nigerian developer portfolio",
-    "website development examples",
-  ],
-});
+export const metadata: Metadata = {
+  title: "Work",
+  description: "Web apps, mobile apps, automation tools and games built by Emmanuel Ariyo.",
+};
 
-export default function WorkPage() {
-  return <WorkClientPage />;
+export default function Work() {
+  const lead = projects.find((p) => p.slug === "flonextv")!;
+  return (
+    <div className="pb-10 pt-28 sm:pt-36">
+      <div className="page grid items-center gap-8 lg:grid-cols-[1fr_1.1fr]">
+        <SectionHead kicker="Work" title={<>Everything<br />I have shipped.</>} sub={`${projects.length} products and tools, plus ${games.length} games. Each one solved a real problem for real people.`} />
+        <div className="-mx-4 sm:mx-0"><DeviceStage p={lead} /></div>
+      </div>
+      <div className="page mt-6"><WorkIndex /></div>
+    </div>
+  );
 }
