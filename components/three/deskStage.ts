@@ -19,8 +19,8 @@ const GUARD = [
   { c: new THREE.Vector3(0, 0.82, 0.45), r: 0.55 },
 ];
 const PALETTE = {
-  light: { top: "#e7e3f7", mid: "#f6f4fb", bot: "#fbfaf8", key: 0xfff1e2, keyI: 2.6, rim: 0xdcd6ff, rimI: 1.1, hemi: 0.55, env: 0.55, shadow: 0.22, exp: 1.05 },
-  dark: { top: "#0b0a1d", mid: "#141033", bot: "#07060f", key: 0xffe7cf, keyI: 2.1, rim: 0x8b6cff, rimI: 3.2, hemi: 0.22, env: 0.32, shadow: 0.5, exp: 1.0 },
+  light: { top: "#f3f1ec", mid: "#f7f6f2", bot: "#fbfaf7", key: 0xfff1e2, keyI: 2.6, rim: 0xdcd6ff, rimI: 1.1, hemi: 0.55, env: 0.55, shadow: 0.22, exp: 1.05 },
+  dark: { top: "#050508", mid: "#08080d", bot: "#030305", key: 0xffe7cf, keyI: 2.1, rim: 0x8b6cff, rimI: 3.2, hemi: 0.22, env: 0.32, shadow: 0.5, exp: 1.0 },
 };
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 

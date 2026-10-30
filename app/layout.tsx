@@ -127,10 +127,14 @@ const faqSchema = {
 
 const display = localFont({ src: "./fonts/bricolage.woff2", variable: "--font-display", weight: "200 800", display: "swap" });
 const body = localFont({ src: "./fonts/outfit.woff2", variable: "--font-body", weight: "100 900", display: "swap" });
+const serif = localFont({
+  src: [{ path: "./fonts/garamond-400.woff2", style: "normal" }, { path: "./fonts/garamond-400i.woff2", style: "italic" }],
+  variable: "--font-serif", weight: "400", display: "swap",
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }} />

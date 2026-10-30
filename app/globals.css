@@ -203,3 +203,13 @@
     50% { opacity: 0; }
   }
 }
+
+/* Hero headline: classic serif, as in the museum reference */
+.font-museum, h1.font-museum, h2.font-museum {
+  font-family: var(--font-serif), "EB Garamond", Georgia, serif !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 0.98 !important;
+}
+.museum-shadow { text-shadow: 0 2px 30px rgba(255, 255, 255, 0.85); }
+.dark .museum-shadow { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.75); }
