@@ -66,7 +66,14 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
   bgTex.colorSpace = THREE.SRGBColorSpace;
   scene.background = bgTex;
 
+  const wallMats = new Set<THREE.MeshStandardMaterial>();
+  let curMode: Mode = opts.mode;
+  function tintWalls() {
+    for (const m of wallMats) m.color.setHex(curMode === "dark" ? 0x2b2b35 : 0xffffff);
+  }
   function setMode(mode: Mode) {
+    curMode = mode;
+    tintWalls();
     const p = PALETTE[mode];
     const g = bgCanvas.getContext("2d")!;
     const gr = g.createLinearGradient(0, 0, 0, 256);
@@ -121,6 +128,29 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
       resize();
       renderer.compile(scene, camera);
       opts.onReady();
+      // the room (walls, cabinet, shelf, plant) comes after, so he appears first on slow networks
+      loader.loadAsync("/models/hero/room.glb").then((room) => {
+        if (disposed) return;
+        const box = new THREE.Box3(), c = new THREE.Vector3();
+        room.scene.updateMatrixWorld(true);
+        room.scene.traverse((o) => {
+          const m = o as THREE.Mesh;
+          if (!m.isMesh) return;
+          // keep the wall behind the headline clean: no cabinet or big plant there
+          let p: THREE.Object3D | null = m, skip = false;
+          while (p) { if (/cabinet|potted_plant_01/i.test(p.name)) skip = true; p = p.parent; }
+          if (skip) { m.visible = false; return; }
+          m.receiveShadow = true;
+          m.castShadow = !/wall/i.test(m.name);
+          if (/wall|skirt/i.test(m.name)) { (m.material as THREE.MeshStandardMaterial).userData.wall = true; wallMats.add(m.material as THREE.MeshStandardMaterial); }
+          box.setFromObject(m).getCenter(c);
+          // walls hide when the camera goes round behind them, so nothing ever blocks the view
+          if (c.z < -1.0) backWall.push(m);
+          else if (c.x < -1.9) sideWall.push(m);
+        });
+        scene.add(room.scene);
+        tintWalls();
+      }).catch(() => {});
     })
     .catch(() => opts.onFail());
 
@@ -156,6 +186,7 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
   const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
   io.observe(canvas);
 
+  const backWall: THREE.Object3D[] = [], sideWall: THREE.Object3D[] = [];
   const up = new THREE.Vector3(0, 1, 0);
   const timer = new THREE.Timer();
   function frame(ts: number) {
@@ -176,6 +207,8 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
     }
     camera.position.copy(pos);
     camera.lookAt(tgt);
+    for (const o of backWall) o.visible = pos.z > -1.4;
+    for (const o of sideWall) o.visible = pos.x > -2.25;
     renderer.render(scene, camera);
   }
   setMode(opts.mode);
