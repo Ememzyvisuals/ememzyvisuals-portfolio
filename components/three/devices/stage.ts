@@ -18,10 +18,10 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-export type Scene = "hero" | "phones" | "safety";
+export type Scene = "hero" | "phones" | "safety" | `p:${string}`;
 
 const PROJECTS = ["claudgpt", "aethlife", "flonextv", "naijaprep", "studenthub", "nairanest", "storejet", "artoluwani"];
-const SHOTS: Record<Scene, Record<string, string[]>> = {
+const SHOTS: Record<string, Record<string, string[]>> = {
   hero: { laptop: PROJECTS, phone: PROJECTS.map((p) => `${p}-m`) },
   phones: { a: PROJECTS.map((p) => `${p}-m`), b: PROJECTS.map((p) => `${p}-m`).reverse() },
   safety: { laptop: PROJECTS },
@@ -521,8 +521,9 @@ export function mount(el: HTMLElement, scene: Scene, onReady: () => void, onFail
   const first = async (names: string[], kind: Kind) => [await loadShot(names[0], kind, kind !== "laptop" || big, aniso)];
 
   const ready = (async () => {
-    const want = SHOTS[scene];
-    if (scene === "hero") {
+    // "p:<slug>" = one project: its desktop screen on the laptop and its mobile screen on the phone
+    const want = scene.startsWith("p:") ? { laptop: [scene.slice(2)], phone: [`${scene.slice(2)}-m`] } : SHOTS[scene];
+    if (scene === "hero" || scene.startsWith("p:")) {
       const [lap, ph] = await Promise.all([first(want.laptop, "laptop"), first(want.phone, "phone")]);
       if (!alive) return;
       const L = laptopPart(lap, [-0.5, 0, 0], [0, -0.22, 0], -0.32);

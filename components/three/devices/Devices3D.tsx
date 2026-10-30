@@ -8,7 +8,7 @@
    as `fallback` is shown instead. */
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-export type Scene = "hero" | "phones" | "safety";
+export type Scene = "hero" | "phones" | "safety" | `p:${string}`;
 
 export function Devices3D({ scene, className = "", fallback }: { scene: Scene; className?: string; fallback: ReactNode }) {
   const box = useRef<HTMLDivElement>(null);
