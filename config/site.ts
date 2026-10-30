@@ -69,6 +69,8 @@ export const siteConfig = {
   availableForWork: true,
 };
 
+// primary links show in the desktop bar, the rest sit under "More"
+export const primaryNav = ["/work", "/about", "/services", "/axiveri", "/#games", "/blogs", "/contact"];
 export const navItems = [
   { label: "Work",         href: "/work" },
   { label: "About",        href: "/about" },

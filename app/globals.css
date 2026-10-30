@@ -204,7 +204,7 @@
   }
 }
 
-/* Hero headline: classic serif, as in the museum reference */
+/* Subheadings: EB Garamond (headings stay Bricolage, body Outfit) */
 .font-museum, h1.font-museum, h2.font-museum {
   font-family: var(--font-serif), "EB Garamond", Georgia, serif !important;
   font-weight: 400 !important;
@@ -213,3 +213,12 @@
 }
 .museum-shadow { text-shadow: 0 2px 30px rgba(255, 255, 255, 0.85); }
 .dark .museum-shadow { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.75); }
+
+/* The line under every section heading is the subheading: EB Garamond, one size everywhere */
+.section-heading + p {
+  font-family: var(--font-serif), "EB Garamond", Georgia, serif !important;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem) !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}

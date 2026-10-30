@@ -190,7 +190,6 @@ export function ServicesClient() {
           className="max-w-3xl space-y-6"
         >
           <div className="inline-flex items-center gap-2 pill">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-medium">Available for new projects</span>
           </div>
           <h1 className="section-heading">
@@ -373,7 +372,6 @@ export function ServicesClient() {
         >
           <div className="flex justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-background/20 bg-background/10 text-sm font-medium text-background/80">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               Available right now
             </div>
           </div>

@@ -115,7 +115,7 @@ export function Hero() {
           className="absolute inset-x-0 top-[14%] px-8 md:inset-x-auto md:left-[20%] md:top-[30%] lg:left-[20%] md:max-w-[42%]"
           style={{ opacity: name, transform: `translateY(${(1 - name) * -40 + a * -10}px)` }}
         >
-          <h1 className="font-museum museum-shadow text-foreground" style={{ fontSize: "clamp(3.4rem, 9.5vw, 8rem)" }}>
+          <h1 className="museum-shadow text-foreground" style={{ fontSize: "clamp(3rem, 8.6vw, 7.2rem)", lineHeight: 0.98, letterSpacing: "-0.045em" }}>
             Hi, I&apos;m
             <br />
             Emmanuel
@@ -152,7 +152,7 @@ export function Hero() {
           className="absolute inset-x-0 bottom-[8%] px-8 flex flex-col items-start gap-5 md:inset-x-auto md:left-[20%] md:bottom-auto md:top-[30%]"
           style={{ opacity: cta, transform: `translateY(${(1 - cta) * 30}px)`, pointerEvents: cta > 0.5 ? "auto" : "none" }}
         >
-          <h2 className="font-museum museum-shadow text-foreground" style={{ fontSize: "clamp(2.6rem, 6.5vw, 5.4rem)" }}>
+          <h2 className="museum-shadow text-foreground" style={{ fontSize: "clamp(2.4rem, 6vw, 5rem)", lineHeight: 1, letterSpacing: "-0.04em" }}>
             Let&apos;s build
             <br />
             something real
@@ -161,7 +161,6 @@ export function Hero() {
             href="/axiveri"
             className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/80 hover:text-foreground"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             Founder of Axiveri
           </Link>
           <div className="flex items-center gap-5">

@@ -246,7 +246,6 @@ function ContactInner() {
             fallbackClassName="rounded-2xl bg-foreground text-background p-8 space-y-3"
           >
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-sm font-medium text-background/70">Available for new projects</span>
             </div>
             <h3 className="text-2xl font-extrabold">Let&apos;s Work Together</h3>
