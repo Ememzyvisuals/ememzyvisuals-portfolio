@@ -96,18 +96,6 @@ export function Hero() {
             aria-hidden
           />
         )}
-        {/* thin column lines across the stage, as in the museum layout */}
-        <div className="pointer-events-none absolute inset-0 hidden md:grid grid-cols-5" aria-hidden>
-          {[0, 1, 2, 3, 4].map((i) => (
-            <div key={i} className={i ? "border-l border-foreground/[0.07]" : ""} />
-          ))}
-        </div>
-        <div className="pointer-events-none absolute inset-0 grid md:hidden grid-cols-3" aria-hidden>
-          {[0, 1, 2].map((i) => (
-            <div key={i} className={i ? "border-l border-foreground/[0.06]" : ""} />
-          ))}
-        </div>
-
         {/* scroll position marker on the left */}
         <div className="absolute left-4 md:left-[4%] top-1/2 -translate-y-1/2 flex flex-col gap-3" aria-hidden>
           {[0, 1, 2].map((i) => {
