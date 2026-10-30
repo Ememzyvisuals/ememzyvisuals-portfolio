@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Experience } from "@/components/sections/Experience";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
+import { ProjectsShowcase } from "@/components/sections/ProjectsShowcase";
 import { AutomationSection } from "@/components/sections/Automation";
 import { BenchmarkSection } from "@/components/sections/Benchmarks";
 import { Stack } from "@/components/sections/Stack";
@@ -47,6 +48,8 @@ export default function HomePage() {
       <Hero />
       {divider}
       <Experience />
+      {divider}
+      <ProjectsShowcase />
       {divider}
       <ProjectsGrid />
       {divider}
