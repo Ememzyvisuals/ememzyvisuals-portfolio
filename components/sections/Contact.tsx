@@ -31,7 +31,9 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
   const [whatsapp, setWhatsapp] = useState("");
   const [message, setMessage]   = useState("");
   const [botAnswer, setBotAnswer] = useState("");
-  const [math, setMath]         = useState(generateMath);
+  // same question on server and first client render, randomised after mount (avoids a hydration mismatch)
+  const [math, setMath]         = useState({ a: 2, b: 3, answer: 5, question: "What is 2 + 3?" });
+  useEffect(() => setMath(generateMath()), []);
   const [botPassed, setBotPassed] = useState(false);
   const [errors, setErrors]     = useState<Record<string, string>>({});
 
