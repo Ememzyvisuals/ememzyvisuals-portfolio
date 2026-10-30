@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Gamepad2 } from "lucide-react";
 import { GAMES } from "@/data/extras";
+import { GameStage } from "@/components/three/GameStage";
 
 export function GamesSection() {
   return (
@@ -24,17 +25,20 @@ export function GamesSection() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="card-surface flex flex-col"
             >
-              <div className="relative aspect-[16/10] overflow-hidden" style={{ background: `radial-gradient(120% 120% at 30% 20%, ${g.accent}66, transparent 60%), #0b0b0c` }}>
-                {g.image ? (
-                  <Image src={g.image} alt={`${g.name} key art`} fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover" />
-                ) : (
-                  <div className="absolute inset-0 grid place-items-center text-center">
-                    <div>
-                      <p className="text-5xl md:text-6xl font-extrabold tracking-tight text-white" style={{ fontFamily: "var(--font-display)" }}>{g.name}</p>
-                      <p className="mt-3 font-mono text-xs tracking-widest text-white/60">11:42 PM · YABA TO IKORODU</p>
-                    </div>
-                  </div>
-                )}
+              <div className="relative aspect-[16/10] overflow-hidden" style={{ background: g.slug === "last-bus" ? "radial-gradient(120% 90% at 50% 10%, #1b2440, #05060b 70%)" : "radial-gradient(120% 120% at 30% 20%, #ffd9a8, #f6eadb 60%)" }}>
+                <GameStage
+                  kind={g.slug === "last-bus" ? "bus" : "buka"}
+                  hint={g.slug === "last-bus" ? "The LAST BUS danfo at night with its passengers. Tap it." : "Mama Titi from Bùkà Hustle. Tap her to say hello."}
+                  fallback={
+                    g.image ? (
+                      <Image src={g.image} alt={`${g.name} key art`} fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover" />
+                    ) : (
+                      <div className="absolute inset-0 grid place-items-center text-center">
+                        <p className="text-5xl md:text-6xl font-extrabold tracking-tight text-white" style={{ fontFamily: "var(--font-display)" }}>{g.name}</p>
+                      </div>
+                    )
+                  }
+                />
               </div>
               <div className="flex flex-1 flex-col p-6 md:p-8 space-y-4">
                 <div className="flex items-center gap-3">
@@ -51,8 +55,7 @@ export function GamesSection() {
                 <ul className="space-y-1.5">
                   {g.facts.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 flex-shrink-0 mt-2" />
-                      {f}
+                                            {f}
                     </li>
                   ))}
                 </ul>
