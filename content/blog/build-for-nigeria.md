@@ -3,8 +3,9 @@ title: "Why I Build for Nigeria First (And Why That Is Actually a Global Strateg
 slug: build-for-nigeria
 date: 2026-05-28
 excerpt: "Every product I have built started with a problem I could see with my own eyes. Building for Nigeria is not a limit. It is an advantage."
+topic: Building in Nigeria
 tags: [nigeria, product, engineering]
-cover: /blog/build-for-nigeria.webp
+cover: /blog/build-for-nigeria-photo.webp
 ---
 
 When I launched NaijaPrep, a developer friend asked why I was "limiting" myself to Nigerian students.

@@ -3,8 +3,9 @@ title: "I Shipped 10 Projects Before I Was \"Ready\", and That Is Exactly Why Th
 slug: shipped-10-projects
 date: 2026-05-29
 excerpt: "Every project I have shipped, I shipped before I felt ready. The version of me who waited to feel ready would have shipped nothing."
+topic: Engineering
 tags: [shipping, self-taught, product]
-cover: /blog/shipped-10-projects.webp
+cover: /blog/shipped-10-projects-photo.webp
 ---
 
 There is a developer somewhere right now who has been "almost ready to launch" for six months.

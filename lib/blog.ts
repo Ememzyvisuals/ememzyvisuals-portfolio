@@ -11,6 +11,7 @@ export type Post = {
   date: string;
   excerpt: string;
   tags: string[];
+  topic: string;
   cover: string | null;
   minutes: number;
   body: string;
@@ -36,6 +37,7 @@ function parse(file: string): Post {
     date: get("date"),
     excerpt: get("excerpt"),
     tags,
+    topic: get("topic") || "Notes",
     cover: cover && cover !== "pending" ? cover : null,
     minutes: Math.max(1, Math.round(body.split(/\s+/).length / 230)),
     body,

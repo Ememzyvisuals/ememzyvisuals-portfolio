@@ -3,8 +3,9 @@ title: "Your Business Is Losing Money Without These 3 Digital Systems (And You P
 slug: business-losing-money
 date: 2026-05-29
 excerpt: "Most Nigerian businesses leak revenue through the same three holes. Here is what they are and what fixing them looks like."
+topic: Business
 tags: [business, automation, websites]
-cover: /blog/business-losing-money.webp
+cover: /blog/business-losing-money-photo.webp
 ---
 
 I have talked to a lot of business owners in Nigeria over the past two years.

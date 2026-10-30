@@ -3,8 +3,9 @@ title: "From Idea to Deployed: How I Build Full-Stack Projects Faster With AI"
 slug: idea-to-deployed
 date: 2026-05-27
 excerpt: "Most developers lose days to setup and boilerplate. This is the workflow I use to go from idea to deployed product faster, and where AI fits in without replacing the engineering."
+topic: Engineering
 tags: [workflow, ai, full-stack]
-cover: /blog/idea-to-deployed.webp
+cover: /blog/idea-to-deployed-photo.webp
 ---
 
 Most developers I know spend more time setting up projects than building them.

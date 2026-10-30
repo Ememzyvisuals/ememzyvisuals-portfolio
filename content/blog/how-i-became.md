@@ -3,8 +3,9 @@ title: "How I Became an AI/ML Engineer in Nigeria: My Real Roadmap, Failures and
 slug: how-i-became
 date: 2026-07-23
 excerpt: "From web development to shipping open Nigerian language models and landing a real AI role. The honest technical journey, with practical lessons."
+topic: Career
 tags: [career, machine-learning, nigeria, axiveri]
-cover: /blog/how-i-became.webp
+cover: /blog/how-i-became-photo.webp
 ---
 
 *Written in July 2026. Since August I work as a Machine Learning Engineer at PlotWeaver, building multilingual speech AI for Nigerian languages.*

@@ -3,8 +3,9 @@ title: "I'm Fine-Tuning an AI Model Specifically for African Developers. Here's 
 slug: fine-tuning-ai
 date: 2026-05-29
 excerpt: "Every major AI assistant was trained on data that does not reflect how African developers build software. So I am building one that does."
+topic: AI models
 tags: [africlaude, fine-tuning, fintech, axiveri]
-cover: /blog/fine-tuning-ai.webp
+cover: /blog/fine-tuning-ai-photo.webp
 ---
 
 *This post is from May 2026 and describes the early training cycles of Africlaude. The model is now published under Axiveri: https://huggingface.co/Axiveri/Africlaude-7B*

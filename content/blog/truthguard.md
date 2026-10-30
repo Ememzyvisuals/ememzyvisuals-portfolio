@@ -3,8 +3,9 @@ title: "I Built TruthGuard: A Benchmark That Exposes When AI Lies With Confidenc
 slug: truthguard
 date: 2026-05-26
 excerpt: "Most AI models don't just get things wrong. They get things wrong while sounding completely sure. TruthGuard measures exactly that."
+topic: AI models
 tags: [ai-safety, benchmark, research, kaggle]
-cover: /blog/truthguard.webp
+cover: /blog/truthguard-photo.webp
 ---
 
 There is a problem with AI that gets too little attention.
