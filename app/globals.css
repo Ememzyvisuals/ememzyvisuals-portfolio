@@ -222,3 +222,25 @@
   letter-spacing: -0.005em;
   font-weight: 400;
 }
+
+/* Blog article body: comfortable reading, Bricolage headings, EB Garamond pull quotes */
+.post-body { font-size: 1.08rem; line-height: 1.85; color: hsl(var(--foreground) / 0.82); }
+.post-body > * + * { margin-top: 1.15em; }
+.post-body h2 { font-family: var(--font-display), sans-serif !important; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: hsl(var(--foreground)); margin-top: 2.2em; }
+.post-body h3 { font-family: var(--font-display), sans-serif !important; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; color: hsl(var(--foreground)); margin-top: 1.8em; }
+.post-body strong { color: hsl(var(--foreground)); font-weight: 700; }
+.post-body a { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.post-body a:hover { opacity: 0.7; }
+.post-body ul, .post-body ol { padding-left: 1.3em; }
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+.post-body li + li { margin-top: 0.4em; }
+.post-body blockquote { font-family: var(--font-serif), Georgia, serif; font-size: 1.45rem; line-height: 1.35; color: hsl(var(--foreground)); border-left: 2px solid hsl(var(--foreground)); padding-left: 1.1em; margin: 1.8em 0; }
+.post-body code { font-size: 0.88em; background: hsl(var(--secondary)); padding: 0.15em 0.4em; border-radius: 6px; }
+.post-body pre { background: hsl(var(--secondary)); border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 1.1em 1.2em; overflow-x: auto; font-size: 0.9rem; line-height: 1.6; }
+.post-body pre code { background: none; padding: 0; }
+.post-body hr { border-color: hsl(var(--border)); margin: 2.5em 0; }
+.post-body img { border-radius: 16px; }
+.post-body > p:first-child em { display: block; font-size: 0.95rem; color: hsl(var(--muted-foreground)); }
+
+@keyframes likepop { 0% { transform: scale(1); } 35% { transform: scale(1.35); } 60% { transform: scale(0.92); } 100% { transform: scale(1); } }

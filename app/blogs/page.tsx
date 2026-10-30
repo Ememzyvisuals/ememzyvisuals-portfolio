@@ -1,152 +1,93 @@
 // app/blogs/page.tsx
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { Eye, Heart, Clock } from "lucide-react";
 import { buildMeta } from "@/lib/metadata";
-import { prisma } from "@/lib/prisma";
-import { formatDate } from "@/lib/utils";
-import { Clock, Tag } from "lucide-react";
+import { allPosts, formatDay } from "@/lib/blog";
+import { q } from "@/lib/turso";
 
-export const revalidate = 30; // New posts appear within 30 seconds
+export const revalidate = 60;
 
 export const metadata: Metadata = buildMeta({
-  title: "Blogs — Emmanuel Ariyo | Ememzyvisuals",
-  description:
-    "Technical writing and insights by Emmanuel Ariyo on AI engineering, software development, automation, and building products that matter.",
+  title: "Blog | Emmanuel Ariyo",
+  description: "Writing by Emmanuel Ariyo on African language AI, building products in Nigeria, and shipping software.",
   path: "/blogs",
-  ogTitle: "Blogs by Emmanuel Ariyo",
-  ogSubtitle: "AI · Engineering · Automation · Building things that matter",
+  ogTitle: "Blog by Emmanuel Ariyo",
+  ogSubtitle: "African language AI, building in Nigeria, shipping software",
   ogTag: "Blog",
-  tags: ["Emmanuel Ariyo blog", "AI engineering blog Nigeria", "developer blog Nigeria"],
+  tags: ["Emmanuel Ariyo blog", "AI engineering Nigeria", "developer blog Nigeria"],
 });
 
-async function getBlogs() {
+async function stats() {
   try {
-    return await prisma.blog.findMany({
-      where: { published: true, publishedAt: { not: null } },
-      orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
-      select: {
-        id: true, slug: true, title: true, excerpt: true,
-        coverImage: true, readingTime: true, category: true,
-        tags: true, publishedAt: true, featured: true,
-      },
-    });
+    const [rows] = await q(["SELECT slug, views, likes FROM post_stats"]);
+    return Object.fromEntries(rows.map((r) => [r.slug as string, { views: Number(r.views || 0), likes: Number(r.likes || 0) }]));
   } catch {
-    return [];
+    return {} as Record<string, { views: number; likes: number }>;
   }
 }
 
+function Meta({ date, minutes, s }: { date: string; minutes: number; s?: { views: number; likes: number } }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      <span>{formatDay(date)}</span>
+      <span className="inline-flex items-center gap-1"><Clock size={12} /> {minutes} min read</span>
+      {s && <span className="inline-flex items-center gap-1"><Eye size={12} /> {s.views.toLocaleString()}</span>}
+      {s && <span className="inline-flex items-center gap-1"><Heart size={12} /> {s.likes.toLocaleString()}</span>}
+    </div>
+  );
+}
+
 export default async function BlogsPage() {
-  const blogs = await getBlogs();
+  const posts = allPosts();
+  const s = await stats();
+  const [lead, ...rest] = posts;
 
   return (
     <div className="py-16 md:py-24">
-      <div className="container-padded space-y-12">
-
-        <div className="max-w-2xl">
-          <h1 className="section-heading">Blogs.</h1>
-          <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
-            Thoughts on AI, software engineering, automation, and building
-            products that matter.
+      <div className="container-padded">
+        <header className="max-w-2xl">
+          <h1 className="section-heading">Blog.</h1>
+          <p className="text-muted-foreground mt-3">
+            Notes from building African language AI and shipping products from Nigeria.
           </p>
-        </div>
+        </header>
 
-        {blogs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-32 gap-5 text-center border-2 border-dashed border-border rounded-2xl">
+        {lead && (
+          <Link href={`/blog/${lead.slug}`} className="group mt-12 grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-secondary">
+              {lead.cover && (
+                <Image src={lead.cover} alt={lead.title} fill priority sizes="(min-width:1024px) 60vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              )}
+            </div>
             <div>
-              <p className="font-semibold text-foreground text-xl">No blog posts yet.</p>
-              <p className="text-muted-foreground mt-2">
-                Check back soon — something good is coming.
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Latest</p>
+              <h2 className="mt-3 font-display text-3xl md:text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-foreground group-hover:underline decoration-2 underline-offset-4">
+                {lead.title}
+              </h2>
+              <p className="font-museum mt-4 text-xl text-foreground/80 leading-snug">{lead.excerpt}</p>
+              <div className="mt-5"><Meta date={lead.date} minutes={lead.minutes} s={s[lead.slug]} /></div>
             </div>
-          </div>
-        ) : (
-          <div className="space-y-5">
-
-            {/* Featured post — large card */}
-            {blogs.filter((b) => b.featured).slice(0, 1).map((blog) => (
-              <Link key={blog.id} href={`/blog/${blog.slug}`} className="block group">
-                <article className="card-surface overflow-hidden hover:shadow-card-hover transition-all duration-300">
-                  <div className={blog.coverImage ? "grid grid-cols-1 md:grid-cols-2" : "p-8 md:p-10"}>
-                    {blog.coverImage && (
-                      <div className="aspect-[16/9] md:aspect-auto overflow-hidden bg-secondary">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={blog.coverImage}
-                          alt={blog.title}
-                          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                        />
-                      </div>
-                    )}
-                    <div className={blog.coverImage ? "p-8 flex flex-col justify-center gap-4" : "space-y-4"}>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="pill text-xs">{blog.category}</span>
-                        <span className="pill text-xs">Featured</span>
-                      </div>
-                      <h2 className="text-2xl font-bold text-foreground leading-tight group-hover:underline underline-offset-4">
-                        {blog.title}
-                      </h2>
-                      <p className="text-muted-foreground leading-relaxed">{blog.excerpt}</p>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        {blog.publishedAt && <span>{formatDate(blog.publishedAt)}</span>}
-                        {blog.readingTime && (
-                          <span className="flex items-center gap-1">
-                            <Clock size={11} /> {blog.readingTime} min read
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            ))}
-
-            {/* Rest of posts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {blogs.filter((b) => !b.featured).map((blog) => (
-                <Link key={blog.id} href={`/blog/${blog.slug}`} className="block group">
-                  <article className="card-surface overflow-hidden h-full flex flex-col hover:shadow-card-hover transition-all duration-300">
-                    {blog.coverImage && (
-                      <div className="aspect-[16/9] overflow-hidden bg-secondary">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={blog.coverImage}
-                          alt={blog.title}
-                          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                        />
-                      </div>
-                    )}
-                    <div className="p-5 flex flex-col gap-3 flex-1">
-                      <span className="pill text-xs w-fit">{blog.category}</span>
-                      <h2 className="font-bold text-foreground leading-tight group-hover:underline underline-offset-4">
-                        {blog.title}
-                      </h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                        {blog.excerpt}
-                      </p>
-                      {blog.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 pt-1">
-                          {blog.tags.slice(0, 3).map((tag) => (
-                            <span key={tag} className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Tag size={10} />{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground pt-1 border-t border-border">
-                        {blog.publishedAt && <span>{formatDate(blog.publishedAt)}</span>}
-                        {blog.readingTime && (
-                          <span className="flex items-center gap-1 ml-auto">
-                            <Clock size={10} /> {blog.readingTime} min
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </article>
-                </Link>
-              ))}
-            </div>
-          </div>
+          </Link>
         )}
+
+        <div className="mt-16 md:mt-24 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {rest.map((p) => (
+            <Link key={p.slug} href={`/blog/${p.slug}`} className="group block">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-secondary">
+                {p.cover && (
+                  <Image src={p.cover} alt={p.title} fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+                )}
+              </div>
+              <h3 className="mt-5 font-display text-xl font-extrabold leading-snug tracking-tight text-foreground group-hover:underline decoration-2 underline-offset-4">
+                {p.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">{p.excerpt}</p>
+              <div className="mt-3"><Meta date={p.date} minutes={p.minutes} s={s[p.slug]} /></div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

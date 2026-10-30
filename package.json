@@ -21,6 +21,7 @@
     "groq-sdk": "^0.7.0",
     "liquid-glass-react": "^1.1.1",
     "lucide-react": "^0.460.0",
+    "marked": "^14.1.4",
     "next": "14.2.29",
     "next-themes": "^0.3.0",
     "react": "^18.3.0",
