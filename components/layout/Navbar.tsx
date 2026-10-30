@@ -199,7 +199,7 @@ export function Navbar() {
       )}
 
       {/* Spacer */}
-      <div className="h-[72px]" />
+      {pathname !== "/" && <div className="h-[72px]" />}
     </>
   );
 }
