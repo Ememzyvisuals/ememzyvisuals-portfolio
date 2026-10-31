@@ -13,6 +13,7 @@ Third-party assets used on this site (not shown on the site itself).
 
 ## 3D
 - Furniture, plant and textures in the hero room: Poly Haven (CC0)
+- Chess board and piece woods (ash, black walnut, flamed black veneer): Poly Haven (CC0)
 - Character bodies, clothes, hair and eyes: MakeHuman assets (CC0)
 - Laptop and phone: Emmanuel's own models from Jagora
 - Game previews: Emmanuel's own Bùkà Hustle and LAST BUS models. The LAST BUS danfo is based on "Lagos Danfo Bus" by Iam_thearchitect (CC BY 4.0)

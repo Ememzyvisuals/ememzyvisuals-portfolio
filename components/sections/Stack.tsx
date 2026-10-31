@@ -1,7 +1,9 @@
 "use client";
 // components/sections/Stack.tsx
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { ChessBoard } from "@/components/three/chess/ChessBoard";
 
 const STACK_SECTIONS = [
   {
@@ -82,6 +84,7 @@ function TechBox({ name, logo }: { name: string; logo: string }) {
 }
 
 export function Stack() {
+  const [all, setAll] = useState(false);
   return (
     <section className="py-section bg-background">
       <div className="container-padded space-y-6">
@@ -92,9 +95,18 @@ export function Stack() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="section-heading">Tech Stack.</h2>
+          <p className="max-w-2xl text-muted-foreground mt-3">Every piece on this board is a tool I use.</p>
         </motion.div>
 
-        <div className="space-y-6">
+        <ChessBoard />
+
+        <div className="flex justify-center">
+          <button onClick={() => setAll((v) => !v)} className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary">
+            {all ? "Hide the full list" : "See the full list"}
+          </button>
+        </div>
+
+        <div className={all ? "space-y-6" : "hidden"}>
           {STACK_SECTIONS.map((section, si) => (
             <motion.div
               key={section.title}
