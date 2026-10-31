@@ -22,3 +22,5 @@ Third-party assets used on this site (not shown on the site itself).
 
 ## Fonts
 - Bricolage Grotesque, Outfit, EB Garamond (SIL Open Font License)
+
+- ID cards: PlotWeaver logo (from PlotWeaver Data Studio) and Axiveri mark, used with permission of their owner/team member.
