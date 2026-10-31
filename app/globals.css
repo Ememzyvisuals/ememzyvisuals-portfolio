@@ -211,8 +211,8 @@
   letter-spacing: -0.015em !important;
   line-height: 0.98 !important;
 }
-.museum-shadow { text-shadow: 0 2px 30px rgba(255, 255, 255, 0.85); }
-.dark .museum-shadow { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.75); }
+.museum-shadow { text-shadow: 0 0 1px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 255, 255, 0.95), 0 0 28px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.7); }
+.dark .museum-shadow { text-shadow: 0 0 1px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.9), 0 0 28px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 0, 0, 0.6); }
 
 /* The line under every section heading is the subheading: EB Garamond, one size everywhere */
 .section-heading + p {
