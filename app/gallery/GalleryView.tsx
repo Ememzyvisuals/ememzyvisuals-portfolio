@@ -13,13 +13,13 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
   const [pos, setPos] = useState(Math.floor(items.length / 2)); // fractional index at the centre; start in the middle
   const [open, setOpen] = useState<number | null>(null);
   const [cat, setCat] = useState("All");
-  const [cardW, setCardW] = useState(132);
+  const [cardW, setCardW] = useState(150);
   const drag = useRef<{ x: number; p: number; moved: number } | null>(null);
   const vids = useRef<Map<number, HTMLVideoElement>>(new Map());
   const n = items.length;
 
   useEffect(() => {
-    const r = () => setCardW(window.innerWidth < 640 ? 78 : window.innerWidth < 1024 ? 112 : 132);
+    const r = () => setCardW(window.innerWidth < 640 ? 92 : window.innerWidth < 1024 ? 128 : 150);
     r(); window.addEventListener("resize", r); return () => window.removeEventListener("resize", r);
   }, []);
 
@@ -48,7 +48,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
     if (!drag.current) return;
     const dx = e.clientX - drag.current.x;
     drag.current.moved = Math.max(drag.current.moved, Math.abs(dx));
-    setPos(Math.max(-0.4, Math.min(n - 0.6, drag.current.p - dx / (cardW * 1.1))));
+    setPos(Math.max(-0.4, Math.min(n - 0.6, drag.current.p - dx / (cardW * 1.6))));
   };
   const onUp = () => { if (!drag.current) return; target.current = Math.max(0, Math.min(n - 1, Math.round(pos))); drag.current = null; };
 
@@ -73,37 +73,29 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
     </div>
   );
 
-  // Like the reference: even gaps, the centre card smallest, each card further out a little taller and turned
-  // inwards, so the row reads as the inside of a circle. Positions are built from the real projected width of
-  // every card between it and the centre, so cards never overlap.
-  const GAP = cardW * 0.09;
-  const grow = (t: number) => 1 + 0.2 * Math.min(t, 3.4);          // size by distance from the centre
-  const turn = (t: number) => Math.min(0.5, 0.17 * t);               // inward turn (radians)
-  const span = (t: number) => cardW * grow(t) * Math.cos(turn(t)) + GAP;
-  const xAt = (k: number) => {                                       // centre-to-centre distance, integrated
-    const a = Math.abs(k), steps = Math.max(1, Math.ceil(a * 8));
-    let x = 0;
-    for (let j = 0; j < steps; j++) { const t = ((j + 0.5) / steps) * a; x += span(t) * (a / steps); }
-    return Math.sign(k) * x;
-  };
+  // True geometry, like the reference: identical flat cards standing on the inside of a cylinder, all facing
+  // its centre, with you standing near the front of it. The far (middle) card looks small, the side cards come
+  // towards you, so each side card's outer edge is taller than its inner edge and the row bends into a circle.
+  const R = cardW * 3.3;                 // cylinder radius
+  const C = R * 0.72;                    // how far the cylinder's centre sits in front of the page plane
+  const P = R * 1.12;                    // camera distance (CSS perspective)
+  const step = (cardW * 1.06) / R;       // angle per card: one card width plus a small even gap
   return (
     <>
       {/* the curve */}
       <section className="relative mt-12 select-none overflow-hidden" aria-label="Gallery, drag or swipe to browse">
-        <div className="relative mx-auto h-[300px] touch-pan-y [perspective:1500px] sm:h-[400px] lg:h-[460px]"
+        <div className="relative mx-auto h-[300px] touch-pan-y sm:h-[400px] lg:h-[470px]" style={{ perspective: P }}
           onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
           <div className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]">
             {items.map((it, i) => {
-              const d = i - pos, ad = Math.abs(d);
-              if (ad > 4.2) return null;
-              const sc = grow(ad), rot = -Math.sign(d) * turn(ad);
-              const x = xAt(d);
-              const w = cardW * sc, h = cardW * 1.38 * sc;
+              const d = i - pos, ad = Math.abs(d), th = d * step;
+              if (Math.abs(th) > 1.42) return null;
+              const w = cardW, h = cardW * 1.62;
               return (
                 <button key={it.id} type="button"
                   onClick={() => { if (drag.current?.moved || ad > 0.5) { go(i); return; } setOpen(i); }}
                   className="absolute overflow-hidden rounded-[22px] bg-secondary shadow-[0_30px_60px_-30px_rgba(0,0,0,0.45)] outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-                  style={{ width: w, height: h, marginLeft: -w / 2, marginTop: -h / 2, transform: `translate3d(${x}px,0,0) rotateY(${rot}rad)`, zIndex: 100 - Math.round(ad * 10), opacity: ad > 3.6 ? Math.max(0, 4.2 - ad) / 0.6 : 1 }}
+                  style={{ width: w, height: h, marginLeft: -w / 2, marginTop: -h / 2, transform: `translateZ(${C}px) rotateY(${-th}rad) translateZ(${-R}px)`, zIndex: 100 - Math.round(ad * 10), opacity: Math.abs(th) > 1.25 ? Math.max(0, (1.42 - Math.abs(th)) / 0.17) : 1, backfaceVisibility: "hidden" }}
                   aria-label={`${it.title}${it.kind === "video" ? ", video" : ""}`}>
                   {it.kind === "video" ? (
                     <video ref={(v) => { if (v) vids.current.set(i, v); else vids.current.delete(i); }} src={it.url} poster={it.poster ?? undefined} muted loop playsInline preload={ad < 1.5 ? "metadata" : "none"} className="h-full w-full object-cover" />
