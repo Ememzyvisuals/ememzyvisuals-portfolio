@@ -2,7 +2,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { WalletCopy } from "./WalletCopy";
+import { ModelVisual } from "@/components/three/models/ModelVisual";
+import type { ModelKind } from "@/components/three/models/modelStage";
 
 export const metadata: Metadata = {
   title: "Axiveri, African AI Research | Emmanuel Ariyo",
@@ -31,51 +34,47 @@ const orgSchema = {
     "Axiveri is an African AI research initiative building open-source language and speech models, including the Africlaude language model series and NaijaVox Nigerian speech recognition.",
 };
 
-const MODEL_SERIES = [
+type Series = { slug: string; name: string; type: string; kind: ModelKind; visual: string; desc: string; tags: string[]; stat: string; links: { label: string; href: string }[] };
+const MODEL_SERIES: Series[] = [
   {
-    slug: "africlaude",
-    name: "Africlaude",
-    type: "Language Model Series",
-    status: "live",
-    statusLabel: "Live, v1",
-    desc: "Open-source language models built for African contexts. Africlaude-7B is live. v2 with Yoruba, Igbo & Hausa support is in development.",
-    tags: ["7B Parameters", "Open Source", "Yoruba · Igbo · Hausa (v2)"],
-    hfLink: "https://huggingface.co/Axiveri/Africlaude-7B",
-    internalLink: "/axiveri/africlaude",
+    slug: "naijavox", name: "NaijaVox", type: "Speech recognition", kind: "asr",
+    visual: "A voice wave flowing in and breaking into African language letters",
+    desc: "Speech recognition that understands Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian accented English, including people switching between them mid-sentence. Version 2.0 is Whisper fine-tuned with LoRA and trained with noise so it holds up in real rooms.",
+    tags: ["Whisper LoRA", "Code-switching", "Noise robust", "5 languages"],
+    stat: "NaijaVox 2.0: 691 downloads this month, plus a live demo",
+    links: [{ label: "NaijaVox 2.0", href: "https://huggingface.co/Axiveri/NaijaVox-2.0" }, { label: "Try the demo", href: "https://huggingface.co/spaces/Axiveri/Naijavox-Demo" }],
   },
   {
-    slug: "naijavox",
-    name: "NaijaVox",
-    type: "Speech Recognition Series",
-    status: "live",
-    statusLabel: "Live: V1 and 2.0",
-    desc: "Nigerian speech recognition models. NaijaVox-V1 and NaijaVox 2.0 cover Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian-accented English. Version 2.0 adds noise augmentation and handles code-switching.",
-    tags: ["ASR", "Yoruba", "Hausa", "Igbo", "Pidgin", "Nigerian English"],
-    hfLink: "https://huggingface.co/Axiveri/NaijaVox-2.0",
-    internalLink: null,
+    slug: "wazobiavoice", name: "WazobiaVoice", type: "Text to speech and voice cloning", kind: "tts",
+    visual: "African language letters flowing in and becoming a lively voice wave",
+    desc: "Multilingual text to speech and zero-shot voice cloning in one model, extended to handle writing it was never designed for, like Yoruba tone marks. Alongside it, Renpiper is a small, fast Nigerian Pidgin voice with an ONNX build for modest hardware.",
+    tags: ["Voice cloning", "Tone marks", "Pidgin", "ONNX"],
+    stat: "Pidgin speech dataset: 1,438 downloads this month",
+    links: [{ label: "WazobiaVoice", href: "https://huggingface.co/Axiveri/WazobiaVoice" }, { label: "Renpiper Pidgin", href: "https://huggingface.co/Axiveri/Renpiper-pcm-V1" }],
   },
   {
-    slug: "wazobiavoice",
-    name: "WazobiaVoice",
-    type: "Text-to-Speech & Voice Cloning Series",
-    status: "live",
-    statusLabel: "Live",
-    desc: "Multilingual TTS and zero-shot voice cloning across Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, one ~2B-parameter model, one set of weights. Built by extending Chatterbox's multilingual architecture to support orthographies (including Yoruba's tonal diacritics) it was never originally designed for.",
-    tags: ["~2B Parameters", "Voice Cloning", "5 Languages", "Open Source"],
-    hfLink: "https://huggingface.co/Axiveri/WazobiaVoice",
-    internalLink: null,
+    slug: "africlaude", name: "Africlaude", type: "Language models", kind: "llm",
+    visual: "A web of connected words lighting up as a sentence forms",
+    desc: "Open language models tuned for African context, with AfriclaudeBench to measure how well any model actually understands it.",
+    tags: ["7B parameters", "Open weights", "AfriclaudeBench"],
+    stat: "Africlaude-7B: 24 downloads this month",
+    links: [{ label: "Africlaude-7B", href: "https://huggingface.co/Axiveri/Africlaude-7B" }, { label: "Learn more", href: "/axiveri/africlaude" }],
   },
   {
-    slug: "afrivision-base",
-    name: "AfriVision-Base",
-    type: "Image Generation Model",
-    status: "live",
-    statusLabel: "Live",
-    desc: "A FLUX-based LoRA fine-tune trained on African imagery, nearly 15,000 captioned images, for image generation that reflects African people, places, and contexts.",
-    tags: ["FLUX LoRA", "Image Generation", "African Imagery"],
-    hfLink: "https://huggingface.co/Axiveri/AfriVision-Base",
-    internalLink: null,
+    slug: "afrivision", name: "AfriVision", type: "Image generation", kind: "image",
+    visual: "Noisy orange tiles settling into a picture of a sunset and a baobab",
+    desc: "A FLUX LoRA trained on AfriVision-30K, captioned images of African people, places and culture, so generated images look like the continent as it really is.",
+    tags: ["FLUX LoRA", "AfriVision-30K", "Open dataset"],
+    stat: "AfriVision-30K: 81 downloads this month",
+    links: [{ label: "AfriVision-Base", href: "https://huggingface.co/Axiveri/AfriVision-Base" }, { label: "The dataset", href: "https://huggingface.co/datasets/Axiveri/AfriVision-30K" }],
   },
+];
+
+const DATASETS = [
+  { id: "Axiveri/naija-tts-pcm-processed", name: "Naija TTS Pidgin", desc: "Cleaned Nigerian Pidgin speech and text pairs, ready for text to speech training.", downloads: "1,438" },
+  { id: "Axiveri/wazobia-tts-cc", name: "Wazobia TTS", desc: "Openly licensed multilingual speech for Nigerian language voices.", downloads: "149" },
+  { id: "Axiveri/AfriVision-30K", name: "AfriVision-30K", desc: "Captioned images of African people, places and culture.", downloads: "81" },
+  { id: "Axiveri/naijatts-yo-processed", name: "Naija TTS Yoruba", desc: "Processed Yoruba speech with tone marks kept intact.", downloads: "8" },
 ];
 
 export default function AxiveriPage() {
@@ -87,140 +86,122 @@ export default function AxiveriPage() {
       />
 
       <div className="min-h-screen bg-background">
-        {/* Hero */}
-        <section className="container-padded pt-32 pb-20">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border text-xs font-bold uppercase tracking-widest text-muted-foreground mb-8">
-              African AI Research
-            </div>
-            <h1
-              className="font-extrabold text-foreground leading-[0.95] mb-6"
-              style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)", letterSpacing: "-0.04em" }}
-            >
-              Axiveri
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              An African AI research initiative building open-source language and speech models
-              for the continent and the world. Founded by{" "}
-              <Link href="/about" className="text-foreground font-bold hover:underline underline-offset-4">
-                Emmanuel Ariyo
-              </Link>{" "}
-              (Ememzyvisuals).
-            </p>
-            <a
-              href="https://huggingface.co/Axiveri"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity"
-            >
-              View Axiveri on HuggingFace <ExternalLink size={14} />
-            </a>
-          </div>
-        </section>
-
-        {/* Mission */}
-        <section className="container-padded py-20 border-t border-border">
-          <div className="grid md:grid-cols-2 gap-16 items-start">
+        {/* Hero: Axiveri orange, the real AX mark, the mission line, and the voice wave */}
+        <section className="relative overflow-hidden bg-[linear-gradient(140deg,#e85500,#fc6401_55%,#ff8a3d)] text-white">
+          <div className="container-padded grid items-center gap-10 pb-16 pt-32 md:grid-cols-[1.05fr_1fr] md:pb-24 md:pt-40">
             <div>
-              <h2
-                className="font-extrabold text-foreground mb-6"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
-              >
-                The Mission
-              </h2>
-              <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-                Africa has over 2,000 languages and 1.4 billion people. Most frontier AI is built
-                on Western data, in Western languages, for Western contexts.
-              </p>
-              <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-                Axiveri builds AI that understands African languages, African accents, and African
-                problems, from language models to speech recognition.
-              </p>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                Every model is open-source. Research, fine-tuning, and commercial use are welcome.
-              </p>
-            </div>
-            <div className="space-y-4">
-              {[
-                { title: "Open Source First", desc: "Every model is freely available on HuggingFace under open licenses." },
-                { title: "Africa-Centric", desc: "Trained on African language data, accents, and cultural contexts." },
-                { title: "Research-Grade", desc: "Rigorously benchmarked. We built TruthGuard to evaluate AI, we apply the same standards to our own models." },
-                { title: "Community-Driven", desc: "Partners, contributors, and supporters are welcome. Axiveri is built in public." },
-              ].map((item) => (
-                <div key={item.title} className="p-5 rounded-2xl liquid-glass space-y-1.5">
-                  <p className="font-extrabold text-foreground text-sm">{item.title}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+              <div className="flex items-center gap-3">
+                <Image src="/brand/axiveri.png" alt="Axiveri" width={56} height={56} className="h-14 w-14 rounded-2xl shadow-[0_0_0_3px_rgba(255,255,255,0.9)]" priority />
+                <div>
+                  <p className="font-display text-2xl font-extrabold tracking-tight">Axiveri</p>
+                  <p className="text-xs font-medium tracking-[0.28em] text-white/80">AI RESEARCH</p>
                 </div>
-              ))}
+              </div>
+              <h1 className="mt-10 font-display font-extrabold leading-[0.98] tracking-tight" style={{ fontSize: "clamp(2.6rem, 6.4vw, 5rem)" }}>
+                AI that learns our ways in Africa.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/90">
+                An open ecosystem of speech, language and vision models for African languages. Speech that carries
+                emotion and expression, recognition that understands how people really talk, all free to build on.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#c44d00] hover:opacity-90">
+                  Open on Hugging Face <ExternalLink size={14} />
+                </a>
+                <a href="#partner" className="inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-3 text-sm font-semibold hover:bg-white/10">
+                  Partner with us
+                </a>
+              </div>
+              <p className="mt-8 text-sm text-white/80">Founded by Emmanuel Ariyo</p>
             </div>
+            <ModelVisual kind="tts" onBrand label="African language letters turning into a white voice wave" className="aspect-[5/4] w-full" />
           </div>
         </section>
 
-        {/* Model Series */}
-        <section className="container-padded py-20 border-t border-border">
-          <h2
-            className="font-extrabold text-foreground mb-10"
-            style={{ fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.03em" }}
-          >
-            Model Series
-          </h2>
-          <div className="space-y-5">
-            {MODEL_SERIES.map((series) => (
-              <div
-                key={series.slug}
-                className="group p-8 rounded-3xl border border-border bg-card hover:border-foreground transition-colors"
-              >
-                <div className="flex items-start justify-between gap-4 flex-wrap">
-                  <div className="space-y-3 flex-1">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-foreground text-background uppercase tracking-widest">
-                        {series.statusLabel}
-                      </span>
-                      <span className="text-xs text-muted-foreground font-bold uppercase tracking-widest">
-                        {series.type}
-                      </span>
-                    </div>
-                    <h3
-                      className="font-extrabold text-foreground"
-                      style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", letterSpacing: "-0.03em" }}
-                    >
-                      {series.name}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed max-w-xl">{series.desc}</p>
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      {series.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] font-bold px-3 py-1 rounded-lg border border-border text-muted-foreground uppercase tracking-wider">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+        {/* Live numbers */}
+        <section className="container-padded">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 border-b border-border py-10 md:grid-cols-4">
+            {[
+              { n: "8", l: "open models" },
+              { n: "4", l: "open datasets" },
+              { n: "2,500+", l: "model and dataset downloads in the last 30 days" },
+              { n: "17", l: "followers on Hugging Face" },
+            ].map((x) => (
+              <div key={x.l}>
+                <p className="font-display text-4xl font-extrabold tracking-tight text-[#fc6401] md:text-5xl">{x.n}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{x.l}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Model series, each with its own 3D piece */}
+        <section className="container-padded py-20 md:py-28">
+          <h2 className="section-heading">The models.</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">Four families, each published openly with weights, cards and examples.</p>
+          <div className="mt-14 space-y-20 md:space-y-28">
+            {MODEL_SERIES.map((m, i) => (
+              <article key={m.slug} className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+                <ModelVisual kind={m.kind} label={m.visual} className={`aspect-[5/4] w-full rounded-3xl bg-[#fff6ee] dark:bg-[#1d130c] ${i % 2 ? "md:order-2" : ""}`} />
+                <div>
+                  <p className="text-sm font-medium text-[#fc6401]">{m.type}</p>
+                  <h3 className="mt-2 font-display font-extrabold tracking-tight text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>{m.name}</h3>
+                  <p className="mt-4 leading-relaxed text-foreground/75">{m.desc}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {m.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-xs text-foreground/75">{t}</span>)}
                   </div>
-                  <div className="flex flex-col gap-2 flex-shrink-0">
-                    <a
-                      href={series.hfLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm font-bold hover:bg-muted transition-colors"
-                    >
-                      HuggingFace <ExternalLink size={12} />
-                    </a>
-                    {series.internalLink && (
-                      <Link
-                        href={series.internalLink}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-foreground text-background text-sm font-bold hover:opacity-90 transition-opacity"
-                      >
-                        Learn more <ArrowRight size={12} />
-                      </Link>
-                    )}
+                  <p className="mt-5 text-sm text-muted-foreground">{m.stat}</p>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {m.links.map((l, k) => (
+                      <a key={l.href} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
+                        className={k === 0 ? "inline-flex items-center gap-2 rounded-full bg-[#fc6401] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90" : "inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"}>
+                        {l.label} {l.href.startsWith("http") ? <ExternalLink size={13} /> : <ArrowRight size={13} />}
+                      </a>
+                    ))}
                   </div>
                 </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Open datasets */}
+        <section className="container-padded border-t border-border py-20">
+          <h2 className="section-heading">Open datasets.</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">The data behind the models, cleaned and shared so others do not start from zero.</p>
+          <ul className="mt-10 divide-y divide-border border-y border-border">
+            {DATASETS.map((d) => (
+              <li key={d.id}>
+                <a href={`https://huggingface.co/datasets/${d.id}`} target="_blank" rel="noopener noreferrer" className="group grid gap-1 py-5 md:grid-cols-[1.2fr_2fr_auto] md:items-center md:gap-8">
+                  <span className="font-display text-lg font-bold text-foreground">{d.name}</span>
+                  <span className="text-sm text-muted-foreground">{d.desc}</span>
+                  <span className="text-sm font-semibold text-[#fc6401]">{d.downloads} downloads this month</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* What we stand for */}
+        <section className="container-padded border-t border-border py-20">
+          <h2 className="section-heading">How we build.</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {[
+              { title: "Open by default", desc: "Weights, data and model cards are public on Hugging Face under open licences." },
+              { title: "Made for how Africa speaks", desc: "Tone marks, accents, code-switching and real recording conditions are part of the training, not an afterthought." },
+              { title: "Measured honestly", desc: "Every release is evaluated, word error rates for recognition and listening tests for voices, and the numbers are published." },
+              { title: "Built in public", desc: "Contributors, partners and supporters are welcome to build alongside us." },
+            ].map((v) => (
+              <div key={v.title} className="card-surface border-l-2 border-l-[#fc6401] p-6">
+                <h3 className="font-display text-lg font-bold text-foreground">{v.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{v.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Support / Partner / Fund */}
-        <section className="container-padded py-20 border-t border-border">
+        <section id="partner" className="container-padded py-20 border-t border-border">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2
               className="font-extrabold text-foreground mb-4"
@@ -262,7 +243,7 @@ export default function AxiveriPage() {
               </a>
             </div>
 
-            <div className="p-6 rounded-3xl border-2 border-foreground bg-foreground text-background space-y-4">
+            <div className="p-6 rounded-3xl border-2 border-[#fc6401] bg-[#fc6401] text-white space-y-4">
               <p className="font-extrabold text-lg">Fund / Invest</p>
               <p className="text-sm opacity-70 leading-relaxed">
                 Serious investment or grant inquiries for Axiveri&apos;s research and model development.
