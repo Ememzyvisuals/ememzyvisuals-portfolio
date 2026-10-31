@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-import { PetPeek } from "@/components/ui/PetPeek";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -245,7 +244,6 @@ function ContactInner() {
 
   return (
     <section id="contact" className="relative py-section overflow-hidden">
-      <PetPeek />
       <div className="container-padded">
         <div className="max-w-xl mx-auto space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
