@@ -25,3 +25,4 @@ Third-party assets used on this site (not shown on the site itself).
 
 - ID cards: PlotWeaver logo (from PlotWeaver Data Studio) and Axiveri mark, used with permission of their owner/team member.
 - Contact page Earth: NASA Blue Marble based maps (public domain) as packaged in the three.js examples (MIT)
+- Country borders on the Contact globe: Natural Earth (public domain) via world-atlas (ISC)
