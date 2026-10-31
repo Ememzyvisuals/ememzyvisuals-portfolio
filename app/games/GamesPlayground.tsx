@@ -62,11 +62,9 @@ export function GamesPlayground() {
         </div>
       </nav>
 
-      {/* about the game */}
-      <div className={`pointer-events-none absolute left-0 top-40 max-w-md px-5 md:left-[6%] md:top-44 ${ink}`}>
-        <p className="text-sm font-semibold opacity-70">{game.genre}</p>
-        <h1 className="mt-2 font-display font-extrabold leading-[0.95] tracking-tight" style={{ fontSize: "clamp(2.4rem, 6vw, 4.6rem)" }}>{game.name}</h1>
-        <p className="mt-4 hidden text-[15px] leading-relaxed opacity-80 md:block">{game.line}</p>
+      {/* about the game, under the switcher */}
+      <div className={`pointer-events-none absolute inset-x-0 top-40 px-5 text-center ${ink}`}>
+        <p className="text-sm font-semibold opacity-80 drop-shadow">{game.genre}. {game.line}</p>
       </div>
 
       {/* actions and play */}

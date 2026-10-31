@@ -27,3 +27,4 @@ Third-party assets used on this site (not shown on the site itself).
 - Contact page Earth: NASA Blue Marble based maps (public domain) as packaged in the three.js examples (MIT)
 - Country borders on the Contact globe: Natural Earth (public domain) via world-atlas (ISC)
 - Footer sign-off font: Anton by Vernon Adams (SIL Open Font License)
+- Games page bùkà: the real set from Bùkà Hustle (buka_set.glb), Emmanuel's own model

@@ -93,20 +93,22 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
       tap = () => { if (!busy) once(["Greet", "Serve"]); };
       action = (n) => { if (busy) return; if (n === "Serve") once(["Greet", "Serve"]); else if (clip(n)) once([n]); };
       if (full) {
-        // a simple roadside bùkà: counter, pot on a stove, stools, warm floor
-        const mk = (g: THREE.BufferGeometry, c: number, r = 0.7) => { const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: c, roughness: r })); m.castShadow = m.receiveShadow = true; scene.add(m); return m; };
-        const floor = mk(new THREE.CircleGeometry(4.2, 64), 0xe7cfa8, 0.95); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.001;
-        const counter = mk(new THREE.BoxGeometry(1.7, 0.85, 0.55), 0x9a5b2e); counter.position.set(0, 0.425, 0.75);
-        const top = mk(new THREE.BoxGeometry(1.8, 0.05, 0.62), 0xc98a52, 0.5); top.position.set(0, 0.875, 0.75);
-        const stove = mk(new THREE.CylinderGeometry(0.22, 0.24, 0.12, 32), 0x2c2c2c, 0.4); stove.position.set(0.55, 0.96, 0.72);
-        const pot = mk(new THREE.CylinderGeometry(0.2, 0.17, 0.24, 40, 1, true), 0xb8b8b8, 0.25); pot.position.set(0.55, 1.14, 0.72); (pot.material as THREE.MeshStandardMaterial).metalness = 0.9; (pot.material as THREE.MeshStandardMaterial).side = THREE.DoubleSide;
-        const rice = mk(new THREE.CircleGeometry(0.19, 32), 0xe2541b, 0.6); rice.rotation.x = -Math.PI / 2; rice.position.set(0.55, 1.22, 0.72);
-        const fire = new THREE.PointLight(0xff8a2a, 2.5, 2.2, 2); fire.position.set(0.55, 0.98, 0.72); scene.add(fire);
-        for (const [x, z] of [[-0.6, 1.5], [0.3, 1.6]]) { const st = mk(new THREE.CylinderGeometry(0.17, 0.15, 0.45, 20), 0x3b6e8f); st.position.set(x, 0.225, z); }
-        const back = mk(new THREE.BoxGeometry(3.6, 2.4, 0.08), 0xf0dfc4, 0.95); back.position.set(0, 1.2, -0.9);
-        const sign = mk(new THREE.BoxGeometry(1.4, 0.32, 0.04), 0xfc6401, 0.6); sign.position.set(0, 2.05, -0.84);
-        camera.position.set(1.4, 2.0, 5.2); look.set(0, 1.0, 0);
-        const tickBase = tick; tick = (dt, t) => { tickBase(dt, t); fire.intensity = 2.2 + Math.sin(t * 13) * 0.3 + Math.sin(t * 7.3) * 0.2; };
+        // the real bùkà from the game (Kitchen-Hustle buka_set.glb, modelled in Blender), with Mama Titi at her stove
+        shadow.visible = false;
+        loader.loadAsync("/models/games/buka_set.glb").then((sg) => {
+          if (!alive) return;
+          const set = sg.scene.getObjectByName("set_static") || sg.scene;
+          set.traverse((m) => { if ((m as THREE.Mesh).isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+          scene.add(set);
+          renderer.compile(scene, camera);
+        }).catch(() => {});
+        const S0 = new THREE.Vector3(1.6, 0, -3.8); // the stove in the game
+        o.position.set(S0.x, 0, S0.z + 0.75);
+        o.rotation.y = 0;
+        sun.position.set(S0.x - 3, 8, S0.z + 6); sun.target.position.copy(S0); scene.add(sun.target);
+        Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, far: 30 }); sun.shadow.mapSize.set(2048, 2048);
+        camera.position.set(S0.x + 2.4, 2.4, S0.z + 6.2); look.set(S0.x, 1.0, S0.z + 0.4);
+        const tb = tick; tick = (dt, t) => { const ry = o.rotation.y; tb(dt, t); o.rotation.y = ry; };
       }
       tick = (dt) => {
         next -= dt;
@@ -161,7 +163,8 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
         heads.forEach((h) => h.rest.copy(h.bone.quaternion));
         let stare = 0, stareT = 0, jolt = 0, flick = 0;
         inside = false;
-        insideCam.set(c.x, box.min.y + sz.y * 0.8, box.min.z + sz.z * 0.08); insideLook.set(c.x, box.min.y + sz.y * 0.45, box.max.z);
+        // stand by the driver and look back down the aisle at the passengers
+        insideCam.set(c.x, box.min.y + sz.y * 0.72, box.max.z - sz.z * 0.12); insideLook.set(c.x, box.min.y + sz.y * 0.5, box.min.z);
         tap = () => { stareT = stareT > 0.5 ? 0 : 1; jolt = 1; flick = 1.2; };
         action = (n) => {
           if (n === "jolt") jolt = 1;
@@ -245,9 +248,9 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
       const off = base.clone().sub(look);
       const r = off.length(), y0 = Math.atan2(off.x, off.z), p0 = Math.asin(off.y / r);
       const outside = new THREE.Vector3(Math.sin(y0 + yaw) * Math.cos(p0 + pitch), Math.sin(p0 + pitch), Math.cos(y0 + yaw) * Math.cos(p0 + pitch)).multiplyScalar(r).add(look);
-      const target = inside ? insideCam.clone().add(new THREE.Vector3(Math.sin(yaw) * 0.25, 0, 0)) : outside;
+      const target = inside ? insideCam.clone() : outside;
       camera.position.lerp(target, Math.min(1, dt * 3));
-      lookS.lerp(inside ? insideLook.clone().add(new THREE.Vector3(Math.sin(yaw) * 1.5, -pitch, 0)) : look, Math.min(1, dt * 3));
+      lookS.lerp(inside ? insideLook.clone().add(new THREE.Vector3(Math.sin(yaw) * 2.5, -pitch * 2, 0)) : look, Math.min(1, dt * 3));
       camera.lookAt(lookS);
     } else {
       camera.position.copy(base).add(new THREE.Vector3(px * (kind === "bus" ? 0.8 : 0.3), 0, 0));
