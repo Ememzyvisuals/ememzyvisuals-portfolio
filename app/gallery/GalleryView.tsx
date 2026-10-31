@@ -10,21 +10,21 @@ import type { GalleryItem } from "@/lib/store";
 const fmtDur = (s: number | null) => (s ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}` : "");
 
 export function GalleryView({ items }: { items: GalleryItem[] }) {
-  const [pos, setPos] = useState(0); // fractional index at the centre
+  const [pos, setPos] = useState(Math.floor(items.length / 2)); // fractional index at the centre; start in the middle
   const [open, setOpen] = useState<number | null>(null);
   const [cat, setCat] = useState("All");
-  const [cardW, setCardW] = useState(240);
+  const [cardW, setCardW] = useState(132);
   const drag = useRef<{ x: number; p: number; moved: number } | null>(null);
   const vids = useRef<Map<number, HTMLVideoElement>>(new Map());
   const n = items.length;
 
   useEffect(() => {
-    const r = () => setCardW(window.innerWidth < 640 ? 170 : window.innerWidth < 1024 ? 210 : 250);
+    const r = () => setCardW(window.innerWidth < 640 ? 78 : window.innerWidth < 1024 ? 112 : 132);
     r(); window.addEventListener("resize", r); return () => window.removeEventListener("resize", r);
   }, []);
 
   // ease towards the nearest card after a drag
-  const target = useRef(0);
+  const target = useRef(Math.floor(items.length / 2));
   useEffect(() => {
     let raf = 0;
     const tick = () => {
@@ -48,7 +48,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
     if (!drag.current) return;
     const dx = e.clientX - drag.current.x;
     drag.current.moved = Math.max(drag.current.moved, Math.abs(dx));
-    setPos(Math.max(-0.4, Math.min(n - 0.6, drag.current.p - dx / (cardW * 0.9))));
+    setPos(Math.max(-0.4, Math.min(n - 0.6, drag.current.p - dx / (cardW * 1.1))));
   };
   const onUp = () => { if (!drag.current) return; target.current = Math.max(0, Math.min(n - 1, Math.round(pos))); drag.current = null; };
 
@@ -73,31 +73,43 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
     </div>
   );
 
-  const step = 0.41; // radians between cards around the curve
-  const R = cardW * 2.6;
+  // Like the reference: even gaps, the centre card smallest, each card further out a little taller and turned
+  // inwards, so the row reads as the inside of a circle. Positions are built from the real projected width of
+  // every card between it and the centre, so cards never overlap.
+  const GAP = cardW * 0.09;
+  const grow = (t: number) => 1 + 0.2 * Math.min(t, 3.4);          // size by distance from the centre
+  const turn = (t: number) => Math.min(0.5, 0.17 * t);               // inward turn (radians)
+  const span = (t: number) => cardW * grow(t) * Math.cos(turn(t)) + GAP;
+  const xAt = (k: number) => {                                       // centre-to-centre distance, integrated
+    const a = Math.abs(k), steps = Math.max(1, Math.ceil(a * 8));
+    let x = 0;
+    for (let j = 0; j < steps; j++) { const t = ((j + 0.5) / steps) * a; x += span(t) * (a / steps); }
+    return Math.sign(k) * x;
+  };
   return (
     <>
       {/* the curve */}
       <section className="relative mt-12 select-none overflow-hidden" aria-label="Gallery, drag or swipe to browse">
-        <div className="relative mx-auto h-[360px] touch-pan-y [perspective:1100px] sm:h-[440px] lg:h-[500px]"
+        <div className="relative mx-auto h-[300px] touch-pan-y [perspective:1500px] sm:h-[400px] lg:h-[460px]"
           onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
           <div className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]">
             {items.map((it, i) => {
-              const d = i - pos, a = d * step;
-              if (Math.abs(a) > 1.45) return null;
-              const x = Math.sin(a) * R, z = -Math.cos(a) * R + R * 0.62;
-              const h = cardW * (it.kind === "video" ? 1.5 : 1.3);
+              const d = i - pos, ad = Math.abs(d);
+              if (ad > 4.2) return null;
+              const sc = grow(ad), rot = -Math.sign(d) * turn(ad);
+              const x = xAt(d);
+              const w = cardW * sc, h = cardW * 1.38 * sc;
               return (
                 <button key={it.id} type="button"
-                  onClick={() => { if (drag.current?.moved || Math.abs(d) > 0.5) { go(i); return; } setOpen(i); }}
+                  onClick={() => { if (drag.current?.moved || ad > 0.5) { go(i); return; } setOpen(i); }}
                   className="absolute overflow-hidden rounded-[22px] bg-secondary shadow-[0_30px_60px_-30px_rgba(0,0,0,0.45)] outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-                  style={{ width: cardW, height: h, marginLeft: -cardW / 2, marginTop: -h / 2, transform: `translate3d(${x}px,0,${z}px) rotateY(${-a}rad)`, zIndex: 100 - Math.round(Math.abs(d) * 10) }}
+                  style={{ width: w, height: h, marginLeft: -w / 2, marginTop: -h / 2, transform: `translate3d(${x}px,0,0) rotateY(${rot}rad)`, zIndex: 100 - Math.round(ad * 10), opacity: ad > 3.6 ? Math.max(0, 4.2 - ad) / 0.6 : 1 }}
                   aria-label={`${it.title}${it.kind === "video" ? ", video" : ""}`}>
                   {it.kind === "video" ? (
-                    <video ref={(v) => { if (v) vids.current.set(i, v); else vids.current.delete(i); }} src={it.url} poster={it.poster ?? undefined} muted loop playsInline preload={Math.abs(d) < 1.5 ? "metadata" : "none"} className="h-full w-full object-cover" />
+                    <video ref={(v) => { if (v) vids.current.set(i, v); else vids.current.delete(i); }} src={it.url} poster={it.poster ?? undefined} muted loop playsInline preload={ad < 1.5 ? "metadata" : "none"} className="h-full w-full object-cover" />
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={it.url} alt={it.title} draggable={false} loading={Math.abs(d) < 3 ? "eager" : "lazy"} className="h-full w-full object-cover" />
+                    <img src={it.url} alt={it.title} draggable={false} loading={ad < 3 ? "eager" : "lazy"} className="h-full w-full object-cover" />
                   )}
                   {it.kind === "video" && (
                     <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
