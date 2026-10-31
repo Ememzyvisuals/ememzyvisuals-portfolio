@@ -60,7 +60,7 @@ export function ProjectsShowcase() {
                       href={p!.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background hover:opacity-85"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground hover:opacity-85"
                     >
                       Live site <ArrowUpRight size={15} />
                     </Link>

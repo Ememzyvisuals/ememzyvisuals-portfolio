@@ -27,7 +27,7 @@ export function BlogIndex({ posts, topics }: { posts: Card[]; topics: string[] }
             <button
               key={t}
               onClick={() => setTopic(t)}
-              className={`whitespace-nowrap border-b-2 pb-3 text-sm font-medium transition-colors ${topic === t ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+              className={`whitespace-nowrap border-b-2 pb-3 text-sm font-medium transition-colors ${topic === t ? "border-brand text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
             >
               {t}
             </button>

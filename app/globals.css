@@ -22,7 +22,9 @@
     --accent-foreground: 0 0% 10%;
     --border: 0 0% 88%;
     --input: 0 0% 88%;
-    --ring: 0 0% 5%;
+    --ring: 23 99% 50%;
+    --brand: 23 99% 50%;
+    --brand-foreground: 0 0% 100%;
     --radius: 1rem;
   }
 
@@ -43,7 +45,9 @@
     --accent-foreground: 0 0% 90%;
     --border: 0 0% 16%;
     --input: 0 0% 13%;
-    --ring: 0 0% 90%;
+    --ring: 23 99% 55%;
+    --brand: 23 99% 55%;
+    --brand-foreground: 0 0% 100%;
   }
 }
 
@@ -97,8 +101,9 @@
 
   /* Black filled pill button */
   .btn-primary {
+    background: hsl(var(--brand)); color: hsl(var(--brand-foreground));
     @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
-           bg-foreground text-background font-bold text-sm
+           font-bold text-sm
            hover:opacity-85 transition-opacity duration-200
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
     font-family: var(--font-display), sans-serif !important;
@@ -283,7 +288,7 @@
   background-size: 260% 100%; background-position: 120% 0; -webkit-background-clip: text; background-clip: text;
   animation: intro-fill 0.95s cubic-bezier(.4,0,.2,1) 0.05s forwards; }
 #intro .intro-bar { position: absolute; left: 50%; bottom: 14%; width: min(220px, 40vw); height: 2px; margin-left: calc(min(220px, 40vw) / -2); background: hsl(var(--foreground) / 0.12); overflow: hidden; border-radius: 2px; }
-#intro .intro-bar::after { content: ""; position: absolute; inset: 0; background: hsl(var(--foreground)); transform-origin: left; transform: scaleX(0); animation: intro-bar 1s ease-out forwards; }
+#intro .intro-bar::after { content: ""; position: absolute; inset: 0; background: hsl(var(--brand)); transform-origin: left; transform: scaleX(0); animation: intro-bar 1s ease-out forwards; }
 @keyframes intro-fill { to { background-position: -40% 0; } }
 @keyframes intro-bar { to { transform: scaleX(1); } }
 @keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
@@ -291,3 +296,9 @@
 @keyframes drawcheck { to { stroke-dashoffset: 0; } }
 @keyframes askwave { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
 @keyframes askbar { 0%, 100% { height: 6px; } 50% { height: 18px; } }
+
+/* signature orange: selection, links in posts, focus */
+::selection { background: hsl(var(--brand) / 0.85); color: #fff; }
+.post-body a:not(.post-link) { text-decoration-color: hsl(var(--brand)); }
+.post-body blockquote { border-left-color: hsl(var(--brand)); }
+.post-link-arrow { color: hsl(var(--brand)); }

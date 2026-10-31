@@ -119,7 +119,7 @@ export function Hero() {
               <span
                 key={i}
                 className="block h-px transition-all duration-500"
-                style={{ width: on ? 28 : 6, background: on ? "#2f6bff" : "currentColor", opacity: on ? 1 : 0.35 }}
+                style={{ width: on ? 28 : 6, background: on ? "#fc6401" : "currentColor", opacity: on ? 1 : 0.35 }}
               />
             );
           })}

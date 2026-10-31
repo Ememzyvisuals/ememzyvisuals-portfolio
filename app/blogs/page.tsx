@@ -87,7 +87,7 @@ export default async function BlogsPage() {
             <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-foreground/70">Speech AI, African language models, or a product that has to work well in Nigeria. I am happy to talk it through.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/contact" className="rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background hover:opacity-90">Get in touch</Link>
+            <Link href="/contact" className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground hover:opacity-90">Get in touch</Link>
             <Link href="/work" className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:bg-secondary">See my work</Link>
           </div>
         </section>

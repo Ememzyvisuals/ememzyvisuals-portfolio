@@ -128,7 +128,7 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
             <textarea ref={replyRef} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={5} maxLength={2000} placeholder="Share your thoughts" className={cn(field, "mt-1.5 resize-y")} />
           </label>
           <div className="flex items-center gap-4 sm:col-span-2">
-            <button disabled={sending || !s.ready} className="rounded-full bg-foreground px-7 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-85 disabled:opacity-50">
+            <button disabled={sending || !s.ready} className="rounded-full bg-brand px-7 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-85 disabled:opacity-50">
               {sending ? "Posting..." : "Post comment"}
             </button>
             {note && <span className="text-sm text-muted-foreground">{note}</span>}

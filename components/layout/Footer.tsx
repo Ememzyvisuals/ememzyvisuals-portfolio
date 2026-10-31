@@ -69,10 +69,15 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div style={{ containerType: "inline-size" }}>
-          <p aria-hidden className="pointer-events-none select-none whitespace-nowrap text-center font-display font-extrabold leading-[0.8] tracking-[-0.055em] text-foreground"
-            style={{ fontSize: "13.4cqw" }}>
-            Emmanuel Ariyo
+        {/* sign-off: heavy condensed type (Anton) in the style of the reference, with the signature orange */}
+        <div style={{ containerType: "inline-size" }} className="relative select-none">
+          <p aria-hidden className="pointer-events-none whitespace-nowrap text-center uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "21cqw", letterSpacing: "-0.01em" }}>
+            Thank you
+          </p>
+          <p className="mt-2 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
+            <span className="text-foreground/80">Emmanuel Ariyo</span>
+            <span className="inline-block h-[0.14em] w-[1.6em] rounded-full bg-brand" aria-hidden />
+            <span className="text-brand">{year}</span>
           </p>
         </div>
         <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">

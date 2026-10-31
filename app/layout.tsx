@@ -125,6 +125,7 @@ const faqSchema = {
   ],
 };
 
+const signoff = localFont({ src: "./fonts/anton.woff2", variable: "--font-signoff", weight: "400", display: "swap" });
 const display = localFont({ src: "./fonts/bricolage.woff2", variable: "--font-display", weight: "200 800", display: "swap" });
 const body = localFont({ src: "./fonts/outfit.woff2", variable: "--font-body", weight: "100 900", display: "swap" });
 const serif = localFont({
@@ -134,7 +135,7 @@ const serif = localFont({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable} ${signoff.variable}`} suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }} />

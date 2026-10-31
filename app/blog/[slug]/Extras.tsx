@@ -23,7 +23,7 @@ export function Contents({ items }: { items: { id: string; text: string }[] }) {
       <ul className="mt-4 space-y-1 border-l border-border">
         {items.map((i) => (
           <li key={i.id}>
-            <a href={`#${i.id}`} className={`-ml-px block border-l-2 py-1.5 pl-4 leading-snug transition-colors ${active === i.id ? "border-foreground font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+            <a href={`#${i.id}`} className={`-ml-px block border-l-2 py-1.5 pl-4 leading-snug transition-colors ${active === i.id ? "border-brand font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
               {i.text}
             </a>
           </li>
@@ -54,7 +54,7 @@ export function Subscribe() {
         <form onSubmit={submit} className="flex gap-2">
           <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
             className="min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground/50" />
-          <button disabled={state === "sending"} className="rounded-xl bg-foreground px-5 py-3 text-sm font-semibold text-background disabled:opacity-60">
+          <button disabled={state === "sending"} className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground disabled:opacity-60">
             {state === "sending" ? "..." : "Subscribe"}
           </button>
         </form>
