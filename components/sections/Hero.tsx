@@ -111,9 +111,6 @@ export function Hero() {
             aria-hidden
           />
         )}
-        {/* soft fades from the page colour behind the text so it reads over the 3D (no box) */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-background/85 via-background/45 to-transparent md:inset-y-0 md:right-auto md:h-auto md:w-[62%] md:bg-gradient-to-r md:from-background/80 md:via-background/35" style={{ opacity: Math.max(name, cta) }} aria-hidden />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-background/90 via-background/55 to-transparent md:inset-y-0 md:right-auto md:h-auto md:w-[62%] md:bg-gradient-to-r md:from-background/80 md:via-background/35" style={{ opacity: role }} aria-hidden />
         {/* scroll position marker on the left */}
         <div className="absolute left-4 md:left-[4%] top-1/2 -translate-y-1/2 flex flex-col gap-3" aria-hidden>
           {[0, 1, 2].map((i) => {
@@ -138,7 +135,7 @@ export function Hero() {
             <br />
             Emmanuel
           </h1>
-          <p className="museum-shadow mt-5 max-w-[19rem] text-[13px] md:text-sm leading-relaxed font-medium text-foreground/95">
+          <p className="museum-shadow mt-5 max-w-[19rem] text-[13px] md:text-sm leading-relaxed font-medium text-foreground">
             Machine learning engineer and full-stack developer from Nigeria, building speech and language AI for
             African languages. Scroll to step into my workspace.
           </p>
@@ -156,10 +153,10 @@ export function Hero() {
             &amp; AI engineer
           </h2>
           <div className="mt-6 grid grid-cols-2 gap-6 max-w-md">
-            <p className="museum-shadow text-[12.5px] md:text-[13px] leading-relaxed font-medium text-foreground/95">
+            <p className="museum-shadow text-[12.5px] md:text-[13px] leading-relaxed font-medium text-foreground">
               Scalable web applications and AI systems, from the first commit to production.
             </p>
-            <p className="museum-shadow text-[12.5px] md:text-[13px] leading-relaxed font-medium text-foreground/95">
+            <p className="museum-shadow text-[12.5px] md:text-[13px] leading-relaxed font-medium text-foreground">
               Open-source African language models: speech recognition, text to speech and translation.
             </p>
           </div>

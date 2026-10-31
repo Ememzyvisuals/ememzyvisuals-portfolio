@@ -60,7 +60,7 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   /* light: a soft wash plus gallery spots from above */
   const hemi = new THREE.HemisphereLight(0xfff5e8, 0x6b5a4a, 0.7);
   scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xfff0dc, 1.6);
+  const key = new THREE.DirectionalLight(0xfff0dc, 1.2);
   key.position.set(-3, 7, 8);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -70,7 +70,7 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   scene.add(key);
   const spots: THREE.SpotLight[] = [];
   for (const x of [-4.6, -1.5, 1.7, 4.8]) {
-    const s = new THREE.SpotLight(0xffe2b8, 14, 14, 0.42, 0.75, 1.6);
+    const s = new THREE.SpotLight(0xffe2b8, 6, 14, 0.42, 0.8, 1.6);
     s.position.set(x, 5.6, 3.2);
     s.target.position.set(x, 0, 0);
     scene.add(s, s.target);
@@ -104,9 +104,9 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   scene.add(floorShade);
 
   /* frames */
-  const mMould = new THREE.MeshPhysicalMaterial({ color: 0x0e0c0b, roughness: 0.55, clearcoat: 0.35, clearcoatRoughness: 0.4, envMapIntensity: 0.5 });
-  const mMat = new THREE.MeshStandardMaterial({ color: 0xfbf8f2, roughness: 0.95 });
-  const mGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.04, metalness: 0, transparent: true, opacity: 0.05, envMapIntensity: 0.7, depthWrite: false });
+  const mMould = new THREE.MeshPhysicalMaterial({ color: 0x050404, roughness: 0.6, clearcoat: 0.25, clearcoatRoughness: 0.45, envMapIntensity: 0.15 });
+  const mMat = new THREE.MeshStandardMaterial({ color: 0xe9e4da, roughness: 0.95 });
+  const mGlass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.04, metalness: 0, transparent: true, opacity: 0.03, envMapIntensity: 0.4, depthWrite: false });
   const mBrass = new THREE.MeshPhysicalMaterial({ color: 0xd6b06a, metalness: 0.95, roughness: 0.22 });
   const mWire = new THREE.MeshStandardMaterial({ color: 0x8c8c8c, metalness: 0.8, roughness: 0.35 });
   const mThread = new THREE.MeshStandardMaterial({ color: 0xc0262d, roughness: 0.75 });
@@ -151,7 +151,8 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
     group.add(back);
     const tex = load(it.image, true);
     textures.push(tex);
-    const pic = new THREE.Mesh(new THREE.PlaneGeometry(iw, ih), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 }));
+    // shown at its true colours so the writing stays sharp, whatever the lights are doing
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(iw, ih), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false, color: 0xf4f4f4 }));
     pic.position.z = 0.03;
     group.add(pic);
     // a thin bevel line where the mount is cut
@@ -282,8 +283,8 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   function setMode(dark: boolean) {
     mWall.color.set(dark ? 0x5a524a : 0xf3ece2);
     hemi.intensity = dark ? 0.25 : 0.7;
-    key.intensity = dark ? 0.7 : 1.6;
-    spots.forEach((s) => (s.intensity = dark ? 26 : 14));
+    key.intensity = dark ? 0.6 : 1.2;
+    spots.forEach((s) => (s.intensity = dark ? 12 : 6));
     renderer.toneMappingExposure = dark ? 0.9 : 1.0;
   }
   setMode(opts.dark);
