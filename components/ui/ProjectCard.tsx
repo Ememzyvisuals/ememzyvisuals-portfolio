@@ -54,6 +54,8 @@ export function ProjectCard({ project, index = 0 }: Props) {
           <img
             src={project.coverImage!}
             alt={project.title ?? ""}
+            loading="lazy"
+            decoding="async"
             className={cn(
               "w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]",
               isMobile
