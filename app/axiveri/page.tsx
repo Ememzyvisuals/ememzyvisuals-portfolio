@@ -71,10 +71,10 @@ const MODEL_SERIES: Series[] = [
 ];
 
 const DATASETS = [
-  { id: "Axiveri/naija-tts-pcm-processed", name: "Naija TTS Pidgin", desc: "Cleaned Nigerian Pidgin speech and text pairs, ready for text to speech training.", downloads: "1,438" },
-  { id: "Axiveri/wazobia-tts-cc", name: "Wazobia TTS", desc: "Openly licensed multilingual speech for Nigerian language voices.", downloads: "149" },
+  { id: "Axiveri/naija-tts-pcm-processed", name: "naija-tts-pcm-processed", desc: "Cleaned Nigerian Pidgin speech and text pairs, ready for text to speech training.", downloads: "1,438" },
+  { id: "Axiveri/wazobia-tts-cc", name: "wazobia-tts-cc", desc: "Wazobia TTS CC: openly licensed (Creative Commons) multilingual speech for Nigerian language voices.", downloads: "149" },
   { id: "Axiveri/AfriVision-30K", name: "AfriVision-30K", desc: "Captioned images of African people, places and culture.", downloads: "81" },
-  { id: "Axiveri/naijatts-yo-processed", name: "Naija TTS Yoruba", desc: "Processed Yoruba speech with tone marks kept intact.", downloads: "8" },
+  { id: "Axiveri/naijatts-yo-processed", name: "naijatts-yo-processed", desc: "Processed Yoruba speech with tone marks kept intact.", downloads: "8" },
 ];
 
 export default function AxiveriPage() {

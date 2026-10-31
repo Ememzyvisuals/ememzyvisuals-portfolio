@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Shield } from "lucide-react";
+import { PlaneFlight } from "@/components/three/earth/PlaneFlight";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { PetPeek } from "@/components/ui/PetPeek";
@@ -70,6 +71,9 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
         body: JSON.stringify({ name, email, message: `[${CATEGORIES.find(c=>c.value===category)?.label}]${whatsapp ? ` | WhatsApp: ${whatsapp}` : ""}\n\n${message}` }),
       });
       if (res.ok) {
+        // the paper plane takes off from the Send button
+        const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]')?.getBoundingClientRect();
+        if (btn) window.dispatchEvent(new CustomEvent("contact:sent", { detail: { x: btn.left + btn.width / 2, y: btn.top + btn.height / 2 } }));
         setState("success");
         setName(""); setEmail(""); setWhatsapp(""); setMessage("");
         setBotPassed(false); setBotAnswer(""); setMath(generateMath());
@@ -95,11 +99,13 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
         <p className="text-muted-foreground text-sm mt-1">Emmanuel will get back to you within 24 hours.</p>
       </div>
       <button onClick={() => setState("idle")} className="btn-outline text-sm">Send Another</button>
+      <PlaneFlight />
     </div>
   );
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      <PlaneFlight />
 
       {/* Category */}
       <div className="space-y-1.5">
