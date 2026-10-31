@@ -2,7 +2,8 @@
 import Groq from "groq-sdk";
 
 export const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+  // the real key is set per request from the admin settings or Vercel (see app/api/chat); a placeholder lets the build run without one
+  apiKey: process.env.GROQ_API_KEY || "not-set",
 });
 
 export const CHAT_MODEL = "llama-3.3-70b-versatile";

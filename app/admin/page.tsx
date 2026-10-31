@@ -11,7 +11,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 function AdminContent() {
   const searchParams = useSearchParams();
   const [key, setKey] = useState(searchParams.get("key") || "");
-  const [tab, setTab] = useState<"site" | "blog comments" | "blogs" | "gallery" | "reviews" | "comments">("site");
+  const [tab, setTab] = useState<"site" | "gallery" | "reviews" | "blog comments">("site");
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [pw, setPw] = useState("");
 
@@ -69,7 +69,7 @@ function AdminContent() {
         </div>
 
         <div className="flex gap-0 overflow-x-auto border-b border-border">
-          {((["site", "blog comments", "blogs", "gallery", "reviews", "comments"] as const)).map((t) => (
+          {((["site", "gallery", "reviews", "blog comments"] as const)).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -87,373 +87,106 @@ function AdminContent() {
 
         {tab === "site" && <SiteAdmin adminKey={key} />}
         {tab === "blog comments" && <BlogCommentsAdmin adminKey={key} />}
-        {tab === "blogs" && <BlogAdmin />}
         {tab === "gallery" && <GalleryAdmin />}
         {tab === "reviews" && <ReviewAdmin />}
-        {tab === "comments" && <CommentsAdmin adminKey={key || ""} />}
       </div>
     </div>
   );
 }
 
-// ─── BLOG ADMIN ──────────────────────────────────────────────────────────────
-
-function BlogAdmin() {
-  type BlogItem = { id: string; title: string; slug: string; excerpt: string; content: string; category: string; tags: string[]; published: boolean; publishedAt: string | null; readingTime?: number; views: number; createdAt: string };
-  const [blogs, setBlogs] = useState<BlogItem[]>([]);
-  const [view, setView] = useState<"list" | "new" | "edit">("list");
-  const [editing, setEditing] = useState<BlogItem | null>(null);
-  const [msg, setMsg] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  // Form fields
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [category, setCategory] = useState("Engineering");
-  const [excerpt, setExcerpt] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
-  const [published, setPublished] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  const loadBlogs = async () => {
-    setLoading(true);
-    try {
-      const r = await fetch("/api/admin/blogs");
-      const d = await r.json();
-      setBlogs(Array.isArray(d) ? d : []);
-    } catch { setBlogs([]); }
-    setLoading(false);
-  };
-
-  useEffect(() => { loadBlogs(); }, []);
-
-  const openEdit = (b: BlogItem) => {
-    setEditing(b);
-    setTitle(b.title); setSlug(b.slug); setCategory(b.category);
-    setExcerpt(b.excerpt); setContent(b.content);
-    setTags(b.tags.join(", ")); setPublished(b.published);
-    setView("edit");
-  };
-
-  const openNew = () => {
-    setEditing(null);
-    setTitle(""); setSlug(""); setCategory("Engineering");
-    setExcerpt(""); setContent(""); setTags(""); setPublished(false);
-    setView("new");
-  };
-
-  const autoSlug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-
-  const save = async () => {
-    if (!title || !slug || !excerpt || !content) { setMsg("Fill all required fields"); return; }
-    setSaving(true);
-    const payload = { title, slug, excerpt, content, category, tags: tags.split(",").map(t => t.trim()).filter(Boolean), published, readingTime: Math.ceil(content.split(" ").length / 200), publishedAt: published ? new Date().toISOString() : null };
-    try {
-      let res;
-      if (editing) {
-        res = await fetch("/api/admin/blogs", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: editing.id, ...payload }) });
-      } else {
-        res = await fetch("/api/admin/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      }
-      if (res.ok) { setMsg(editing ? "Updated!" : "Published!"); await loadBlogs(); setView("list"); }
-      else setMsg("Save failed");
-    } catch { setMsg("Error"); }
-    setSaving(false);
-    setTimeout(() => setMsg(""), 3000);
-  };
-
-  const deleteBlog = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    await fetch(`/api/admin/blogs?id=${id}`, { method: "DELETE" });
-    setMsg("Deleted"); await loadBlogs();
-    setTimeout(() => setMsg(""), 2500);
-  };
-
-  const inputCls = "w-full px-4 py-3 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring";
-
-  if (view === "new" || view === "edit") return (
-    <div className="space-y-5 max-w-2xl">
-      <div className="flex items-center gap-3">
-        <button onClick={() => setView("list")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">← Back</button>
-        <h2 className="text-xl font-extrabold text-foreground">{view === "edit" ? "Edit Post" : "New Post"}</h2>
-      </div>
-      {msg && <p className="text-sm font-bold text-emerald-600">{msg}</p>}
-      <input value={title} onChange={e => { setTitle(e.target.value); if (!editing) setSlug(autoSlug(e.target.value)); }} placeholder="Post title *" className={inputCls} />
-      <input value={slug} onChange={e => setSlug(e.target.value)} placeholder="slug (auto-filled)" className={inputCls} />
-      <input value={excerpt} onChange={e => setExcerpt(e.target.value)} placeholder="Short excerpt *" className={inputCls} />
-      <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
-        {["Engineering","AI/ML","Career","Product","Tutorial","Other"].map(c => <option key={c}>{c}</option>)}
-      </select>
-      <input value={tags} onChange={e => setTags(e.target.value)} placeholder="Tags (comma separated)" className={inputCls} />
-      <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="Write your post in Markdown *" rows={16} className={cn(inputCls, "resize-none font-mono text-xs")} />
-      <label className="flex items-center gap-3 cursor-pointer">
-        <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} className="w-4 h-4 rounded" />
-        <span className="text-sm font-bold text-foreground">Publish immediately</span>
-      </label>
-      <button onClick={save} disabled={saving} className="btn-primary w-full justify-center">
-        {saving ? "Saving..." : view === "edit" ? "Save Changes" : "Publish Post"}
-      </button>
-    </div>
-  );
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div>
-          <h2 className="text-xl font-extrabold text-foreground">Blog Posts</h2>
-          <p className="text-sm text-muted-foreground mt-1">{blogs.length} posts total</p>
-        </div>
-        <div className="flex items-center gap-3">
-          {msg && <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">{msg}</span>}
-          <button onClick={openNew} className="btn-primary text-sm">+ New Post</button>
-        </div>
-      </div>
-
-      {loading ? (
-        <p className="text-sm text-muted-foreground">Loading...</p>
-      ) : blogs.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-border rounded-2xl">
-          <p className="font-bold text-foreground">No posts yet</p>
-          <button onClick={openNew} className="btn-outline text-sm mt-4">Write your first post</button>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {blogs.map((b) => (
-            <div key={b.id} className="p-5 rounded-2xl border border-border bg-card flex items-start justify-between gap-4 flex-wrap">
-              <div className="space-y-1 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className={cn("text-[10px] font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-widest",
-                    b.published ? "bg-foreground text-background" : "border border-border text-muted-foreground")}>
-                    {b.published ? "Live" : "Draft"}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{b.category}</span>
-                  <span className="text-xs text-muted-foreground">· {b.views} views</span>
-                </div>
-                <p className="font-extrabold text-foreground">{b.title}</p>
-                <p className="text-xs text-muted-foreground line-clamp-1">{b.excerpt}</p>
-              </div>
-              <div className="flex gap-2 flex-shrink-0">
-                <button onClick={() => openEdit(b)}
-                  className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
-                  Edit
-                </button>
-                <button onClick={() => deleteBlog(b.id, b.title)}
-                  className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
+// ─── GALLERY: photos and videos, uploaded straight to Cloudinary with a signed request ───
 function GalleryAdmin() {
-  type GalleryItem = { id: string; title: string; description?: string; imageUrl: string; mediaType?: string; thumbnailUrl?: string; category?: string; createdAt: string };
-  const [items, setItems] = useState<GalleryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editTitle, setEditTitle] = useState("");
-  const [editDesc, setEditDesc] = useState("");
-  const [msg, setMsg] = useState("");
-
-  // Upload form
-  const [cloudName, setCloudName] = useState("");
-  const [preset, setPreset] = useState("");
-  const [configSaved, setConfigSaved] = useState(false);
+  type Item = { id: string; title: string; description: string | null; url: string; kind: "image" | "video"; poster: string | null; category: string | null; featured: number; published: number; sort: number };
+  const [items, setItems] = useState<Item[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [category, setCategory] = useState("Work");
-  const [uploading, setUploading] = useState(false);
+  const [category, setCategory] = useState("Me");
+  const [featured, setFeatured] = useState(false);
+  const [progress, setProgress] = useState<number | null>(null);
+  const [msg, setMsg] = useState("");
 
-  useEffect(() => {
-    const cn = localStorage.getItem("cld_name") || "";
-    const cp = localStorage.getItem("cld_preset") || "";
-    if (cn) { setCloudName(cn); setPreset(cp); setConfigSaved(true); }
-    loadItems();
-  }, []);
-
-  const loadItems = async () => {
-    setLoading(true);
-    try {
-      const r = await fetch("/api/admin/gallery");
-      const d = await r.json();
-      setItems(Array.isArray(d) ? d : []);
-    } catch { setItems([]); }
-    setLoading(false);
-  };
-
-  const saveConfig = () => {
-    localStorage.setItem("cld_name", cloudName);
-    localStorage.setItem("cld_preset", preset);
-    setConfigSaved(true);
-    setMsg("Config saved");
-    setTimeout(() => setMsg(""), 2000);
-  };
+  const load = async () => { const r = await fetch("/api/admin/gallery"); const d = await r.json().catch(() => []); setItems(Array.isArray(d) ? d : []); };
+  useEffect(() => { load(); }, []);
 
   const upload = async () => {
-    if (!file || !title || !cloudName || !preset) { setMsg("Fill all fields and configure Cloudinary"); return; }
-    setUploading(true);
-    try {
-      const isVideo = file.type.startsWith("video/");
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("upload_preset", preset);
-      const resourceType = isVideo ? "video" : "image";
-      const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, { method: "POST", body: fd });
-      const data = await r.json();
-      if (!data.secure_url) throw new Error("Upload failed");
-      // Cloudinary serves an auto-generated video thumbnail by swapping the extension for .jpg
-      const thumbnailUrl = isVideo ? data.secure_url.replace(/\.[a-z0-9]+$/i, ".jpg") : undefined;
-      await fetch("/api/admin/gallery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title, description: desc, imageUrl: data.secure_url,
-          mediaType: isVideo ? "VIDEO" : "IMAGE", thumbnailUrl,
-          category, published: true, featured: false, sortOrder: 0,
-        }),
-      });
-      setMsg("Uploaded!"); setFile(null); setTitle(""); setDesc("");
-      await loadItems();
-    } catch { setMsg("Upload failed"); }
-    setUploading(false);
-    setTimeout(() => setMsg(""), 3000);
-  };
-
-  const startEdit = (item: GalleryItem) => {
-    setEditingId(item.id);
-    setEditTitle(item.title);
-    setEditDesc(item.description || "");
-  };
-
-  const saveEdit = async (id: string) => {
-    await fetch("/api/admin/gallery", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, title: editTitle, description: editDesc }),
+    if (!file || !title.trim()) { setMsg("Pick a file and give it a title."); return; }
+    setMsg(""); setProgress(0);
+    const sig = await fetch("/api/admin/upload-sign", { method: "POST" }).then((r) => r.json()).catch(() => ({ error: "Could not reach the server." }));
+    if (sig.error) { setMsg(sig.error); setProgress(null); return; }
+    const isVideo = file.type.startsWith("video/");
+    const fd = new FormData();
+    fd.append("file", file); fd.append("api_key", sig.key); fd.append("timestamp", String(sig.timestamp)); fd.append("folder", sig.folder); fd.append("signature", sig.signature);
+    // upload with progress (videos can be large)
+    const res: { secure_url?: string; public_id?: string; width?: number; height?: number; duration?: number; error?: { message: string } } = await new Promise((resolve) => {
+      const x = new XMLHttpRequest();
+      x.open("POST", `https://api.cloudinary.com/v1_1/${sig.cloud}/${isVideo ? "video" : "image"}/upload`);
+      x.upload.onprogress = (e) => e.lengthComputable && setProgress(Math.round((e.loaded / e.total) * 100));
+      x.onload = () => { try { resolve(JSON.parse(x.responseText)); } catch { resolve({ error: { message: "Upload failed." } }); } };
+      x.onerror = () => resolve({ error: { message: "Upload failed. Check your connection." } });
+      x.send(fd);
     });
-    setMsg("Updated!"); setEditingId(null);
-    await loadItems();
-    setTimeout(() => setMsg(""), 2500);
+    if (!res.secure_url) { setMsg(res.error?.message || "Upload failed."); setProgress(null); return; }
+    // Cloudinary serves light, phone-friendly versions on the fly: q_auto,f_auto, and a poster frame for videos
+    const base = `https://res.cloudinary.com/${sig.cloud}/${isVideo ? "video" : "image"}/upload`;
+    const url = isVideo ? `${base}/q_auto,vc_auto/${res.public_id}.mp4` : `${base}/q_auto,f_auto,w_1600/${res.public_id}`;
+    const poster = isVideo ? `${base}/so_1,q_auto,f_jpg,w_1200/${res.public_id}.jpg` : null;
+    const r = await fetch("/api/admin/gallery", { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ title: title.trim(), description: desc.trim() || null, url, kind: isVideo ? "video" : "image", poster, category, featured, width: res.width ?? null, height: res.height ?? null, duration: res.duration ?? null }) });
+    setProgress(null);
+    if (!r.ok) { setMsg("Uploaded, but saving to the gallery failed. Is Turso connected?"); return; }
+    setFile(null); setTitle(""); setDesc(""); setFeatured(false); setMsg("Added to the gallery.");
+    load();
   };
-
-  const deleteItem = async (id: string) => {
-    if (!confirm("Delete this image permanently?")) return;
-    await fetch(`/api/admin/gallery?id=${id}`, { method: "DELETE" });
-    setMsg("Deleted"); await loadItems();
-    setTimeout(() => setMsg(""), 2500);
-  };
-
-  const inputCls = "w-full px-4 py-3 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring";
+  const patch = async (id: string, body: Record<string, unknown>) => { await fetch("/api/admin/gallery", { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ id, ...body }) }); load(); };
+  const remove = async (id: string) => { if (!confirm("Remove this from the gallery?")) return; await fetch(`/api/admin/gallery?id=${id}`, { method: "DELETE" }); load(); };
+  const field = "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-foreground/50";
 
   return (
-    <div className="space-y-8 max-w-2xl">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-xl font-extrabold text-foreground">Gallery</h2>
-        {msg && <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">{msg}</span>}
-      </div>
-
-      {/* Cloudinary config */}
-      <GlassPanel
-        cornerRadius={20}
-        displacementScale={28}
-        blurAmount={0.14}
-        elasticity={0.05}
-        className="!block p-5 space-y-3"
-        fallbackClassName="card-surface p-5 space-y-3"
-      >
-      {!configSaved ? (
-        <>
-          <p className="text-sm font-bold text-foreground">Set up Cloudinary (one-time)</p>
-          <input value={cloudName} onChange={e => setCloudName(e.target.value)} placeholder="Cloud Name" className={inputCls} />
-          <input value={preset} onChange={e => setPreset(e.target.value)} placeholder="Upload Preset (unsigned)" className={inputCls} />
-          <button onClick={saveConfig} className="btn-primary text-sm">Save Config</button>
-        </>
-      ) : (
-        <div className="space-y-3">
-          <p className="text-xs text-muted-foreground font-bold">Cloudinary: {cloudName} · <button onClick={() => setConfigSaved(false)} className="underline">Change</button></p>
-          <input type="file" accept="image/*,video/*" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />
-          <p className="text-[11px] text-muted-foreground">Images or videos, Cloudinary handles both.</p>
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Image title *" className={inputCls} />
-          <input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Caption (optional)" className={inputCls} />
-          <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
-            {["Work","BTS","Events","Creative"].map(c => <option key={c}>{c}</option>)}
+    <div className="space-y-10">
+      <section className="card-surface space-y-4 p-6">
+        <h2 className="font-display text-xl font-extrabold">Add a photo or video</h2>
+        <input type="file" accept="image/*,video/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="block w-full text-sm" />
+        {file && <p className="text-xs text-muted-foreground">{file.name} · {(file.size / 1024 / 1024).toFixed(1)} MB</p>}
+        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" className={field} />
+        <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="A line about it (optional)" rows={2} className={field} />
+        <div className="flex flex-wrap items-center gap-4">
+          <select value={category} onChange={(e) => setCategory(e.target.value)} className={cn(field, "w-auto")}>
+            {["Me", "Work", "Behind the scenes", "Talks", "Events"].map((c) => <option key={c}>{c}</option>)}
           </select>
-          <button onClick={upload} disabled={uploading} className="btn-primary w-full justify-center text-sm">
-            {uploading ? "Uploading..." : "Upload"}
-          </button>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} /> Feature it first</label>
         </div>
-      )}
-      </GlassPanel>
+        <div className="flex items-center gap-4">
+          <button onClick={upload} disabled={progress !== null} className="btn-primary text-sm disabled:opacity-60">{progress !== null ? `Uploading ${progress}%` : "Upload"}</button>
+          {msg && <p className="text-sm text-muted-foreground">{msg}</p>}
+        </div>
+      </section>
 
-      {/* Gallery items */}
-      {loading ? (
-        <p className="text-sm text-muted-foreground">Loading...</p>
-      ) : items.length === 0 ? (
-        <div className="text-center py-12 border border-dashed border-border rounded-2xl">
-          <p className="text-muted-foreground text-sm">No images yet, upload one above</p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          <p className="text-sm font-extrabold text-foreground">{items.length} images</p>
-          {items.map((item) => (
-            <div key={item.id} className="p-4 rounded-2xl border border-border bg-card space-y-3">
-              <div className="flex gap-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.mediaType === "VIDEO" ? (item.thumbnailUrl || item.imageUrl) : item.imageUrl} alt={item.title} className="w-20 h-20 rounded-xl object-cover flex-shrink-0" />
-                <div className="flex-1 space-y-1">
-                  {editingId === item.id ? (
-                    <div className="space-y-2">
-                      <input value={editTitle} onChange={e => setEditTitle(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring" />
-                      <input value={editDesc} onChange={e => setEditDesc(e.target.value)}
-                        placeholder="Caption"
-                        className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-ring" />
-                      <div className="flex gap-2">
-                        <button onClick={() => saveEdit(item.id)}
-                          className="px-3 py-1.5 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-80 transition-opacity">
-                          Save
-                        </button>
-                        <button onClick={() => setEditingId(null)}
-                          className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <p className="font-extrabold text-foreground text-sm">{item.title}</p>
-                      {item.description && <p className="text-xs text-muted-foreground">{item.description}</p>}
-                      {item.category && <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{item.category}</p>}
-                    </>
-                  )}
+      <section>
+        <h2 className="font-display text-xl font-extrabold">In the gallery ({items.length})</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((it, i) => (
+            <div key={it.id} className={cn("card-surface overflow-hidden", !it.published && "opacity-60")}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={it.kind === "video" ? it.poster || it.url : it.url} alt="" className="aspect-video w-full object-cover" />
+              <div className="space-y-2 p-4">
+                <p className="text-xs text-muted-foreground">{it.kind === "video" ? "Video" : "Photo"} · {it.category || "Uncategorised"} {it.featured ? "· Featured" : ""} {!it.published ? "· Hidden" : ""}</p>
+                <input defaultValue={it.title} onBlur={(e) => e.target.value !== it.title && patch(it.id, { title: e.target.value })} className={field} />
+                <div className="flex flex-wrap gap-3 text-xs font-semibold">
+                  <button onClick={() => patch(it.id, { featured: !it.featured })} className="hover:underline">{it.featured ? "Unfeature" : "Feature"}</button>
+                  <button onClick={() => patch(it.id, { published: !it.published })} className="hover:underline">{it.published ? "Hide" : "Show"}</button>
+                  <button disabled={i === 0} onClick={() => patch(it.id, { sort: it.sort - 1 })} className="hover:underline disabled:opacity-30">Move up</button>
+                  <button onClick={() => patch(it.id, { sort: it.sort + 1 })} className="hover:underline">Move down</button>
+                  <button onClick={() => remove(it.id)} className="text-red-500 hover:underline">Remove</button>
                 </div>
               </div>
-              {editingId !== item.id && (
-                <div className="flex gap-2">
-                  <button onClick={() => startEdit(item)}
-                    className="px-3 py-1.5 rounded-xl border border-border text-xs font-bold text-muted-foreground hover:text-foreground transition-colors">
-                    Edit Caption
-                  </button>
-                  <button onClick={() => deleteItem(item.id)}
-                    className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
-                    Delete
-                  </button>
-                </div>
-              )}
             </div>
           ))}
         </div>
-      )}
+      </section>
     </div>
   );
 }
-
 function ReviewAdmin() {
   type ReviewItem = { id: string; name: string; role?: string; company?: string; content: string; status: string; rating: number; createdAt: string };
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
@@ -594,143 +327,6 @@ export default function AdminPage() {
     </Suspense>
   );
 }
-
-// ─── COMMENTS ADMIN ─────────────────────────────────────────────────────────
-function CommentsAdmin({ adminKey }: { adminKey: string }) {
-  const [comments, setComments] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"pending" | "approved">("pending");
-  const [msg, setMsg] = useState("");
-
-  const load = async () => {
-    setLoading(true);
-    try {
-      const r = await fetch(`/api/admin/comments?key=${adminKey}&status=${filter}`);
-      const data = await r.json();
-      setComments(Array.isArray(data) ? data : []);
-    } catch { setComments([]); }
-    setLoading(false);
-  };
-
-  useEffect(() => { load(); }, [filter]);
-
-  const approve = async (id: string) => {
-    await fetch(`/api/admin/comments?key=${adminKey}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, approved: true }),
-    });
-    setMsg("Approved");
-    setTimeout(() => setMsg(""), 2000);
-    load();
-  };
-
-  const reject = async (id: string) => {
-    await fetch(`/api/admin/comments?key=${adminKey}&id=${id}`, { method: "DELETE" });
-    setMsg("Deleted");
-    setTimeout(() => setMsg(""), 2000);
-    load();
-  };
-
-  const fmt = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div>
-          <h2 className="text-xl font-extrabold text-foreground">Blog Comments</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Comments submitted on blog posts. Approve to make them visible to readers.
-          </p>
-        </div>
-        {msg && (
-          <span className="text-xs font-bold text-emerald-600 border border-emerald-200 px-3 py-1.5 rounded-xl">
-            {msg}
-          </span>
-        )}
-      </div>
-
-      {/* Filter tabs */}
-      <div className="flex gap-2">
-        {(["pending", "approved"] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={cn(
-              "px-4 py-2 rounded-xl text-sm font-bold capitalize transition-colors",
-              filter === f
-                ? "bg-foreground text-background"
-                : "border border-border text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {f}
-          </button>
-        ))}
-      </div>
-
-      {loading ? (
-        <div className="text-center py-16 text-muted-foreground text-sm">Loading comments...</div>
-      ) : comments.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-border rounded-2xl">
-          <p className="font-bold text-foreground">No {filter} comments</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {filter === "pending"
-              ? "When readers submit comments on blog posts, they appear here."
-              : "Approved comments show on the blog post for all readers."}
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {comments.map((c: any) => (
-            <div key={c.id} className="p-5 rounded-2xl border border-border bg-card space-y-3">
-              <div className="flex items-start justify-between gap-3 flex-wrap">
-                <div className="space-y-0.5">
-                  <p className="font-extrabold text-foreground text-sm">{c.name}</p>
-                  <p className="text-xs text-muted-foreground">{c.email}</p>
-                  {c.blog && (
-                    <p className="text-xs text-muted-foreground">
-                      On:{" "}
-                      <a href={`/blog/${c.blog.slug}`} target="_blank" rel="noopener noreferrer"
-                        className="underline underline-offset-2 hover:text-foreground transition-colors">
-                        {c.blog.title}
-                      </a>
-                    </p>
-                  )}
-                  <p className="text-xs text-muted-foreground">{fmt(c.createdAt)}</p>
-                </div>
-                <div className="flex gap-2">
-                  {!c.approved && (
-                    <button
-                      onClick={() => approve(c.id)}
-                      className="px-3 py-1.5 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-80 transition-opacity"
-                    >
-                      Approve
-                    </button>
-                  )}
-                  <button
-                    onClick={() => reject(c.id)}
-                    className="px-3 py-1.5 rounded-xl border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-              <div className="bg-secondary rounded-xl px-4 py-3">
-                <p className="text-sm text-foreground/80 leading-relaxed">{c.content}</p>
-              </div>
-              {c.approved && (
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" /> Visible to readers
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 
 // ─── SITE: editable keys, subscribers and post stats, all stored in Turso ─────
 type SiteData = {

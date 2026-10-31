@@ -1,14 +1,10 @@
-// app/api/admin/reviews/route.ts
+// app/api/admin/reviews/route.ts: every review, for moderation.
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { isAdmin } from "@/lib/adminAuth";
+import { listReviews } from "@/lib/store";
 
-export async function GET() {
-  try {
-    const reviews = await prisma.review.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    return NextResponse.json(reviews);
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
+export async function GET(req: Request) {
+  if (!isAdmin(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try { return NextResponse.json((await listReviews()).map((r) => ({ ...r, createdAt: new Date(r.t).toISOString() }))); }
+  catch { return NextResponse.json([]); }
 }

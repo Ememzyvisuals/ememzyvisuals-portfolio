@@ -1,31 +1,16 @@
-// app/api/visitors/route.ts
+// app/api/visitors/route.ts: the visitor counter, kept in Turso.
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { q, tursoReady } from "@/lib/turso";
+import { ensureTables } from "@/lib/store";
 
-// GET, return current count
-export async function GET() {
-  try {
-    const record = await prisma.visitorCount.upsert({
-      where: { id: "singleton" },
-      update: {},
-      create: { id: "singleton", count: 0 },
-    });
-    return NextResponse.json({ count: record.count });
-  } catch {
-    return NextResponse.json({ count: 0 });
-  }
+async function read(inc: boolean) {
+  if (!tursoReady) return 0;
+  await ensureTables();
+  const [, rows] = await q(
+    inc ? ["INSERT INTO counters(k, n) VALUES('visitors', 1) ON CONFLICT(k) DO UPDATE SET n = n + 1"] : ["INSERT INTO counters(k, n) VALUES('visitors', 0) ON CONFLICT(k) DO NOTHING"],
+    ["SELECT n FROM counters WHERE k = 'visitors'"],
+  );
+  return Number(rows[0]?.n ?? 0);
 }
-
-// POST, increment count
-export async function POST() {
-  try {
-    const record = await prisma.visitorCount.upsert({
-      where: { id: "singleton" },
-      update: { count: { increment: 1 } },
-      create: { id: "singleton", count: 1 },
-    });
-    return NextResponse.json({ count: record.count });
-  } catch {
-    return NextResponse.json({ count: 0 });
-  }
-}
+export async function GET() { try { return NextResponse.json({ count: await read(false) }); } catch { return NextResponse.json({ count: 0 }); } }
+export async function POST() { try { return NextResponse.json({ count: await read(true) }); } catch { return NextResponse.json({ count: 0 }); } }

@@ -2,7 +2,8 @@ import { cfg } from "@/lib/config";
 // app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
+import { q, tursoReady } from "@/lib/turso";
+import { ensureTables } from "@/lib/store";
 
 const contactSchema = z.object({
   name: z.string().min(2).max(100),
@@ -24,10 +25,10 @@ export async function POST(req: NextRequest) {
 
     const { name, email, message } = parsed.data;
 
-    // Save to database first (always works)
-    await prisma.message.create({
-      data: { name, email, message },
-    });
+    // keep a copy of every message in Turso (never blocks sending)
+    if (tursoReady) {
+      try { await ensureTables(); await q(["INSERT INTO messages(name, email, body, t) VALUES(?, ?, ?, ?)", name, email, message, Date.now()]); } catch {}
+    }
 
     // Send email if Resend is configured
     const resendKey = await cfg("RESEND_API_KEY");
