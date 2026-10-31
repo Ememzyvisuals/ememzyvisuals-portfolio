@@ -8,7 +8,7 @@ export const ALL_PROJECTS: Partial<Project>[] = [
     subtitle: "Multi-Agent AI Development Platform",
     description:
       "A production-grade, multi-agent AI development assistant that enables developers to build complete full-stack applications, WhatsApp bots, automation tools, and REST APIs directly from natural language prompts.",
-    longDesc: `ClaudGPT is a production-grade, multi-agent AI development assistant that enables developers to build complete full-stack applications, WhatsApp bots, automation tools, and REST APIs directly from natural language prompts. It features a sophisticated pipeline of 9 specialized AI agents that collaborate across planning, architecture, coding, debugging, and review stages — delivering finished, exportable projects with live previews.
+    longDesc: `ClaudGPT is a production-grade, multi-agent AI development assistant that enables developers to build complete full-stack applications, WhatsApp bots, automation tools, and REST APIs directly from natural language prompts. It features a sophisticated pipeline of 9 specialized AI agents that collaborate across planning, architecture, coding, debugging, and review stages, delivering finished, exportable projects with live previews.
 
 Problem Solved:
 Traditional AI coding tools are limited to single-turn suggestions and require heavy manual integration. ClaudGPT automates the entire development lifecycle, dramatically reducing time from idea to production-ready code while maintaining high code quality and security standards.
@@ -117,7 +117,7 @@ Problem Solved:
 Students in areas with unstable internet often cannot access quality digital study tools. NaijaPrep delivers a fully functional offline experience with rich resources and gamification to boost consistency and exam performance.
 
 Key Features:
-- Full offline functionality — works without internet
+- Full offline functionality, works without internet
 - JAMB, WAEC, and NECO practice questions
 - AI Tutor for instant answers
 - Daily Challenge and streak tracking
@@ -278,17 +278,17 @@ Challenges Faced & Solutions:
     title: "Ekklesia",
     subtitle: "Multilingual Bible & Church Companion App",
     description:
-      "A free, offline-first mobile companion app for reading and listening to the Bible in five languages, keeping up with sermons and live radio, asking an AI assistant for prayer or a devotional, and playing Bible-themed games — all usable with no internet connection.",
-    longDesc: `Ekklesia is a free, offline-first companion app for reading and listening to the Bible in English, Yoruba, Hausa, Igbo, and Nigerian Pidgin, keeping up with sermons and live radio, asking an AI assistant for a prayer or a devotional, and playing a couple of Bible-themed games — all in one place, and all still usable with no internet connection once opened at least once.
+      "A free, offline-first mobile companion app for reading and listening to the Bible in five languages, keeping up with sermons and live radio, asking an AI assistant for prayer or a devotional, and playing Bible-themed games, all usable with no internet connection.",
+    longDesc: `Ekklesia is a free, offline-first companion app for reading and listening to the Bible in English, Yoruba, Hausa, Igbo, and Nigerian Pidgin, keeping up with sermons and live radio, asking an AI assistant for a prayer or a devotional, and playing a couple of Bible-themed games, all in one place, and all still usable with no internet connection once opened at least once.
 
 Problem Solved:
-Believers in low-connectivity areas need reliable, offline access to Scripture, sermons, and study tools in their own language — not another app that stops working the moment the signal drops.
+Believers in low-connectivity areas need reliable, offline access to Scripture, sermons, and study tools in their own language, not another app that stops working the moment the signal drops.
 
 Key Features:
 - Full Bible in five languages, downloaded on first launch for complete offline reading
 - Chapter-by-chapter audio playback with adjustable speed, verse highlighting, and auto-scroll
 - Live DCLM Radio streaming (persists through screen lock and app switching) plus a full Sermon Library
-- AI Assistant for verse explanations, prayer, and devotionals — powered by the user's own free Groq API key
+- AI Assistant for verse explanations, prayer, and devotionals, powered by the user's own free Groq API key
 - Bible Quiz and Bible Word Search, both fully offline
 - Downloads manager, adjustable text size app-wide, and light/dark appearance
 
@@ -318,10 +318,10 @@ Challenges Faced & Solutions:
     title: "Africlaude",
     subtitle: "Open-Source Language Model for African Contexts",
     description:
-      "A 7B-parameter open-source language model built by Axiveri for African contexts — trained, fine-tuned, and published personally, not a wrapper around someone else's model.",
+      "A 7B-parameter open-source language model built by Axiveri for African contexts, trained, fine-tuned, and published personally, not a wrapper around someone else's model.",
     longDesc: `Africlaude is an open-source language model series built under Axiveri, the AI research organization I founded. Africlaude-7B is live on HuggingFace; a v2 with dedicated Yoruba, Igbo, and Hausa support is in development.
 
-This is personal engineering work, not integration work — the training, fine-tuning, evaluation, and publishing pipeline for Africlaude was built and run by me end-to-end.`,
+This is personal engineering work, not integration work, the training, fine-tuning, evaluation, and publishing pipeline for Africlaude was built and run by me end-to-end.`,
     category: "AI_ML",
     status: "COMPLETED",
     featured: true,
@@ -341,7 +341,7 @@ This is personal engineering work, not integration work — the training, fine-t
       "A Whisper large-v3 LoRA fine-tune for Nigerian speech recognition, covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian-accented English.",
     longDesc: `NaijaVox comes in two public versions: NaijaVox-V1 and NaijaVox 2.0 (https://huggingface.co/Axiveri/NaijaVox-2.0), which adds SpecAugment and realistic noise augmentation and reaches roughly 85% accuracy on Pidgin with strong code-switching.
 
-NaijaVox-V1 is a fine-tuned Whisper large-v3 model (via LoRA) built under Axiveri for Nigerian multilingual speech recognition — trained on a dual-T4 Kaggle setup, covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian-accented English.
+NaijaVox-V1 is a fine-tuned Whisper large-v3 model (via LoRA) built under Axiveri for Nigerian multilingual speech recognition, trained on a dual-T4 Kaggle setup, covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian-accented English.
 
 Along the way this involved resolving real production ML bugs: a dtype mismatch between float32 inputs and fp16 weights under DataParallel, a gradient-checkpointing incompatibility (resolved via use_reentrant=False), a silent augmentation flag bug, and a hardcoded dtype cast at eval time.`,
     category: "AI_ML",
@@ -360,8 +360,8 @@ Along the way this involved resolving real production ML bugs: a dtype mismatch 
     title: "WazobiaVoice",
     subtitle: "Multilingual TTS & Voice Cloning for Nigerian Languages",
     description:
-      "A ~2B-parameter multilingual text-to-speech and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English — one model, five languages.",
-    longDesc: `WazobiaVoice extends Chatterbox's multilingual TTS architecture to support Nigerian languages it wasn't originally designed for — including Yoruba's tonal diacritics. Fine-tuned via LoRA adapters on AMD Developer Cloud (ROCm) across a ~31k-clip, ~14GB training set.
+      "A ~2B-parameter multilingual text-to-speech and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, one model, five languages.",
+    longDesc: `WazobiaVoice extends Chatterbox's multilingual TTS architecture to support Nigerian languages it wasn't originally designed for, including Yoruba's tonal diacritics. Fine-tuned via LoRA adapters on AMD Developer Cloud (ROCm) across a ~31k-clip, ~14GB training set.
 
 Training ran to completion across 7 epochs, with checkpoints merged and published to HuggingFace via an isolated Kaggle merge workflow (built to work around disk-quota constraints). Along the way this involved fixing a silent double from_pretrained call that was discarding prior epoch progress at merge time, missing --no-deps dependencies, a checkpoint epoch-labeling off-by-one, and a CUDA device-side assert crash resolved via per-epoch subprocess isolation. Evaluated across epochs using DNSMOS scoring.`,
     category: "AI_ML",
@@ -383,7 +383,7 @@ Training ran to completion across 7 epochs, with checkpoints merged and publishe
       "A FLUX-based LoRA fine-tune trained on nearly 15,000 captioned images for image generation reflecting African people, places, and contexts.",
     longDesc: `AfriVision-Base is a FLUX.2 klein-base-4B LoRA fine-tune, trained under Axiveri on the Axiveri/AfriVision-30K dataset (14,792 images) via a three-notebook Kaggle pipeline: Florence-2 captioning, LoRA training, and CLIP-based cleanup. The trained LoRA was fused into the base model's attention weights and published to HuggingFace.
 
-Building the pipeline meant resolving a transformers version incompatibility, CLIP pooled-embedding extraction failures, and flash_attn compile hangs on Kaggle — plus a subtler bug where calling device_map='balanced' twice in the same process left stale multi-GPU allocations, fixed with explicit per-device cleanup after each pipeline deletion.`,
+Building the pipeline meant resolving a transformers version incompatibility, CLIP pooled-embedding extraction failures, and flash_attn compile hangs on Kaggle, plus a subtler bug where calling device_map='balanced' twice in the same process left stale multi-GPU allocations, fixed with explicit per-device cleanup after each pipeline deletion.`,
     category: "AI_ML",
     status: "COMPLETED",
     featured: false,

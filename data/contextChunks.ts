@@ -10,7 +10,7 @@ export const knowledgeChunks = [
   },
   {
     source: "bio",
-    content: `Emmanuel's engineering philosophy centers on building systems that actually work in the real world — offline-first, network-resilient, AI-augmented, and production-ready. He doesn't just build MVPs; he builds platforms. His work spans from consumer apps serving Nigerian students to AI benchmarking research published on Kaggle.`,
+    content: `Emmanuel's engineering philosophy centers on building systems that actually work in the real world, offline-first, network-resilient, AI-augmented, and production-ready. He doesn't just build MVPs; he builds platforms. His work spans from consumer apps serving Nigerian students to AI benchmarking research published on Kaggle.`,
   },
   {
     source: "bio",
@@ -40,7 +40,7 @@ export const knowledgeChunks = [
   },
   {
     source: "project",
-    content: `NairaNest is a high-fidelity fintech simulation platform built by Emmanuel that replicates core digital banking processes — account management, transfers, bill payments, and real-time transaction monitoring. Built with React, Firebase, Tailwind CSS, Docker. Live at nairanest.netlify.app.`,
+    content: `NairaNest is a high-fidelity fintech simulation platform built by Emmanuel that replicates core digital banking processes, account management, transfers, bill payments, and real-time transaction monitoring. Built with React, Firebase, Tailwind CSS, Docker. Live at nairanest.netlify.app.`,
   },
   {
     source: "project",
@@ -92,21 +92,21 @@ export const knowledgeChunks = [
   // ─── PHILOSOPHY ───────────────────────────────────────────────────────────
   {
     source: "philosophy",
-    content: `Emmanuel's engineering philosophy: "Build systems that work for people who don't have perfect conditions — no stable internet, low-end devices, limited data." This drives his offline-first approach (NaijaPrep) and his focus on Nigerian market needs. He believes in measurable results over impressive demos.`,
+    content: `Emmanuel's engineering philosophy: "Build systems that work for people who don't have perfect conditions, no stable internet, low-end devices, limited data." This drives his offline-first approach (NaijaPrep) and his focus on Nigerian market needs. He believes in measurable results over impressive demos.`,
   },
   {
     source: "philosophy",
-    content: `Emmanuel believes AI should be honest and self-aware. This drove him to create TruthGuard — a benchmark that exposes LLM overconfidence. He contributes to AI safety through practical tools the community can use and build upon.`,
+    content: `Emmanuel believes AI should be honest and self-aware. This drove him to create TruthGuard, a benchmark that exposes LLM overconfidence. He contributes to AI safety through practical tools the community can use and build upon.`,
   },
 
   // ─── AXIVERI ──────────────────────────────────────────────────────────────
   {
     source: "axiveri",
-    content: `Emmanuel Ariyo is the founder of Axiveri — an African AI research initiative. Axiveri builds open-source language models for African contexts. The Axiveri HuggingFace organization is at huggingface.co/Axiveri.`,
+    content: `Emmanuel Ariyo is the founder of Axiveri, an African AI research initiative. Axiveri builds open-source language models for African contexts. The Axiveri HuggingFace organization is at huggingface.co/Axiveri.`,
   },
   {
     source: "axiveri",
-    content: `Africlaude is a series of open-source language models developed by Axiveri, founded by Emmanuel Ariyo. Africlaude-7B is the first model in the series — a 7-billion parameter open-source language model freely available on HuggingFace at huggingface.co/Axiveri/Africlaude-7B. More models (13B, 70B) are in development.`,
+    content: `Africlaude is a series of open-source language models developed by Axiveri, founded by Emmanuel Ariyo. Africlaude-7B is the first model in the series, a 7-billion parameter open-source language model freely available on HuggingFace at huggingface.co/Axiveri/Africlaude-7B. More models (13B, 70B) are in development.`,
   },
   {
     source: "axiveri",
