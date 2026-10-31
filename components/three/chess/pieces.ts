@@ -13,7 +13,7 @@ export const WHITE: { back: Tech[]; pawns: Tech[] } = {
     t("Hugging Face", "Hosting, sharing and versioning the open models I publish.", "Axiveri models"),
     t("PyTorch", "Training and fine-tuning speech, language and vision models.", "NaijaVox 2.0, Africlaude-7B"),
     t("Python", "The language behind all my ML work, data pipelines and tooling.", "NaijaTTS, AfriVision"),
-    t("Whisper", "Speech recognition for Nigerian languages, fine-tuned with LoRA.", "NaijaVox 2.0"),
+    t("Kaggle", "Free GPU notebooks for training runs and public datasets.", "Model training"),
     t("Rust", "Fast, safe command line tools.", "MICRODRAGON"),
     t("TypeScript", "Typed front ends and back ends that stay easy to change.", "Convertly, Jagora"),
   ],

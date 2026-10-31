@@ -167,6 +167,25 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   const mWhite = lacquer(ash, 0xffe9cc, 0.3, 0.25);
   const mBlack = lacquer(ebony, 0x3a302b, 0.32, 0.25);
   const mFelt = new THREE.MeshStandardMaterial({ color: 0x1d3b2a, roughness: 1 });
+  // tech logos: one 8 x 4 atlas, a cream enamel badge with a brass rim on the front of every piece
+  const atlas = tex("logos", true);
+  atlas.wrapS = atlas.wrapT = THREE.ClampToEdgeWrapping;
+  const mEnamel = new THREE.MeshPhysicalMaterial({ color: 0xfbf7ef, roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.08 });
+  const mBrass = new THREE.MeshPhysicalMaterial({ color: 0xc9a467, metalness: 0.9, roughness: 0.28 });
+  const badgeRim = new THREE.CylinderGeometry(1, 1, 0.05, 40).rotateX(Math.PI / 2);
+  const badgeFace = new THREE.CircleGeometry(0.86, 40);
+  const logoMats: THREE.MeshStandardMaterial[] = [];
+  const logoMat = (i: number) => {
+    const t = atlas.clone();
+    t.repeat.set(1 / 8, 1 / 4);
+    t.offset.set((i % 8) / 8, 1 - (Math.floor(i / 8) + 1) / 4);
+    t.needsUpdate = true;
+    const m = new THREE.MeshStandardMaterial({ map: t, transparent: true, roughness: 0.35, depthWrite: false });
+    logoMats.push(m);
+    return m;
+  };
+  const BADGE: Record<Kind, [number, number, number]> = { p: [0.42, 0.3, 0.22], r: [0.55, 0.34, 0.27], n: [0.45, 0.34, 0.3], b: [0.58, 0.32, 0.22], q: [0.7, 0.34, 0.24], k: [0.76, 0.35, 0.25] };
+  const VIEW_YAW = 0.9;
 
   /* board */
   const board = new THREE.Group();
@@ -238,7 +257,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   const pieces: Piece[] = [];
   const grid: (Piece | null)[][] = Array.from({ length: 8 }, () => Array(8).fill(null));
 
-  function build(kind: Kind, white: boolean, tech: Tech, f: number, r: number) {
+  function build(kind: Kind, white: boolean, tech: Tech, f: number, r: number, logo: number) {
     const obj = new THREE.Group();
     const m = new THREE.Mesh(geos[kind], white ? mWhite : mBlack);
     m.castShadow = m.receiveShadow = true;
@@ -256,6 +275,22 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     obj.add(felt);
     if (kind === "n") obj.rotation.y = (white ? 0 : Math.PI) + (f < 4 ? -1 : 1) * (white ? 1 : -1) * 1.1;
     obj.scale.setScalar(1.02);
+    const [by, br, bz] = BADGE[kind];
+    const badge = new THREE.Group();
+    const local = VIEW_YAW - obj.rotation.y;
+    badge.position.set(Math.sin(local) * bz, by, Math.cos(local) * bz);
+    badge.rotation.y = local;
+    badge.rotation.x = -0.12;
+    badge.scale.setScalar(br);
+    const rimM = new THREE.Mesh(badgeRim, mBrass);
+    rimM.castShadow = true;
+    const face = new THREE.Mesh(badgeFace, mEnamel);
+    face.position.z = 0.026;
+    const lg = new THREE.Mesh(badgeFace, logoMat(logo));
+    lg.position.z = 0.03;
+    lg.scale.setScalar(1.08);
+    badge.add(rimM, face, lg);
+    obj.add(badge);
     const p: Piece = { kind, white, tech, f, r, obj, lift: 0, target: 0, moved: false, alive: true };
     obj.traverse((c) => (c.userData.piece = p));
     obj.position.copy(sqPos(f, r));
@@ -265,12 +300,13 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   }
   function setup() {
     pieces.splice(0).forEach((p) => scene.remove(p.obj));
+    logoMats.splice(0).forEach((m) => { m.map?.dispose(); m.dispose(); });
     grid.forEach((col) => col.fill(null));
     for (let f = 0; f < 8; f++) {
-      build(ORDER[f], true, WHITE.back[f], f, 0);
-      build("p", true, WHITE.pawns[f], f, 1);
-      build(ORDER[f], false, BLACK.back[f], f, 7);
-      build("p", false, BLACK.pawns[f], f, 6);
+      build(ORDER[f], true, WHITE.back[f], f, 0, f);
+      build("p", true, WHITE.pawns[f], f, 1, 8 + f);
+      build(ORDER[f], false, BLACK.back[f], f, 7, 16 + f);
+      build("p", false, BLACK.pawns[f], f, 6, 24 + f);
     }
     captured = { w: 0, b: 0 };
     busy = false;
@@ -402,7 +438,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     renderer.domElement.style.height = "100%";
     camera.aspect = w / h;
     portrait = w / h < 1;
-    camera.fov = portrait ? 40 : 30;
+    camera.fov = portrait ? 44 : 30;
     camera.updateProjectionMatrix();
   };
   const ro = new ResizeObserver(resize);
@@ -411,7 +447,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
 
   /* loop */
   let raf = 0, last = performance.now(), intro = 0, thud = 0, alive = true, started = false;
-  const look = new THREE.Vector3(0, 0, 0.2);
+  const look = new THREE.Vector3(0.3, 0, 0.4);
   function ready() {
     if (!alive) return;
     setup();
@@ -430,9 +466,9 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     const e = 1 - Math.pow(1 - intro, 3);
     tiltS.lerp(tilt, 1 - Math.exp(-dt * 4));
     const t = now / 1000;
-    const dist = portrait ? 15.5 : 15.5;
-    const yaw = (1 - e) * 0.9 + tiltS.x * 0.12 + Math.sin(t * 0.15) * 0.04;
-    const pitch = (portrait ? 0.98 : 0.74) + (1 - e) * -0.2 + tiltS.y * 0.05;
+    const dist = portrait ? 13.5 : 17.5;
+    const yaw = VIEW_YAW + (1 - e) * 0.7 + tiltS.x * 0.12 + Math.sin(t * 0.15) * 0.04;
+    const pitch = (portrait ? 0.95 : 0.7) + (1 - e) * -0.2 + tiltS.y * 0.05;
     camera.position.set(Math.sin(yaw) * Math.cos(pitch) * dist, Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
     camera.lookAt(look);
 
