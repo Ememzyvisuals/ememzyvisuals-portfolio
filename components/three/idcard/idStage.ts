@@ -117,15 +117,20 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     renderer.setSize(w, h, false);
     cv.style.width = "100%"; cv.style.height = "100%";
     camera.aspect = w / h;
-    const viewH = 8.6;
-    camera.position.set(0, -0.3, viewH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
-    camera.lookAt(0, -0.3, 0);
+    // the canvas reaches up to the top of the page (data-ext px above the card area) so the straps come
+    // down from off screen; keep the cards the same size by scaling the view with the real card area height
+    const ext = Number(el.dataset.ext || 0), base = Math.max(1, h - ext);
+    const unit = 8.6 / base; // world units per pixel
+    const viewH = h * unit;
+    const cy = -0.3 + (ext / 2) * unit; // card area stays where it was; the extra height sits above it
+    camera.position.set(0, cy, viewH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
+    camera.lookAt(0, cy, 0);
     camera.updateProjectionMatrix();
-    seg = (viewH * 0.4) / (N - 1);
+    seg = (8.6 * 0.4 + ext * unit) / (N - 1);
     // keep both cards inside narrow screens
-    const halfW = (viewH * camera.aspect) / 2;
+    const halfW = (8.6 * (w / base)) / 2;
     const squeeze = Math.min(1, (halfW - CW / 2 - 0.15) / 1.0);
-    for (const l of lanyards) l.anchor.set(l.x * squeeze, viewH / 2 + 0.6, l.z);
+    for (const l of lanyards) l.anchor.set(l.x * squeeze, cy + viewH / 2 + 0.6, l.z);
   };
   const ro = new ResizeObserver(layout);
   ro.observe(el);
