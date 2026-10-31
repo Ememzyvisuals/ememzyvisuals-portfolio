@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, MapPin, Sparkles, Code, Brain, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { IdCard } from "@/components/three/idcard/IdCard";
 
 const fadeUp = {
@@ -30,10 +30,7 @@ export function AboutClient() {
             transition={{ duration: 0.55, delay: 0.1 }}
             className="space-y-5"
           >
-            <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-[0.15em]">
-              <Sparkles size={12} />
-              About Me
-            </div>
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.15em]">About me</p>
 
             <h1
               className="font-extrabold text-foreground leading-[1.05]"
@@ -42,26 +39,19 @@ export function AboutClient() {
               Emmanuel Ariyo.
             </h1>
 
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Self-taught Creative Software Developer, AI Systems Engineer, and
-              NLP researcher focused on low-resource African languages, based
-              in Nigeria. I build scalable web applications, production Speech
-              AI and language systems, and automation tools that solve real
-              problems.
+            <p className="text-lg text-foreground/80 leading-relaxed">
+              I build speech AI for African languages. Not voices that just read text aloud, but speech that
+              carries emotion and expression and can hold a real conversation.
             </p>
 
             <p className="text-base text-muted-foreground leading-relaxed">
-              Currently a Machine Learning Engineer at Plotweaver, building
-              multilingual Speech AI for Yoruba, Hausa, Igbo, Nigerian Pidgin,
-              and Nigerian English. Founder of Axiveri, my African AI research
-              initiative, where I publish open-source language, speech, and
-              image generation models.
+              By day I am a Machine Learning Engineer on the speech AI team at PlotWeaver. I am also the founder
+              of Axiveri, where we publish open models so that AI can finally hear, understand and speak the
+              languages Africa actually speaks. I am self-taught, and I still ship the full products around these
+              models too, from the web app to the API.
             </p>
 
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin size={14} />
-              Nigeria · Available worldwide
-            </div>
+            <p className="text-sm text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/contact" className="btn-primary group text-sm">
@@ -94,49 +84,29 @@ export function AboutClient() {
             className="space-y-5 text-muted-foreground leading-relaxed text-[16px]"
           >
             <p>
-              I never went to a university for computer science. I never attended
-              a bootcamp. Everything I know about software development, AI systems,
-              and building products, I taught myself.
+              I did not study computer science and I never went to a bootcamp. I taught myself, one free tutorial,
+              one late night and one broken build at a time, starting with HTML, CSS and JavaScript.
             </p>
             <p>
-              I started with the basics: HTML, CSS, JavaScript. The free tutorials,
-              the documentation, the trial and error at 2am. No structured curriculum.
-              No professor to ask. Just curiosity and a stubborn refusal to stay confused
-              about anything for long.
+              What really taught me was shipping. Building something real, watching people use it, and fixing what
+              they ran into. That loop took me from websites to full products, and then into AI.
             </p>
             <p>
-              What changed everything was shipping my first real project. Not a tutorial
-              clone, not a demo. Something real that other people could use. The feedback
-              loop of building something, watching people use it, and understanding what
-              actually matters became my education.
+              In AI I found the problem I want to spend my career on. Most speech technology barely works for African
+              languages, and when it does, it sounds flat. People here code-switch, joke, tell stories and argue in
+              tones and rhythms that today&apos;s models were never trained to hear.
             </p>
             <p>
-              That same curiosity eventually pulled me into AI and NLP research,
-              specifically the gap in how well language models and speech systems
-              serve African languages. Under Axiveri, the research initiative I
-              founded, I&apos;ve built and published open-source models addressing
-              that gap directly: Africlaude, an open-source language model series
-              for African contexts; WazobiaVoice, a multilingual text-to-speech and
-              voice-cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and
-              Nigerian English; NaijaVox, a Nigerian speech recognition model; and
-              AfriVision-Base, an image generation model trained on African imagery.
+              So that is what I work on. At PlotWeaver I train and ship speech models for African languages:
+              recognition, text to speech, and now expressive speech with emotion and conversational flow. Through
+              Axiveri, the research ecosystem I founded, I publish open models others can build on, including the
+              NaijaVox speech recognition series, the WazobiaVoice text to speech model, the Africlaude language
+              models and AfriVision for image generation.
             </p>
             <p>
-              Today I build production-grade platforms, AI systems, and automation
-              tools used by real users. I published a benchmark on Kaggle that
-              contributes to AI safety research. I built a multi-agent AI platform,
-              a cooperative savings fintech platform, a streaming and academy product,
-              a multilingual Bible companion app, and offline-first PWAs for Nigerian
-              students, all self-taught, all shipped. I&apos;m currently a Machine
-              Learning Engineer at Plotweaver, where I work on production speech AI
-              for African languages day to day.
-            </p>
-            <p>
-              Being self-taught isn&apos;t a gap in my background. It&apos;s the most
-              important thing about how I work. I learned to figure things out. I
-              learned to read documentation. I learned that the only thing between
-              where I am and where I want to be is whether I&apos;m willing to sit
-              with the discomfort of not knowing something yet.
+              Being self-taught is not a gap in my story, it is how I work. I read the docs, I sit with problems until
+              they make sense, and I build the whole thing: the data pipeline, the model, the API and the product
+              people actually touch.
             </p>
           </motion.div>
         </div>
@@ -157,36 +127,24 @@ export function AboutClient() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
             {
-              icon: Code,
-              title: "Build Websites & Web Apps",
+              title: "Products Around the Models",
               desc: "Premium websites, SaaS platforms, e-commerce stores, and full-stack applications. From landing pages to complex multi-user systems, built clean, fast, and ready for production.",
-              iconBg: "bg-blue-50 dark:bg-blue-950",
-              iconColor: "text-blue-600 dark:text-blue-400",
             },
             {
-              icon: Brain,
-              title: "Engineer AI Systems & Models",
-              desc: "AI-powered applications using Groq API, LLaMA, RAG pipelines, and multi-agent architectures. As an NLP researcher, I also build and publish open-source AI models, including Africlaude, WazobiaVoice, and NaijaVox, under Axiveri, my African AI research initiative.",
-              iconBg: "bg-violet-50 dark:bg-violet-950",
-              iconColor: "text-violet-600 dark:text-violet-400",
+              title: "Speech AI for African Languages",
+              desc: "Speech recognition, text to speech and expressive, conversational voices for African languages, from data pipeline and training to a production API. Open models published under Axiveri.",
             },
             {
-              icon: Zap,
               title: "Automate Business Processes",
               desc: "Telegram bots, WhatsApp automation, AI agents, and workflow systems. Lumeo AI handles thousands of Telegram interactions. Microdragon executes complex real-world tasks from natural language.",
-              iconBg: "bg-amber-50 dark:bg-amber-950",
-              iconColor: "text-amber-600 dark:text-amber-400",
             },
-          ].map(({ icon: Icon, title, desc, iconBg, iconColor }, i) => (
+          ].map(({ title, desc }, i) => (
             <motion.div
               key={title}
               {...fadeUp}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-surface p-6 space-y-4"
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg}`}>
-                <Icon size={18} className={iconColor} />
-              </div>
               <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
             </motion.div>
