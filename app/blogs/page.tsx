@@ -40,44 +40,55 @@ export default async function BlogsPage() {
   const topics = Array.from(new Set(posts.map((p) => p.topic)));
 
   return (
-    <div className="pb-20 pt-10 md:pt-14">
+    <div className="pb-24 pt-10 md:pt-16">
       <div className="container-padded">
-        <header className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">The blog</p>
-          <h1 className="section-heading mt-3">Notes from the build.</h1>
-          <p className="text-muted-foreground mt-3">
-            African language AI, building products in Nigeria, and what shipping software really takes.
-          </p>
+        <header className="grid gap-6 border-b border-border pb-10 md:grid-cols-[1fr_auto] md:items-end">
+          <div className="max-w-2xl">
+            <p className="text-sm font-medium text-muted-foreground">Blog</p>
+            <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">Writing</h1>
+            <p className="mt-4 text-[17px] leading-relaxed text-foreground/70">
+              What I learn building speech and language AI for African languages, and shipping products from Nigeria.
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground">{posts.length} posts · {topics.length} topics</p>
         </header>
 
         {lead && (
-          <Link href={`/blog/${lead.slug}`} className="group relative mt-12 block overflow-hidden rounded-[28px] bg-secondary">
-            <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9]">
-              {lead.cover && <Image src={lead.cover} alt={lead.title} fill priority sizes="100vw" className="object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]" />}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+          <Link href={`/blog/${lead.slug}`} className="card-surface group mt-10 grid overflow-hidden md:grid-cols-[1.15fr_1fr]">
+            <div className="relative aspect-[16/10] bg-secondary md:aspect-auto md:min-h-[360px]">
+              {lead.cover && <Image src={lead.cover} alt={lead.title} fill priority sizes="(min-width:768px) 55vw, 100vw" className="object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]" />}
             </div>
-            <div className="absolute inset-x-0 bottom-0 flex items-end gap-6 p-6 sm:p-10">
-              <div className="max-w-3xl text-white">
-                <p className="text-sm font-semibold text-white/85">Featured · {lead.topic}</p>
-                <h2 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.04] tracking-tight">{lead.title}</h2>
-                <p className="mt-4 hidden sm:block max-w-2xl text-[15px] leading-relaxed text-white/85">{lead.excerpt}</p>
-                <p className="mt-4 text-xs text-white/75">Emmanuel Ariyo · {formatDay(lead.date)} · {lead.minutes} min read</p>
+            <div className="flex flex-col p-6 sm:p-8 lg:p-10">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <span className="rounded-full bg-foreground px-2.5 py-1 text-background">Latest</span>
+                <span>{lead.topic}</span>
               </div>
-              <span className="ml-auto hidden sm:grid h-14 w-14 flex-shrink-0 place-items-center rounded-full border border-white/50 text-white transition-transform duration-500 group-hover:rotate-45">
-                <ArrowUpRight size={24} />
-              </span>
+              <h2 className="mt-5 font-display text-2xl font-extrabold leading-tight tracking-tight text-foreground sm:text-3xl">{lead.title}</h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-foreground/70 line-clamp-4">{lead.excerpt}</p>
+              <div className="mt-auto flex items-center gap-3 pt-8 text-sm">
+                <Image src="/images/emmanuel.jpg" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
+                <div>
+                  <p className="font-medium text-foreground">Emmanuel Ariyo</p>
+                  <p className="text-xs text-muted-foreground">{formatDay(lead.date)} · {lead.minutes} min read</p>
+                </div>
+                <span className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border text-foreground transition-transform duration-500 group-hover:rotate-45">
+                  <ArrowUpRight size={18} />
+                </span>
+              </div>
             </div>
           </Link>
         )}
 
         <BlogIndex posts={cards} topics={topics} />
 
-        <section className="mt-24 rounded-[28px] bg-foreground px-6 py-14 text-center text-background sm:px-12">
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight">Building something? Let&apos;s talk.</h2>
-          <p className="font-museum mx-auto mt-3 max-w-xl text-xl text-background/75">Speech AI, African language models, or a product that has to work in Nigeria.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/contact" className="rounded-full bg-background px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90">Get in touch</Link>
-            <Link href="/work" className="rounded-full border border-background/40 px-6 py-3 text-sm font-semibold hover:bg-background/10">See my work</Link>
+        <section className="card-surface mt-20 grid gap-6 p-6 sm:p-10 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Working on something like this?</h2>
+            <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-foreground/70">Speech AI, African language models, or a product that has to work well in Nigeria. I am happy to talk it through.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/contact" className="rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background hover:opacity-90">Get in touch</Link>
+            <Link href="/work" className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:bg-secondary">See my work</Link>
           </div>
         </section>
       </div>

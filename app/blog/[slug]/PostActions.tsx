@@ -81,7 +81,7 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
   return (
     <>
       {/* reaction row, Instagram style */}
-      <div className="mt-12 rounded-2xl border border-border p-3 sm:p-4">
+      <div className="card-surface mt-10 p-3 sm:p-4">
         <div className="flex items-center gap-1">
           <button onClick={like} aria-pressed={s.liked} aria-label={s.liked ? "Unlike" : "Like"} className={cn(iconBtn, s.liked && "text-rose-500")}>
             <Heart key={pop} size={22} fill={s.liked ? "currentColor" : "none"} className={pop && s.liked ? "animate-[likepop_.45s_ease-out]" : ""} />
@@ -115,8 +115,8 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
 
       {/* comments */}
       <section id="comments" className="mt-14">
-        <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Leave a reply</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Your email is never shown. Name and comment are required.</p>
+        <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Comments</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Your email is never shown.</p>
         <form onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2">
           <label className="block text-sm font-medium text-foreground">Name
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={60} className={cn(field, "mt-1.5")} />

@@ -224,23 +224,31 @@
 }
 
 /* Blog article body: comfortable reading, Bricolage headings, EB Garamond pull quotes */
-.post-body { font-size: 1.08rem; line-height: 1.85; color: hsl(var(--foreground) / 0.82); }
-.post-body > * + * { margin-top: 1.15em; }
-.post-body h2 { font-family: var(--font-display), sans-serif !important; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: hsl(var(--foreground)); margin-top: 2.2em; }
-.post-body h3 { font-family: var(--font-display), sans-serif !important; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; color: hsl(var(--foreground)); margin-top: 1.8em; }
-.post-body strong { color: hsl(var(--foreground)); font-weight: 700; }
-.post-body a { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.post-body a:hover { opacity: 0.7; }
+.post-body { font-family: var(--font-body), sans-serif; font-size: 1.075rem; line-height: 1.8; color: hsl(var(--foreground) / 0.8); }
+.post-body > * + * { margin-top: 1.25em; }
+.post-body h2 { font-family: var(--font-display), sans-serif !important; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; color: hsl(var(--foreground)); margin-top: 2.4em; scroll-margin-top: 96px; padding-top: 1.2em; border-top: 1px solid hsl(var(--border)); }
+.post-body h3 { font-family: var(--font-display), sans-serif !important; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: hsl(var(--foreground)); margin-top: 1.9em; }
+.post-body h2 + p, .post-body h3 + p { margin-top: 0.7em; }
+.post-body strong { color: hsl(var(--foreground)); font-weight: 600; }
+.post-body a:not(.post-link) { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: hsl(var(--foreground) / 0.35); }
+.post-body a:not(.post-link):hover { text-decoration-color: hsl(var(--foreground)); }
 .post-body ul, .post-body ol { padding-left: 1.3em; }
 .post-body ul { list-style: disc; }
 .post-body ol { list-style: decimal; }
-.post-body li + li { margin-top: 0.4em; }
-.post-body blockquote { font-family: var(--font-serif), Georgia, serif; font-size: 1.45rem; line-height: 1.35; color: hsl(var(--foreground)); border-left: 2px solid hsl(var(--foreground)); padding-left: 1.1em; margin: 1.8em 0; }
+.post-body li::marker { color: hsl(var(--muted-foreground)); }
+.post-body li + li { margin-top: 0.45em; }
+.post-body blockquote { font-family: var(--font-body), sans-serif; font-size: 1.2rem; font-weight: 500; line-height: 1.55; color: hsl(var(--foreground)); background: hsl(var(--secondary) / 0.6); border-left: 3px solid hsl(var(--foreground)); border-radius: 0 14px 14px 0; padding: 1em 1.3em; margin: 2em 0; }
+.post-body blockquote p { margin: 0; }
 .post-body code { font-size: 0.88em; background: hsl(var(--secondary)); padding: 0.15em 0.4em; border-radius: 6px; }
 .post-body pre { background: hsl(var(--secondary)); border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 1.1em 1.2em; overflow-x: auto; font-size: 0.9rem; line-height: 1.6; }
 .post-body pre code { background: none; padding: 0; }
 .post-body hr { border-color: hsl(var(--border)); margin: 2.5em 0; }
 .post-body img { border-radius: 16px; }
 .post-body > p:first-child em { display: block; font-size: 0.95rem; color: hsl(var(--muted-foreground)); }
+.post-link { display: flex !important; align-items: center; gap: 0.75rem; margin: 1.2em 0; padding: 0.9rem 1.1rem; border: 1px solid hsl(var(--border)); border-radius: 14px; background: hsl(var(--background)); text-decoration: none !important; transition: border-color .2s, transform .2s; font-size: 0.95rem; line-height: 1.3; }
+.post-link:hover { border-color: hsl(var(--foreground) / 0.5); transform: translateY(-1px); }
+.post-link-host { font-weight: 600; color: hsl(var(--foreground)); white-space: nowrap; }
+.post-link-path { color: hsl(var(--muted-foreground)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1; }
+.post-link-arrow { color: hsl(var(--foreground)); }
 
 @keyframes likepop { 0% { transform: scale(1); } 35% { transform: scale(1.35); } 60% { transform: scale(0.92); } 100% { transform: scale(1); } }

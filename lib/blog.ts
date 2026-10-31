@@ -57,8 +57,27 @@ export function getPost(slug: string): Post | null {
   return allPosts().find((p) => p.slug === slug) ?? null;
 }
 
+const slugify = (t: string) => t.toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/** Section headings of a post, for the contents list. */
+export function outline(md: string) {
+  return md.split("\n").filter((l) => l.startsWith("## ")).map((l) => {
+    const text = l.slice(3).trim();
+    return { id: slugify(text), text };
+  });
+}
+
+/** Markdown to HTML: h2 get ids for the contents list, "Link: url" lines become link cards. */
 export function renderPost(md: string): string {
-  return marked.parse(md, { async: false, gfm: true, breaks: false }) as string;
+  const src = md.replace(/^Link:\s*(https?:\/\/\S+)\s*$/gm, (_m, url: string) => {
+    const host = url.replace(/^https?:\/\//, "").split("/")[0].replace(/^www\./, "");
+    const path = url.replace(/^https?:\/\/[^/]+/, "") || "/";
+    return `<a class="post-link" href="${url}" target="_blank" rel="noopener noreferrer"><span class="post-link-host">${host}</span><span class="post-link-path">${path}</span><span class="post-link-arrow" aria-hidden>↗</span></a>`;
+  });
+  const html = marked.parse(src, { async: false, gfm: true, breaks: false }) as string;
+  return html
+    .replace(/<h2>(.*?)<\/h2>/g, (_m, t: string) => `<h2 id="${slugify(t)}">${t}</h2>`)
+    .replace(/<a href="(https?:[^"]+)">/g, '<a href="$1" target="_blank" rel="noopener noreferrer">');
 }
 
 export function formatDay(d: string) {

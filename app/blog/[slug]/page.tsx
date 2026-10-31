@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, Clock } from "lucide-react";
-import { allPosts, getPost, renderPost, formatDay } from "@/lib/blog";
+import { ArrowLeft } from "lucide-react";
+import { allPosts, getPost, renderPost, formatDay, outline } from "@/lib/blog";
 import { PostActions } from "./PostActions";
 import { ShareIcons, shareLink } from "./share";
-import { Sidebar } from "./Sidebar";
+import { Contents, Subscribe } from "./Extras";
 
 const SITE = "https://ememzyvisuals.vercel.app";
 type Props = { params: { slug: string } };
@@ -35,8 +35,8 @@ export default function BlogPostPage({ params }: Props) {
   const posts = allPosts();
   const url = `${SITE}/blog/${p.slug}`;
   const others = posts.filter((x) => x.slug !== p.slug);
-  const related = [...others.filter((x) => x.topic === p.topic), ...others.filter((x) => x.topic !== p.topic)].slice(0, 2);
-  const topicCount = Object.entries(posts.reduce<Record<string, number>>((a, x) => ((a[x.topic] = (a[x.topic] || 0) + 1), a), {}));
+  const related = [...others.filter((x) => x.topic === p.topic), ...others.filter((x) => x.topic !== p.topic)].slice(0, 3);
+  const toc = outline(p.body);
   const schema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -53,90 +53,92 @@ export default function BlogPostPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="container-padded pb-24 pt-8 md:pt-12">
-        <nav className="flex items-center gap-1.5 text-xs text-muted-foreground" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-foreground">Home</Link><ChevronRight size={12} />
-          <Link href="/blogs" className="hover:text-foreground">Blog</Link><ChevronRight size={12} />
-          <span className="truncate text-foreground/80">{p.topic}</span>
-        </nav>
+        <Link href="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft size={15} /> All posts
+        </Link>
 
-        <div className="mt-6 grid gap-14 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
-          <article className="min-w-0">
-            <span className="inline-block rounded-full bg-foreground px-3 py-1 text-[11px] font-semibold text-background">{p.topic}</span>
-            <h1 className="mt-4 font-display text-[2.1rem] sm:text-5xl font-extrabold leading-[1.05] tracking-tight text-foreground">{p.title}</h1>
-            <p className="font-museum mt-4 text-xl md:text-2xl leading-snug text-foreground/80">{p.excerpt}</p>
-
-            <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4 border-y border-border py-4">
-              <div className="flex items-center gap-3">
-                <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
-                <div className="text-sm">
-                  <p className="font-semibold text-foreground">Emmanuel Ariyo</p>
-                  <p className="text-xs text-muted-foreground">{formatDay(p.date)} · <Clock size={11} className="inline -mt-0.5" /> {p.minutes} min read</p>
-                </div>
-              </div>
-              <div className="ml-auto flex items-center gap-1.5">
-                <span className="mr-1 text-xs text-muted-foreground">Share</span>
-                {(["x", "whatsapp", "linkedin", "facebook"] as const).map((k) => (
-                  <a key={k} href={shareLink(k, url, p.title)} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${k}`}
-                    className="grid h-8 w-8 place-items-center rounded-full border border-border text-foreground hover:bg-secondary">{ShareIcons[k]}</a>
-                ))}
+        <header className="mx-auto mt-8 max-w-3xl text-center">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">{p.topic}</span> · {formatDay(p.date)} · {p.minutes} min read
+          </p>
+          <h1 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-5xl">{p.title}</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-foreground/70">{p.excerpt}</p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+            <div className="flex items-center gap-3 text-left">
+              <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
+              <div className="text-sm">
+                <p className="font-semibold text-foreground">Emmanuel Ariyo</p>
+                <p className="text-xs text-muted-foreground">AI engineer, Axiveri</p>
               </div>
             </div>
+            <div className="flex items-center gap-1.5">
+              {(["x", "whatsapp", "linkedin", "facebook"] as const).map((k) => (
+                <a key={k} href={shareLink(k, url, p.title)} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${k}`}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground hover:bg-secondary">{ShareIcons[k]}</a>
+              ))}
+            </div>
+          </div>
+        </header>
 
-            {p.cover && (
-              <div className="relative mt-8 aspect-[16/10] overflow-hidden rounded-3xl bg-secondary">
-                <Image src={p.cover} alt={p.title} fill priority sizes="(min-width:1024px) 800px, 100vw" className="object-cover" />
-              </div>
-            )}
+        {p.cover && (
+          <div className="relative mx-auto mt-10 aspect-[16/9] max-w-5xl overflow-hidden rounded-3xl bg-secondary">
+            <Image src={p.cover} alt={p.title} fill priority sizes="(min-width:1024px) 1024px, 100vw" className="object-cover" />
+          </div>
+        )}
 
-            <div className="post-body mt-10" dangerouslySetInnerHTML={{ __html: renderPost(p.body) }} />
+        <div className="mx-auto mt-12 grid max-w-5xl gap-12 lg:grid-cols-[200px_minmax(0,1fr)]">
+          <aside className="hidden lg:block">
+            <div className="sticky top-28"><Contents items={toc} /></div>
+          </aside>
+
+          <article className="min-w-0 max-w-[680px]">
+            <div className="post-body" dangerouslySetInnerHTML={{ __html: renderPost(p.body) }} />
 
             {p.tags.length > 0 && (
-              <div className="mt-10 flex flex-wrap gap-2">
-                {p.tags.map((t) => <span key={t} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground/80">#{t}</span>)}
+              <div className="mt-12 flex flex-wrap gap-2">
+                {p.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground/75">{t}</span>)}
               </div>
             )}
 
             <PostActions slug={p.slug} title={p.title} url={url} />
 
-            {/* author box */}
-            <div className="mt-14 flex flex-col gap-5 rounded-3xl bg-secondary/60 p-6 sm:flex-row sm:items-center sm:p-8">
-              <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={88} height={88} className="h-20 w-20 rounded-full object-cover" />
+            <div className="card-surface mt-14 flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:p-7">
+              <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={72} height={72} className="h-16 w-16 rounded-full object-cover" />
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Written by</p>
-                <p className="mt-1 font-display text-xl font-extrabold text-foreground">Emmanuel Ariyo</p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/75">
+                <p className="text-xs font-medium text-muted-foreground">Written by</p>
+                <p className="mt-0.5 font-display text-lg font-extrabold text-foreground">Emmanuel Ariyo</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-foreground/70">
                   Machine learning engineer and full-stack developer from Nigeria. I build speech and language AI for African languages and publish open models under Axiveri.
                 </p>
-                <Link href="/about" className="mt-3 inline-block text-sm font-semibold text-foreground underline underline-offset-4">More about me</Link>
+                <Link href="/about" className="mt-2 inline-block text-sm font-semibold text-foreground underline underline-offset-4">More about me</Link>
               </div>
             </div>
-
-            {/* related */}
-            {related.length > 0 && (
-              <section className="mt-16">
-                <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Related posts</h2>
-                <div className="mt-6 grid gap-5 sm:grid-cols-2">
-                  {related.map((r) => (
-                    <Link key={r.slug} href={`/blog/${r.slug}`} className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
-                      {r.cover && <Image src={r.cover} alt={r.title} fill sizes="(min-width:640px) 400px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                        <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-semibold backdrop-blur">{r.topic}</span>
-                        <p className="mt-2 font-display text-lg font-extrabold leading-snug">{r.title}</p>
-                        <p className="mt-1 text-xs text-white/75">{formatDay(r.date)} · {r.minutes} min read</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            )}
           </article>
-
-          <Sidebar
-            recent={others.slice(0, 4).map((x) => ({ slug: x.slug, title: x.title, cover: x.cover, day: formatDay(x.date) }))}
-            topics={topicCount}
-          />
         </div>
+
+        {related.length > 0 && (
+          <section className="mx-auto mt-24 max-w-5xl">
+            <div className="flex items-end justify-between">
+              <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Keep reading</h2>
+              <Link href="/blogs" className="text-sm font-medium text-muted-foreground hover:text-foreground">All posts</Link>
+            </div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((r) => (
+                <Link key={r.slug} href={`/blog/${r.slug}`} className="card-surface group flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
+                    {r.cover && <Image src={r.cover} alt={r.title} fill sizes="(min-width:1024px) 330px, (min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />}
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs font-medium text-muted-foreground">{r.topic} · {r.minutes} min read</p>
+                    <p className="mt-2 font-display text-base font-bold leading-snug text-foreground">{r.title}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="mx-auto mt-16 max-w-5xl"><Subscribe /></div>
       </div>
     </>
   );
