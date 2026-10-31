@@ -170,7 +170,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   // tech logos: one 8 x 4 atlas, a cream enamel badge with a brass rim on the front of every piece
   const atlas = tex("logos", true);
   atlas.wrapS = atlas.wrapT = THREE.ClampToEdgeWrapping;
-  const mEnamel = new THREE.MeshPhysicalMaterial({ color: 0xfbf7ef, roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.08 });
+  const mEnamel = new THREE.MeshPhysicalMaterial({ color: 0xfffdf8, roughness: 0.45, clearcoat: 0.4, clearcoatRoughness: 0.35 });
   const mBrass = new THREE.MeshPhysicalMaterial({ color: 0xc9a467, metalness: 0.9, roughness: 0.28 });
   const badgeRim = new THREE.CylinderGeometry(1, 1, 0.05, 40).rotateX(Math.PI / 2);
   const badgeFace = new THREE.CircleGeometry(0.86, 40);
@@ -180,7 +180,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     t.repeat.set(1 / 8, 1 / 4);
     t.offset.set((i % 8) / 8, 1 - (Math.floor(i / 8) + 1) / 4);
     t.needsUpdate = true;
-    const m = new THREE.MeshStandardMaterial({ map: t, transparent: true, roughness: 0.35, depthWrite: false });
+    const m = new THREE.MeshStandardMaterial({ map: t, emissiveMap: t, emissive: 0xffffff, emissiveIntensity: 0.45, transparent: true, alphaTest: 0.02, roughness: 0.6, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
     logoMats.push(m);
     return m;
   };
@@ -285,9 +285,9 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     const rimM = new THREE.Mesh(badgeRim, mBrass);
     rimM.castShadow = true;
     const face = new THREE.Mesh(badgeFace, mEnamel);
-    face.position.z = 0.026;
+    face.position.z = 0.03;
     const lg = new THREE.Mesh(badgeFace, logoMat(logo));
-    lg.position.z = 0.03;
+    lg.position.z = 0.07;
     lg.scale.setScalar(1.08);
     badge.add(rimM, face, lg);
     obj.add(badge);
