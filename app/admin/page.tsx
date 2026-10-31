@@ -10,24 +10,38 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 
 function AdminContent() {
   const searchParams = useSearchParams();
-  const key = searchParams.get("key");
-  const [tab, setTab] = useState<"blogs" | "gallery" | "reviews" | "comments">("blogs");
-  const [authed, setAuthed] = useState(false);
+  const [key, setKey] = useState(searchParams.get("key") || "");
+  const [tab, setTab] = useState<"site" | "blog comments" | "blogs" | "gallery" | "reviews" | "comments">("site");
+  const [authed, setAuthed] = useState<boolean | null>(null);
+  const [pw, setPw] = useState("");
 
+  // the password is checked on the server; it is kept for this browser tab only
+  const check = async (k: string) => {
+    if (!k) { setAuthed(false); return; }
+    const r = await fetch("/api/admin/check", { method: "POST", headers: { "x-admin-key": k } }).catch(() => null);
+    const ok = !!r?.ok;
+    setAuthed(ok);
+    if (ok) { setKey(k); try { sessionStorage.setItem("ev_admin", k); } catch {} }
+  };
   useEffect(() => {
-    const adminKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "emmzy2025";
-    if (key === adminKey) setAuthed(true);
-  }, [key]);
+    let k = searchParams.get("key") || "";
+    try { k = k || sessionStorage.getItem("ev_admin") || ""; } catch {}
+    check(k);
+    if (searchParams.get("key")) window.history.replaceState(null, "", "/admin"); // keep the password out of the address bar
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  if (authed === null) return <div className="min-h-screen" />;
   if (!authed) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <p className="text-2xl font-bold">Access denied</p>
-          <p className="text-muted-foreground text-sm">
-            Go to <code className="bg-secondary px-2 py-0.5 rounded">/admin?key=YOUR_KEY</code>
-          </p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center px-5">
+        <form onSubmit={(e) => { e.preventDefault(); check(pw); }} className="card-surface w-full max-w-sm space-y-4 p-6">
+          <p className="font-display text-2xl font-extrabold">Admin</p>
+          <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Admin password" autoFocus
+            className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground/50" />
+          <button className="btn-primary w-full justify-center text-sm">Sign in</button>
+          {pw && authed === false && <p className="text-xs text-muted-foreground">That password did not work.</p>}
+        </form>
       </div>
     );
   }
@@ -42,8 +56,8 @@ function AdminContent() {
           </p>
         </div>
 
-        <div className="flex gap-0 border-b border-border">
-          {((["blogs", "gallery", "reviews", "comments"] as const)).map((t) => (
+        <div className="flex gap-0 overflow-x-auto border-b border-border">
+          {((["site", "blog comments", "blogs", "gallery", "reviews", "comments"] as const)).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -59,6 +73,8 @@ function AdminContent() {
           ))}
         </div>
 
+        {tab === "site" && <SiteAdmin adminKey={key} />}
+        {tab === "blog comments" && <BlogCommentsAdmin adminKey={key} />}
         {tab === "blogs" && <BlogAdmin />}
         {tab === "gallery" && <GalleryAdmin />}
         {tab === "reviews" && <ReviewAdmin />}
@@ -700,5 +716,113 @@ function CommentsAdmin({ adminKey }: { adminKey: string }) {
         </div>
       )}
     </div>
+  );
+}
+
+
+// ─── SITE: editable keys, subscribers and post stats, all stored in Turso ─────
+type SiteData = {
+  ready: boolean;
+  keys?: { k: string; label: string; hint: string; secret: boolean; saved: boolean; value: string; fromEnv: boolean }[];
+  comments?: { id: number; slug: string; name: string; body: string; t: number; hidden: number }[];
+  subscribers?: { email: string; t: number }[];
+  stats?: { slug: string; views: number; likes: number; shares: number }[];
+};
+function useSite(adminKey: string) {
+  const [d, setD] = useState<SiteData | null>(null);
+  const load = async () => {
+    const r = await fetch("/api/admin/site", { headers: { "x-admin-key": adminKey } });
+    setD(await r.json().catch(() => ({ ready: false })));
+  };
+  const act = async (body: Record<string, unknown>) => {
+    await fetch("/api/admin/site", { method: "POST", headers: { "content-type": "application/json", "x-admin-key": adminKey }, body: JSON.stringify(body) });
+    load();
+  };
+  useEffect(() => { load(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return { d, act };
+}
+const day = (t: number) => new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+function SiteAdmin({ adminKey }: { adminKey: string }) {
+  const { d, act } = useSite(adminKey);
+  const [edit, setEdit] = useState<Record<string, string>>({});
+  if (!d) return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (!d.ready) return (
+    <div className="card-surface p-6 text-sm leading-relaxed">
+      <p className="font-semibold">Turso is not connected yet.</p>
+      <p className="mt-2 text-muted-foreground">Create a database at turso.tech, then add TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in Vercel, Project Settings, Environment Variables, and redeploy. Everything else can then be set here.</p>
+    </div>
+  );
+  return (
+    <div className="space-y-10">
+      <section>
+        <h2 className="font-display text-xl font-extrabold">Keys</h2>
+        <p className="mt-1 text-sm text-muted-foreground">A value saved here is used instead of the Vercel one. Leave it empty and save to go back to Vercel.</p>
+        <div className="mt-4 space-y-3">
+          {d.keys?.map((k) => (
+            <div key={k.k} className="card-surface grid gap-3 p-4 md:grid-cols-[14rem_1fr_auto] md:items-center">
+              <div>
+                <p className="text-sm font-semibold">{k.label}</p>
+                <p className="text-xs text-muted-foreground">{k.hint} {k.saved ? "Saved here." : k.fromEnv ? "Using Vercel." : "Not set."}</p>
+              </div>
+              <input type={k.secret ? "password" : "text"} placeholder={k.saved ? k.value : k.k} value={edit[k.k] ?? ""} onChange={(e) => setEdit({ ...edit, [k.k]: e.target.value })}
+                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-foreground/50" autoComplete="off" />
+              <button onClick={() => { act({ action: "setKey", k: k.k, v: edit[k.k] ?? "" }); setEdit({ ...edit, [k.k]: "" }); }} className="btn-outline text-sm">Save</button>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section>
+        <h2 className="font-display text-xl font-extrabold">Email subscribers ({d.subscribers?.length ?? 0})</h2>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button className="btn-outline text-sm" onClick={() => {
+            const csv = "email,date\n" + (d.subscribers ?? []).map((x) => `${x.email},${new Date(x.t).toISOString()}`).join("\n");
+            const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "subscribers.csv"; a.click();
+          }}>Download CSV</button>
+        </div>
+        <ul className="mt-3 divide-y divide-border border-y border-border text-sm">
+          {d.subscribers?.map((x) => (
+            <li key={x.email} className="flex items-center justify-between gap-3 py-2.5">
+              <span>{x.email}</span>
+              <span className="flex items-center gap-3 text-xs text-muted-foreground">{day(x.t)}
+                <button onClick={() => confirm(`Remove ${x.email}?`) && act({ action: "deleteSubscriber", email: x.email })} className="hover:text-foreground">Remove</button></span>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section>
+        <h2 className="font-display text-xl font-extrabold">Blog stats</h2>
+        <table className="mt-3 w-full text-sm">
+          <thead className="text-left text-xs text-muted-foreground"><tr><th className="py-2">Post</th><th>Views</th><th>Likes</th><th>Shares</th></tr></thead>
+          <tbody className="divide-y divide-border">
+            {d.stats?.map((x) => <tr key={x.slug}><td className="py-2 pr-3">{x.slug}</td><td>{x.views}</td><td>{x.likes}</td><td>{x.shares}</td></tr>)}
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
+}
+
+function BlogCommentsAdmin({ adminKey }: { adminKey: string }) {
+  const { d, act } = useSite(adminKey);
+  if (!d) return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (!d.ready) return <p className="text-sm text-muted-foreground">Connect Turso first (see the Site tab).</p>;
+  if (!d.comments?.length) return <p className="text-sm text-muted-foreground">No blog comments yet.</p>;
+  return (
+    <ul className="space-y-3">
+      {d.comments.map((c) => (
+        <li key={c.id} className={cn("card-surface p-4", c.hidden && "opacity-60")}>
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+            <span><b className="text-foreground">{c.name}</b> on /blog/{c.slug} · {day(c.t)} {c.hidden ? "· hidden" : ""}</span>
+            <span className="flex gap-3">
+              <button onClick={() => act({ action: "hideComment", id: c.id, hidden: !c.hidden })} className="font-semibold text-foreground hover:underline">{c.hidden ? "Show" : "Hide"}</button>
+              <button onClick={() => confirm("Delete this comment for good?") && act({ action: "deleteComment", id: c.id })} className="font-semibold text-red-500 hover:underline">Delete</button>
+            </span>
+          </div>
+          <p className="mt-2 whitespace-pre-line text-sm">{c.body}</p>
+        </li>
+      ))}
+    </ul>
   );
 }

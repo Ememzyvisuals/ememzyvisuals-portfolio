@@ -1,10 +1,10 @@
+import { isAdmin } from "@/lib/adminAuth";
 // app/api/admin/comments/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 function checkAuth(req: NextRequest) {
-  const key = req.nextUrl.searchParams.get("key") || req.headers.get("x-admin-key");
-  return key === process.env.NEXT_PUBLIC_ADMIN_KEY;
+  return isAdmin(req);
 }
 
 // GET all pending comments

@@ -1,3 +1,4 @@
+import { cfg } from "@/lib/config";
 // app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -29,12 +30,13 @@ export async function POST(req: NextRequest) {
     });
 
     // Send email if Resend is configured
-    if (process.env.RESEND_API_KEY) {
+    const resendKey = await cfg("RESEND_API_KEY");
+    if (resendKey) {
       try {
         const { Resend } = await import("resend");
-        const resend = new Resend(process.env.RESEND_API_KEY);
+        const resend = new Resend(resendKey);
 
-        const contactEmail = process.env.CONTACT_EMAIL ?? email;
+        const contactEmail = (await cfg("CONTACT_EMAIL")) ?? email;
 
         await resend.emails.send({
           // IMPORTANT: On Resend free plan without domain verification,

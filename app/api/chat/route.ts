@@ -1,6 +1,7 @@
 // app/api/chat/route.ts
 import { NextRequest } from "next/server";
 import { groq, streamChat } from "@/lib/groq";
+import { cfg } from "@/lib/config";
 import { knowledgeChunks } from "@/data/contextChunks";
 
 export const runtime = "nodejs";
@@ -35,7 +36,9 @@ function retrieveContext(query: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    if (!process.env.GROQ_API_KEY) {
+    const groqKey = await cfg("GROQ_API_KEY");
+    if (groqKey) groq.apiKey = groqKey;
+    if (!groqKey) {
       console.error("Chat API error: GROQ_API_KEY is not set");
       return new Response("AI assistant is not configured. Missing GROQ_API_KEY.", { status: 500 });
     }
