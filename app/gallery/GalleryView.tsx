@@ -73,7 +73,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
     </div>
   );
 
-  const step = 0.36; // radians between cards around the curve
+  const step = 0.41; // radians between cards around the curve
   const R = cardW * 2.6;
   return (
     <>
