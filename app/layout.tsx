@@ -142,6 +142,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <meta name="author" content="Emmanuel Ariyo" />
         <meta name="geo.region" content="NG" />
+        {/* the intro loader shows once per visit: mark later page loads before anything paints */}
+        <script dangerouslySetInnerHTML={{ __html: "try{if(sessionStorage.getItem('ev_intro')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-seen');sessionStorage.setItem('ev_intro','1')}catch(e){}" }} />
       </head>
       <body
         style={{
@@ -157,6 +159,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="60" xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </svg>
+        {/* EMEMZYVISUALS intro: pure CSS, about 1.3 seconds, lifts away on its own even without JavaScript */}
+        <div id="intro" aria-hidden="true">
+          <p className="intro-word">EMEMZYVISUALS</p>
+          <span className="intro-bar" />
+        </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <Navbar />
           <main>{children}</main>
