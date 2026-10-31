@@ -7,16 +7,21 @@
    is far away, so at most one or two are alive at a time. If the browser cannot draw 3D, the flat picture passed
    as `fallback` is shown instead. */
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { isLite } from "@/lib/lite";
 
 export type Scene = "hero" | "phones" | "safety" | `p:${string}`;
 
 export function Devices3D({ scene, className = "", fallback }: { scene: Scene; className?: string; fallback: ReactNode }) {
   const box = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"idle" | "ready" | "failed">("idle");
+  const [lite, setLite] = useState(false);
+  const still = `/stills/${scene.replace(":", "-")}.webp`;
+
+  useEffect(() => setLite(isLite()), []);
 
   useEffect(() => {
     const el = box.current;
-    if (!el) return;
+    if (!el || lite) return;
     let stop: (() => void) | null = null;
     let token = 0;
     const start = () => {
@@ -58,19 +63,27 @@ export function Devices3D({ scene, className = "", fallback }: { scene: Scene; c
       io.disconnect();
       stop?.();
     };
-  }, [scene]);
+  }, [scene, lite]);
 
   if (state === "failed") return <>{fallback}</>;
   return (
-    <div
-      ref={box}
-      className={`relative select-none transition-opacity duration-700 ${state === "ready" ? "opacity-100" : "opacity-0"} ${className}`}
-      role="img"
-      aria-label={
-        scene === "phones"
-          ? "Projects on two phones. Drag to turn them, tap to spin them round."
-          : "Emmanuel's projects on a laptop and a phone. Drag to turn them, tap to spin them round."
-      }
-    />
+    <div className={`relative select-none ${className}`} data-scene={scene}>
+      {state !== "ready" && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={still} alt="" aria-hidden className="absolute inset-0 h-full w-full object-contain" loading="lazy" decoding="async" />
+      )}
+      {!lite && (
+        <div
+          ref={box}
+          className={`absolute inset-0 transition-opacity duration-700 ${state === "ready" ? "opacity-100" : "opacity-0"}`}
+          role="img"
+          aria-label={
+            scene === "phones"
+              ? "Projects on two phones. Drag to turn them, tap to spin them round."
+              : "Emmanuel's projects on a laptop and a phone. Drag to turn them, tap to spin them round."
+          }
+        />
+      )}
+    </div>
   );
 }

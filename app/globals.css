@@ -252,3 +252,19 @@
 .post-link-arrow { color: hsl(var(--foreground)); }
 
 @keyframes likepop { 0% { transform: scale(1); } 35% { transform: scale(1.35); } 60% { transform: scale(0.92); } 100% { transform: scale(1); } }
+
+/* Phones: the distortion glass is recalculated on every scroll frame, which makes scrolling stutter.
+   Use a plain frosted blur on the navbar and solid cards instead; they look almost the same. */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .liquid-glass {
+    background: hsl(var(--background) / 0.82);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .card-surface {
+    background: hsl(var(--background));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 0 8px 28px -14px hsl(var(--foreground) / 0.16);
+  }
+}

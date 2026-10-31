@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
+import { isLite } from "@/lib/lite";
 
 type Stage = { setMode: (m: "light" | "dark") => void; setProgress: (p: number) => void; dispose: () => void };
 
@@ -21,12 +22,15 @@ export function Hero() {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [p, setP] = useState(0);
+  // phones get three still frames of the same scene instead of the live 3D room
+  const [lite, setLite] = useState(false);
   const { resolvedTheme } = useTheme();
   const mode = resolvedTheme === "dark" ? "dark" : "light";
 
   // start the 3D scene once the page is idle, so text and layout come first on slow networks
   useEffect(() => {
     let alive = true;
+    if (isLite()) { setLite(true); return; }
     const start = () => {
       if (!alive || !canvas.current) return;
       const mobile = window.matchMedia("(max-width: 768px)").matches;
@@ -62,12 +66,15 @@ export function Hero() {
       if (!el) return;
       const total = el.offsetHeight - window.innerHeight;
       const v = clamp(-el.getBoundingClientRect().top / Math.max(1, total));
-      setP(v);
+      setP((old) => (Math.abs(old - v) < 0.002 ? old : v));
       stage.current?.setProgress(v);
     };
+    let queued = 0;
+    const onFrame = () => { queued = 0; onScroll(); };
+    const onEvent = () => { if (!queued) queued = requestAnimationFrame(onFrame); };
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onEvent, { passive: true });
+    return () => { window.removeEventListener("scroll", onEvent); cancelAnimationFrame(queued); };
   }, []);
 
   const a = band(p, 0.0, 0.12);      // name holds, then lifts away
@@ -76,19 +83,27 @@ export function Hero() {
   const cta = band(p, 0.68, 0.8);
 
   return (
-    <section ref={wrap} className="relative" style={{ height: "320vh" }} aria-label="Introduction">
+    <section ref={wrap} className="relative" style={{ height: lite ? "240vh" : "320vh" }} aria-label="Introduction">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* still image while the scene downloads, and the fallback without WebGL */}
         <div
           className="absolute inset-0 bg-center bg-cover transition-opacity duration-700"
           style={{
             backgroundImage: "url(/models/hero/poster-light.webp)",
-            opacity: ready ? 0 : 1,
+            opacity: ready || lite ? 0 : 1,
             filter: mode === "dark" ? "brightness(.35) saturate(1.2)" : undefined,
           }}
           aria-hidden
         />
-        {!failed && (
+        {lite && [0, 1, 2].map((i) => {
+          const o = i === 0 ? 1 : i === 1 ? band(p, 0.22, 0.34) : band(p, 0.62, 0.74);
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={i} src={`/stills/hero-${mode}-${i}.webp`} alt="" aria-hidden fetchPriority={i === 0 ? "high" : "low"} loading={i === 0 ? "eager" : "lazy"} decoding="async"
+              className="absolute inset-0 h-full w-full object-cover" style={{ opacity: o }} />
+          );
+        })}
+        {!failed && !lite && (
           <canvas
             ref={canvas}
             className="absolute inset-0 h-full w-full transition-opacity duration-700"
