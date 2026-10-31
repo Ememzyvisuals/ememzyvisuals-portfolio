@@ -1,346 +1,149 @@
 "use client";
 // components/sections/Reviews.tsx
-
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// Real reviews only: people submit them here, and they appear after I approve them in the admin page.
+// Until there are approved reviews, the section simply invites the first ones (no placeholder quotes).
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Star, CheckCircle2, MessageSquarePlus, AlertCircle } from "lucide-react";
+import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
-  name: z.string().min(2, "Name too short"),
-  email: z.string().email("Invalid email"),
+  name: z.string().min(2, "Please add your name"),
+  email: z.string().email("Please add a valid email"),
   role: z.string().max(100).optional(),
   company: z.string().max(100).optional(),
-  content: z.string().min(10, "Review too short").max(1000),
-  rating: z.number().min(1).max(5).default(5),
+  content: z.string().min(10, "A little more detail, please").max(1000),
+  rating: z.number().int().min(1).max(5),
 });
-
 type FormData = z.infer<typeof schema>;
+type Review = { id: string; name: string; role?: string | null; company?: string | null; content: string; rating: number; createdAt: string };
 
-interface Review {
-  id: string;
-  name: string;
-  role?: string;
-  company?: string;
-  content: string;
-  rating: number;
-  createdAt: string;
-}
-
-// Static placeholder reviews (shown before DB has approved reviews)
-const PLACEHOLDER_REVIEWS: Review[] = [
-  {
-    id: "1",
-    name: "Adaeze Okonkwo",
-    role: "Product Manager",
-    company: "TechCorp NG",
-    content:
-      "Emmanuel delivered beyond expectations. The ClaudGPT integration we discussed was implemented flawlessly, the multi-agent pipeline was exactly what we needed.",
-    rating: 5,
-    createdAt: "2025-12-01",
-  },
-  {
-    id: "2",
-    name: "Kelechi Nwosu",
-    role: "Startup Founder",
-    company: "LaunchPad Africa",
-    content:
-      "The AI system Emmanuel built for our platform reduced our support overhead by 60%. He understood our requirements deeply and delivered a production-ready solution.",
-    rating: 5,
-    createdAt: "2025-11-15",
-  },
-  {
-    id: "3",
-    name: "Tobi Adeleke",
-    role: "Software Engineer",
-    content:
-      "I've worked with many developers but Emmanuel's depth across AI, backend, and frontend is rare. NaijaPrep was an incredible build, offline-first with real attention to user experience.",
-    rating: 5,
-    createdAt: "2025-10-20",
-  },
-];
-
-function StarRating({ value, onChange }: { value: number; onChange?: (v: number) => void }) {
-  const [hover, setHover] = useState(0);
-
+function Stars({ value, onChange, size = 16 }: { value: number; onChange?: (v: number) => void; size?: number }) {
   return (
-    <div className="flex gap-1">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <button
-          key={star}
-          type="button"
-          onClick={() => onChange?.(star)}
-          onMouseEnter={() => setHover(star)}
-          onMouseLeave={() => setHover(0)}
-          className="transition-transform hover:scale-110"
-        >
-          <Star
-            size={20}
-            className={cn(
-              "transition-colors",
-              (hover || value) >= star
-                ? "fill-amber-400 text-amber-400"
-                : "text-border"
-            )}
-          />
+    <div className="flex gap-1" role={onChange ? "radiogroup" : undefined} aria-label={`${value} out of 5`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <button key={i} type="button" disabled={!onChange} onClick={() => onChange?.(i)} aria-label={`${i} star${i > 1 ? "s" : ""}`}
+          className={cn(onChange ? "cursor-pointer transition-transform hover:scale-110" : "cursor-default")}>
+          <Star size={size} className={i <= value ? "fill-amber-400 text-amber-400" : "text-foreground/20"} />
         </button>
       ))}
     </div>
   );
 }
 
-export function ReviewsSection() {
-  const [reviews, setReviews] = useState<Review[]>(PLACEHOLDER_REVIEWS);
-  const [showForm, setShowForm] = useState(false);
-  const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [rating, setRating] = useState(5);
+const initials = (n: string) => n.split(/\s+/).map((x) => x[0]).join("").slice(0, 2).toUpperCase();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { rating: 5 },
-  });
+export function ReviewsSection() {
+  const [reviews, setReviews] = useState<Review[] | null>(null);
+  const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [rating, setRating] = useState(5);
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: { rating: 5 } });
 
   useEffect(() => {
-    // Try to fetch approved reviews from the API
-    fetch("/api/reviews")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setReviews(data);
-      })
-      .catch(() => {}); // Silently fall back to placeholder
+    fetch("/api/reviews").then((r) => r.json()).then((d) => setReviews(Array.isArray(d) ? d : [])).catch(() => setReviews([]));
   }, []);
 
   const onSubmit = async (data: FormData) => {
-    setSubmitState("loading");
-    try {
-      const res = await fetch("/api/reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, rating }),
-      });
-      if (res.ok) {
-        setSubmitState("success");
-        reset();
-        setRating(5);
-      } else {
-        setSubmitState("error");
-      }
-    } catch {
-      setSubmitState("error");
-    }
+    setState("loading");
+    const res = await fetch("/api/reviews", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).catch(() => null);
+    if (res?.ok) { setState("success"); reset(); setRating(5); } else setState("error");
   };
+
+  const list = reviews ?? [];
+  const avg = list.length ? list.reduce((a, r) => a + r.rating, 0) / list.length : 0;
+  const [lead, ...rest] = list;
+  const field = "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/50";
 
   return (
     <section id="reviews" className="py-section">
-      <div className="container-padded space-y-12">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
-        >
-          <div>
+      <div className="container-padded">
+        <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+          <div className="max-w-2xl">
             <h2 className="section-heading">Reviews.</h2>
-            <p className="text-muted-foreground mt-3 text-lg max-w-md">
-              What people say about working with Emmanuel.
+            <p className="mt-3 text-lg text-muted-foreground">What people I have worked with say about it.</p>
+          </div>
+          {list.length > 0 && (
+            <div className="flex items-center gap-4">
+              <p className="font-display text-5xl font-extrabold tracking-tight text-foreground">{avg.toFixed(1)}</p>
+              <div>
+                <Stars value={Math.round(avg)} />
+                <p className="mt-1 text-sm text-muted-foreground">from {list.length} review{list.length > 1 ? "s" : ""}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {list.length > 0 && (
+          <div className="mt-12 grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+            {/* the latest review, large */}
+            <figure className="card-surface flex flex-col justify-between p-8 md:p-10">
+              <blockquote className="font-display text-2xl font-bold leading-snug tracking-tight text-foreground md:text-[1.75rem]">
+                &ldquo;{lead.content}&rdquo;
+              </blockquote>
+              <figcaption className="mt-8 flex items-center gap-4">
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-foreground font-display text-sm font-bold text-background">{initials(lead.name)}</span>
+                <span>
+                  <span className="block font-semibold text-foreground">{lead.name}</span>
+                  <span className="block text-sm text-muted-foreground">{[lead.role, lead.company].filter(Boolean).join(", ")}</span>
+                </span>
+                <span className="ml-auto"><Stars value={lead.rating} /></span>
+              </figcaption>
+            </figure>
+            <div className="grid gap-5">
+              {rest.slice(0, 2).map((r) => (
+                <figure key={r.id} className="card-surface p-6">
+                  <Stars value={r.rating} size={14} />
+                  <blockquote className="mt-3 text-[15px] leading-relaxed text-foreground/85">&ldquo;{r.content}&rdquo;</blockquote>
+                  <figcaption className="mt-4 text-sm"><span className="font-semibold text-foreground">{r.name}</span> <span className="text-muted-foreground">{[r.role, r.company].filter(Boolean).join(", ")}</span></figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        )}
+        {rest.length > 2 && (
+          <div className="mt-5 columns-1 gap-5 md:columns-2 lg:columns-3 [&>*]:mb-5">
+            {rest.slice(2).map((r) => (
+              <figure key={r.id} className="card-surface break-inside-avoid p-6">
+                <Stars value={r.rating} size={14} />
+                <blockquote className="mt-3 text-[15px] leading-relaxed text-foreground/85">&ldquo;{r.content}&rdquo;</blockquote>
+                <figcaption className="mt-4 text-sm"><span className="font-semibold text-foreground">{r.name}</span> <span className="text-muted-foreground">{[r.role, r.company].filter(Boolean).join(", ")}</span></figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {/* leave a review */}
+        <div className="mt-14 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
+          <div>
+            <h3 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
+              {list.length ? "Worked with me? Leave a review." : "Worked with me? Be the first to leave a review."}
+            </h3>
+            <p className="mt-3 max-w-md leading-relaxed text-foreground/70">
+              Clients, teammates and collaborators are welcome. Reviews appear once I have checked them, and your email is never shown.
             </p>
           </div>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="btn-outline self-start text-sm"
-          >
-            <MessageSquarePlus size={15} />
-            Leave a Review
-          </button>
-        </motion.div>
-
-        {/* Review form */}
-        <AnimatePresence>
-          {showForm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <div className="card-surface p-6 md:p-8">
-                {submitState === "success" ? (
-                  <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
-                    <CheckCircle2 size={40} className="text-emerald-500" />
-                    <div>
-                      <h3 className="font-bold text-lg">Review Submitted!</h3>
-                      <p className="text-muted-foreground text-sm mt-1">
-                        Thank you! Your review will be published after moderation.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => { setSubmitState("idle"); setShowForm(false); }}
-                      className="btn-outline text-sm"
-                    >
-                      Close
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                    <h3 className="font-bold text-lg">Write a Review</h3>
-
-                    {/* Rating */}
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium">Rating</label>
-                      <StarRating value={rating} onChange={(v) => { setRating(v); setValue("rating", v); }} />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Name */}
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Name *</label>
-                        <input
-                          {...register("name")}
-                          type="text"
-                          placeholder="Your name"
-                          className={cn(
-                            "w-full px-4 py-3 rounded-xl border bg-background text-sm placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring transition-all",
-                            errors.name ? "border-red-400" : "border-border"
-                          )}
-                        />
-                        {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
-                      </div>
-
-                      {/* Email */}
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Email *</label>
-                        <input
-                          {...register("email")}
-                          type="email"
-                          placeholder="your@email.com"
-                          className={cn(
-                            "w-full px-4 py-3 rounded-xl border bg-background text-sm placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring transition-all",
-                            errors.email ? "border-red-400" : "border-border"
-                          )}
-                        />
-                        {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-                      </div>
-
-                      {/* Role */}
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Role (optional)</label>
-                        <input
-                          {...register("role")}
-                          type="text"
-                          placeholder="e.g. Product Manager"
-                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring transition-all"
-                        />
-                      </div>
-
-                      {/* Company */}
-                      <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Company (optional)</label>
-                        <input
-                          {...register("company")}
-                          type="text"
-                          placeholder="e.g. TechCorp"
-                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring transition-all"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Review content */}
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium">Review *</label>
-                      <textarea
-                        {...register("content")}
-                        rows={4}
-                        placeholder="Share your experience working with Emmanuel..."
-                        className={cn(
-                          "w-full px-4 py-3 rounded-xl border bg-background text-sm placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-ring transition-all resize-none",
-                          errors.content ? "border-red-400" : "border-border"
-                        )}
-                      />
-                      {errors.content && (
-                        <p className="text-xs text-red-500 flex items-center gap-1">
-                          <AlertCircle size={11} /> {errors.content.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {submitState === "error" && (
-                      <p className="text-sm text-red-500">Something went wrong. Please try again.</p>
-                    )}
-
-                    <div className="flex gap-3">
-                      <button
-                        type="submit"
-                        disabled={submitState === "loading"}
-                        className={cn("btn-primary", submitState === "loading" && "opacity-70")}
-                      >
-                        {submitState === "loading" ? "Submitting..." : "Submit Review"}
-                      </button>
-                      <button type="button" onClick={() => setShowForm(false)} className="btn-outline">
-                        Cancel
-                      </button>
-                    </div>
-
-                    <p className="text-xs text-muted-foreground">
-                      Reviews are published after moderation. Your email won&apos;t be displayed publicly.
-                    </p>
-                  </form>
-                )}
+          {state === "success" ? (
+            <div className="card-surface flex flex-col items-center justify-center p-10 text-center">
+              <p className="font-display text-xl font-extrabold text-foreground">Thank you.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Your review will appear here once it is approved.</p>
+              <button onClick={() => setState("idle")} className="btn-outline mt-5 text-sm">Write another</button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)} className="card-surface grid gap-4 p-6 sm:grid-cols-2">
+              <div className="sm:col-span-2"><p className="mb-2 text-sm font-medium text-foreground">Your rating</p><Stars value={rating} size={22} onChange={(v) => { setRating(v); setValue("rating", v); }} /></div>
+              <label className="text-sm font-medium text-foreground">Name<input {...register("name")} className={cn(field, "mt-1.5")} />{errors.name && <span className="mt-1 block text-xs text-red-500">{errors.name.message}</span>}</label>
+              <label className="text-sm font-medium text-foreground">Email<input type="email" {...register("email")} className={cn(field, "mt-1.5")} />{errors.email && <span className="mt-1 block text-xs text-red-500">{errors.email.message}</span>}</label>
+              <label className="text-sm font-medium text-foreground">Role (optional)<input {...register("role")} className={cn(field, "mt-1.5")} /></label>
+              <label className="text-sm font-medium text-foreground">Company (optional)<input {...register("company")} className={cn(field, "mt-1.5")} /></label>
+              <label className="text-sm font-medium text-foreground sm:col-span-2">Your review<textarea rows={4} {...register("content")} className={cn(field, "mt-1.5 resize-y")} />{errors.content && <span className="mt-1 block text-xs text-red-500">{errors.content.message}</span>}</label>
+              <div className="flex items-center gap-4 sm:col-span-2">
+                <button disabled={state === "loading"} className="btn-primary text-sm disabled:opacity-60">{state === "loading" ? "Sending..." : "Submit review"}</button>
+                {state === "error" && <span className="text-sm text-muted-foreground">Could not send right now. Please try again later.</span>}
               </div>
-            </motion.div>
+            </form>
           )}
-        </AnimatePresence>
-
-        {/* Reviews grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reviews.map((review, i) => (
-            <motion.article
-              key={review.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="card-surface p-6 space-y-4"
-            >
-              {/* Stars */}
-              <div className="flex gap-0.5">
-                {Array.from({ length: review.rating }).map((_, si) => (
-                  <Star key={si} size={14} className="fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-
-              {/* Content */}
-              <p className="text-sm text-foreground leading-relaxed">
-                &ldquo;{review.content}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-2 border-t border-border">
-                <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-sm font-bold text-foreground">
-                  {review.name[0]}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{review.name}</p>
-                  {(review.role || review.company) && (
-                    <p className="text-xs text-muted-foreground">
-                      {[review.role, review.company].filter(Boolean).join(" · ")}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </motion.article>
-          ))}
         </div>
       </div>
     </section>
