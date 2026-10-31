@@ -154,79 +154,50 @@ export function AboutClient() {
 
       <div className="container-padded"><div className="section-divider" /></div>
 
-      {/* ── AI & ML Research ─────────────────────────────────── */}
-      <div className="container-padded space-y-8">
+      {/* ── AI Research: open models published under Axiveri, with numbers from Hugging Face ── */}
+      <div className="container-padded space-y-10">
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">AI Research.</h2>
           <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
-            Beyond building products, I work as an NLP researcher focused on
-            low-resource African languages, publishing open-source AI research
-            under{" "}
-            <a href="/axiveri" className="text-foreground font-bold hover:underline underline-offset-4">Axiveri</a>,
-            my African AI research initiative.
+            Open models and datasets for African speech and language, published under{" "}
+            <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="text-foreground font-semibold underline underline-offset-4">Axiveri</a>{" "}
+            so anyone can build on them.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
+        <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.05 }} className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-border py-8 md:grid-cols-4">
           {[
-            {
-              title: "Africlaude: Language Model Series",
-              desc: "Open-source language models built for African contexts. Africlaude-7B is live on HuggingFace. v2 with Yoruba, Igbo, and Hausa support is in development.",
-              link: "/axiveri/africlaude",
-              badge: "Live",
-            },
-            {
-              title: "NaijaVox: Speech Recognition",
-              desc: "Nigerian speech recognition (ASR) model series. NaijaVox-V1 supports Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian Accented English.",
-              link: "https://huggingface.co/Axiveri/Naijavox-V1",
-              badge: "Live",
-            },
-            {
-              title: "WazobiaVoice: TTS & Voice Cloning",
-              desc: "A ~2B-parameter multilingual text-to-speech and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English in one model.",
-              link: "https://huggingface.co/Axiveri/WazobiaVoice",
-              badge: "Live",
-            },
-            {
-              title: "AfriVision-Base: Image Generation",
-              desc: "A FLUX-based LoRA fine-tune trained on nearly 15,000 captioned images for image generation reflecting African people, places, and contexts.",
-              link: "https://huggingface.co/Axiveri/AfriVision-Base",
-              badge: "Live",
-            },
-            {
-              title: "TruthGuard Benchmark",
-              desc: "A 120-question confidence calibration benchmark for evaluating the metacognitive abilities of LLMs. Published on Kaggle, open-source under CC BY-SA 4.0.",
-              link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation",
-              badge: "Published",
-            },
-            {
-              title: "ML Engineering Stack",
-              desc: "Jupyter Notebooks, HuggingFace Transformers, Datasets, Gradio, PyTorch, GPU/CUDA training, pipeline filtering, data curation, web scraping for dataset building.",
-              link: null,
-              badge: "Core Skills",
-            },
-          ].map(({ title, desc, link, badge }, i) => (
-            <motion.div
-              key={title}
-              {...fadeUp}
-              transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="card-surface p-6 space-y-3"
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-lg bg-foreground text-background uppercase tracking-widest">
-                  {badge}
-                </span>
+            { n: "8", l: "open models" },
+            { n: "4", l: "open datasets" },
+            { n: "2,500+", l: "model and dataset downloads in the last 30 days" },
+            { n: "1", l: "live speech demo" },
+          ].map((x) => (
+            <div key={x.l}>
+              <p className="font-display text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{x.n}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{x.l}</p>
+            </div>
+          ))}
+        </motion.div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          {[
+            { kind: "Speech recognition", title: "NaijaVox 2.0", desc: "Whisper fine-tuned with LoRA to transcribe Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian accented English, including speech that switches between them.", stat: "691 downloads this month", link: "https://huggingface.co/Axiveri/NaijaVox-2.0" },
+            { kind: "Text to speech", title: "WazobiaVoice", desc: "A multilingual text to speech and zero-shot voice cloning model that speaks several Nigerian languages from one model.", stat: "7 likes on Hugging Face", link: "https://huggingface.co/Axiveri/WazobiaVoice" },
+            { kind: "Text to speech", title: "Renpiper Pidgin", desc: "A small, fast Nigerian Pidgin voice, with an ONNX build that runs on modest hardware.", stat: "Pidgin dataset: 1,438 downloads this month", link: "https://huggingface.co/Axiveri/Renpiper-pcm-V1" },
+            { kind: "Language model", title: "Africlaude-7B", desc: "An open language model tuned for African context, with AfriclaudeBench to measure how well models understand it.", stat: "24 downloads this month", link: "https://huggingface.co/Axiveri/Africlaude-7B" },
+            { kind: "Image generation", title: "AfriVision", desc: "A FLUX LoRA trained on the AfriVision-30K dataset to generate African people, places and culture as they really look.", stat: "AfriVision-30K: 81 downloads this month", link: "https://huggingface.co/Axiveri/AfriVision-Base" },
+            { kind: "Benchmark", title: "TruthGuard", desc: "120 questions that test whether a language model knows when it does not know. Open on Kaggle.", stat: "CC BY-SA 4.0", link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation" },
+          ].map((m, i) => (
+            <motion.a key={m.title} href={m.link} target="_blank" rel="noopener noreferrer" {...fadeUp} transition={{ duration: 0.5, delay: i * 0.05 }}
+              className="card-surface group flex flex-col p-6 transition-transform duration-300 hover:-translate-y-1">
+              <p className="text-xs font-medium text-muted-foreground">{m.kind}</p>
+              <h3 className="mt-2 font-display text-xl font-extrabold tracking-tight text-foreground">{m.title}</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">{m.desc}</p>
+              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
+                <span className="text-muted-foreground">{m.stat}</span>
+                <span className="inline-flex items-center gap-1 font-semibold text-foreground">View <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" /></span>
               </div>
-              <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-              {link && (
-                <a href={link} target={link.startsWith("http") ? "_blank" : "_self"}
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-foreground hover:opacity-70 transition-opacity">
-                  View → 
-                </a>
-              )}
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>
@@ -245,10 +216,10 @@ export function AboutClient() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
           {[
-            { title: "Ship before it's perfect", desc: "Real users teach you more in one week than months of planning. I build, ship, and improve from feedback." },
-            { title: "Build for real constraints", desc: "Most of my work is built for users on slow networks and low-end devices. Those constraints make everything better." },
-            { title: "Understand your tools deeply", desc: "I don't use what I don't understand. When something breaks at 11pm before a deadline, mystery code is your enemy." },
-            { title: "AI as leverage, not replacement", desc: "AI eliminates the boring repetitive parts so I can spend energy on architecture, user experience, and the logic that makes a product unique." },
+            { title: "Ship, then sharpen", desc: "Real users teach more in a week than a month of planning. I get a working version out, listen, and improve it." },
+            { title: "Build for real conditions", desc: "Slow networks, cheap phones, noisy rooms, people switching languages mid-sentence. If it works there, it works anywhere." },
+            { title: "Own the whole pipeline", desc: "Data collection, training, evaluation, the API and the app. Knowing every layer is how I fix problems fast." },
+            { title: "Measure, do not guess", desc: "Every model gets a proper evaluation, word error rates for speech recognition and listening tests for voices, before anyone else hears it." },
           ].map(({ title, desc }, i) => (
             <motion.div
               key={title}
