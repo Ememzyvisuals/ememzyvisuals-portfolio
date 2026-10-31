@@ -16,7 +16,7 @@ export function AboutClient() {
   return (
     <div className="py-16 md:py-24 space-y-24">
 
-      {/* ── Hero section — photo + name ─────────────────────────── */}
+      {/* ── Hero section, photo + name ─────────────────────────── */}
       <div className="container-padded">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 

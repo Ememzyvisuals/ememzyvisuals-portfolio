@@ -4,7 +4,7 @@ import { buildMeta } from "@/lib/metadata";
 import { AutomationSection } from "@/components/sections/Automation";
 
 export const metadata: Metadata = buildMeta({
-  title: "Automation & AI Agents | Emmanuel Ariyo — Ememzyvisuals",
+  title: "Automation & AI Agents | Emmanuel Ariyo, Ememzyvisuals",
   description: "Automate your business with AI. Emmanuel Ariyo builds Telegram bots, WhatsApp automation, AI agents, and workflow automation systems.",
   path: "/automation",
   ogTitle: "Automation & AI Agents",
@@ -12,7 +12,7 @@ export const metadata: Metadata = buildMeta({
   ogTag: "Automation",
 });
 
-// No extra header here — AutomationSection already has the "Automation." heading
+// No extra header here, AutomationSection already has the "Automation." heading
 export default function AutomationPage() {
   return (
     <div className="py-16 md:py-24">

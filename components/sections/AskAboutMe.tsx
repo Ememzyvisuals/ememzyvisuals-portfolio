@@ -154,7 +154,7 @@ export function AskAboutMe() {
             </div>
             <h2 className="section-heading">Ask About Me.</h2>
             <p className="text-muted-foreground text-lg max-w-md mx-auto">
-              Ask anything about Emmanuel — projects, skills, philosophy, or how to work together.
+              Ask anything about Emmanuel, projects, skills, philosophy, or how to work together.
             </p>
           </motion.div>
 

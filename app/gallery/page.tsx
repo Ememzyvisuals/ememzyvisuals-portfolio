@@ -8,7 +8,7 @@ import { buildMeta } from "@/lib/metadata";
 export const revalidate = 30; // Refresh every 30 seconds so new images appear fast
 
 export const metadata: Metadata = buildMeta({
-  title: "Gallery — Emmanuel Ariyo | Ememzyvisuals",
+  title: "Gallery, Emmanuel Ariyo | Ememzyvisuals",
   description: `Behind the scenes, events, and creative visuals by ${siteConfig.fullName}`,
   path: "/gallery",
   ogTitle: "Gallery",

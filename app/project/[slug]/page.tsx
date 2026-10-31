@@ -1,5 +1,5 @@
 // app/project/[slug]/page.tsx
-// Next.js 14 — params are NOT a Promise (that's Next.js 15 only)
+// Next.js 14, params are NOT a Promise (that's Next.js 15 only)
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ALL_PROJECTS } from "@/data/projects";

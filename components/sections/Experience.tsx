@@ -9,7 +9,7 @@ const EXPERIENCE = [
     id: "plotweaver",
     role: "Machine Learning Engineer",
     company: "Plotweaver",
-    period: "Aug 2026 — Present",
+    period: "Aug 2026, Present",
     location: "Africa · Remote",
     current: true,
     summary:
@@ -21,7 +21,7 @@ const EXPERIENCE = [
       "Developed and fine-tuned multilingual ASR models with noise augmentation for real-world robustness",
       "Fine-tuned small and large Whisper-based architectures for Nigerian multilingual speech recognition",
       "Built machine translation systems supporting English ↔ Yoruba, Hausa, Igbo, and Nigerian Pidgin",
-      "Contributed across the full Speech AI pipeline — training, evaluation, inference optimization, API engineering, and deployment",
+      "Contributed across the full Speech AI pipeline, training, evaluation, inference optimization, API engineering, and deployment",
     ],
     tags: ["Data Engineering", "Intelligence Systems"],
   },
@@ -33,7 +33,7 @@ const EXPERIENCE = [
     location: "Remote",
     current: false,
     summary:
-      "Renncora is a growing social media platform. Built and deployed a real-time speech-to-speech Nigerian Pidgin AI — speak Pidgin, get a natural, human-sounding Pidgin voice reply back.",
+      "Renncora is a growing social media platform. Built and deployed a real-time speech-to-speech Nigerian Pidgin AI, speak Pidgin, get a natural, human-sounding Pidgin voice reply back.",
     highlights: [
       "Built and deployed a real-time speech-to-speech Nigerian Pidgin AI system",
       "Engineered natural, human-sounding voice output for conversational Pidgin interactions",

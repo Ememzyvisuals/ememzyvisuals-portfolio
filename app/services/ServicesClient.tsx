@@ -24,7 +24,7 @@ const SERVICES = [
     title: "Website Development",
     tagline: "High-quality websites that make people stop scrolling.",
     description:
-      "Modern, responsive websites built with Next.js and Tailwind CSS. Fast-loading, SEO-optimized, and pixel-perfect on every device. Whether you need a landing page, business site, portfolio, or e-commerce store — it gets built right.",
+      "Modern, responsive websites built with Next.js and Tailwind CSS. Fast-loading, SEO-optimized, and pixel-perfect on every device. Whether you need a landing page, business site, portfolio, or e-commerce store, it gets built right.",
     deliverables: [
       "Landing pages & business websites",
       "Portfolio & personal brand sites",
@@ -84,7 +84,7 @@ const SERVICES = [
     title: "Business Automation",
     tagline: "Stop doing manually what a bot can do in seconds.",
     description:
-      "Telegram bots, WhatsApp automation, AI agents, and workflow automation systems that handle your business operations around the clock. The same engineering behind Lumeo AI and Microdragon — built for your business.",
+      "Telegram bots, WhatsApp automation, AI agents, and workflow automation systems that handle your business operations around the clock. The same engineering behind Lumeo AI and Microdragon, built for your business.",
     deliverables: [
       "Telegram bots for business",
       "WhatsApp automation systems",
@@ -104,7 +104,7 @@ const SERVICES = [
     title: "API & Backend Development",
     tagline: "Solid backends that your frontend can rely on.",
     description:
-      "Scalable REST APIs, database design, and backend systems. Whether you need a standalone API for your mobile app, a backend for your web app, or a data pipeline — it gets built clean and documented.",
+      "Scalable REST APIs, database design, and backend systems. Whether you need a standalone API for your mobile app, a backend for your web app, or a data pipeline, it gets built clean and documented.",
     deliverables: [
       "REST API design and development",
       "Database architecture and design",
@@ -123,7 +123,7 @@ const SERVICES = [
 const FAQS = [
   {
     q: "How much does it cost to hire you?",
-    a: "Pricing depends on the scope and complexity of your project. I work with startups, small businesses, and clients worldwide. Send me a message with what you need and I'll send you a clear quote — no surprises.",
+    a: "Pricing depends on the scope and complexity of your project. I work with startups, small businesses, and clients worldwide. Send me a message with what you need and I'll send you a clear quote, no surprises.",
   },
   {
     q: "Can you build a website for my business in Nigeria?",
@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     q: "Can you add AI to my existing website or app?",
-    a: "Yes. I can integrate AI features — chatbots, recommendations, content generation, smart search — into an existing product. No need to rebuild from scratch.",
+    a: "Yes. I can integrate AI features, chatbots, recommendations, content generation, smart search, into an existing product. No need to rebuild from scratch.",
   },
   {
     q: "What makes your websites different from generic developers?",
@@ -196,7 +196,7 @@ export function ServicesClient() {
             Need a website,<br />AI system, or<br />automation?
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
-            I build premium digital products — from clean business websites to
+            I build premium digital products, from clean business websites to
             full AI-powered platforms. Fast, high-quality, and built to grow
             your business.
           </p>
@@ -235,7 +235,7 @@ export function ServicesClient() {
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
           <h2 className="text-4xl font-bold tracking-tight">What I Build</h2>
           <p className="text-muted-foreground mt-2 text-lg max-w-xl">
-            Every service below is backed by real shipped products. Not demos — production systems.
+            Every service below is backed by real shipped products. Not demos, production systems.
           </p>
         </motion.div>
 
@@ -311,7 +311,7 @@ export function ServicesClient() {
             {
               step: "01",
               title: "Tell Me What You Need",
-              desc: "Send a message with your idea, requirements, or problem. No long forms — just talk to me.",
+              desc: "Send a message with your idea, requirements, or problem. No long forms, just talk to me.",
             },
             {
               step: "02",
@@ -381,7 +381,7 @@ export function ServicesClient() {
           </h2>
           <p className="text-background/70 text-lg max-w-xl mx-auto leading-relaxed">
             Whether you need a website this week, an AI system for your product,
-            or automation that saves your team hours every day — let&apos;s talk.
+            or automation that saves your team hours every day, let&apos;s talk.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">

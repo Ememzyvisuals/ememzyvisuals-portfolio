@@ -139,7 +139,7 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
         {errors.email && <p className="text-xs text-red-500 flex items-center gap-1"><AlertCircle size={11}/>{errors.email}</p>}
       </div>
 
-      {/* WhatsApp — optional */}
+      {/* WhatsApp, optional */}
       <div className="space-y-1.5">
         <label className="text-sm font-bold text-foreground" htmlFor="whatsapp">
           WhatsApp Number <span className="text-muted-foreground font-normal">(optional)</span>
@@ -168,7 +168,7 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
         {errors.message && <p className="text-xs text-red-500 flex items-center gap-1"><AlertCircle size={11}/>{errors.message}</p>}
       </div>
 
-      {/* Bot check — styled like Cloudflare Turnstile */}
+      {/* Bot check, styled like Cloudflare Turnstile */}
       <div className="space-y-1.5">
         <label className="text-sm font-bold text-foreground">Verification</label>
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-background">
@@ -229,7 +229,7 @@ function ContactInner() {
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
             <h2 className="section-heading">Contact.</h2>
             <p className="text-muted-foreground mt-3 text-lg">
-              Software project, partnership, investment, or collaboration — I&apos;d love to hear from you.
+              Software project, partnership, investment, or collaboration, I&apos;d love to hear from you.
             </p>
           </motion.div>
 

@@ -1,7 +1,7 @@
 "use client";
 // app/gallery/GalleryGrid.tsx
 //
-// No top category nav — categories render as headings, each with its own
+// No top category nav, categories render as headings, each with its own
 // horizontally-scrollable rail beneath it. Supports images and videos.
 
 import { useState } from "react";
@@ -63,7 +63,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
           <section key={group.key} className="space-y-4">
             <h2 className="text-lg font-extrabold text-foreground">{labelFor(group.key)}</h2>
 
-            {/* Horizontal scroll rail — swipe/scroll sideways, no top tab nav */}
+            {/* Horizontal scroll rail, swipe/scroll sideways, no top tab nav */}
             <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory scroll-smooth">
               {group.items.map((item, i) => {
                 const isVideo = item.mediaType === "VIDEO";
@@ -113,7 +113,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
         ))}
       </div>
 
-      {/* Lightbox — plays video inline, shows image full-size */}
+      {/* Lightbox, plays video inline, shows image full-size */}
       <AnimatePresence>
         {lightbox && (
           <motion.div

@@ -38,7 +38,7 @@ const PLACEHOLDER_REVIEWS: Review[] = [
     role: "Product Manager",
     company: "TechCorp NG",
     content:
-      "Emmanuel delivered beyond expectations. The ClaudGPT integration we discussed was implemented flawlessly — the multi-agent pipeline was exactly what we needed.",
+      "Emmanuel delivered beyond expectations. The ClaudGPT integration we discussed was implemented flawlessly, the multi-agent pipeline was exactly what we needed.",
     rating: 5,
     createdAt: "2025-12-01",
   },
@@ -57,7 +57,7 @@ const PLACEHOLDER_REVIEWS: Review[] = [
     name: "Tobi Adeleke",
     role: "Software Engineer",
     content:
-      "I've worked with many developers but Emmanuel's depth across AI, backend, and frontend is rare. NaijaPrep was an incredible build — offline-first with real attention to user experience.",
+      "I've worked with many developers but Emmanuel's depth across AI, backend, and frontend is rare. NaijaPrep was an incredible build, offline-first with real attention to user experience.",
     rating: 5,
     createdAt: "2025-10-20",
   },

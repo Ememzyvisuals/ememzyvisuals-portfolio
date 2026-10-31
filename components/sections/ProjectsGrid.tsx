@@ -62,7 +62,7 @@ export function ProjectsGrid() {
           ))}
         </div>
 
-        {/* Grid — single column on mobile, 2-col on desktop */}
+        {/* Grid, single column on mobile, 2-col on desktop */}
         {/* Cards are rounded rectangles so they need gap not margin */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7">
           {filtered.map((project, i) => (

@@ -31,7 +31,7 @@ export const metadata: Metadata = buildMeta({
   ],
 });
 
-// Service-specific JSON-LD — Google shows these as rich results
+// Service-specific JSON-LD, Google shows these as rich results
 const servicesSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -119,7 +119,7 @@ const servicesSchema = {
   ],
 };
 
-// FAQ Schema — Google shows this as a rich snippet with expanded answers
+// FAQ Schema, Google shows this as a rich snippet with expanded answers
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -177,7 +177,7 @@ const faqSchema = {
       name: "What is Ememzyvisuals?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ememzyvisuals is the professional brand of Emmanuel Ariyo — a Creative Software Developer and AI Systems Engineer based in Nigeria. He builds websites, web applications, AI systems, and business automation tools. His notable projects include ClaudGPT, AethLife, FlonexTV, NaijaPrep, Lumeo AI, Microdragon, and the TruthGuard LLM benchmark.",
+        text: "Ememzyvisuals is the professional brand of Emmanuel Ariyo, a Creative Software Developer and AI Systems Engineer based in Nigeria. He builds websites, web applications, AI systems, and business automation tools. His notable projects include ClaudGPT, AethLife, FlonexTV, NaijaPrep, Lumeo AI, Microdragon, and the TruthGuard LLM benchmark.",
       },
     },
   ],

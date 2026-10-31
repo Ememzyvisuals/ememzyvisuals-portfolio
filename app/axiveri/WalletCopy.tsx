@@ -1,5 +1,5 @@
 "use client";
-// app/axiveri/WalletCopy.tsx — client component for clipboard copy
+// app/axiveri/WalletCopy.tsx, client component for clipboard copy
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";

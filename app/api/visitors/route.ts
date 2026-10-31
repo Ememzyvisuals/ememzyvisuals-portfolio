@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET — return current count
+// GET, return current count
 export async function GET() {
   try {
     const record = await prisma.visitorCount.upsert({
@@ -16,7 +16,7 @@ export async function GET() {
   }
 }
 
-// POST — increment count
+// POST, increment count
 export async function POST() {
   try {
     const record = await prisma.visitorCount.upsert({

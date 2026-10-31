@@ -1,5 +1,5 @@
 // app/api/admin/reviews/[id]/route.ts
-// Next.js 14 — params are sync in route handlers
+// Next.js 14, params are sync in route handlers
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 

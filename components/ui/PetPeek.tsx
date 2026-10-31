@@ -1,11 +1,11 @@
 "use client";
 // components/ui/PetPeek.tsx
 //
-// A small pet drawn entirely in SVG (no source images at all — sidesteps
+// A small pet drawn entirely in SVG (no source images at all, sidesteps
 // every background-removal/alignment problem from earlier attempts).
 // Peeks up from the bottom-right of the Contact section, blinks on a
 // timer and on tap, and the pupils continuously track the cursor by real
-// coordinate translation — not frame-swapping — so it's smooth at any
+// coordinate translation, not frame-swapping, so it's smooth at any
 // angle, not just a handful of discrete directions.
 
 import { useEffect, useRef, useState } from "react";
@@ -29,7 +29,7 @@ export function PetPeek() {
   const [blinking, setBlinking] = useState(false);
   const blinkTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // Real continuous pupil tracking — a coordinate transform, not a
+  // Real continuous pupil tracking, a coordinate transform, not a
   // discrete frame swap, so it's smooth at any cursor angle.
   useEffect(() => {
     function handlePointerMove(e: PointerEvent) {

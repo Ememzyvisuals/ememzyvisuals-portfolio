@@ -6,12 +6,12 @@ import { ReviewsSection } from "@/components/sections/Reviews";
 export const revalidate = 30;
 
 export const metadata: Metadata = buildMeta({
-  title: "Reviews — Emmanuel Ariyo | Ememzyvisuals",
+  title: "Reviews, Emmanuel Ariyo | Ememzyvisuals",
   description:
     "What clients and collaborators say about working with Emmanuel Ariyo (Ememzyvisuals). Real reviews from real people.",
   path: "/reviews",
   ogTitle: "What People Say",
-  ogSubtitle: "Client reviews for Emmanuel Ariyo — Ememzyvisuals",
+  ogSubtitle: "Client reviews for Emmanuel Ariyo, Ememzyvisuals",
   ogTag: "Reviews",
 });
 

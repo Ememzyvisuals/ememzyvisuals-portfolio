@@ -38,7 +38,7 @@ function AdminContent() {
         <div>
           <h1 className="text-3xl font-bold">Admin Panel</h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            Manage your portfolio content — everything you post here is visible to all visitors
+            Manage your portfolio content, everything you post here is visible to all visitors
           </p>
         </div>
 
@@ -350,7 +350,7 @@ function GalleryAdmin() {
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground font-bold">Cloudinary: {cloudName} · <button onClick={() => setConfigSaved(false)} className="underline">Change</button></p>
           <input type="file" accept="image/*,video/*" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />
-          <p className="text-[11px] text-muted-foreground">Images or videos — Cloudinary handles both.</p>
+          <p className="text-[11px] text-muted-foreground">Images or videos, Cloudinary handles both.</p>
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Image title *" className={inputCls} />
           <input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Caption (optional)" className={inputCls} />
           <select value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
@@ -368,7 +368,7 @@ function GalleryAdmin() {
         <p className="text-sm text-muted-foreground">Loading...</p>
       ) : items.length === 0 ? (
         <div className="text-center py-12 border border-dashed border-border rounded-2xl">
-          <p className="text-muted-foreground text-sm">No images yet — upload one above</p>
+          <p className="text-muted-foreground text-sm">No images yet, upload one above</p>
         </div>
       ) : (
         <div className="space-y-3">

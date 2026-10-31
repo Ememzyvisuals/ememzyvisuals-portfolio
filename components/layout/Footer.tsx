@@ -81,7 +81,7 @@ export function Footer() {
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               Self-taught developer & AI engineer building high-quality web apps,
-              intelligent tools, and open-source AI models — from Next.js to Groq to Africlaude.
+              intelligent tools, and open-source AI models, from Next.js to Groq to Africlaude.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export function Footer() {
             </a>
             <Link href="/axiveri"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors block">
-              Axiveri — AI Research
+              Axiveri, AI Research
             </Link>
             <div className="flex flex-wrap gap-3 pt-1">
               {SOCIALS.map(({ label, href, Icon }) => (

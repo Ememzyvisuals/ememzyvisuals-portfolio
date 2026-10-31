@@ -55,7 +55,7 @@ export function buildMeta({
     openGraph: {
       type,
       url,
-      siteName: "Ememzyvisuals — Emmanuel Ariyo",
+      siteName: "Ememzyvisuals, Emmanuel Ariyo",
       title: ogTitle || title,
       description,
       locale: "en_US",
@@ -64,7 +64,7 @@ export function buildMeta({
           url: dynamicOgUrl,
           width: 1200,
           height: 630,
-          alt: `${ogTitle || title} — Emmanuel Ariyo (Ememzyvisuals)`,
+          alt: `${ogTitle || title}, Emmanuel Ariyo (Ememzyvisuals)`,
           type: "image/png",
         },
       ],
@@ -76,7 +76,7 @@ export function buildMeta({
       creator: "@ememzyvisuals",
       title: ogTitle || title,
       description,
-      images: [{ url: dynamicOgUrl, alt: `${ogTitle || title} — Ememzyvisuals` }],
+      images: [{ url: dynamicOgUrl, alt: `${ogTitle || title}, Ememzyvisuals` }],
     },
     robots: {
       index: true,

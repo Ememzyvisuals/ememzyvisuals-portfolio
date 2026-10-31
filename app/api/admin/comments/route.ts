@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// PATCH — approve or reject a comment
+// PATCH, approve or reject a comment
 export async function PATCH(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-// DELETE — remove a comment permanently
+// DELETE, remove a comment permanently
 export async function DELETE(req: NextRequest) {
   if (!checkAuth(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {

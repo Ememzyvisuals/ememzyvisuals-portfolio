@@ -86,7 +86,7 @@
     @apply max-w-5xl mx-auto px-5 md:px-8 lg:px-10;
   }
 
-  /* Section headings — "Projects." "Tech Stack." style */
+  /* Section headings, "Projects." "Tech Stack." style */
   .section-heading {
     font-family: var(--font-display), sans-serif !important;
     font-weight: 800;

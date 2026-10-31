@@ -1,6 +1,6 @@
 "use client";
 // components/ui/ProjectCard.tsx
-// The ENTIRE card (image + text) is ONE rounded rectangle — exactly Allwell
+// The ENTIRE card (image + text) is ONE rounded rectangle, exactly Allwell
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -40,7 +40,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
       {/* ── Screenshot image at top of card ─────────────────────── */}
       <div className="relative overflow-hidden bg-[#f0f0f0] dark:bg-zinc-800">
 
-        {/* IN PROGRESS badge — top-left on image */}
+        {/* IN PROGRESS badge, top-left on image */}
         {isInDev && (
           <div className="absolute top-4 left-4 z-10">
             <span className="text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-black text-white uppercase tracking-widest">
@@ -76,7 +76,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
         )}
       </div>
 
-      {/* ── Text content — INSIDE the card rectangle ─────────────── */}
+      {/* ── Text content, INSIDE the card rectangle ─────────────── */}
       <div className="px-6 py-6 space-y-3">
 
         {/* Row 1: category label */}
@@ -115,7 +115,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
           {project.description}
         </p>
 
-        {/* Row 4: tech tags — outlined pills */}
+        {/* Row 4: tech tags, outlined pills */}
         {project.techStack && project.techStack.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-1 pb-1">
             {project.techStack.slice(0, 5).map((tech) => (

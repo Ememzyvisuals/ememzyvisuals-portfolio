@@ -2,12 +2,12 @@
 // components/ui/GlassPanel.tsx
 //
 // Real WebGL liquid glass (refraction, chromatic aberration, specular
-// highlights, elastic "liquid" feel) via liquid-glass-react — not just a
+// highlights, elastic "liquid" feel) via liquid-glass-react, not just a
 // CSS blur. Renders the plain `.liquid-glass` CSS utility on the server
 // and until the client bundle mounts (so there's no flash of unstyled
 // chrome and no SSR/hydration mismatch), then swaps to the real WebGL
 // glass. On Safari/Firefox, where the library's displacement doesn't
-// render, it automatically degrades to a frosted blur — no extra work
+// render, it automatically degrades to a frosted blur, no extra work
 // needed here.
 
 import dynamic from "next/dynamic";
@@ -37,7 +37,7 @@ export function GlassPanel({
   ...rest
 }: GlassPanelProps) {
   // TEMP: liquid-glass-react is rendering a broken full-viewport black
-  // canvas in production (reported 2026-09-11) — forcing the CSS-only
+  // canvas in production (reported 2026-09-11), forcing the CSS-only
   // fallback everywhere until that's root-caused. Flip this back to the
   // mount-detection logic below once fixed.
   const FORCE_CSS_FALLBACK = true;
@@ -47,7 +47,7 @@ export function GlassPanel({
 
   if (!ready || FORCE_CSS_FALLBACK) {
     // If the caller supplied their own fallback styling, use it exactly as
-    // given — don't also layer the generic `.liquid-glass` class underneath
+    // given, don't also layer the generic `.liquid-glass` class underneath
     // it, since that class's own background/box-shadow can silently win
     // the cascade over a plain (non-!important) utility like `bg-foreground`,
     // making custom-styled fallbacks (e.g. a solid dark-mode CTA card)

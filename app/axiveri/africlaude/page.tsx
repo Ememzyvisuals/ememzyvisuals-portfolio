@@ -4,11 +4,11 @@ import Link from "next/link";
 import { ExternalLink, ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Africlaude — Open-Source African Language Model | Axiveri",
+  title: "Africlaude, Open-Source African Language Model | Axiveri",
   description:
-    "Africlaude is a series of open-source language models by Axiveri, founded by Emmanuel Ariyo. Africlaude-7B is live on HuggingFace. Africlaude-7B v2 — with Yoruba, Igbo, Hausa support — is coming soon.",
+    "Africlaude is a series of open-source language models by Axiveri, founded by Emmanuel Ariyo. Africlaude-7B is live on HuggingFace. Africlaude-7B v2, with Yoruba, Igbo, Hausa support, is coming soon.",
   openGraph: {
-    title: "Africlaude — African Language Model Series by Axiveri",
+    title: "Africlaude, African Language Model Series by Axiveri",
     description: "Africlaude-7B is live. Africlaude-7B v2 with Nigerian language support is coming soon.",
     url: "https://ememzyvisuals.vercel.app/axiveri/africlaude",
   },
@@ -30,7 +30,7 @@ const modelSchema = {
       url: "https://ememzyvisuals.vercel.app",
     },
   },
-  description: "Africlaude-7B is the first model in the Africlaude series — an open-source 7B parameter language model by Axiveri, founded by Emmanuel Ariyo.",
+  description: "Africlaude-7B is the first model in the Africlaude series, an open-source 7B parameter language model by Axiveri, founded by Emmanuel Ariyo.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
@@ -55,7 +55,7 @@ const series = [
     name: "More models",
     version: null,
     status: "soon",
-    desc: "Axiveri is actively researching and building. More models are coming — stay tuned.",
+    desc: "Axiveri is actively researching and building. More models are coming, stay tuned.",
     tags: [],
     link: null,
   },
@@ -79,7 +79,7 @@ export default function AfriclaудePage() {
           <div className="max-w-4xl">
             <div className="flex flex-wrap items-center gap-3 mb-8">
               <span className="text-xs font-extrabold px-3 py-1.5 rounded-lg bg-foreground text-background uppercase tracking-widest">
-                Live — Africlaude-7B
+                Live, Africlaude-7B
               </span>
               <span className="text-xs text-muted-foreground font-bold uppercase tracking-widest">
                 by{" "}
@@ -100,7 +100,7 @@ export default function AfriclaудePage() {
               Africlaude
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              An open-source language model series built for Africa — available for research,
+              An open-source language model series built for Africa, available for research,
               fine-tuning, and production use. Yoruba, Igbo and Hausa support coming in v2.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -124,12 +124,12 @@ export default function AfriclaудePage() {
                 About Africlaude-7B
               </h2>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                Africlaude-7B is a 7-billion parameter open-source language model — the first
+                Africlaude-7B is a 7-billion parameter open-source language model, the first
                 in Axiveri&apos;s Africlaude series. Built for researchers, developers, and builders
                 who need a capable open model they can run, fine-tune, and deploy.
               </p>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                Africlaude-7B v2 is in development — the next version will understand Yoruba,
+                Africlaude-7B v2 is in development, the next version will understand Yoruba,
                 Igbo, Hausa, and other Nigerian languages with a significantly improved dataset.
               </p>
             </div>
@@ -137,12 +137,12 @@ export default function AfriclaудePage() {
               {[
                 { label: "Parameters",    value: "7 Billion (v1)" },
                 { label: "Architecture",  value: "Transformer (Decoder)" },
-                { label: "License",       value: "Open — community use" },
+                { label: "License",       value: "Open, community use" },
                 { label: "Available at",  value: "HuggingFace / Axiveri" },
                 { label: "Developed by",  value: "Emmanuel Ariyo (Ememzyvisuals)" },
                 { label: "Organization",  value: "Axiveri" },
                 { label: "v1 Status",     value: "Live" },
-                { label: "v2 Status",     value: "In development — Yoruba, Igbo, Hausa" },
+                { label: "v2 Status",     value: "In development, Yoruba, Igbo, Hausa" },
               ].map((row) => (
                 <div key={row.label} className="flex items-center justify-between py-3 border-b border-border last:border-0">
                   <span className="text-sm text-muted-foreground">{row.label}</span>
@@ -153,7 +153,7 @@ export default function AfriclaудePage() {
           </div>
         </section>
 
-        {/* Model Series — only what's real */}
+        {/* Model Series, only what's real */}
         <section className="container-padded py-20 border-t border-border">
           <h2 className="font-extrabold text-foreground mb-10" style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", letterSpacing: "-0.03em" }}>
             The Africlaude Series

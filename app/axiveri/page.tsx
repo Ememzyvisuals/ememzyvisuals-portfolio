@@ -1,15 +1,15 @@
-// app/axiveri/page.tsx — Server Component
+// app/axiveri/page.tsx, Server Component
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { WalletCopy } from "./WalletCopy";
 
 export const metadata: Metadata = {
-  title: "Axiveri — African AI Research | Emmanuel Ariyo",
+  title: "Axiveri, African AI Research | Emmanuel Ariyo",
   description:
-    "Axiveri is an African AI research initiative founded by Emmanuel Ariyo (Ememzyvisuals). Building open-source language and speech models for Africa — Africlaude and NaijaVox series.",
+    "Axiveri is an African AI research initiative founded by Emmanuel Ariyo (Ememzyvisuals). Building open-source language and speech models for Africa, Africlaude and NaijaVox series.",
   openGraph: {
-    title: "Axiveri — African AI Research by Emmanuel Ariyo",
+    title: "Axiveri, African AI Research by Emmanuel Ariyo",
     description: "Building open-source AI for Africa. Africlaude language models and NaijaVox Nigerian speech recognition.",
     url: "https://ememzyvisuals.vercel.app/axiveri",
   },
@@ -28,7 +28,7 @@ const orgSchema = {
     url: "https://ememzyvisuals.vercel.app",
   },
   description:
-    "Axiveri is an African AI research initiative building open-source language and speech models — including the Africlaude language model series and NaijaVox Nigerian speech recognition.",
+    "Axiveri is an African AI research initiative building open-source language and speech models, including the Africlaude language model series and NaijaVox Nigerian speech recognition.",
 };
 
 const MODEL_SERIES = [
@@ -37,7 +37,7 @@ const MODEL_SERIES = [
     name: "Africlaude",
     type: "Language Model Series",
     status: "live",
-    statusLabel: "Live — v1",
+    statusLabel: "Live, v1",
     desc: "Open-source language models built for African contexts. Africlaude-7B is live. v2 with Yoruba, Igbo & Hausa support is in development.",
     tags: ["7B Parameters", "Open Source", "Yoruba · Igbo · Hausa (v2)"],
     hfLink: "https://huggingface.co/Axiveri/Africlaude-7B",
@@ -60,7 +60,7 @@ const MODEL_SERIES = [
     type: "Text-to-Speech & Voice Cloning Series",
     status: "live",
     statusLabel: "Live",
-    desc: "Multilingual TTS and zero-shot voice cloning across Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English — one ~2B-parameter model, one set of weights. Built by extending Chatterbox's multilingual architecture to support orthographies (including Yoruba's tonal diacritics) it was never originally designed for.",
+    desc: "Multilingual TTS and zero-shot voice cloning across Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, one ~2B-parameter model, one set of weights. Built by extending Chatterbox's multilingual architecture to support orthographies (including Yoruba's tonal diacritics) it was never originally designed for.",
     tags: ["~2B Parameters", "Voice Cloning", "5 Languages", "Open Source"],
     hfLink: "https://huggingface.co/Axiveri/WazobiaVoice",
     internalLink: null,
@@ -71,7 +71,7 @@ const MODEL_SERIES = [
     type: "Image Generation Model",
     status: "live",
     statusLabel: "Live",
-    desc: "A FLUX-based LoRA fine-tune trained on African imagery — nearly 15,000 captioned images — for image generation that reflects African people, places, and contexts.",
+    desc: "A FLUX-based LoRA fine-tune trained on African imagery, nearly 15,000 captioned images, for image generation that reflects African people, places, and contexts.",
     tags: ["FLUX LoRA", "Image Generation", "African Imagery"],
     hfLink: "https://huggingface.co/Axiveri/AfriVision-Base",
     internalLink: null,
@@ -134,7 +134,7 @@ export default function AxiveriPage() {
               </p>
               <p className="text-muted-foreground leading-relaxed text-lg mb-4">
                 Axiveri builds AI that understands African languages, African accents, and African
-                problems — from language models to speech recognition.
+                problems, from language models to speech recognition.
               </p>
               <p className="text-muted-foreground leading-relaxed text-lg">
                 Every model is open-source. Research, fine-tuning, and commercial use are welcome.
@@ -144,7 +144,7 @@ export default function AxiveriPage() {
               {[
                 { title: "Open Source First", desc: "Every model is freely available on HuggingFace under open licenses." },
                 { title: "Africa-Centric", desc: "Trained on African language data, accents, and cultural contexts." },
-                { title: "Research-Grade", desc: "Rigorously benchmarked. We built TruthGuard to evaluate AI — we apply the same standards to our own models." },
+                { title: "Research-Grade", desc: "Rigorously benchmarked. We built TruthGuard to evaluate AI, we apply the same standards to our own models." },
                 { title: "Community-Driven", desc: "Partners, contributors, and supporters are welcome. Axiveri is built in public." },
               ].map((item) => (
                 <div key={item.title} className="p-5 rounded-2xl liquid-glass space-y-1.5">

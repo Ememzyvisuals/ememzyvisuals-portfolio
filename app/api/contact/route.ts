@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
           `,
         });
       } catch (emailErr) {
-        // Email failed but message is saved — don't fail the request
+        // Email failed but message is saved, don't fail the request
         console.error("Email send failed:", emailErr);
       }
     }

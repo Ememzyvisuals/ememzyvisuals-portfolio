@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     url: "https://ememzyvisuals.vercel.app",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Emmanuel Ariyo — Ememzyvisuals" }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Emmanuel Ariyo, Ememzyvisuals" }],
   },
   twitter: {
     card: "summary_large_image",

@@ -4,9 +4,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Moon, Sun, Menu, X, ChevronDown } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
-import { navItems, primaryNav, siteConfig } from "@/config/site";
+import { navItems, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 
@@ -16,9 +16,6 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
-  const primary = navItems.filter((i) => primaryNav.includes(i.href));
-  const more = navItems.filter((i) => !primaryNav.includes(i.href));
 
   useEffect(() => setMounted(true), []);
 
@@ -28,7 +25,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); setMoreOpen(false); }, [pathname]);
+  useEffect(() => setMobileOpen(false), [pathname]);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -59,14 +56,14 @@ export function Navbar() {
           {/* Brand */}
           <Link
             href="/"
-            className="px-3.5 py-1.5 rounded-lg font-display text-[15px] font-extrabold tracking-tight text-foreground hover:bg-secondary transition-colors mr-1"
+            className="px-3.5 py-1.5 rounded-lg text-sm font-bold text-foreground hover:bg-secondary transition-colors mr-1"
           >
             {siteConfig.name}
           </Link>
 
-          <div className="w-px h-4 bg-border mx-1.5" />
+          <div className="w-px h-4 bg-border mx-1" />
 
-          {primary.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -80,39 +77,6 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-
-          {/* the rest of the pages */}
-          <div className="relative" onMouseLeave={() => setMoreOpen(false)}>
-            <button
-              onClick={() => setMoreOpen((v) => !v)}
-              onMouseEnter={() => setMoreOpen(true)}
-              className={cn(
-                "inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap",
-                more.some((i) => isActive(i.href)) ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-              )}
-              aria-expanded={moreOpen}
-            >
-              More <ChevronDown size={13} className={cn("transition-transform", moreOpen && "rotate-180")} />
-            </button>
-            {moreOpen && (
-              <div className="absolute right-0 top-full pt-2">
-                <div className="liquid-glass min-w-[190px] rounded-xl border border-border !bg-background/90 p-1.5 shadow-card">
-                  {more.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        "block px-3 py-2 rounded-lg text-sm transition-colors",
-                        isActive(item.href) ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Theme toggle */}
           {mounted && (
@@ -144,7 +108,7 @@ export function Navbar() {
               scrolled && "shadow-card"
             )}
           >
-            <Link href="/" className="font-display text-[15px] font-extrabold tracking-tight text-foreground">
+            <Link href="/" className="text-sm font-bold text-foreground">
               {siteConfig.name}
             </Link>
 

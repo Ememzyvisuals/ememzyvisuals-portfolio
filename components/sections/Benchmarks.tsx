@@ -29,7 +29,7 @@ export function BenchmarkSection() {
           </Link>
         </motion.div>
 
-        {/* TruthGuard — Featured Benchmark */}
+        {/* TruthGuard, Featured Benchmark */}
         <motion.article
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export function BenchmarkSection() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
-            {/* Left — Info */}
+            {/* Left, Info */}
             <div className="p-8 md:p-10 space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-4">
@@ -54,7 +54,7 @@ export function BenchmarkSection() {
                 <p className="text-muted-foreground text-base leading-relaxed">
                   A 120-question confidence calibration benchmark designed to evaluate
                   the metacognitive abilities of Large Language Models. Measures how
-                  accurately models align stated confidence with actual correctness —
+                  accurately models align stated confidence with actual correctness , 
                   exposing metacognitive overconfidence in AI systems.
                 </p>
               </div>
@@ -115,7 +115,7 @@ export function BenchmarkSection() {
               </div>
             </div>
 
-            {/* Right — Visual */}
+            {/* Right, Visual */}
             <div className="bg-secondary border-l border-border p-8 md:p-10 flex flex-col justify-center gap-6">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 What It Measures

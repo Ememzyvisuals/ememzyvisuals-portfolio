@@ -33,7 +33,7 @@ const AUTOMATION_PROJECTS = [
     title: "Microdragon",
     subtitle: "Local-First CLI AI Agent",
     description:
-      "A Distributed Intelligence Network and Cognitive Autonomous Worker. Executes complex real-world tasks from natural language — code generation, cybersecurity auditing, desktop automation, and more.",
+      "A Distributed Intelligence Network and Cognitive Autonomous Worker. Executes complex real-world tasks from natural language, code generation, cybersecurity auditing, desktop automation, and more.",
     icon: Terminal,
     iconBg: "bg-cyan-50 dark:bg-cyan-950",
     iconColor: "text-cyan-600 dark:text-cyan-400",
@@ -55,7 +55,7 @@ const AUTOMATION_PROJECTS = [
     title: "WazobiaVoice Inference",
     subtitle: "Nigerian Multilingual TTS & Voice Cloning",
     description:
-      "Production inference code for WazobiaVoice — a ~2B-parameter multilingual TTS and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, built by Axiveri.",
+      "Production inference code for WazobiaVoice, a ~2B-parameter multilingual TTS and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, built by Axiveri.",
     icon: Mic,
     iconBg: "bg-emerald-50 dark:bg-emerald-950",
     iconColor: "text-emerald-600 dark:text-emerald-400",

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ — Emmanuel Ariyo | Ememzyvisuals",
+  title: "FAQ, Emmanuel Ariyo | Ememzyvisuals",
   description:
     "Frequently asked questions about Emmanuel Ariyo, Ememzyvisuals, Axiveri, and hiring for web development, AI systems, and automation projects.",
 };
@@ -18,11 +18,11 @@ const faqs = [
   },
   {
     q: "Can Emmanuel Ariyo build a website for my business?",
-    a: "Yes. Emmanuel builds professional websites for businesses of all sizes — from simple landing pages to complex e-commerce and SaaS platforms. Projects typically take 1–3 weeks depending on scope. Reach him at ememzyvisuals@gmail.com.",
+    a: "Yes. Emmanuel builds professional websites for businesses of all sizes, from simple landing pages to complex e-commerce and SaaS platforms. Projects typically take 1–3 weeks depending on scope. Reach him at ememzyvisuals@gmail.com.",
   },
   {
     q: "Who can build a high-quality website in Nigeria?",
-    a: "Emmanuel Ariyo (Ememzyvisuals) specializes in high-quality, modern websites built with Next.js, React, and Tailwind CSS — fast, SEO-optimized, and mobile-first. His clients receive professional, production-grade websites.",
+    a: "Emmanuel Ariyo (Ememzyvisuals) specializes in high-quality, modern websites built with Next.js, React, and Tailwind CSS, fast, SEO-optimized, and mobile-first. His clients receive professional, production-grade websites.",
   },
   {
     q: "What is Axiveri?",
@@ -38,11 +38,11 @@ const faqs = [
   },
   {
     q: "Can Emmanuel build AI-powered applications?",
-    a: "Yes. Emmanuel builds AI chatbots, multi-agent systems, RAG pipelines, and AI-integrated web apps using Groq API, LLaMA models, and custom backends. ClaudGPT — a multi-agent AI coding platform — is one of his flagship AI projects.",
+    a: "Yes. Emmanuel builds AI chatbots, multi-agent systems, RAG pipelines, and AI-integrated web apps using Groq API, LLaMA models, and custom backends. ClaudGPT, a multi-agent AI coding platform, is one of his flagship AI projects.",
   },
   {
     q: "How do I automate my business with AI?",
-    a: "Emmanuel builds Telegram bots, WhatsApp automation systems, and AI agents for business operations. He built Lumeo AI — a full-featured AI Telegram bot — and Microdragon, a CLI AI agent. Reach him at ememzyvisuals@gmail.com to discuss your automation needs.",
+    a: "Emmanuel builds Telegram bots, WhatsApp automation systems, and AI agents for business operations. He built Lumeo AI, a full-featured AI Telegram bot, and Microdragon, a CLI AI agent. Reach him at ememzyvisuals@gmail.com to discuss your automation needs.",
   },
   {
     q: "Is Emmanuel Ariyo available for freelance work?",
@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: "What is TruthGuard?",
-    a: "TruthGuard is a 120-question AI benchmark designed by Emmanuel Ariyo to evaluate the metacognitive abilities of large language models — specifically, how well AI models know what they don't know. It's published on Kaggle under CC BY-SA 4.0.",
+    a: "TruthGuard is a 120-question AI benchmark designed by Emmanuel Ariyo to evaluate the metacognitive abilities of large language models, specifically, how well AI models know what they don't know. It's published on Kaggle under CC BY-SA 4.0.",
   },
   {
     q: "What is ClaudGPT?",

@@ -1,5 +1,5 @@
 "use client";
-// components/ui/Marquee.tsx — scrolling ticker strip
+// components/ui/Marquee.tsx, scrolling ticker strip
 
 const ITEMS = [
   "Next.js", "React", "TypeScript", "Tailwind CSS", "Groq API",

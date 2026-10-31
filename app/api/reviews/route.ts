@@ -12,7 +12,7 @@ const reviewSchema = z.object({
   rating: z.number().int().min(1).max(5).default(5),
 });
 
-// GET — fetch approved reviews
+// GET, fetch approved reviews
 export async function GET() {
   try {
     const reviews = await prisma.review.findMany({
@@ -35,7 +35,7 @@ export async function GET() {
   }
 }
 
-// POST — submit a review (pending approval)
+// POST, submit a review (pending approval)
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
