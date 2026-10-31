@@ -31,6 +31,18 @@ function AdminContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // once signed in, every call to the admin API carries the password header
+  useEffect(() => {
+    if (!authed || !key) return;
+    const orig = window.fetch;
+    window.fetch = (input: RequestInfo | URL, init: RequestInit = {}) => {
+      const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      if (url.includes("/api/admin/")) { const h = new Headers(init.headers); h.set("x-admin-key", key); init = { ...init, headers: h }; }
+      return orig(input, init);
+    };
+    return () => { window.fetch = orig; };
+  }, [authed, key]);
+
   if (authed === null) return <div className="min-h-screen" />;
   if (!authed) {
     return (

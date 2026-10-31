@@ -1,3 +1,4 @@
+import { isAdmin } from "@/lib/adminAuth";
 // app/api/admin/reviews/[id]/route.ts
 // Next.js 14, params are sync in route handlers
 import { NextRequest, NextResponse } from "next/server";
@@ -6,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 interface Params { params: { id: string } }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
+  if (!isAdmin(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const { status } = await req.json();
     if (!["APPROVED", "REJECTED", "PENDING"].includes(status)) {
@@ -22,6 +24,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
+  if (!isAdmin(_req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     await prisma.review.delete({ where: { id: params.id } });
     return NextResponse.json({ success: true });
