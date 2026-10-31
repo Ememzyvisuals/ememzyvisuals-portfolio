@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Shield } from "lucide-react";
-import { PlaneFlight } from "@/components/three/earth/PlaneFlight";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { PetPeek } from "@/components/ui/PetPeek";
@@ -63,6 +62,13 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
     setErrors(errs);
     if (Object.keys(errs).length) return;
 
+    // keep a picture of the filled-in form: it becomes the paper that folds into a plane
+    const formEl = e.currentTarget as HTMLFormElement;
+    const rect = formEl.getBoundingClientRect();
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const facePromise = reduce ? Promise.resolve(null) : import("html-to-image")
+      .then(({ toCanvas }) => toCanvas(formEl, { pixelRatio: Math.min(2, window.devicePixelRatio || 1), backgroundColor: getComputedStyle(document.body).backgroundColor, cacheBust: true }))
+      .catch(() => null);
     setState("loading");
     try {
       const res = await fetch("/api/contact", {
@@ -71,9 +77,18 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
         body: JSON.stringify({ name, email, message: `[${CATEGORIES.find(c=>c.value===category)?.label}]${whatsapp ? ` | WhatsApp: ${whatsapp}` : ""}\n\n${message}` }),
       });
       if (res.ok) {
-        // the paper plane takes off from the Send button
-        const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]')?.getBoundingClientRect();
-        if (btn) window.dispatchEvent(new CustomEvent("contact:sent", { detail: { x: btn.left + btn.width / 2, y: btn.top + btn.height / 2 } }));
+        // the form folds into a paper plane and flies to the globe, then the check mark shows
+        const face = await facePromise;
+        if (face) {
+          const globe = document.querySelector("[data-globe]") as HTMLElement | null;
+          const g = globe?.getBoundingClientRect();
+          const visible = g && g.bottom > 0 && g.top < window.innerHeight;
+          formEl.style.visibility = "hidden";
+          const { foldAndFly } = await import("@/components/three/earth/foldFlight");
+          await foldAndFly(rect, face, visible ? { x: g!.left + g!.width / 2, y: g!.top + g!.height * 0.44 } : null).catch(() => {});
+          if (visible) window.dispatchEvent(new Event("globe:arrive"));
+          formEl.style.visibility = "";
+        }
         setState("success");
         setName(""); setEmail(""); setWhatsapp(""); setMessage("");
         setBotPassed(false); setBotAnswer(""); setMath(generateMath());
@@ -92,20 +107,22 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
   );
 
   if (state === "success") return (
-    <div className="card-surface p-10 flex flex-col items-center justify-center gap-4 text-center">
-      <CheckCircle2 size={40} className="text-emerald-500" />
+    <div className="card-surface flex flex-col items-center justify-center gap-5 p-10 text-center">
+      <svg viewBox="0 0 64 64" className="h-16 w-16" aria-hidden>
+        <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" strokeWidth="3" className="text-foreground [stroke-dasharray:183] [stroke-dashoffset:183] [animation:drawcheck_.6s_ease-out_forwards]" />
+        <path d="M20 33 l8 8 l16 -18" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-foreground [stroke-dasharray:40] [stroke-dashoffset:40] [animation:drawcheck_.4s_ease-out_.45s_forwards]" />
+      </svg>
       <div>
-        <h3 className="font-extrabold text-lg">Message Sent!</h3>
-        <p className="text-muted-foreground text-sm mt-1">Emmanuel will get back to you within 24 hours.</p>
+        <h3 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Message sent</h3>
+        <p className="mt-1 text-sm text-muted-foreground">Thank you. I will get back to you within a day.</p>
       </div>
-      <button onClick={() => setState("idle")} className="btn-outline text-sm">Send Another</button>
-      <PlaneFlight />
+      <button onClick={() => setState("idle")} className="btn-outline text-sm">Send another</button>
     </div>
   );
 
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <PlaneFlight />
 
       {/* Category */}
       <div className="space-y-1.5">

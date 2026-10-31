@@ -288,3 +288,4 @@
 @keyframes intro-bar { to { transform: scaleX(1); } }
 @keyframes intro-out { to { transform: translateY(-100%); visibility: hidden; } }
 @media (prefers-reduced-motion: reduce) { #intro { display: none; } }
+@keyframes drawcheck { to { stroke-dashoffset: 0; } }

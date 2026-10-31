@@ -26,13 +26,12 @@ export const metadata: Metadata = buildMeta({
 export default function ContactPage() {
   return (
     <div className="min-h-screen py-10 md:py-16">
-      <div className="container-padded grid items-start gap-6 lg:grid-cols-[1fr_minmax(0,36rem)] lg:gap-10">
-        <div className="lg:sticky lg:top-24">
-          <Globe className="mx-auto aspect-square w-full max-w-[560px]" />
-          <p className="mt-2 text-center text-sm text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
-        </div>
+      <div className="container-padded grid items-start gap-10 lg:grid-cols-[minmax(0,36rem)_1fr] lg:gap-12">
         <div className="[&_#contact]:py-0 [&_.container-padded]:px-0">
           <ContactSection />
+        </div>
+        <div className="lg:sticky lg:top-24">
+          <Globe className="mx-auto aspect-square w-full max-w-[560px]" />
         </div>
       </div>
     </div>

@@ -41,6 +41,7 @@ export function Globe({ className = "" }: { className?: string }) {
   }, [lite, resolvedTheme]);
 
   return (
+    <div className="w-full">
     <div data-globe className={`relative ${className}`} role="img" aria-label="The Earth with Nigeria facing you, marked with an orange pin">
       {still && (
         <>
@@ -51,14 +52,15 @@ export function Globe({ className = "" }: { className?: string }) {
         </>
       )}
       <div ref={box} className={`absolute inset-0 transition-opacity duration-700 ${ready && !lite ? "opacity-100" : "opacity-0"}`} />
-      {picked && (
-        <div className="card-surface absolute left-1/2 top-full z-10 mt-1 w-[min(20rem,90%)] -translate-x-1/2 p-4 text-center">
-          <p className="font-display text-lg font-extrabold tracking-tight text-foreground">{picked}</p>
-          <p className="mt-1 text-sm leading-snug text-foreground/70">
-            {picked === "Nigeria" ? "Home. Where I build speech AI for African languages." : AFRICA.has(picked) ? "One of the African countries whose languages this work is for." : "Happy to work with teams here."}
-          </p>
-        </div>
-      )}
+    </div>
+    {/* the tapped country, as plain text under the globe */}
+    <p className="mt-3 min-h-[3rem] text-center text-sm text-muted-foreground" aria-live="polite">
+      {picked ? (
+        <><span className="font-display text-base font-bold text-foreground">{picked}</span><br />
+        {picked === "Nigeria" ? "Home. Where I build speech AI for African languages." : AFRICA.has(picked) ? "One of the African countries whose languages this work is for." : "Happy to work with teams here."}</>
+      ) : "Based in Nigeria. Working with teams anywhere."}
+    </p>
+
     </div>
   );
 }
