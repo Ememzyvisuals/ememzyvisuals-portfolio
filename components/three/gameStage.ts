@@ -8,9 +8,13 @@ import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.j
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 export type GameScene = "buka" | "bus";
+// full = the /games page: drag to orbit, and actions you can trigger from buttons
+export type GameApi = { act: (name: string) => void };
 const PASSENGERS = ["tunde", "kunle", "chidi", "adaeze", "mama_sade"];
 
-export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void, onFail: () => void) {
+export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void, onFail: () => void, opts: { full?: boolean; onApi?: (a: GameApi) => void } = {}) {
+  const full = !!opts.full;
+  let action: (n: string) => void = () => {};
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -23,7 +27,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
   renderer.toneMapping = kind === "buka" ? THREE.NeutralToneMapping : THREE.AgXToneMapping;
   renderer.shadowMap.enabled = true;
   const cv = renderer.domElement;
-  cv.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:pointer";
+  cv.style.cssText = `position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:${full ? "none" : "pan-y"};cursor:${full ? "grab" : "pointer"}`;
   el.appendChild(cv);
 
   const scene = new THREE.Scene();
@@ -39,8 +43,11 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
   let tap: () => void = () => {};
   let tick: (dt: number, t: number) => void = () => {};
   let px = 0, tpx = 0;
+  let inside = false; const insideCam = new THREE.Vector3(), insideLook = new THREE.Vector3();
+  // orbit (full page): yaw/pitch around the look point
+  let yaw = 0, pitch = 0, tyaw = 0, tpitch = 0, dragging = false, lx = 0, ly = 0, moved = 0;
 
-  const shadow = new THREE.Mesh(new THREE.CircleGeometry(kind === "bus" ? 4.5 : 1.1, 48), new THREE.ShadowMaterial({ opacity: kind === "bus" ? 0.5 : 0.22 }));
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(kind === "bus" ? (full ? 14 : 4.5) : 1.1, 48), new THREE.ShadowMaterial({ opacity: kind === "bus" ? 0.5 : 0.22 }));
   shadow.rotation.x = -Math.PI / 2;
   shadow.receiveShadow = true;
   scene.add(shadow);
@@ -84,12 +91,31 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
         mixer!.addEventListener("finished", done);
       };
       tap = () => { if (!busy) once(["Greet", "Serve"]); };
+      action = (n) => { if (busy) return; if (n === "Serve") once(["Greet", "Serve"]); else if (clip(n)) once([n]); };
+      if (full) {
+        // a simple roadside bùkà: counter, pot on a stove, stools, warm floor
+        const mk = (g: THREE.BufferGeometry, c: number, r = 0.7) => { const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: c, roughness: r })); m.castShadow = m.receiveShadow = true; scene.add(m); return m; };
+        const floor = mk(new THREE.CircleGeometry(4.2, 64), 0xe7cfa8, 0.95); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.001;
+        const counter = mk(new THREE.BoxGeometry(1.7, 0.85, 0.55), 0x9a5b2e); counter.position.set(0, 0.425, 0.75);
+        const top = mk(new THREE.BoxGeometry(1.8, 0.05, 0.62), 0xc98a52, 0.5); top.position.set(0, 0.875, 0.75);
+        const stove = mk(new THREE.CylinderGeometry(0.22, 0.24, 0.12, 32), 0x2c2c2c, 0.4); stove.position.set(0.55, 0.96, 0.72);
+        const pot = mk(new THREE.CylinderGeometry(0.2, 0.17, 0.24, 40, 1, true), 0xb8b8b8, 0.25); pot.position.set(0.55, 1.14, 0.72); (pot.material as THREE.MeshStandardMaterial).metalness = 0.9; (pot.material as THREE.MeshStandardMaterial).side = THREE.DoubleSide;
+        const rice = mk(new THREE.CircleGeometry(0.19, 32), 0xe2541b, 0.6); rice.rotation.x = -Math.PI / 2; rice.position.set(0.55, 1.22, 0.72);
+        const fire = new THREE.PointLight(0xff8a2a, 2.5, 2.2, 2); fire.position.set(0.55, 0.98, 0.72); scene.add(fire);
+        for (const [x, z] of [[-0.6, 1.5], [0.3, 1.6]]) { const st = mk(new THREE.CylinderGeometry(0.17, 0.15, 0.45, 20), 0x3b6e8f); st.position.set(x, 0.225, z); }
+        const back = mk(new THREE.BoxGeometry(3.6, 2.4, 0.08), 0xf0dfc4, 0.95); back.position.set(0, 1.2, -0.9);
+        const sign = mk(new THREE.BoxGeometry(1.4, 0.32, 0.04), 0xfc6401, 0.6); sign.position.set(0, 2.05, -0.84);
+        camera.position.set(1.4, 2.0, 5.2); look.set(0, 1.0, 0);
+        const tickBase = tick; tick = (dt, t) => { tickBase(dt, t); fire.intensity = 2.2 + Math.sin(t * 13) * 0.3 + Math.sin(t * 7.3) * 0.2; };
+      }
       tick = (dt) => {
         next -= dt;
         if (next < 0 && !busy) { next = 5 + Math.random() * 4; once([Math.random() < 0.5 ? "Nod" : "Think"]); }
         o.rotation.y += (px * 0.5 - o.rotation.y) * Math.min(1, dt * 3);
       };
       renderer.compile(scene, camera);
+      rebase();
+      opts.onApi?.({ act: (n) => action(n) });
       onReady();
     }).catch(onFail);
   } else {
@@ -134,7 +160,15 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
         }
         heads.forEach((h) => h.rest.copy(h.bone.quaternion));
         let stare = 0, stareT = 0, jolt = 0, flick = 0;
+        inside = false;
+        insideCam.set(c.x, box.min.y + sz.y * 0.8, box.min.z + sz.z * 0.08); insideLook.set(c.x, box.min.y + sz.y * 0.45, box.max.z);
         tap = () => { stareT = stareT > 0.5 ? 0 : 1; jolt = 1; flick = 1.2; };
+        action = (n) => {
+          if (n === "jolt") jolt = 1;
+          if (n === "flicker") flick = 1.6;
+          if (n === "stare") stareT = stareT > 0.5 ? 0 : 1;
+          if (n === "inside") { inside = !inside; }
+        };
         const q = new THREE.Quaternion(), wq = new THREE.Quaternion(), pq = new THREE.Quaternion(), hp = new THREE.Vector3(), dir = new THREE.Vector3(), fwd = new THREE.Vector3();
         tick = (dt, t) => {
           // engine idle: a small shake; a tap jolts it forward and back
@@ -164,6 +198,8 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
           }
         };
         renderer.compile(scene, camera);
+        rebase();
+        opts.onApi?.({ act: (n) => action(n) });
         onReady();
       })
       .catch(onFail);
@@ -179,13 +215,21 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
   const ro = new ResizeObserver(fit);
   ro.observe(el);
   fit();
-  const onTap = () => tap();
-  const onMove = (e: PointerEvent) => { const r = cv.getBoundingClientRect(); tpx = ((e.clientX - r.left) / r.width) * 2 - 1; };
+  const onTap = (e: PointerEvent) => { if (!full) { tap(); return; } dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; cv.setPointerCapture(e.pointerId); cv.style.cursor = "grabbing"; };
+  const onUp = () => { if (!full || !dragging) return; dragging = false; cv.style.cursor = "grab"; if (moved < 6) tap(); };
+  const onMove = (e: PointerEvent) => {
+    const r = cv.getBoundingClientRect(); tpx = ((e.clientX - r.left) / r.width) * 2 - 1;
+    if (full && dragging) { const dx = e.clientX - lx, dy = e.clientY - ly; moved += Math.abs(dx) + Math.abs(dy); tyaw -= dx * 0.008; tpitch = THREE.MathUtils.clamp(tpitch + dy * 0.004, -0.35, 0.5); lx = e.clientX; ly = e.clientY; }
+  };
   cv.addEventListener("pointerdown", onTap);
   cv.addEventListener("pointermove", onMove);
+  cv.addEventListener("pointerup", onUp);
+  cv.addEventListener("pointercancel", onUp);
   const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
   io.observe(el);
-  const base = camera.position.clone();
+  let base = camera.position.clone();
+  const lookS = look.clone();
+  const rebase = () => { base = camera.position.clone(); lookS.copy(look); };
   function frame(ts: number) {
     raf = requestAnimationFrame(frame);
     clock.update(ts);
@@ -195,8 +239,20 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
     mixer?.update(dt);
     tick(dt, t);
     // the camera leans a little with the pointer
-    camera.position.copy(base).add(new THREE.Vector3(px * (kind === "bus" ? 0.8 : 0.3), 0, 0));
-    camera.lookAt(look);
+    if (full) {
+      yaw += (tyaw - yaw) * Math.min(1, dt * 6); pitch += (tpitch - pitch) * Math.min(1, dt * 6);
+      if (!dragging) tyaw += dt * 0.05;
+      const off = base.clone().sub(look);
+      const r = off.length(), y0 = Math.atan2(off.x, off.z), p0 = Math.asin(off.y / r);
+      const outside = new THREE.Vector3(Math.sin(y0 + yaw) * Math.cos(p0 + pitch), Math.sin(p0 + pitch), Math.cos(y0 + yaw) * Math.cos(p0 + pitch)).multiplyScalar(r).add(look);
+      const target = inside ? insideCam.clone().add(new THREE.Vector3(Math.sin(yaw) * 0.25, 0, 0)) : outside;
+      camera.position.lerp(target, Math.min(1, dt * 3));
+      lookS.lerp(inside ? insideLook.clone().add(new THREE.Vector3(Math.sin(yaw) * 1.5, -pitch, 0)) : look, Math.min(1, dt * 3));
+      camera.lookAt(lookS);
+    } else {
+      camera.position.copy(base).add(new THREE.Vector3(px * (kind === "bus" ? 0.8 : 0.3), 0, 0));
+      camera.lookAt(look);
+    }
     renderer.render(scene, camera);
   }
   raf = requestAnimationFrame(frame);
@@ -208,6 +264,8 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
     io.disconnect();
     cv.removeEventListener("pointerdown", onTap);
     cv.removeEventListener("pointermove", onMove);
+    cv.removeEventListener("pointerup", onUp);
+    cv.removeEventListener("pointercancel", onUp);
     scene.traverse((o) => {
       const m = o as THREE.Mesh;
       if (m.isMesh) {

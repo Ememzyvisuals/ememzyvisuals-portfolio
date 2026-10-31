@@ -76,7 +76,6 @@ export function Footer() {
           </p>
           <p className="mt-2 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
             <span className="text-foreground/80">Emmanuel Ariyo</span>
-            <span className="inline-block h-[0.14em] w-[1.6em] rounded-full bg-brand" aria-hidden />
             <span className="text-brand">{year}</span>
           </p>
         </div>
