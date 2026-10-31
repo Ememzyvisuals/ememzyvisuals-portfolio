@@ -4,7 +4,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, MapPin, Sparkles, Code, Brain, Zap } from "lucide-react";
-import { GlassPanel } from "@/components/ui/GlassPanel";
+import { IdCard } from "@/components/three/idcard/IdCard";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -20,37 +20,8 @@ export function AboutClient() {
       <div className="container-padded">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 
-          {/* Photo */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="relative"
-          >
-            <div className="relative rounded-3xl overflow-hidden aspect-[4/5] bg-secondary max-w-sm mx-auto md:mx-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/emmanuel.jpg"
-                alt="Emmanuel Ariyo, Ememzyvisuals"
-                className="w-full h-full object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
-            </div>
-
-            {/* Available badge */}
-            <div className="absolute bottom-5 left-5">
-              <GlassPanel
-                cornerRadius={999}
-                displacementScale={30}
-                blurAmount={0.08}
-                elasticity={0.1}
-                className="!inline-flex items-center gap-2 px-4 py-2 shadow-card text-sm font-semibold"
-                fallbackClassName="liquid-glass inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-card text-sm font-semibold"
-              >
-                Available for work
-              </GlassPanel>
-            </div>
-          </motion.div>
+          {/* ID card on a lanyard: drag it, flick it, tap to flip */}
+          <IdCard />
 
           {/* Intro text */}
           <motion.div
