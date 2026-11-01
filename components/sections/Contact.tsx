@@ -245,7 +245,8 @@ function ContactInner() {
   return (
     <section id="contact" className="relative py-section overflow-hidden">
       <div className="container-padded">
-        <div className="max-w-xl mx-auto space-y-10">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <div className="space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
             <h2 className="section-heading">Contact.</h2>
@@ -280,6 +281,7 @@ function ContactInner() {
             </a>
           </GlassPanel>
           </motion.div>
+          </div>
 
           {/* Form */}
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}

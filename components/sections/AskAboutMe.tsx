@@ -114,7 +114,7 @@ export function AskAboutMe() {
 
   return (
     <section id="ask" className="container-padded">
-      <div className={cn("mx-auto flex max-w-3xl flex-col", empty && "min-h-[64vh] justify-center")}>
+      <div className={cn("mx-auto flex max-w-5xl flex-col", empty && "min-h-[64vh] justify-center")}>
         {empty && (
           <div className="text-center">
             {/* my photo inside a soft, moving voice wave */}
@@ -129,7 +129,7 @@ export function AskAboutMe() {
             <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-foreground/70">
               An assistant that knows my projects, my speech AI research and how I work. Type, or tap the mic and just ask.
             </p>
-            <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-2">
+            <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-2">
               {SUGGESTED.map((q) => (
                 <button key={q} onClick={() => send(q)} className="rounded-full border border-border px-4 py-2 text-sm text-foreground/80 transition-colors hover:border-foreground/40 hover:text-foreground">
                   {q}

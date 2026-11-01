@@ -87,7 +87,7 @@
 
   /* Responsive container */
   .container-padded {
-    @apply max-w-5xl mx-auto px-5 md:px-8 lg:px-10;
+    @apply w-full max-w-[1600px] mx-auto px-5 md:px-10 lg:px-16;
   }
 
   /* Section headings, "Projects." "Tech Stack." style */

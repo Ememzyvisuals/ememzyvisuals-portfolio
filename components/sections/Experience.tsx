@@ -121,8 +121,8 @@ export function Experience() {
                   {job.role}
                 </h3>
                 <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
-                <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
-                <ul className="mt-6 grid max-w-3xl gap-x-8 sm:grid-cols-2">
+                <p className="mt-5 max-w-4xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
+                <ul className="mt-6 grid gap-x-10 sm:grid-cols-2">
                   {job.did.map((d) => (
                     <li key={d} className="border-t border-border py-3 text-sm leading-relaxed text-foreground/85">
                       {d}

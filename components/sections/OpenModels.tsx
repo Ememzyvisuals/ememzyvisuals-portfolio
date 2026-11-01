@@ -19,7 +19,7 @@ export function OpenModels() {
           <Link href="/axiveri" className="btn-outline w-fit text-sm">Visit Axiveri</Link>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {MODEL_SERIES.map((m) => (
             <article key={m.slug} className="card-surface overflow-hidden">
               <ModelVisual kind={m.kind} label={m.visual} className="aspect-[5/3] w-full bg-[#fff6ee] dark:bg-[#1d130c]" />
