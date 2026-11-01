@@ -1,25 +1,38 @@
 import type { Metadata } from "next";
 import { buildMeta } from "@/lib/metadata";
-import { WorkClientPage } from "./WorkClientPage";
+import { ProjectsShowcase } from "@/components/sections/ProjectsShowcase";
+import { OpenModels } from "@/components/sections/OpenModels";
+import { AutomationSection } from "@/components/sections/Automation";
+import { GamesSection } from "@/components/sections/Games";
 
 export const metadata: Metadata = buildMeta({
-  title: "Portfolio, High-Quality Websites & AI Systems | Emmanuel Ariyo",
+  title: "Work: products, open models, automation and games | Emmanuel Ariyo",
   description:
-    "See the premium websites, SaaS platforms, AI systems, and automation tools built by Emmanuel Ariyo (Ememzyvisuals). Real projects, real users, real results.",
+    "Live products on their own screens, open speech and language models for African languages, AI automation and browser games, built by Emmanuel Ariyo.",
   path: "/work",
   ogTitle: "Emmanuel Ariyo's Work",
-  ogSubtitle:
-    "10+ production apps, websites, AI platforms & automation tools",
-  ogTag: "Portfolio",
-  tags: [
-    "web developer portfolio Nigeria",
-    "high quality website examples",
-    "AI developer portfolio",
-    "best Nigerian developer portfolio",
-    "website development examples",
-  ],
+  ogSubtitle: "Products, open models, automation and games",
+  ogTag: "Work",
+  tags: ["AI engineer portfolio", "speech AI African languages", "Nigerian developer portfolio", "open source models"],
 });
 
+const divider = (
+  <div className="container-padded">
+    <div className="section-divider" />
+  </div>
+);
+
+// Same sections as the landing page, so /work and the home page always match.
 export default function WorkPage() {
-  return <WorkClientPage />;
+  return (
+    <div className="pt-24">
+      <ProjectsShowcase showAll={false} />
+      {divider}
+      <OpenModels />
+      {divider}
+      <AutomationSection />
+      {divider}
+      <GamesSection />
+    </div>
+  );
 }

@@ -6,7 +6,9 @@ export const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY || "not-set",
 });
 
-export const CHAT_MODEL = "llama-3.3-70b-versatile";
+// llama-3.3-70b-versatile was retired from Groq's free tier (Aug 2026); these are its official replacements
+export const CHAT_MODEL = "openai/gpt-oss-120b";
+export const FALLBACK_MODEL = "qwen/qwen3.6-27b";
 
 export const SYSTEM_PROMPT = `You are an intelligent personal assistant for Emmanuel Ariyo, known as Ememzyvisuals, a Web Developer, AI Systems Engineer, and Business Automation Expert based in Nigeria.
 
@@ -49,11 +51,20 @@ export async function streamChat(
 CONTEXT ABOUT EMMANUEL (use this to answer questions):
 ${context}`;
 
-  return groq.chat.completions.create({
-    model: CHAT_MODEL,
-    messages: [{ role: "system", content: systemWithContext }, ...messages],
-    max_tokens: 800,
-    temperature: 0.4,
-    stream: true,
-  });
+  const ask = (model: string) =>
+    groq.chat.completions.create({
+      model,
+      messages: [{ role: "system", content: systemWithContext }, ...messages],
+      max_tokens: 1200,
+      temperature: 0.4,
+      stream: true,
+      // show only the answer, not the model's private reasoning
+      ...({ reasoning_format: "hidden", reasoning_effort: "low" } as Record<string, unknown>),
+    } as Parameters<typeof groq.chat.completions.create>[0]) as unknown as Promise<AsyncIterable<{ choices: { delta?: { content?: string } }[] }>>;
+  try {
+    return await ask(CHAT_MODEL);
+  } catch (e) {
+    console.error("Chat model failed, trying fallback:", (e as Error).message);
+    return await ask(FALLBACK_MODEL);
+  }
 }

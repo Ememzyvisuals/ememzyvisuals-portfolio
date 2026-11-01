@@ -45,7 +45,7 @@ export function CertificateWall() {
 
   return (
     <div>
-    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl sm:aspect-[16/9]">
+    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl sm:aspect-[16/9]">
       {state !== "ready" && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={`/stills/certs-${dark ? "dark" : "light"}.webp`} alt="Emmanuel's certificates framed on a wall, joined by red thread in the order he took them"

@@ -13,7 +13,7 @@ import { ALL_PROJECTS } from "@/data/projects";
 const ON_DEVICES = ["claudgpt", "aethlife", "flonextv", "naijaprep", "studenthub", "nairanest", "storejet", "artoluwani"];
 const SHOT: Record<string, string> = { studenthub: "studenthub", artoluwani: "artoluwani" };
 
-export function ProjectsShowcase() {
+export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {}) {
   const items = ON_DEVICES.map((key) => ({
     key,
     p: ALL_PROJECTS.find((x) => x.slug === key || x.slug?.startsWith(key) || x.coverImage?.includes(`/${key}-`)),
@@ -89,9 +89,9 @@ export function ProjectsShowcase() {
           );
         })}
       </div>
-      <div className="mt-20 flex justify-center">
+      {showAll && <div className="mt-20 flex justify-center">
         <Link href="/work" className="btn-outline text-sm">See all projects</Link>
-      </div>
+      </div>}
     </section>
   );
 }

@@ -308,7 +308,7 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
     tiltS.lerp(tilt, 1 - Math.exp(-dt * 3));
 
     // camera: fit the whole wall, or come close to the opened certificate
-    const fitW = tall ? 7.2 : 13, fitH = tall ? 11.2 : 7.4;
+    const fitW = tall ? 5.6 : 12, fitH = tall ? 8.6 : 6.8;
     const vf = THREE.MathUtils.degToRad(camera.fov);
     const distW = fitW / 2 / Math.tan(vf / 2) / camera.aspect, distH = fitH / 2 / Math.tan(vf / 2);
     let target = new THREE.Vector3(tiltS.x * 0.5, (tall ? 0.6 : 0.15) - tiltS.y * 0.25, Math.max(distW, distH) + (1 - intro) * 4);
