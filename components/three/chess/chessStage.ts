@@ -3,6 +3,7 @@
 // Hover or tap a piece to see what it stands for. Tap one of your white pieces, then a glowing square, to play a move;
 // black answers. Board and pieces use CC0 Poly Haven wood (ash, black walnut, flamed black veneer).
 import * as THREE from "three";
+import { polishRenderer, polishLight } from "@/components/three/polish";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { BLACK, ORDER, WHITE, type Kind, type Tech } from "./pieces";
@@ -122,6 +123,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  polishRenderer(renderer);
   el.appendChild(renderer.domElement);
   renderer.domElement.style.touchAction = "pan-y";
 
@@ -139,6 +141,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
   key.shadow.bias = -0.0004;
   key.shadow.normalBias = 0.02;
   key.shadow.radius = 4;
+  polishLight(key);
   scene.add(key, new THREE.HemisphereLight(0xfff6ea, 0x3a2a1e, 0.55));
   const rim = new THREE.DirectionalLight(0xcfe0ff, 0.9);
   rim.position.set(6, 5, -7);
@@ -161,11 +164,11 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
 
   const lacquer = (t: { map: THREE.Texture; normalMap: THREE.Texture }, color: number, rough: number, ns = 0.35, coat = 1, coatR = 0.12) =>
     new THREE.MeshPhysicalMaterial({ ...t, color, roughness: rough, clearcoat: coat, clearcoatRoughness: coatR, normalScale: new THREE.Vector2(ns, ns) });
-  const mLight = lacquer(ash, 0xfff1dc, 0.6, 0.12, 0.35, 0.35);
-  const mDark = lacquer(walnut, 0x7a6352, 0.55, 0.12, 0.35, 0.35);
-  const mFrame = lacquer(walnut, 0x6e5545, 0.45, 0.3, 0.8, 0.2);
-  const mWhite = lacquer(ash, 0xffe9cc, 0.3, 0.25);
-  const mBlack = lacquer(ebony, 0x3a302b, 0.32, 0.25);
+  const mLight = lacquer(ash, 0xfff1dc, 0.5, 0.05, 0.5, 0.25);
+  const mDark = lacquer(walnut, 0x7a6352, 0.48, 0.05, 0.5, 0.25);
+  const mFrame = lacquer(walnut, 0x6e5545, 0.4, 0.1, 0.9, 0.15);
+  const mWhite = lacquer(ash, 0xffe9cc, 0.24, 0.08);
+  const mBlack = lacquer(ebony, 0x3a302b, 0.26, 0.08);
   const mFelt = new THREE.MeshStandardMaterial({ color: 0x1d3b2a, roughness: 1 });
   // tech logos: one 8 x 4 atlas, a cream enamel badge with a brass rim on the front of every piece
   const atlas = tex("logos", true);

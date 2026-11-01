@@ -3,6 +3,7 @@
    bus:  the LAST BUS danfo at night with its passengers. It idles with the engine running; tap it and the
          inside bulb flickers, the bus jolts forward and every passenger slowly turns to look at you. */
 import * as THREE from "three";
+import { polishRenderer, polishLight, polishScene } from "@/components/three/polish";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
@@ -26,6 +27,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = kind === "buka" ? THREE.NeutralToneMapping : THREE.AgXToneMapping;
   renderer.shadowMap.enabled = true;
+  polishRenderer(renderer);
   const cv = renderer.domElement;
   cv.style.cssText = `position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:${full ? "none" : "pan-y"};cursor:${full ? "grab" : "pointer"}`;
   el.appendChild(cv);
@@ -58,6 +60,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
     const sun = new THREE.DirectionalLight(0xfff1dc, 2.4);
     sun.position.set(-1.5, 4, 3);
     sun.castShadow = true;
+    polishLight(sun);
     sun.shadow.mapSize.set(1024, 1024);
     scene.add(sun);
     camera.position.set(0, 1.2, 3.0);
@@ -66,6 +69,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
       if (!alive) return;
       const o = g.scene;
       o.traverse((m) => { if ((m as THREE.Mesh).isMesh) { m.castShadow = true; m.frustumCulled = false; } });
+      polishScene(o, renderer);
       scene.add(o);
       mixer = new THREE.AnimationMixer(o);
       const clip = (n: string) => g.animations.find((a) => a.name === n);
@@ -99,6 +103,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
           if (!alive) return;
           const set = sg.scene.getObjectByName("set_static") || sg.scene;
           set.traverse((m) => { if ((m as THREE.Mesh).isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+          polishScene(set, renderer);
           scene.add(set);
           renderer.compile(scene, camera);
         }).catch(() => {});
@@ -127,6 +132,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
     const moon = new THREE.DirectionalLight(0x9fb4ff, 1.2);
     moon.position.set(4, 6, 3);
     moon.castShadow = true;
+    polishLight(moon);
     moon.shadow.mapSize.set(1024, 1024);
     Object.assign(moon.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5 });
     const bulb = new THREE.PointLight(0xffc27a, 6, 6, 1.5);
@@ -141,6 +147,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
         const rig = new THREE.Group();
         scene.add(rig);
         bus.scene.traverse((m) => { if ((m as THREE.Mesh).isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+        polishScene(bus.scene, renderer);
         rig.add(bus.scene);
         const box = new THREE.Box3().setFromObject(bus.scene), c = new THREE.Vector3(), sz = new THREE.Vector3();
         box.getCenter(c); box.getSize(sz);
@@ -154,6 +161,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
             if ((m as THREE.Mesh).isMesh) { m.castShadow = true; m.frustumCulled = false; }
             if ((m as THREE.Bone).isBone && /spine\.?006$/.test(m.name)) heads.push({ bone: m, rest: new THREE.Quaternion() });
           });
+          polishScene(g.scene, renderer);
           rig.add(g.scene);
           const mx = new THREE.AnimationMixer(g.scene);
           g.animations.forEach((a) => mx.clipAction(a).play());

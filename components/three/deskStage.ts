@@ -2,6 +2,7 @@
    Plain three.js so it stays light. Scroll moves the camera through four stops, the pointer makes it drift,
    and the camera is always kept outside the body, like walking round a statue. */
 import * as THREE from "three";
+import { polishRenderer, polishLight, polishScene } from "@/components/three/polish";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
@@ -37,6 +38,7 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  polishRenderer(renderer);
 
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -58,6 +60,7 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(hemi, key, rim, fill, floor);
+  polishLight(key);
 
   const bgCanvas = document.createElement("canvas");
   bgCanvas.width = 2;
@@ -121,6 +124,7 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
             m.castShadow = false;
           }
         });
+        polishScene(g.scene, renderer);
         scene.add(g.scene);
       }
       mixer = new THREE.AnimationMixer(dev.scene);
@@ -148,6 +152,7 @@ export function mountDesk(canvas: HTMLCanvasElement, opts: { mobile: boolean; mo
           if (c.z < -1.0) backWall.push(m);
           else if (c.x < -1.9) sideWall.push(m);
         });
+        polishScene(room.scene, renderer);
         scene.add(room.scene);
         tintWalls();
       }).catch(() => {});
