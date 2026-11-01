@@ -96,7 +96,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
       };
       tap = () => { if (!busy) once(["Greet", "Serve"]); };
       action = (n) => { if (busy) return; if (n === "Serve") once(["Greet", "Serve"]); else if (clip(n)) once([n]); };
-      if (full) {
+      {
         // the real bùkà from the game (Kitchen-Hustle buka_set.glb, modelled in Blender), with Mama Titi at her stove
         shadow.visible = false;
         loader.loadAsync("/models/games/buka_set.glb").then((sg) => {
@@ -112,8 +112,8 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
         o.rotation.y = 0;
         sun.position.set(S0.x - 3, 8, S0.z + 6); sun.target.position.copy(S0); scene.add(sun.target);
         Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, far: 30 }); sun.shadow.mapSize.set(2048, 2048);
-        camera.position.set(S0.x + 2.4, 2.4, S0.z + 6.2); look.set(S0.x, 1.0, S0.z + 0.4);
-        const tb = tick; tick = (dt, t) => { const ry = o.rotation.y; tb(dt, t); o.rotation.y = ry; };
+        if (full) { camera.position.set(S0.x + 2.4, 2.4, S0.z + 6.2); look.set(S0.x, 1.0, S0.z + 0.4); }
+        else { camera.position.set(S0.x + 1.25, 1.65, S0.z + 3.5); look.set(S0.x - 0.05, 1.05, S0.z + 0.55); }
       }
       tick = (dt) => {
         next -= dt;
