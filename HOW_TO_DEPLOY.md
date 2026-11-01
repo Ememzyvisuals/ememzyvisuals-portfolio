@@ -129,7 +129,7 @@ Add these one by one — click **Add** after each:
 ---
 
 **Variable 6:**
-- Name: `NEXT_PUBLIC_ADMIN_KEY`
+- Name: `ADMIN_PASSWORD`
 - Value: *(make up a secret word/password only you know)*
 - Example: `mykey2025` or anything you want
 

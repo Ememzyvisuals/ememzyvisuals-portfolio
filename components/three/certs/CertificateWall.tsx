@@ -44,6 +44,7 @@ export function CertificateWall() {
   const c = CERTIFICATES.find((x) => x.slug === open);
 
   return (
+    <div>
     <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl sm:aspect-[16/9]">
       {state !== "ready" && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -52,14 +53,15 @@ export function CertificateWall() {
       )}
       <div ref={box} data-wall className={`absolute inset-0 transition-opacity duration-1000 ${state === "ready" ? "opacity-100" : "pointer-events-none opacity-0"}`} role="img" aria-label="Certificates framed on a wall" />
 
+    </div>
       {c && (
-        <div className="card-surface absolute bottom-3 left-3 right-3 p-5 sm:bottom-6 sm:left-auto sm:right-6 sm:w-[22rem]">
+        <div className="card-surface relative mt-4 p-5 sm:p-7">
           <button onClick={() => api.current?.close()} aria-label="Close" className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground">
             <X size={16} />
           </button>
           <p className="text-xs font-medium text-muted-foreground">{c.issuer}</p>
           <h3 className="mt-1 pr-8 font-display text-xl font-extrabold leading-snug tracking-tight text-foreground">{c.course}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/75">{c.taught}</p>
+          <p className="mt-2 max-w-4xl text-sm leading-relaxed text-foreground/75 sm:text-base">{c.taught}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {c.skills.map((s) => <span key={s} className="rounded-full border border-border px-2.5 py-0.5 text-[11px] text-foreground/75">{s}</span>)}
           </div>

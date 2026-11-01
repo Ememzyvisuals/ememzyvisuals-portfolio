@@ -165,7 +165,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <p className="intro-word">EMEMZYVISUALS</p>
           <span className="intro-bar" />
         </div>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Navbar />
           <main>{children}</main>
           <Footer />

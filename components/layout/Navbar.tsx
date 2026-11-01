@@ -4,7 +4,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { ThemePill } from "./ThemePill";
 import { useTheme } from "next-themes";
 import { navItems, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -79,15 +80,7 @@ export function Navbar() {
           ))}
 
           {/* Theme toggle */}
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="ml-1 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
-          )}
+          <span className="ml-2"><ThemePill /></span>
         </GlassPanel>
         </nav>
 
@@ -113,15 +106,7 @@ export function Navbar() {
             </Link>
 
             <div className="flex items-center gap-2">
-              {mounted && (
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground"
-                  aria-label="Toggle theme"
-                >
-                  {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
-                </button>
-              )}
+              <ThemePill size="sm" />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground"

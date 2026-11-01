@@ -22,7 +22,7 @@ Live at [ememzyvisuals.vercel.app](https://ememzyvisuals.vercel.app)
 | AI Chat | Groq API | `lib/groq.ts`, streaming SSE, powers Ask About Me |
 | Media hosting | Cloudinary | Images AND video, admin-configured (not an env var — see Gallery section) |
 | Email | Resend | Contact form |
-| Admin auth | Simple shared key via `?key=` query param | `NEXT_PUBLIC_ADMIN_KEY` — no NextAuth, no user accounts |
+| Admin auth | Password checked on the server | `ADMIN_PASSWORD` — no NextAuth, no user accounts |
 | Deployment | Vercel | Auto-deploys on push to `main` |
 
 ---
@@ -213,7 +213,7 @@ npm install
 
 # 2. Configure environment
 cp .env.example .env.local
-# Fill in DATABASE_URL, GROQ_API_KEY, RESEND_API_KEY, NEXT_PUBLIC_ADMIN_KEY
+# Fill in TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, GROQ_API_KEY, RESEND_API_KEY, ADMIN_PASSWORD
 
 # 3. Database
 npx prisma generate
@@ -240,7 +240,7 @@ DIRECT_URL
 GROQ_API_KEY
 RESEND_API_KEY
 CONTACT_EMAIL
-NEXT_PUBLIC_ADMIN_KEY
+ADMIN_PASSWORD
 GOOGLE_SITE_VERIFICATION
 ```
 

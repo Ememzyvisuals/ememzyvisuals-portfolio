@@ -132,7 +132,7 @@ Add each one:
 | `GROQ_API_KEY` | Your Groq key (`gsk_...`) |
 | `RESEND_API_KEY` | Your Resend key (`re_...`) |
 | `CONTACT_EMAIL` | Your email address |
-| `NEXT_PUBLIC_ADMIN_KEY` | A secret word only you know (e.g. `mykey2025`) |
+| `ADMIN_PASSWORD` | A secret word only you know (e.g. `mykey2025`) |
 | `NEXT_PUBLIC_APP_URL` | Leave blank for now — you'll update this after deploy |
 
 6. Now click **Deploy**

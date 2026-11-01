@@ -123,8 +123,8 @@ export function AskAboutMe() {
               <span className="absolute inset-0 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_1.3s_infinite]" />
               <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={112} height={112} className="relative h-28 w-28 rounded-full object-cover shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)]" />
             </div>
-            <h2 className="mt-8 font-display font-extrabold leading-[1.04] tracking-tight text-foreground" style={{ fontSize: "clamp(2.2rem, 5.6vw, 3.8rem)" }}>
-              Ask about my work.
+            <h2 className="section-heading mt-8 text-foreground">
+              Ask about my work
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-foreground/70">
               An assistant that knows my projects, my speech AI research and how I work. Type, or tap the mic and just ask.
