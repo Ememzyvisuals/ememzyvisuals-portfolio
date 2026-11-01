@@ -42,10 +42,11 @@ const LINKS: [string, string][] = [
 export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: boolean; onOpen: (slug: string | null) => void; onReady: () => void; onFail: () => void }): WallApi {
   let renderer: THREE.WebGLRenderer;
   try {
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   } catch { opts.onFail(); return { dispose() {}, close() {}, setMode() {} }; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -91,13 +92,8 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
     if (color) t.colorSpace = THREE.SRGBColorSpace;
     return t;
   };
-  const mWall = new THREE.MeshStandardMaterial({
-    map: load("/models/certs/plaster_diff.webp", true, 3),
-    normalMap: load("/models/certs/plaster_nor.webp", false, 3),
-    normalScale: new THREE.Vector2(0.6, 0.6),
-    color: 0xf3ece2,
-    roughness: 0.95,
-  });
+  // no painted wall: the frames hang on the page itself (its own colour and grain), with their soft shadows only
+  const mWall = new THREE.ShadowMaterial({ color: 0x1a1208, opacity: 0.22 });
   const wall = new THREE.Mesh(new THREE.PlaneGeometry(30, 16), mWall);
   wall.position.z = -0.06;
   wall.receiveShadow = true;
@@ -284,7 +280,8 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   resize();
 
   function setMode(dark: boolean) {
-    mWall.color.set(dark ? 0x5a524a : 0xf3ece2);
+    mWall.opacity = dark ? 0.55 : 0.22;
+    mMould.color.set(dark ? 0x3a2b20 : 0x050404);
     hemi.intensity = dark ? 0.25 : 0.7;
     key.intensity = dark ? 0.6 : 1.2;
     spots.forEach((s) => (s.intensity = dark ? 12 : 6));
