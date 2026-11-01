@@ -57,7 +57,7 @@ const JOBS: Job[] = [
     company: "Renncora",
     period: "Contract",
     where: "Remote",
-    mark: { bg: "#151515", fg: "#ffffff", text: "R" },
+    mark: { src: "/brand/renncora.png", bg: "#ffffff" },
     summary:
       "Renncora is a growing social platform. I built them a speech to speech system for Nigerian Pidgin: you speak Pidgin, it answers back in a natural Pidgin voice.",
     did: [

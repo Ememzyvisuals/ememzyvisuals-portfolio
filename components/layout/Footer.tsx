@@ -70,11 +70,23 @@ export function Footer() {
 
         {/* Bottom */}
         {/* sign-off: heavy condensed type (Anton) in the style of the reference, with the signature orange */}
-        <div style={{ containerType: "inline-size" }} className="relative select-none">
-          <p aria-hidden className="pointer-events-none whitespace-nowrap text-center uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "21cqw", letterSpacing: "-0.01em" }}>
-            Thank you
-          </p>
-          <p className="mt-2 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
+        <div style={{ containerType: "inline-size" }} className="relative select-none pt-[12cqw]">
+          {/* big sign-off behind, the waving developer cut out in front of it (reference: big type behind a cut-out object) */}
+          <div className="relative">
+            <p aria-hidden className="pointer-events-none whitespace-nowrap text-center uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "21cqw", letterSpacing: "-0.01em" }}>
+              Thank you
+            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/footer-wave.webp"
+              alt="Emmanuel's 3D developer waving goodbye"
+              loading="lazy"
+              decoding="async"
+              className="pointer-events-none absolute bottom-0 left-[59%] -translate-x-1/2"
+              style={{ height: "31cqw", width: "auto", WebkitMaskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)", maskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)" }}
+            />
+          </div>
+          <p className="relative mt-3 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
             <span className="text-foreground/80">Emmanuel Ariyo</span>
             <span className="text-brand">{year}</span>
           </p>
