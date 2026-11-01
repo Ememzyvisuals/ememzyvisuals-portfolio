@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { isLite } from "@/lib/lite";
 import type { ModelApi, ModelKind } from "./modelStage";
 
-export function ModelVisual({ kind, label, className = "", onBrand = false }: { kind: ModelKind; label: string; className?: string; onBrand?: boolean }) {
+export function ModelVisual({ kind, label, className = "", onBrand = false, mono = false }: { kind: ModelKind; label: string; className?: string; onBrand?: boolean; mono?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   const api = useRef<ModelApi | null>(null);
   const { resolvedTheme } = useTheme();
@@ -28,7 +28,7 @@ export function ModelVisual({ kind, label, className = "", onBrand = false }: { 
         import("./modelStage").then(({ mountModel }) => {
           if (my !== token) return;
           api.current = mountModel(el, kind, {
-            still: wantStill, dark: resolvedTheme === "dark", onBrand,
+            still: wantStill, dark: resolvedTheme === "dark", onBrand, mono,
             onReady: () => setReady(true), onFail: () => setReady(false),
             onStill: (url) => { setStill(url); queueMicrotask(() => { api.current?.dispose(); api.current = null; }); },
           });

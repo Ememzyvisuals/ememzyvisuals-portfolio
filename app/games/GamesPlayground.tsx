@@ -53,7 +53,7 @@ export function GamesPlayground() {
             const g = GAMES.find((x) => x.slug === s.slug)!;
             return (
               <button key={s.slug} onClick={() => setI(k)} aria-pressed={k === i}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${k === i ? "bg-brand text-white" : sc.dark ? "text-white/75 hover:text-white" : "text-black/60 hover:text-black"}`}>
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${k === i ? "bg-foreground text-background" : sc.dark ? "text-white/75 hover:text-white" : "text-black/60 hover:text-black"}`}>
                 {g.name}
               </button>
             );
@@ -78,7 +78,7 @@ export function GamesPlayground() {
           ))}
         </div>
         <div className="mt-5 flex justify-center">
-          <a href={game.play} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(252,100,1,0.7)] hover:opacity-90">
+          <a href={game.play} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-bold text-background shadow-[0_12px_30px_-10px_rgba(0,0,0,0.5)] hover:opacity-90">
             Play the full game </a>
         </div>
       </div>

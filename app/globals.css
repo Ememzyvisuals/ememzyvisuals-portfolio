@@ -23,7 +23,7 @@
     --border: 0 0% 88%;
     --input: 0 0% 88%;
     --ring: 23 99% 50%;
-    --brand: 23 99% 50%;
+    --brand: 0 0% 7%;
     --brand-foreground: 0 0% 100%;
     --radius: 1rem;
   }
@@ -46,8 +46,8 @@
     --border: 0 0% 16%;
     --input: 0 0% 13%;
     --ring: 23 99% 55%;
-    --brand: 23 99% 55%;
-    --brand-foreground: 0 0% 100%;
+    --brand: 0 0% 96%;
+    --brand-foreground: 0 0% 7%;
   }
 }
 
@@ -303,7 +303,7 @@
 @keyframes askbar { 0%, 100% { height: 6px; } 50% { height: 18px; } }
 
 /* signature orange: selection, links in posts, focus */
-::selection { background: hsl(var(--brand) / 0.85); color: #fff; }
+::selection { background: hsl(var(--foreground)); color: hsl(var(--background)); }
 .post-body a:not(.post-link) { text-decoration-color: hsl(var(--brand)); }
 .post-body blockquote { border-left-color: hsl(var(--brand)); }
 .post-link-arrow { color: hsl(var(--brand)); }

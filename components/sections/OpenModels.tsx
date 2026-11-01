@@ -22,9 +22,9 @@ export function OpenModels() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {MODEL_SERIES.map((m) => (
             <article key={m.slug} className="card-surface overflow-hidden">
-              <ModelVisual kind={m.kind} label={m.visual} className="aspect-[5/3] w-full bg-[#fff6ee] dark:bg-[#1d130c]" />
+              <ModelVisual mono kind={m.kind} label={m.visual} className="aspect-[5/3] w-full bg-secondary/60" />
               <div className="p-6 md:p-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{m.type}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{m.type}</p>
                 <h3 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-foreground">{m.name}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-foreground/80">{m.desc}</p>
                 <p className="mt-4 text-sm text-muted-foreground">{m.stat}</p>

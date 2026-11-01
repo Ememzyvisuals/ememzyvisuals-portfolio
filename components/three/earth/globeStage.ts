@@ -94,8 +94,8 @@ export function mountGlobe(el: HTMLElement, opts: { still: boolean; dark: boolea
   const pin = new THREE.Group();
   pin.position.copy(pinPos);
   pin.lookAt(pinPos.clone().multiplyScalar(2));
-  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfc6401 }));
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0xfc6401, transparent: true, side: THREE.DoubleSide, depthWrite: false });
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, side: THREE.DoubleSide, depthWrite: false });
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.06, 0.085, 40), ringMat);
   pin.add(dot, ring);
   earth.add(pin);
@@ -103,7 +103,7 @@ export function mountGlobe(el: HTMLElement, opts: { still: boolean; dark: boolea
   // country borders from Natural Earth (public domain), drawn just above the surface
   const countries: Country[] = [];
   const borderMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: opts.dark ? 0.35 : 0.45 });
-  const pickMat = new THREE.LineBasicMaterial({ color: 0xfc6401 });
+  const pickMat = new THREE.LineBasicMaterial({ color: 0xffffff });
   let picked: THREE.LineSegments | null = null;
   const ringSegs = (rings: Ring[], r: number) => {
     const v: number[] = [];

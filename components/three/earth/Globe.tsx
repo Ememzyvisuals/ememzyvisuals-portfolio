@@ -42,13 +42,13 @@ export function Globe({ className = "" }: { className?: string }) {
 
   return (
     <div className="w-full">
-    <div data-globe className={`relative ${className}`} role="img" aria-label="The Earth with Nigeria facing you, marked with an orange pin">
+    <div data-globe className={`relative ${className}`} role="img" aria-label="The Earth with Nigeria facing you, marked with a white pin">
       {still && (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={still} alt="" aria-hidden className="absolute inset-0 h-full w-full object-contain" />
           {/* the pin pulse when a plane lands, drawn over the still picture */}
-          <span key={pulse} className="pointer-events-none absolute left-1/2 top-[44%] block h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fc6401] [animation:globepulse_1.2s_ease-out]" />
+          <span key={pulse} className="pointer-events-none absolute left-1/2 top-[44%] block h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white [animation:globepulse_1.2s_ease-out]" />
         </>
       )}
       <div ref={box} className={`absolute inset-0 transition-opacity duration-700 ${ready && !lite ? "opacity-100" : "opacity-0"}`} />

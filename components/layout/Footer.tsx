@@ -69,7 +69,7 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        {/* sign-off: heavy condensed type (Anton) in the style of the reference, with the signature orange */}
+        {/* sign-off: heavy condensed type (Anton) in the style of the reference, in black and white */}
         <div style={{ containerType: "inline-size" }} className="relative select-none pt-[12cqw]">
           {/* big sign-off behind, the waving developer cut out in front of it (reference: big type behind a cut-out object) */}
           <div className="relative">
@@ -78,8 +78,8 @@ export function Footer() {
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/footer-wave.webp"
-              alt="Emmanuel's 3D developer waving goodbye"
+              src="/images/footer-bow.webp"
+              alt="A 3D figure taking a thank-you bow"
               loading="lazy"
               decoding="async"
               className="pointer-events-none absolute bottom-0 left-[59%] -translate-x-1/2"

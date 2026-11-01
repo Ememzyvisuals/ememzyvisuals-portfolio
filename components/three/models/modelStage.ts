@@ -10,9 +10,16 @@ import * as THREE from "three";
 export type ModelKind = "asr" | "tts" | "llm" | "image";
 export type ModelApi = { dispose: () => void };
 
-const ORANGE = new THREE.Color("#fc6401"), AMBER = new THREE.Color("#ffb347"), CREAM = new THREE.Color("#fff3e6"), INK = new THREE.Color("#2a160a");
+// palette: Axiveri orange by default; black and white (mono) on the home page
+let ORANGE = new THREE.Color("#fc6401"), AMBER = new THREE.Color("#ffb347"), CREAM = new THREE.Color("#fff3e6"), INK = new THREE.Color("#2a160a");
+function palette(mono: boolean, dark: boolean) {
+  if (!mono) { ORANGE = new THREE.Color("#fc6401"); AMBER = new THREE.Color("#ffb347"); CREAM = new THREE.Color("#fff3e6"); INK = new THREE.Color("#2a160a"); return; }
+  ORANGE = new THREE.Color(dark ? "#f2f2f2" : "#111111"); AMBER = new THREE.Color(dark ? "#9a9a9a" : "#6b6b6b"); CREAM = new THREE.Color(dark ? "#2a2a2a" : "#f4f4f4"); INK = new THREE.Color(dark ? "#1a1a1a" : "#d9d9d9");
+}
 
-export function mountModel(el: HTMLElement, kind: ModelKind, opts: { still: boolean; dark: boolean; onBrand?: boolean; onReady: () => void; onFail: () => void; onStill?: (url: string) => void }): ModelApi {
+export function mountModel(el: HTMLElement, kind: ModelKind, opts: { still: boolean; dark: boolean; onBrand?: boolean; mono?: boolean; onReady: () => void; onFail: () => void; onStill?: (url: string) => void }): ModelApi {
+  palette(!!opts.mono, opts.dark);
+  const M = !!opts.mono;
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: opts.still });
@@ -30,7 +37,7 @@ export function mountModel(el: HTMLElement, kind: ModelKind, opts: { still: bool
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
   key.position.set(-4, 6, 8);
   scene.add(key);
-  const glow = new THREE.PointLight(0xff7a1a, 30, 20, 1.6);
+  const glow = new THREE.PointLight(M ? 0xffffff : 0xff7a1a, 30, 20, 1.6);
   glow.position.set(0, 0, 4);
   scene.add(glow);
 
@@ -68,7 +75,7 @@ export function mountModel(el: HTMLElement, kind: ModelKind, opts: { still: bool
     const bars = new THREE.InstancedMesh(bar, track(new THREE.MeshStandardMaterial({ roughness: 0.35, metalness: 0.1 })), BARS);
     scene.add(bars);
     const G = 22;
-    const glyphMat = track(new THREE.MeshBasicMaterial({ map: glyphTex, transparent: true, color: opts.onBrand ? 0xffffff : opts.dark ? 0xffe2c8 : 0x3a1d0a, depthWrite: false }));
+    const glyphMat = track(new THREE.MeshBasicMaterial({ map: glyphTex, transparent: true, color: opts.onBrand ? 0xffffff : opts.dark ? (M ? 0xe8e8e8 : 0xffe2c8) : (M ? 0x1a1a1a : 0x3a1d0a), depthWrite: false }));
     const glyphs = Array.from({ length: G }, (_, i) => {
       const m = new THREE.Mesh(glyphGeo(i % 24), glyphMat);
       scene.add(m);
@@ -129,14 +136,14 @@ export function mountModel(el: HTMLElement, kind: ModelKind, opts: { still: bool
       for (const [, j] of near) links.push([i, j]);
     }
     const lg = track(new THREE.BufferGeometry().setFromPoints(links.flatMap(([a, b]) => [pts[a], pts[b]])));
-    const lineMat = track(new THREE.LineBasicMaterial({ color: opts.dark ? 0x8a5a3a : 0xf2c9a8, transparent: true, opacity: 0.85 }));
+    const lineMat = track(new THREE.LineBasicMaterial({ color: opts.dark ? (M ? 0x5a5a5a : 0x8a5a3a) : (M ? 0xc8c8c8 : 0xf2c9a8), transparent: true, opacity: 0.85 }));
     const lines = new THREE.LineSegments(lg, lineMat);
     scene.add(lines);
     const P = 26;
     const pulses = new THREE.InstancedMesh(track(new THREE.SphereGeometry(0.07, 10, 8)), track(new THREE.MeshBasicMaterial({ color: ORANGE })), P);
     scene.add(pulses);
     const pulse = Array.from({ length: P }, () => ({ l: Math.floor(Math.random() * links.length), p: Math.random(), sp: 0.4 + Math.random() * 0.8 }));
-    const glyphMat = track(new THREE.MeshBasicMaterial({ map: glyphTex, transparent: true, color: opts.dark ? 0xffe2c8 : 0x3a1d0a, depthWrite: false }));
+    const glyphMat = track(new THREE.MeshBasicMaterial({ map: glyphTex, transparent: true, color: opts.dark ? (M ? 0xe8e8e8 : 0xffe2c8) : (M ? 0x1a1a1a : 0x3a1d0a), depthWrite: false }));
     const labels = [3, 9, 15, 22, 30, 38, 43].map((n, i) => { const m = new THREE.Mesh(glyphGeo(i * 3 + 1), glyphMat); scene.add(m); return { m, n }; });
     const lit = new Float32Array(NODES);
     update = (t, dt) => {
