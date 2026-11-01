@@ -38,7 +38,7 @@ export function WorkClientPage() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl"
         >
-          <h1 className="section-heading">Work.</h1>
+          <h1 className="section-heading">Work</h1>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
             A complete collection of production-grade applications, AI systems,
             and platforms I&apos;ve built. Everything here is shipped and live.

@@ -87,7 +87,7 @@ export function AutomationSection() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
-            <h2 className="section-heading">Automation.</h2>
+            <h2 className="section-heading">Automation</h2>
             <p className="text-muted-foreground mt-3 text-lg max-w-md">
               AI agents and autonomous systems that execute real-world tasks end-to-end.
             </p>

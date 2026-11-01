@@ -103,7 +103,7 @@ export default function AxiveriPage() {
 
         {/* Model series, each with its own 3D piece */}
         <section className="container-padded py-20 md:py-28">
-          <h2 className="section-heading">The models.</h2>
+          <h2 className="section-heading">The models</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">Four families, each published openly with weights, cards and examples.</p>
           <div className="mt-14 space-y-20 md:space-y-28">
             {MODEL_SERIES.map((m, i) => (
@@ -133,7 +133,7 @@ export default function AxiveriPage() {
 
         {/* Open datasets */}
         <section className="container-padded border-t border-border py-20">
-          <h2 className="section-heading">Open datasets.</h2>
+          <h2 className="section-heading">Open datasets</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">The data behind the models, cleaned and shared so others do not start from zero.</p>
           <ul className="mt-10 divide-y divide-border border-y border-border">
             {DATASETS.map((d) => (
@@ -150,7 +150,7 @@ export default function AxiveriPage() {
 
         {/* What we stand for */}
         <section className="container-padded border-t border-border py-20">
-          <h2 className="section-heading">How we build.</h2>
+          <h2 className="section-heading">How we build</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {[
               { title: "Open by default", desc: "Weights, data and model cards are public on Hugging Face under open licences." },

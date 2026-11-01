@@ -11,7 +11,7 @@ export function OpenModels() {
       <div className="container-padded">
         <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <h2 className="section-heading">Open models.</h2>
+            <h2 className="section-heading">Open models</h2>
             <p className="font-museum mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
               Speech, language and image models for Africa, published free under Axiveri.
             </p>

@@ -32,7 +32,7 @@ export default function PlatformsPage() {
     <div className="py-16 md:py-24">
       <div className="container-padded space-y-12">
         <div>
-          <h1 className="section-heading">Platforms.</h1>
+          <h1 className="section-heading">Platforms</h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-xl">
             Full-scale platforms and SaaS products serving real users
             with production-ready infrastructure.

@@ -31,7 +31,7 @@ export function polishScene(root: THREE.Object3D, r: THREE.WebGLRenderer) {
       for (const t of [s.map, s.normalMap, s.roughnessMap, s.emissiveMap]) if (t) { t.anisotropy = aniso; t.needsUpdate = true; }
       if (s.normalMap) s.normalScale.multiplyScalar(0.4);
       const name = `${s.name} ${m.name}`;
-      if (SKIN.test(name) && !HAIR.test(name) && !s.transparent && !/detail/i.test(name)) {
+      if (SKIN.test(s.name || name) && !HAIR.test(name) && !/eye|lash|brow|teeth|tongue/i.test(s.name) && !s.transparent && s.alphaTest === 0 && !/detail/i.test(name)) {
         // satin skin: smooth, a soft sheen, light that wraps a little
         const p = new THREE.MeshPhysicalMaterial({ map: s.map, color: s.color, normalMap: s.normalMap, normalScale: s.normalMap ? s.normalScale.clone().multiplyScalar(0.5) : undefined,
           roughness: s.roughnessMap ? 1 : 0.5, roughnessMap: s.roughnessMap, metalness: 0, envMapIntensity: 1.0, sheen: 0.15, sheenRoughness: 0.7, sheenColor: new THREE.Color(0xf2d2bf) });

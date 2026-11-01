@@ -61,7 +61,7 @@ export function ReviewsSection() {
       <div className="container-padded">
         <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
           <div className="max-w-2xl">
-            <h2 className="section-heading">Reviews.</h2>
+            <h2 className="section-heading">Reviews</h2>
             <p className="mt-3 text-lg text-muted-foreground">What people I have worked with say about it.</p>
           </div>
           {list.length > 0 && (

@@ -45,7 +45,7 @@ export function Stack() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="section-heading">Tech Stack.</h2>
+          <h2 className="section-heading">Tech Stack</h2>
           <p className="max-w-2xl text-muted-foreground mt-3">Every piece on this board is a tool I use.</p>
         </motion.div>
 

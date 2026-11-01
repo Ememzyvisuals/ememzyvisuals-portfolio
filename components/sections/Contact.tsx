@@ -249,7 +249,7 @@ function ContactInner() {
           <div className="space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <h2 className="section-heading">Contact.</h2>
+            <h2 className="section-heading">Contact</h2>
             <p className="text-muted-foreground mt-3 text-lg">
               Software project, partnership, investment, or collaboration, I&apos;d love to hear from you.
             </p>

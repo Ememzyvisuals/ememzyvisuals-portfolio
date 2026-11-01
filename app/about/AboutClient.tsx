@@ -72,7 +72,7 @@ export function AboutClient() {
       <div className="container-padded">
         <div className="max-w-2xl space-y-8">
           <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-            <h2 className="section-heading">My Story.</h2>
+            <h2 className="section-heading">My Story</h2>
           </motion.div>
 
           <motion.div
@@ -154,7 +154,7 @@ export function AboutClient() {
       {/* ── AI Research: open models published under Axiveri, with numbers from Hugging Face ── */}
       <div className="container-padded space-y-10">
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-          <h2 className="section-heading">AI Research.</h2>
+          <h2 className="section-heading">AI Research</h2>
           <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
             Open models and datasets for African speech and language, published under{" "}
             <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="text-foreground font-semibold underline underline-offset-4">Axiveri</a>{" "}

@@ -11,7 +11,7 @@ export function GamesSection() {
     <section id="games" className="py-section">
       <div className="container-padded space-y-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-          <h2 className="section-heading">Games.</h2>
+          <h2 className="section-heading">Games</h2>
           <p className="text-muted-foreground mt-3 text-lg max-w-md">Free browser games set in Nigeria. No download, no forced ads.</p>
         </motion.div>
 

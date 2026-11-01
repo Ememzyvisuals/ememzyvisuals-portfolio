@@ -22,7 +22,7 @@ export function ProjectsShowcase() {
   return (
     <section id="showcase" className="section-padding container-padded overflow-hidden">
       <div className="mb-14 md:mb-20">
-        <h2 className="section-heading">Built and shipped.</h2>
+        <h2 className="section-heading">Built and shipped</h2>
         <p className="text-muted-foreground mt-3 max-w-xl">
           Live products, each on its own screens. Tap the laptop or the phone, or drag to turn them.
         </p>

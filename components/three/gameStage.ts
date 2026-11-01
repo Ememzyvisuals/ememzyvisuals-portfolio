@@ -117,7 +117,7 @@ export function mountGame(el: HTMLElement, kind: GameScene, onReady: () => void,
       }
       tick = (dt) => {
         next -= dt;
-        if (next < 0 && !busy) { next = 5 + Math.random() * 4; once([Math.random() < 0.5 ? "Nod" : "Think"]); }
+        if (next < 0 && !busy) { next = 5 + Math.random() * 4; once([full && Math.random() < 0.5 ? "Think" : "Nod"]); }
         o.rotation.y += (px * 0.5 - o.rotation.y) * Math.min(1, dt * 3);
       };
       renderer.compile(scene, camera);

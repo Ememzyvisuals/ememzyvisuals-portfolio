@@ -10,7 +10,7 @@ export function CertificatesSection() {
     <section id="certificates" className="py-section">
       <div className="container-padded space-y-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-          <h2 className="section-heading">Certificates.</h2>
+          <h2 className="section-heading">Certificates</h2>
           <p className="text-muted-foreground mt-3 text-lg max-w-md">The courses behind my work, in the order I took them.</p>
         </motion.div>
 

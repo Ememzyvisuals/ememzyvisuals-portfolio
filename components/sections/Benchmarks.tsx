@@ -19,7 +19,7 @@ export function BenchmarkSection() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
-            <h2 className="section-heading">Benchmarks.</h2>
+            <h2 className="section-heading">Benchmarks</h2>
             <p className="text-muted-foreground mt-3 text-lg max-w-md">
               AI evaluation research and LLM testing infrastructure I&apos;ve published.
             </p>

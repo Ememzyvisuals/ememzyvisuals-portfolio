@@ -88,7 +88,7 @@ export function Experience() {
       <div className="container-padded">
         <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <h2 className="section-heading">Experience.</h2>
+            <h2 className="section-heading">Experience</h2>
             <p className="font-museum mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
               Teaching machines to hear and speak African languages, in production.
             </p>

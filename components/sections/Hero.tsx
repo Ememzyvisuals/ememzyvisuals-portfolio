@@ -130,7 +130,7 @@ export function Hero() {
           className="absolute inset-x-0 top-[14%] px-8 md:inset-x-auto md:left-[20%] md:top-[30%] lg:left-[20%] md:max-w-[42%]"
           style={{ opacity: name, transform: `translateY(${(1 - name) * -40 + a * -10}px)` }}
         >
-          <h1 className="museum-shadow text-foreground" style={{ fontSize: "clamp(3rem, 8.6vw, 7.2rem)", lineHeight: 0.98, letterSpacing: "-0.045em" }}>
+          <h1 className="font-anton museum-shadow uppercase text-foreground" style={{ fontWeight: 400, fontSize: "clamp(4rem, 12vw, 10rem)", lineHeight: 0.88, letterSpacing: "0" }}>
             Hi, I&apos;m
             <br />
             Emmanuel
@@ -167,7 +167,7 @@ export function Hero() {
           className="absolute inset-x-0 bottom-[8%] px-8 flex flex-col items-start gap-5 md:inset-x-auto md:left-[20%] md:bottom-auto md:top-[30%]"
           style={{ opacity: cta, transform: `translateY(${(1 - cta) * 30}px)`, pointerEvents: cta > 0.5 ? "auto" : "none" }}
         >
-          <h2 className="museum-shadow text-foreground" style={{ fontSize: "clamp(2.4rem, 6vw, 5rem)", lineHeight: 1, letterSpacing: "-0.04em" }}>
+          <h2 className="font-anton museum-shadow uppercase text-foreground" style={{ fontWeight: 400, fontSize: "clamp(3.2rem, 9vw, 8rem)", lineHeight: 0.9, letterSpacing: "0" }}>
             Let&apos;s build
             <br />
             something real
