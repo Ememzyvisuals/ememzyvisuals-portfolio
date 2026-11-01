@@ -2,7 +2,7 @@
 // components/sections/Certificates.tsx
 // The certificates hang on a gallery wall, joined by red thread in the order I took the courses.
 import { motion } from "framer-motion";
-import { CERTIFICATES } from "@/data/extras";
+import Link from "next/link";
 import { CertificateWall } from "@/components/three/certs/CertificateWall";
 
 export function CertificatesSection() {
@@ -16,14 +16,9 @@ export function CertificatesSection() {
 
         <CertificateWall />
 
-        <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-          {CERTIFICATES.map((c) => (
-            <li key={c.slug}>
-              <a href={c.verify} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground">
-                {c.course} </a>
-            </li>
-          ))}
-        </ul>
+        <div className="flex justify-center">
+          <Link href="/certificates" className="btn-outline text-sm">See all certificates</Link>
+        </div>
       </div>
     </section>
   );

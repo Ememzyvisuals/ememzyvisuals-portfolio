@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/axiveri/africlaude`,           lastModified: now, changeFrequency: "weekly",  priority: 0.92 },
     { url: `${BASE}/automation`,                   lastModified: now, changeFrequency: "monthly", priority: 0.90 },
     { url: `${BASE}/benchmarks`,                   lastModified: now, changeFrequency: "monthly", priority: 0.88 },
+    { url: `${BASE}/certificates`,                 lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/platforms`,                    lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/blogs`,                        lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/faq`,                          lastModified: now, changeFrequency: "monthly", priority: 0.85 },

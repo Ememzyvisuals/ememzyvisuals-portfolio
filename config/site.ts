@@ -79,6 +79,7 @@ export const navItems = [
   { label: "Axiveri",      href: "/axiveri" },
   { label: "Automation",   href: "/automation" },
   { label: "Benchmarks",   href: "/benchmarks" },
+  { label: "Certificates", href: "/certificates" },
   { label: "Games",        href: "/games" },
   { label: "Blogs",        href: "/blogs" },
   { label: "Gallery",      href: "/gallery" },

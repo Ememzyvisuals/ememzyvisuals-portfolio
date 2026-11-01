@@ -48,8 +48,11 @@ export function CertificateWall() {
     <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl sm:aspect-[16/9]">
       {state !== "ready" && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/stills/certs-${dark ? "dark" : "light"}.webp`} alt="Emmanuel's certificates framed on a wall, joined by red thread in the order he took them"
-          className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" onClick={() => setArmed(true)} />
+        // phones: the still is a link to the certificates page, where each one is shown on its own
+        <a href="/certificates" aria-label="See every certificate" className="absolute inset-0">
+          <img src={`/stills/certs-${dark ? "dark" : "light"}.webp`} alt="Emmanuel's certificates framed on a wall, joined by red thread in the order he took them"
+            className="h-full w-full object-cover" loading="lazy" decoding="async" />
+        </a>
       )}
       <div ref={box} data-wall className={`absolute inset-0 transition-opacity duration-1000 ${state === "ready" ? "opacity-100" : "pointer-events-none opacity-0"}`} role="img" aria-label="Certificates framed on a wall" />
 
