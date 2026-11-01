@@ -9,7 +9,6 @@ import {
   Bot,
   Zap,
   Server,
-  ArrowRight,
   CheckCircle2,
   MessageSquare,
   ChevronDown,
@@ -202,8 +201,7 @@ export function ServicesClient() {
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link href="/contact" className="btn-primary">
-              Start a Project <ArrowRight size={16} />
-            </Link>
+              Start a Project </Link>
             <Link href="/work" className="btn-outline">
               See My Work
             </Link>
@@ -396,8 +394,7 @@ export function ServicesClient() {
               href="/work"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-semibold text-sm hover:border-background/60 transition-colors"
             >
-              See My Work <ArrowRight size={15} />
-            </Link>
+              See My Work </Link>
           </div>
 
           <p className="text-background/40 text-xs">

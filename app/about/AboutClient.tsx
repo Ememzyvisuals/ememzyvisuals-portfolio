@@ -3,7 +3,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { IdCard } from "@/components/three/idcard/IdCard";
 
 const fadeUp = {
@@ -55,9 +54,7 @@ export function AboutClient() {
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/contact" className="btn-primary group text-sm">
-                Work With Me
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+                Work With Me </Link>
               <Link href="/work" className="btn-outline text-sm">
                 See My Work
               </Link>
@@ -195,7 +192,7 @@ export function AboutClient() {
               <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">{m.desc}</p>
               <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
                 <span className="text-muted-foreground">{m.stat}</span>
-                <span className="inline-flex items-center gap-1 font-semibold text-foreground">View <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" /></span>
+                <span className="inline-flex items-center gap-1 font-semibold text-foreground">View </span>
               </div>
             </motion.a>
           ))}
@@ -258,8 +255,7 @@ export function AboutClient() {
               href="/contact"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-bold text-sm hover:opacity-90 transition-opacity"
             >
-              Get In Touch <ArrowRight size={14} />
-            </Link>
+              Get In Touch </Link>
             <Link
               href="/work"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-bold text-sm hover:border-background/60 transition-colors"

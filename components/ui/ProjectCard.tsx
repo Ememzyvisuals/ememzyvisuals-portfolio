@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Smartphone, Globe } from "lucide-react";
+import { Smartphone, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
 
@@ -105,11 +105,9 @@ export function ProjectCard({ project, index = 0 }: Props) {
           </h3>
           <Link
             href={`/project/${project.slug}`}
-            className="flex-shrink-0 w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center mt-0.5 hover:scale-110 active:scale-95 transition-transform duration-200"
+            className="flex-shrink-0 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background mt-0.5 transition-transform duration-200 hover:scale-105"
             aria-label={`View ${project.title}`}
-          >
-            <ArrowUpRight size={20} strokeWidth={2.5} />
-          </Link>
+          >View</Link>
         </div>
 
         {/* Row 3: description */}

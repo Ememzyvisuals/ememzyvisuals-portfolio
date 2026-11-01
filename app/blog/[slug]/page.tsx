@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { allPosts, getPost, renderPost, formatDay, outline } from "@/lib/blog";
 import { PostActions } from "./PostActions";
 import { ShareIcons, shareLink } from "./share";
@@ -53,8 +52,7 @@ export default function BlogPostPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="container-padded pb-24 pt-8 md:pt-12">
-        <Link href="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft size={15} /> All posts
+        <Link href="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"> All posts
         </Link>
 
         <header className="mx-auto mt-8 max-w-3xl text-center">

@@ -1,7 +1,7 @@
 // app/axiveri/africlaude/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExternalLink, ArrowLeft, ArrowRight } from "lucide-react";
+import { ExternalLink, } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Africlaude, Open-Source African Language Model | Axiveri",
@@ -69,8 +69,7 @@ export default function AfriclaудePage() {
 
         {/* Back */}
         <div className="container-padded pt-28 pb-4">
-          <Link href="/axiveri" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-bold">
-            <ArrowLeft size={14} /> Back to Axiveri
+          <Link href="/axiveri" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-bold"> Back to Axiveri
           </Link>
         </div>
 
@@ -250,11 +249,9 @@ export default function AfriclaудePage() {
               </a>
               <a href="mailto:ememzyvisuals@gmail.com?subject=Africlaude v2 Collaboration"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border font-bold text-sm hover:bg-muted transition-colors">
-                Contact Emmanuel <ArrowRight size={14} />
-              </a>
+                Contact Emmanuel </a>
               <Link href="/axiveri"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border font-bold text-sm hover:bg-muted transition-colors">
-                <ArrowLeft size={14} /> Back to Axiveri
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border font-bold text-sm hover:bg-muted transition-colors"> Back to Axiveri
               </Link>
             </div>
           </div>

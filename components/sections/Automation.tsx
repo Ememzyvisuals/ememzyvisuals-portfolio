@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Terminal, Bot, Mic, ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { Terminal, Bot, Mic, Github, ExternalLink } from "lucide-react";
 
 const AUTOMATION_PROJECTS = [
   {
@@ -174,9 +174,7 @@ export function AutomationSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="tech-badge flex items-center gap-1 hover:text-foreground transition-colors"
-                    >
-                      <ArrowUpRight size={11} />
-                      npm
+                    > npm
                     </a>
                   )}
                 </div>

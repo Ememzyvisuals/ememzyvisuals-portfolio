@@ -1,116 +1,138 @@
 "use client";
 // components/sections/Experience.tsx
+// Editorial timeline: each role is a row with the company's real mark, the period, the role and what I actually did.
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Briefcase, MapPin } from "lucide-react";
 
-const EXPERIENCE = [
+type Job = {
+  id: string;
+  role: string;
+  company: string;
+  period: string;
+  where: string;
+  current?: boolean;
+  mark: { src?: string; bg: string; fg?: string; text?: string };
+  summary: string;
+  did: string[];
+};
+
+const JOBS: Job[] = [
   {
     id: "plotweaver",
     role: "Machine Learning Engineer",
-    company: "Plotweaver",
-    period: "Aug 2026, Present",
-    location: "Africa · Remote",
+    company: "PlotWeaver",
+    period: "Aug 2026, now",
+    where: "Remote",
     current: true,
+    mark: { src: "/brand/plotweaver-icon.svg", bg: "#c4f000" },
     summary:
-      "Designing and developing multilingual Speech AI systems focused on African languages, with an emphasis on production-ready inference, real-time applications, and scalable API infrastructure.",
-    highlights: [
-      "Built multilingual TTS systems supporting Nigerian English, Yoruba, Hausa, Igbo, and Nigerian Pidgin",
-      "Developed voice-cloning capabilities enabling cross-lingual speech generation across five Nigerian languages",
-      "Engineered streaming-capable APIs for integrating speech models into voice agents and real-time applications",
-      "Developed and fine-tuned multilingual ASR models with noise augmentation for real-world robustness",
-      "Fine-tuned small and large Whisper-based architectures for Nigerian multilingual speech recognition",
-      "Built machine translation systems supporting English ↔ Yoruba, Hausa, Igbo, and Nigerian Pidgin",
-      "Contributed across the full Speech AI pipeline, training, evaluation, inference optimization, API engineering, and deployment",
+      "I work on speech AI for African languages: voices that carry emotion and expression, and that can hold a real conversation instead of reading text out flat.",
+    did: [
+      "Text to speech in Nigerian English, Yoruba, Hausa, Igbo and Nigerian Pidgin, including voice cloning across them",
+      "Speech recognition fine-tuned on noisy, code-switched speech so it holds up outside a quiet studio",
+      "Translation between English and the four Nigerian languages",
+      "Streaming APIs that let voice agents and live apps use the models in real time",
     ],
-    tags: ["Data Engineering", "Intelligence Systems"],
+  },
+  {
+    id: "axiveri",
+    role: "Founder",
+    company: "Axiveri",
+    period: "Ongoing",
+    where: "Open source",
+    current: true,
+    mark: { src: "/brand/axiveri.png", bg: "#ffffff" },
+    summary:
+      "An open research lab on Hugging Face. I publish the models and datasets so other builders can start from something that already understands African speech.",
+    did: [
+      "NaijaVox 2.0, a speech recognition model for Nigerian languages and accents",
+      "WazobiaVoice and Renpiper, text to speech for several Nigerian languages and Pidgin",
+      "Open speech datasets that other teams download and train on every month",
+    ],
   },
   {
     id: "renncora",
     role: "AI Engineer",
     company: "Renncora",
     period: "Contract",
-    location: "Remote",
-    current: false,
+    where: "Remote",
+    mark: { bg: "#151515", fg: "#ffffff", text: "R" },
     summary:
-      "Renncora is a growing social media platform. Built and deployed a real-time speech-to-speech Nigerian Pidgin AI, speak Pidgin, get a natural, human-sounding Pidgin voice reply back.",
-    highlights: [
-      "Built and deployed a real-time speech-to-speech Nigerian Pidgin AI system",
-      "Engineered natural, human-sounding voice output for conversational Pidgin interactions",
+      "Renncora is a growing social platform. I built them a speech to speech system for Nigerian Pidgin: you speak Pidgin, it answers back in a natural Pidgin voice.",
+    did: [
+      "Real time pipeline from speech in to speech out",
+      "A reply voice tuned to sound like a person, not a reader",
     ],
-    tags: ["Speech AI", "Voice"],
   },
 ];
+
+function Mark({ m, name }: { m: Job["mark"]; name: string }) {
+  return (
+    <span
+      className="grid h-14 w-14 flex-shrink-0 place-items-center overflow-hidden rounded-2xl border border-border md:h-16 md:w-16"
+      style={{ background: m.bg }}
+    >
+      {m.src ? (
+        <Image src={m.src} alt={`${name} logo`} width={40} height={40} className="h-8 w-auto object-contain md:h-9" />
+      ) : (
+        <span className="font-display text-2xl font-extrabold" style={{ color: m.fg }}>{m.text}</span>
+      )}
+    </span>
+  );
+}
 
 export function Experience() {
   return (
     <section id="experience" className="py-section">
-      <div className="container-padded space-y-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="section-heading">Experience.</h2>
-          <p className="text-muted-foreground mt-3 text-lg max-w-md">
-            Where I&apos;ve put Speech AI and ML into production.
-          </p>
-        </motion.div>
+      <div className="container-padded">
+        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <h2 className="section-heading">Experience.</h2>
+            <p className="font-museum mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
+              Teaching machines to hear and speak African languages, in production.
+            </p>
+          </div>
+        </div>
 
-        <div className="space-y-5">
-          {EXPERIENCE.map((job, i) => (
-            <motion.article
+        <ol className="mt-12 border-t border-border">
+          {JOBS.map((job, i) => (
+            <motion.li
               key={job.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-surface p-6 md:p-8 space-y-4"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="grid gap-6 border-b border-border py-10 md:grid-cols-[220px_1fr] md:gap-12 md:py-14"
             >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-secondary flex-shrink-0">
-                    <Briefcase size={18} className="text-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-foreground">{job.role}</h3>
-                    <p className="text-sm text-muted-foreground">{job.company}</p>
-                  </div>
+              <div className="flex items-center gap-4 md:flex-col md:items-start">
+                <Mark m={job.mark} name={job.company} />
+                <div>
+                  <p className="font-display text-lg font-bold text-foreground">{job.period}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {job.where}
+                    {job.current && <span className="ml-2 font-semibold text-brand">Current</span>}
+                  </p>
                 </div>
-                {job.current && (
-                  <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-foreground text-background uppercase tracking-widest">
-                    Current
-                  </span>
-                )}
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground font-medium">
-                <span>{job.period}</span>
-                <span className="flex items-center gap-1">
-                  <MapPin size={11} /> {job.location}
-                </span>
+              <div className="min-w-0">
+                <h3 className="font-display text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+                  {job.role}
+                </h3>
+                <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
+                <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
+                <ul className="mt-6 grid max-w-3xl gap-x-8 sm:grid-cols-2">
+                  {job.did.map((d) => (
+                    <li key={d} className="border-t border-border py-3 text-sm leading-relaxed text-foreground/85">
+                      {d}
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <p className="text-sm text-foreground/80 leading-relaxed">{job.summary}</p>
-
-              <ul className="space-y-1.5">
-                {job.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-2 text-sm text-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 flex-shrink-0 mt-2" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {job.tags.map((t) => (
-                  <span key={t} className="tech-badge">{t}</span>
-                ))}
-              </div>
-            </motion.article>
+            </motion.li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

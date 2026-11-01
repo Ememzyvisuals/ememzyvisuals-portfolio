@@ -2,7 +2,6 @@
 // components/sections/Certificates.tsx
 // The certificates hang on a gallery wall, joined by red thread in the order I took the courses.
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import { CERTIFICATES } from "@/data/extras";
 import { CertificateWall } from "@/components/three/certs/CertificateWall";
 
@@ -21,8 +20,7 @@ export function CertificatesSection() {
           {CERTIFICATES.map((c) => (
             <li key={c.slug}>
               <a href={c.verify} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground">
-                {c.course} <ArrowUpRight size={12} />
-              </a>
+                {c.course} </a>
             </li>
           ))}
         </ul>

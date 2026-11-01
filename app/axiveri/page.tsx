@@ -1,11 +1,11 @@
 // app/axiveri/page.tsx, Server Component
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, } from "lucide-react";
 import Image from "next/image";
 import { WalletCopy } from "./WalletCopy";
+import { MODEL_SERIES } from "@/data/models";
 import { ModelVisual } from "@/components/three/models/ModelVisual";
-import type { ModelKind } from "@/components/three/models/modelStage";
 
 export const metadata: Metadata = {
   title: "Axiveri, African AI Research | Emmanuel Ariyo",
@@ -34,41 +34,7 @@ const orgSchema = {
     "Axiveri is an African AI research initiative building open-source language and speech models, including the Africlaude language model series and NaijaVox Nigerian speech recognition.",
 };
 
-type Series = { slug: string; name: string; type: string; kind: ModelKind; visual: string; desc: string; tags: string[]; stat: string; links: { label: string; href: string }[] };
-const MODEL_SERIES: Series[] = [
-  {
-    slug: "naijavox", name: "NaijaVox", type: "Speech recognition", kind: "asr",
-    visual: "A voice wave flowing in and breaking into African language letters",
-    desc: "Speech recognition that understands Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian accented English, including people switching between them mid-sentence. Version 2.0 is Whisper fine-tuned with LoRA and trained with noise so it holds up in real rooms.",
-    tags: ["Whisper LoRA", "Code-switching", "Noise robust", "5 languages"],
-    stat: "NaijaVox 2.0: 691 downloads this month, plus a live demo",
-    links: [{ label: "NaijaVox 2.0", href: "https://huggingface.co/Axiveri/NaijaVox-2.0" }, { label: "Try the demo", href: "https://huggingface.co/spaces/Axiveri/Naijavox-Demo" }],
-  },
-  {
-    slug: "wazobiavoice", name: "WazobiaVoice", type: "Text to speech and voice cloning", kind: "tts",
-    visual: "African language letters flowing in and becoming a lively voice wave",
-    desc: "Multilingual text to speech and zero-shot voice cloning in one model, extended to handle writing it was never designed for, like Yoruba tone marks. Alongside it, Renpiper is a small, fast Nigerian Pidgin voice with an ONNX build for modest hardware.",
-    tags: ["Voice cloning", "Tone marks", "Pidgin", "ONNX"],
-    stat: "Pidgin speech dataset: 1,438 downloads this month",
-    links: [{ label: "WazobiaVoice", href: "https://huggingface.co/Axiveri/WazobiaVoice" }, { label: "Renpiper Pidgin", href: "https://huggingface.co/Axiveri/Renpiper-pcm-V1" }],
-  },
-  {
-    slug: "africlaude", name: "Africlaude", type: "Language models", kind: "llm",
-    visual: "A web of connected words lighting up as a sentence forms",
-    desc: "Open language models tuned for African context, with AfriclaudeBench to measure how well any model actually understands it.",
-    tags: ["7B parameters", "Open weights", "AfriclaudeBench"],
-    stat: "Africlaude-7B: 24 downloads this month",
-    links: [{ label: "Africlaude-7B", href: "https://huggingface.co/Axiveri/Africlaude-7B" }, { label: "Learn more", href: "/axiveri/africlaude" }],
-  },
-  {
-    slug: "afrivision", name: "AfriVision", type: "Image generation", kind: "image",
-    visual: "Noisy orange tiles settling into a picture of a sunset and a baobab",
-    desc: "A FLUX LoRA trained on AfriVision-30K, captioned images of African people, places and culture, so generated images look like the continent as it really is.",
-    tags: ["FLUX LoRA", "AfriVision-30K", "Open dataset"],
-    stat: "AfriVision-30K: 81 downloads this month",
-    links: [{ label: "AfriVision-Base", href: "https://huggingface.co/Axiveri/AfriVision-Base" }, { label: "The dataset", href: "https://huggingface.co/datasets/Axiveri/AfriVision-30K" }],
-  },
-];
+
 
 const DATASETS = [
   { id: "Axiveri/naija-tts-pcm-processed", name: "naija-tts-pcm-processed", desc: "Cleaned Nigerian Pidgin speech and text pairs, ready for text to speech training.", downloads: "1,438" },
@@ -155,7 +121,7 @@ export default function AxiveriPage() {
                     {m.links.map((l, k) => (
                       <a key={l.href} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
                         className={k === 0 ? "inline-flex items-center gap-2 rounded-full bg-[#fc6401] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90" : "inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"}>
-                        {l.label} {l.href.startsWith("http") ? <ExternalLink size={13} /> : <ArrowRight size={13} />}
+                        {l.label} {l.href.startsWith("http") ? <ExternalLink size={13} /> : null}
                       </a>
                     ))}
                   </div>
@@ -239,8 +205,7 @@ export default function AxiveriPage() {
                 href="/contact?category=partnership"
                 className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:opacity-70 transition-opacity"
               >
-                Reach out <ArrowRight size={14} />
-              </a>
+                Reach out </a>
             </div>
 
             <div className="p-6 rounded-3xl border-2 border-[#fc6401] bg-[#fc6401] text-white space-y-4">
@@ -258,8 +223,7 @@ export default function AxiveriPage() {
                 href="/contact?category=investment"
                 className="inline-flex items-center gap-2 text-sm font-bold hover:opacity-80 transition-opacity"
               >
-                Send inquiry <ArrowRight size={14} />
-              </a>
+                Send inquiry </a>
             </div>
           </div>
 

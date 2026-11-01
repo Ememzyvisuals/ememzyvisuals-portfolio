@@ -5,7 +5,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Github } from "lucide-react";
+import { Github } from "lucide-react";
 import { Devices3D } from "@/components/three/devices/Devices3D";
 import { ALL_PROJECTS } from "@/data/projects";
 
@@ -62,8 +62,7 @@ export function ProjectsShowcase() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground hover:opacity-85"
                     >
-                      Live site <ArrowUpRight size={15} />
-                    </Link>
+                      Live site </Link>
                   )}
                   {p!.githubUrl && (
                     <Link
@@ -89,6 +88,9 @@ export function ProjectsShowcase() {
             </article>
           );
         })}
+      </div>
+      <div className="mt-20 flex justify-center">
+        <Link href="/work" className="btn-outline text-sm">See all projects</Link>
       </div>
     </section>
   );

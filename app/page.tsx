@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/Hero";
 import { Experience } from "@/components/sections/Experience";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { ProjectsShowcase } from "@/components/sections/ProjectsShowcase";
+import { OpenModels } from "@/components/sections/OpenModels";
 import { AutomationSection } from "@/components/sections/Automation";
 import { BenchmarkSection } from "@/components/sections/Benchmarks";
 import { Stack } from "@/components/sections/Stack";
@@ -51,7 +51,7 @@ export default function HomePage() {
       {divider}
       <ProjectsShowcase />
       {divider}
-      <ProjectsGrid />
+      <OpenModels />
       {divider}
       <AutomationSection />
       {divider}

@@ -3,7 +3,6 @@
 // A full-screen 3D stage for each game. Switch games at the top; drag to walk round the scene; the buttons
 // make things happen the way they do in the game. Then a big Play button opens the real game.
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { GAMES } from "@/data/extras";
 import type { GameApi, GameScene } from "@/components/three/gameStage";
 
@@ -80,8 +79,7 @@ export function GamesPlayground() {
         </div>
         <div className="mt-5 flex justify-center">
           <a href={game.play} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(252,100,1,0.7)] hover:opacity-90">
-            Play the full game <ArrowUpRight size={16} />
-          </a>
+            Play the full game </a>
         </div>
       </div>
     </div>

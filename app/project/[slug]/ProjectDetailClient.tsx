@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink, Github, Clock } from "lucide-react";
+import { ExternalLink, Github, Clock } from "lucide-react";
 import type { Project } from "@/types";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -29,8 +29,7 @@ export function ProjectDetailClient({ project }: Props) {
 
         {/* Back */}
         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
-          <Link href="/work" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
-            <ArrowLeft size={15} /> Back to Work
+          <Link href="/work" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium"> Back to Work
           </Link>
         </motion.div>
 
@@ -158,7 +157,7 @@ export function ProjectDetailClient({ project }: Props) {
         )}
 
         <div className="pt-4">
-          <Link href="/work" className="btn-outline text-sm"><ArrowLeft size={14} /> All Work</Link>
+          <Link href="/work" className="btn-outline text-sm"> All Work</Link>
         </div>
       </div>
     </article>

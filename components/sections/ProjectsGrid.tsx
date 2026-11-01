@@ -4,7 +4,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ALL_PROJECTS } from "@/data/projects";
 import { cn } from "@/lib/utils";
@@ -40,8 +39,7 @@ export function ProjectsGrid() {
             Projects.
           </motion.h2>
           <Link href="/work" className="btn-outline self-start md:self-auto text-sm">
-            View All <ArrowRight size={14} />
-          </Link>
+            View All </Link>
         </div>
 
         {/* Filter tabs */}

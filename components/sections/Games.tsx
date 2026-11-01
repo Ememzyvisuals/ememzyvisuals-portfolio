@@ -2,7 +2,7 @@
 // components/sections/Games.tsx
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Gamepad2 } from "lucide-react";
+import { Gamepad2 } from "lucide-react";
 import { GAMES } from "@/data/extras";
 import { GameStage } from "@/components/three/GameStage";
 
@@ -61,12 +61,10 @@ export function GamesSection() {
                 </ul>
                 <div className="mt-auto flex flex-wrap items-center gap-3 pt-2">
                   <a href={g.play} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                    Play free <ArrowUpRight size={15} />
-                  </a>
+                    Play free </a>
                   {g.links.map((l) => (
                     <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm font-bold inline-flex items-center gap-1 hover:underline">
-                      {l.label} <ArrowUpRight size={13} />
-                    </a>
+                      {l.label} </a>
                   ))}
                 </div>
               </div>

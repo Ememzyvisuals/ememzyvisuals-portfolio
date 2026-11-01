@@ -3,7 +3,7 @@
 // Lazy wrapper for the certificate wall. Phones see a still render until they tap it.
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
-import { ArrowUpRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import { CERTIFICATES } from "@/data/extras";
 import { isLite } from "@/lib/lite";
 import type { WallApi } from "./wallStage";
@@ -64,8 +64,7 @@ export function CertificateWall() {
             {c.skills.map((s) => <span key={s} className="rounded-full border border-border px-2.5 py-0.5 text-[11px] text-foreground/75">{s}</span>)}
           </div>
           <a href={c.verify} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-foreground hover:underline">
-            Verify <ArrowUpRight size={14} />
-          </a>
+            Verify </a>
         </div>
       )}
     </div>

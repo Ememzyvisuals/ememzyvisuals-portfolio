@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, CheckCircle2, AlertCircle, Shield } from "lucide-react";
+import { CheckCircle2, AlertCircle, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { useSearchParams } from "next/navigation";
@@ -232,7 +232,7 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
 
       <button type="submit" disabled={state === "loading"}
         className={cn("btn-primary w-full justify-center", state === "loading" && "opacity-70 cursor-not-allowed")}>
-        {state === "loading" ? "Sending..." : <><Send size={14} /> Send Message</>}
+        {state === "loading" ? "Sending..." : "Send message"}
       </button>
     </form>
   );
@@ -276,7 +276,7 @@ function ContactInner() {
             </p>
             <a href="mailto:ememzyvisuals@gmail.com"
               className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-xl bg-background text-foreground text-sm font-bold hover:opacity-90 transition-opacity">
-              ememzyvisuals@gmail.com →
+              ememzyvisuals@gmail.com
             </a>
           </GlassPanel>
           </motion.div>

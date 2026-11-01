@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { buildMeta } from "@/lib/metadata";
 import { allPosts, formatDay } from "@/lib/blog";
 import { q } from "@/lib/turso";
@@ -71,9 +70,6 @@ export default async function BlogsPage() {
                   <p className="font-medium text-foreground">Emmanuel Ariyo</p>
                   <p className="text-xs text-muted-foreground">{formatDay(lead.date)} · {lead.minutes} min read</p>
                 </div>
-                <span className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border text-foreground transition-transform duration-500 group-hover:rotate-45">
-                  <ArrowUpRight size={18} />
-                </span>
               </div>
             </div>
           </Link>
