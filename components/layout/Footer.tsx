@@ -70,21 +70,15 @@ export function Footer() {
 
         {/* Bottom */}
         {/* sign-off: heavy condensed type (Anton) in the style of the reference, in black and white */}
-        <div style={{ containerType: "inline-size" }} className="relative select-none pt-[12cqw]">
-          {/* big sign-off behind, the waving developer cut out in front of it (reference: big type behind a cut-out object) */}
-          <div className="relative">
-            <p aria-hidden className="pointer-events-none whitespace-nowrap text-center uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "21cqw", letterSpacing: "-0.01em" }}>
+        <div style={{ containerType: "inline-size" }} className="relative select-none pt-[8cqw]">
+          {/* big sign-off with a 3D figure giving two thumbs up beside it */}
+          <div className="flex items-end justify-center gap-[1.5cqw]">
+            <p aria-hidden className="pointer-events-none whitespace-nowrap uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "19cqw", letterSpacing: "-0.01em" }}>
               Thank you
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/footer-bow.webp"
-              alt="A 3D figure taking a thank-you bow"
-              loading="lazy"
-              decoding="async"
-              className="pointer-events-none absolute bottom-0 left-[59%] -translate-x-1/2"
-              style={{ height: "31cqw", width: "auto", WebkitMaskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)", maskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)" }}
-            />
+            <img src="/images/footer-thumbs.webp" alt="A 3D figure giving two thumbs up" loading="lazy" decoding="async"
+              className="pointer-events-none shrink-0" style={{ height: "23cqw", width: "auto" }} />
           </div>
           <p className="relative mt-3 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
             <span className="text-foreground/80">Emmanuel Ariyo</span>
