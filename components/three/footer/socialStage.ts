@@ -2,6 +2,7 @@
 // The social icons as glossy 3D tiles hanging on strings from a brass rail along the top of the footer.
 // Brush across them and they swing and knock into each other. Click one to open the profile.
 import * as THREE from "three";
+import { polishRenderer, polishLight } from "@/components/three/polish";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
@@ -18,6 +19,7 @@ export function mountSocial(el: HTMLElement, items: Social[], opts: { onReady: (
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  polishRenderer(renderer);
   el.appendChild(renderer.domElement);
   const cv = renderer.domElement;
   cv.style.touchAction = "pan-y";
@@ -32,6 +34,7 @@ export function mountSocial(el: HTMLElement, items: Social[], opts: { onReady: (
   const key = new THREE.DirectionalLight(0xffffff, 1.3);
   key.position.set(-4, 6, 8);
   key.castShadow = true;
+  polishLight(key);
   key.shadow.mapSize.set(1024, 1024);
   Object.assign(key.shadow.camera, { left: -10, right: 10, top: 4, bottom: -5, near: 1, far: 30 });
   scene.add(key, new THREE.HemisphereLight(0xffffff, 0x666666, 0.35));

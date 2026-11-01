@@ -3,6 +3,7 @@
 // with red thread running pin to pin along the order I took the courses.
 // Touch a frame and it swings on its pin; the thread tugs the next frames along. Tap one to bring it close.
 import * as THREE from "three";
+import { polishRenderer, polishLight } from "@/components/three/polish";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 export type WallItem = { slug: string; image: string };
@@ -48,6 +49,7 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  polishRenderer(renderer);
   el.appendChild(renderer.domElement);
   const cv = renderer.domElement;
   cv.style.touchAction = "pan-y";
@@ -63,6 +65,7 @@ export function mountWall(el: HTMLElement, items: WallItem[], opts: { dark: bool
   const key = new THREE.DirectionalLight(0xfff0dc, 1.2);
   key.position.set(-3, 7, 8);
   key.castShadow = true;
+  polishLight(key);
   key.shadow.mapSize.set(2048, 2048);
   Object.assign(key.shadow.camera, { left: -9, right: 9, top: 8, bottom: -8, near: 1, far: 30 });
   key.shadow.bias = -0.0005;

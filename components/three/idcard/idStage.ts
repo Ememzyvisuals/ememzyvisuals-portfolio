@@ -3,6 +3,7 @@
 // They drop in when the page opens. Each strap is simulated as a rope. Grab and drag a card, let go and it swings;
 // flick it sideways and it spins; tap it to flip it over.
 import * as THREE from "three";
+import { polishRenderer, polishLight } from "@/components/three/polish";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
@@ -25,6 +26,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  polishRenderer(renderer);
   el.appendChild(renderer.domElement);
   const cv = renderer.domElement;
   cv.style.touchAction = "pan-y";
@@ -37,6 +39,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   const key = new THREE.DirectionalLight(0xffffff, 1.5);
   key.position.set(-3, 6, 7);
   key.castShadow = true;
+  polishLight(key);
   key.shadow.mapSize.set(1024, 1024);
   Object.assign(key.shadow.camera, { left: -6, right: 6, top: 8, bottom: -8, near: 1, far: 30 });
   scene.add(key, new THREE.HemisphereLight(0xffffff, 0x777777, 0.6));
