@@ -40,15 +40,15 @@ export const siteConfig = {
     name: "Emmanuel Ariyo",
     alternateName: "Ememzyvisuals",
     email: "ememzyvisuals@gmail.com",
-    twitter: "@ememzyvisuals",
+    twitter: "@Ememzyvisuals",
     location: "Nigeria",
     jobTitle: "Machine Learning Engineer at PlotWeaver | Founder of Axiveri",
   },
 
   socials: {
-    github: "https://github.com/ememzyvisuals",
-    twitter: "https://twitter.com/ememzyvisuals",
-    tiktok: "https://tiktok.com/@ememzyvisuals",
+    github: "https://github.com/Ememzyvisuals",
+    twitter: "https://x.com/Ememzyvisuals",
+    tiktok: "https://www.tiktok.com/@ememzyvisuals",
     kaggle: "https://www.kaggle.com/ememzyvisuals",
     linkedin: "https://www.linkedin.com/in/ememzyvisuals",
   },
@@ -70,7 +70,7 @@ export const siteConfig = {
 };
 
 // primary links show in the desktop bar, the rest sit under "More"
-export const primaryNav = ["/work", "/about", "/services", "/axiveri", "/#games", "/blogs", "/contact"];
+export const primaryNav = ["/work", "/about", "/services", "/axiveri", "/blogs", "/contact"];
 export const navItems = [
   { label: "Work",         href: "/work" },
   { label: "About",        href: "/about" },
@@ -81,9 +81,19 @@ export const navItems = [
   { label: "Benchmarks",   href: "/benchmarks" },
   { label: "Certificates", href: "/certificates" },
   { label: "Games",        href: "/games" },
-  { label: "Blogs",        href: "/blogs" },
+  { label: "Blog",         href: "/blogs" },
   { label: "Gallery",      href: "/gallery" },
   { label: "Ask About Me", href: "/ask-about-me" },
   { label: "Reviews",      href: "/reviews" },
   { label: "Contact",      href: "/contact" },
+];
+
+// one list of profiles for the footer and the contact page
+export const socialLinks = [
+  { label: "X", handle: "@Ememzyvisuals", href: siteConfig.socials.twitter },
+  { label: "GitHub", handle: "Ememzyvisuals", href: siteConfig.socials.github },
+  { label: "LinkedIn", handle: "in/ememzyvisuals", href: siteConfig.socials.linkedin },
+  { label: "TikTok", handle: "@ememzyvisuals", href: siteConfig.socials.tiktok },
+  { label: "Hugging Face", handle: "Axiveri", href: siteConfig.axiveri.huggingface },
+  { label: "Kaggle", handle: "ememzyvisuals", href: siteConfig.socials.kaggle },
 ];

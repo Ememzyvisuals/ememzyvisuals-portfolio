@@ -1,81 +1,33 @@
-"use client";
 // components/sections/Stack.tsx
-
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { ChessBoard } from "@/components/three/chess/ChessBoard";
-import { WHITE, BLACK } from "@/components/three/chess/pieces";
-
-// Same 32 tools and logos as the chess board, in the same groups.
-const FILES = [
-  ["nextjs", "flutter", "huggingface", "pytorch", "python", "kaggle", "rust", "typescript"],
-  ["supabase", "turso", "tailwind", "threejs", "react", "nodejs", "docker", "git"],
-  ["postgresql", "playwright", "gradio", "cuda", "transformers", "jupyter", "pandas", "express"],
-  ["html5", "css3", "javascript", "numpy", "prisma", "firebase", "vercel", "groq"],
-];
-const GROUPS = [
-  { title: "Core", techs: WHITE.back },
-  { title: "Web and product", techs: WHITE.pawns },
-  { title: "AI and data", techs: BLACK.back },
-  { title: "Also in my toolbox", techs: BLACK.pawns },
-];
-const STACK_SECTIONS = GROUPS.map((g, gi) => ({
-  title: g.title,
-  items: g.techs.map((t, i) => ({ name: t.name, logo: `/logos/${FILES[gi][i]}.svg` })),
-}));
-
-function TechBox({ name, logo }: { name: string; logo: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-3 p-5 md:p-4 bg-white rounded-2xl aspect-square shadow-[0px_4px_24px_rgba(0,0,0,0.15)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.22)] transition-shadow duration-200">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 md:w-9 md:h-9 object-contain" loading="lazy" />
-      <span className="text-[12px] md:text-[10px] font-semibold text-center leading-tight text-gray-800">{name}</span>
-    </div>
-  );
-}
+// The tools I use, in four groups. Each group title sits in the left columns, its tools in a grid on the right.
+import { TOOL_GROUPS } from "@/data/tools";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function Stack() {
-  const [all, setAll] = useState(false);
   return (
-    <section className="py-section bg-background">
-      <div className="container-padded space-y-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="section-heading">Tech Stack</h2>
-          <p className="max-w-2xl text-muted-foreground mt-3">Every piece on this board is a tool I use.</p>
-        </motion.div>
+    <section id="stack" className="py-section">
+      <div className="container-padded">
+        <SectionHeader title="Tech stack" intro="The 32 tools I reach for, and what I use each one for." />
 
-        <ChessBoard />
-
-        <div className="flex justify-center">
-          <button onClick={() => setAll((v) => !v)} className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary">
-            {all ? "Hide the full list" : "See the full list"}
-          </button>
-        </div>
-
-        <div className={all ? "space-y-6" : "hidden"}>
-          {STACK_SECTIONS.map((section, si) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: si * 0.06 }}
-              className="bg-[#0a0a0a] dark:bg-zinc-900 rounded-3xl px-5 pt-6 pb-8 space-y-6"
-            >
-              <h3 className="text-white text-xl font-extrabold text-center tracking-tight">
-                {section.title}
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {section.items.map((item) => (
-                  <TechBox key={item.name} name={item.name} logo={item.logo} />
+        <div className="mt-stack border-t border-border">
+          {TOOL_GROUPS.map((g) => (
+            <div key={g.title} className="grid gap-6 border-b border-border py-10 lg:grid-cols-12 lg:gap-8">
+              <h3 className="text-h4 lg:col-span-3">{g.title}</h3>
+              <ul className="grid grid-cols-2 gap-3 xl:grid-cols-4 lg:col-span-9">
+                {g.items.map((t) => (
+                  <li key={t.name} className="flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:gap-4">
+                    <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-white ring-1 ring-black/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={t.logo} alt="" width={26} height={26} className="h-[26px] w-[26px] object-contain" loading="lazy" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-small font-semibold text-foreground">{t.name}</p>
+                      <p className="mt-0.5 text-caption text-muted-foreground">{t.use}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
-            </motion.div>
+              </ul>
+            </div>
           ))}
         </div>
       </div>

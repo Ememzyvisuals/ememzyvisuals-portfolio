@@ -1,11 +1,10 @@
 // app/axiveri/page.tsx, Server Component
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExternalLink, } from "lucide-react";
 import Image from "next/image";
 import { WalletCopy } from "./WalletCopy";
 import { MODEL_SERIES } from "@/data/models";
-import { ModelVisual } from "@/components/three/models/ModelVisual";
+import { ModelGlyph } from "@/components/ui/ModelGlyph";
 
 export const metadata: Metadata = {
   title: "Axiveri, African AI Research | Emmanuel Ariyo",
@@ -53,34 +52,34 @@ export default function AxiveriPage() {
 
       <div className="min-h-screen bg-background">
         {/* Hero: Axiveri orange, the real AX mark, the mission line, and the voice wave */}
-        <section className="relative overflow-hidden bg-[linear-gradient(140deg,#e85500,#fc6401_55%,#ff8a3d)] text-white">
-          <div className="container-padded grid items-center gap-10 pb-16 pt-32 md:grid-cols-[1.05fr_1fr] md:pb-24 md:pt-40">
+        <section className="relative overflow-hidden bg-[linear-gradient(140deg,#a83e00,#c24a00_55%,#cc4e00)] text-white">
+          <div className="container-padded grid items-center gap-10 pb-16 pt-16 md:grid-cols-[1.05fr_1fr] md:pb-24 md:pt-24">
             <div>
               <div className="flex items-center gap-3">
                 <Image src="/brand/axiveri.png" alt="Axiveri" width={56} height={56} className="h-14 w-14 rounded-2xl shadow-[0_0_0_3px_rgba(255,255,255,0.9)]" priority />
                 <div>
-                  <p className="font-display text-2xl font-extrabold tracking-tight">Axiveri</p>
-                  <p className="text-xs font-medium tracking-[0.28em] text-white/80">AI RESEARCH</p>
+                  <p className="font-display text-h4 font-extrabold">Axiveri</p>
+                  <p className="text-caption font-semibold text-white/85">AI research</p>
                 </div>
               </div>
-              <h1 className="mt-10 font-display font-extrabold leading-[0.98] tracking-tight" style={{ fontSize: "clamp(2.6rem, 6.4vw, 5rem)" }}>
+              <h1 className="text-h1 mt-10">
                 AI that learns our ways in Africa.
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/90">
+              <p className="mt-6 max-w-xl text-lead text-white/90">
                 An open ecosystem of speech, language and vision models for African languages. Speech that carries
                 emotion and expression, recognition that understands how people really talk, all free to build on.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#c44d00] hover:opacity-90">
-                  Open on Hugging Face <ExternalLink size={14} />
+                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-small font-semibold text-[#c44d00] hover:opacity-90">
+                  Open on Hugging Face
                 </a>
-                <a href="#partner" className="inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-3 text-sm font-semibold hover:bg-white/10">
+                <a href="#partner" className="inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-3 text-small font-semibold hover:bg-white/10">
                   Partner with us
                 </a>
               </div>
-              <p className="mt-8 text-sm text-white/80">Founded by Emmanuel Ariyo</p>
+              <p className="mt-8 text-small text-white/80">Founded by Emmanuel Ariyo</p>
             </div>
-            <ModelVisual kind="tts" onBrand label="African language letters turning into a white voice wave" className="aspect-[5/4] w-full" />
+            <ModelGlyph kind="tts" onBrand label="African language letters turning into a white voice wave" className="aspect-[5/4] w-full" />
           </div>
         </section>
 
@@ -94,34 +93,34 @@ export default function AxiveriPage() {
               { n: "17", l: "followers on Hugging Face" },
             ].map((x) => (
               <div key={x.l}>
-                <p className="font-display text-4xl font-extrabold tracking-tight text-[#fc6401] md:text-5xl">{x.n}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{x.l}</p>
+                <p className="font-display text-h3 font-extrabold text-sun-ink">{x.n}</p>
+                <p className="mt-1 text-small text-muted-foreground">{x.l}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Model series, each with its own 3D piece */}
-        <section className="container-padded py-20 md:py-28">
+        <section className="container-padded py-section">
           <h2 className="section-heading">The models</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">Four families, each published openly with weights, cards and examples.</p>
           <div className="mt-14 space-y-20 md:space-y-28">
             {MODEL_SERIES.map((m, i) => (
               <article key={m.slug} className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
-                <ModelVisual kind={m.kind} label={m.visual} className={`aspect-[5/4] w-full rounded-3xl bg-[#fff6ee] dark:bg-[#1d130c] ${i % 2 ? "md:order-2" : ""}`} />
+                <ModelGlyph kind={m.kind} label={m.visual} className={`aspect-[5/4] w-full rounded-3xl bg-brand-soft ${i % 2 ? "md:order-2" : ""}`} />
                 <div>
-                  <p className="text-sm font-medium text-[#fc6401]">{m.type}</p>
-                  <h3 className="mt-2 font-display font-extrabold tracking-tight text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>{m.name}</h3>
-                  <p className="mt-4 leading-relaxed text-foreground/75">{m.desc}</p>
+                  <p className="text-small font-medium text-sun-ink">{m.type}</p>
+                  <h3 className="mt-2 font-display font-extrabold text-foreground">{m.name}</h3>
+                  <p className="mt-4 text-foreground/75">{m.desc}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {m.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-xs text-foreground/75">{t}</span>)}
+                    {m.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-caption text-foreground/75">{t}</span>)}
                   </div>
-                  <p className="mt-5 text-sm text-muted-foreground">{m.stat}</p>
+                  <p className="mt-5 text-small text-muted-foreground">{m.stat}</p>
                   <div className="mt-6 flex flex-wrap gap-3">
                     {m.links.map((l, k) => (
                       <a key={l.href} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
-                        className={k === 0 ? "inline-flex items-center gap-2 rounded-full bg-[#fc6401] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90" : "inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"}>
-                        {l.label} {l.href.startsWith("http") ? <ExternalLink size={13} /> : null}
+                        className={k === 0 ? "inline-flex items-center gap-2 rounded-full bg-[#c24a00] px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90" : "inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"}>
+                        {l.label}
                       </a>
                     ))}
                   </div>
@@ -139,9 +138,9 @@ export default function AxiveriPage() {
             {DATASETS.map((d) => (
               <li key={d.id}>
                 <a href={`https://huggingface.co/datasets/${d.id}`} target="_blank" rel="noopener noreferrer" className="group grid gap-1 py-5 md:grid-cols-[1.2fr_2fr_auto] md:items-center md:gap-8">
-                  <span className="font-display text-lg font-bold text-foreground">{d.name}</span>
-                  <span className="text-sm text-muted-foreground">{d.desc}</span>
-                  <span className="text-sm font-semibold text-[#fc6401]">{d.downloads} downloads this month</span>
+                  <span className="font-display text-lead font-bold text-foreground">{d.name}</span>
+                  <span className="text-small text-muted-foreground">{d.desc}</span>
+                  <span className="text-small font-semibold text-sun-ink">{d.downloads} downloads this month</span>
                 </a>
               </li>
             ))}
@@ -158,9 +157,9 @@ export default function AxiveriPage() {
               { title: "Measured honestly", desc: "Every release is evaluated, word error rates for recognition and listening tests for voices, and the numbers are published." },
               { title: "Built in public", desc: "Contributors, partners and supporters are welcome to build alongside us." },
             ].map((v) => (
-              <div key={v.title} className="card-surface border-l-2 border-l-[#fc6401] p-6">
-                <h3 className="font-display text-lg font-bold text-foreground">{v.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">{v.desc}</p>
+              <div key={v.title} className="card-surface border-l-2 border-l-sun p-6">
+                <h3 className="font-display text-lead font-bold text-foreground">{v.title}</h3>
+                <p className="mt-2 text-small text-foreground/70">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -171,11 +170,10 @@ export default function AxiveriPage() {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2
               className="font-extrabold text-foreground mb-4"
-              style={{ fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.03em" }}
             >
               Support Axiveri
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lead text-muted-foreground">
               African AI research needs support. Every contribution goes directly toward model
               training, compute, and open-source development.
             </p>
@@ -183,19 +181,19 @@ export default function AxiveriPage() {
 
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             <div className="p-6 rounded-3xl border border-border bg-card space-y-4">
-              <p className="font-extrabold text-foreground text-lg">Support</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="font-extrabold text-foreground text-lead">Support</p>
+              <p className="text-small text-muted-foreground">
                 Send crypto directly to fund model training and compute. Click any address to copy.
               </p>
               <WalletCopy />
             </div>
 
             <div className="p-6 rounded-3xl border border-border bg-card space-y-4">
-              <p className="font-extrabold text-foreground text-lg">Partner</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="font-extrabold text-foreground text-lead">Partner</p>
+              <p className="text-small text-muted-foreground">
                 Integrate Africlaude or NaijaVox into your product, dataset, or research.
               </p>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-2 text-small text-muted-foreground">
                 <li>· Fine-tuning partnerships</li>
                 <li>· Dataset contributions</li>
                 <li>· API access &amp; integration</li>
@@ -203,17 +201,17 @@ export default function AxiveriPage() {
               </ul>
               <a
                 href="/contact?category=partnership"
-                className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:opacity-70 transition-opacity"
+                className="inline-flex items-center gap-2 text-small font-bold text-foreground hover:opacity-70 transition-opacity"
               >
                 Reach out </a>
             </div>
 
-            <div className="p-6 rounded-3xl border-2 border-[#fc6401] bg-[#fc6401] text-white space-y-4">
-              <p className="font-extrabold text-lg">Fund / Invest</p>
-              <p className="text-sm opacity-70 leading-relaxed">
+            <div className="p-6 rounded-3xl border-2 border-[#c24a00] bg-[#c24a00] text-white space-y-4">
+              <p className="font-extrabold text-lead">Fund / Invest</p>
+              <p className="text-small opacity-70">
                 Serious investment or grant inquiries for Axiveri&apos;s research and model development.
               </p>
-              <ul className="space-y-2 text-sm opacity-70">
+              <ul className="space-y-2 text-small opacity-70">
                 <li>· Compute grants</li>
                 <li>· Research grants</li>
                 <li>· Strategic investment</li>
@@ -221,7 +219,7 @@ export default function AxiveriPage() {
               </ul>
               <a
                 href="/contact?category=investment"
-                className="inline-flex items-center gap-2 text-sm font-bold hover:opacity-80 transition-opacity"
+                className="inline-flex items-center gap-2 text-small font-bold hover:opacity-80 transition-opacity"
               >
                 Send inquiry </a>
             </div>
@@ -232,9 +230,9 @@ export default function AxiveriPage() {
               href="https://huggingface.co/Axiveri"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-bold"
+              className="inline-flex items-center gap-2 text-small text-muted-foreground hover:text-foreground transition-colors font-bold"
             >
-              View all Axiveri models on HuggingFace <ExternalLink size={13} />
+              View all Axiveri models on HuggingFace
             </a>
           </div>
         </section>

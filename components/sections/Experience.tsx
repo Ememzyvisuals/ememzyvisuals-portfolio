@@ -3,7 +3,7 @@
 // Editorial timeline: each role is a row with the company's real mark, the period, the role and what I actually did.
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 type Job = {
   id: string;
@@ -76,7 +76,7 @@ function Mark({ m, name }: { m: Job["mark"]; name: string }) {
       {m.src ? (
         <Image src={m.src} alt={`${name} logo`} width={40} height={40} className="h-8 w-auto object-contain md:h-9" />
       ) : (
-        <span className="font-display text-2xl font-extrabold" style={{ color: m.fg }}>{m.text}</span>
+        <span className="font-display text-h4 font-extrabold" style={{ color: m.fg }}>{m.text}</span>
       )}
     </span>
   );
@@ -86,51 +86,38 @@ export function Experience() {
   return (
     <section id="experience" className="py-section">
       <div className="container-padded">
-        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <h2 className="section-heading">Experience</h2>
-            <p className="font-museum mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
-              Teaching machines to hear and speak African languages, in production.
-            </p>
-          </div>
-        </div>
+        <SectionHeader title="Experience" intro="Teaching machines to hear and speak African languages, in production." />
 
-        <ol className="mt-12 border-t border-border">
-          {JOBS.map((job, i) => (
-            <motion.li
+        <ol className="mt-stack border-t border-border">
+          {JOBS.map((job) => (
+            <li
               key={job.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="grid gap-6 border-b border-border py-10 md:grid-cols-[220px_1fr] md:gap-12 md:py-14"
+              className="grid gap-6 border-b border-border py-10 lg:grid-cols-12 lg:gap-8 md:py-14"
             >
-              <div className="flex items-center gap-4 md:flex-col md:items-start">
+              <div className="flex items-center gap-4 lg:col-span-3 lg:flex-col lg:items-start">
                 <Mark m={job.mark} name={job.company} />
                 <div>
-                  <p className="font-display text-lg font-bold text-foreground">{job.period}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-small font-semibold text-foreground">{job.period}</p>
+                  <p className="text-caption text-muted-foreground">
                     {job.where}
-                    {job.current && <span className="ml-2 font-semibold text-brand">Current</span>}
+                    {job.current && <span className="ml-2 font-semibold text-sun-ink">Current</span>}
                   </p>
                 </div>
               </div>
 
-              <div className="min-w-0">
-                <h3 className="font-display text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
-                  {job.role}
-                </h3>
-                <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
-                <p className="mt-5 max-w-4xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
+              <div className="min-w-0 lg:col-span-9">
+                <h3>{job.role}</h3>
+                <p className="mt-1 text-lead font-medium text-foreground/75">{job.company}</p>
+                <p className="mt-5 max-w-prose text-body text-foreground/80">{job.summary}</p>
                 <ul className="mt-6 grid gap-x-10 sm:grid-cols-2">
                   {job.did.map((d) => (
-                    <li key={d} className="border-t border-border py-3 text-sm leading-relaxed text-foreground/85">
+                    <li key={d} className="border-t border-border py-3 text-small text-foreground/85">
                       {d}
                     </li>
                   ))}
                 </ul>
               </div>
-            </motion.li>
+            </li>
           ))}
         </ol>
       </div>

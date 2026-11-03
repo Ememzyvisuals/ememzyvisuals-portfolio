@@ -25,8 +25,8 @@ const divider = (
 // Same sections as the landing page, so /work and the home page always match.
 export default function WorkPage() {
   return (
-    <div className="pt-24">
-      <ProjectsShowcase showAll={false} />
+    <div>
+      <ProjectsShowcase showAll={false} page />
       {divider}
       <OpenModels />
       {divider}

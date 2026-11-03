@@ -1,97 +1,85 @@
-"use client";
 // components/sections/ProjectsShowcase.tsx
-// Each project on its own laptop and phone (Emmanuel's Jagora devices), with its details beside it.
-// Tap the laptop: the lid closes, it turns round and opens again. Tap the phone: it shows its back, then returns.
-
+// Each shipped product with its real desktop and phone screens side by side, details beside them.
 import Image from "next/image";
 import Link from "next/link";
 import { Github } from "lucide-react";
-import { Devices3D } from "@/components/three/devices/Devices3D";
 import { ALL_PROJECTS } from "@/data/projects";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 // projects that have both a desktop and a mobile screen in /public/shots
 const ON_DEVICES = ["claudgpt", "aethlife", "flonextv", "naijaprep", "studenthub", "nairanest", "storejet", "artoluwani"];
-const SHOT: Record<string, string> = { studenthub: "studenthub", artoluwani: "artoluwani" };
 
-export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {}) {
+export function ProjectsShowcase({ showAll = true, page = false }: { showAll?: boolean; page?: boolean } = {}) {
   const items = ON_DEVICES.map((key) => ({
     key,
     p: ALL_PROJECTS.find((x) => x.slug === key || x.slug?.startsWith(key) || x.coverImage?.includes(`/${key}-`)),
   })).filter((i) => i.p);
 
   return (
-    <section id="showcase" className="section-padding container-padded overflow-hidden">
-      <div className="mb-14 md:mb-20">
-        <h2 className="section-heading">Built and shipped</h2>
-        <p className="text-muted-foreground mt-3 max-w-xl">
-          Live products, each on its own screens. Tap the laptop or the phone, or drag to turn them.
-        </p>
-      </div>
+    <section id="showcase" className={page ? "pb-section pt-12 md:pt-16" : "py-section"}>
+      <div className="container-padded">
+        <SectionHeader
+          as={page ? "h1" : "h2"}
+          title="Built and shipped"
+          intro="Live products I designed, built and run, from AI tools to streaming, banking and exam prep."
+          action={showAll ? <Link href="/work" className="btn-outline">See all projects</Link> : undefined}
+        />
 
-      <div className="space-y-24 md:space-y-32">
-        {items.map(({ key, p }, i) => {
-          const flip = i % 2 === 1;
-          return (
-            <article
-              key={key}
-              className="grid gap-8 min-w-0 lg:grid-cols-2 lg:items-center lg:gap-14"
-            >
-              <div className={`min-w-0 order-2 ${flip ? "lg:order-2" : "lg:order-1"}`}>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  {String(i + 1).padStart(2, "0")} &nbsp;/&nbsp; {p!.isMobilePrimary ? "Mobile app" : "Web app"}
-                </div>
-                <h3 className="mt-3 font-display text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                  {p!.title}
-                </h3>
-                {p!.subtitle && <p className="font-museum mt-2 text-xl md:text-2xl text-foreground/80">{p!.subtitle}</p>}
-                <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground max-w-xl">{p!.description}</p>
-                {p!.techStack && (
-                  <ul className="mt-6 flex flex-wrap gap-2 max-w-xl">
-                    {p!.techStack.map((t) => (
-                      <li key={t} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground/80">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <div className="mt-7 flex flex-wrap items-center gap-3">
-                  {p!.liveUrl && (
-                    <Link
-                      href={p!.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground hover:opacity-85"
-                    >
-                      Live site </Link>
+        <div className="mt-stack space-y-section-sm">
+          {items.map(({ key, p }, i) => {
+            const flip = i % 2 === 1;
+            return (
+              <article key={key} className="grid min-w-0 items-center gap-8 lg:grid-cols-12 lg:gap-8">
+                <div className={`min-w-0 lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : "lg:order-1"}`}>
+                  <p className="text-caption font-semibold text-sun-ink">{p!.isMobilePrimary ? "Mobile app" : "Web app"}</p>
+                  <h3 className="mt-2">{p!.title}</h3>
+                  {p!.subtitle && <p className="mt-2 text-lead font-medium text-foreground/85">{p!.subtitle}</p>}
+                  <p className="mt-4 max-w-prose text-body text-muted-foreground">{p!.description}</p>
+                  {p!.techStack && (
+                    <ul className="mt-6 flex flex-wrap gap-2">
+                      {p!.techStack.map((t) => (
+                        <li key={t} className="tech-badge">{t}</li>
+                      ))}
+                    </ul>
                   )}
-                  {p!.githubUrl && (
-                    <Link
-                      href={p!.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
-                    >
-                      <Github size={15} /> Code
-                    </Link>
-                  )}
+                  <div className="mt-7 flex flex-wrap items-center gap-3">
+                    {p!.liveUrl && (
+                      <a href={p!.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                        Visit live site
+                      </a>
+                    )}
+                    {p!.githubUrl && (
+                      <a href={p!.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
+                        <Github size={16} aria-hidden /> View code
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className={`min-w-0 order-1 ${flip ? "lg:order-1" : "lg:order-2"}`}>
-                <Devices3D
-                  scene={`p:${SHOT[key] ?? key}`}
-                  className="relative w-full min-w-0 aspect-square sm:aspect-[5/3.4] min-h-[280px]"
-                  fallback={
-                    <Image src={`/shots/${key}.webp`} alt={`${p!.title} on a laptop`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain" />
-                  }
-                />
-              </div>
-            </article>
-          );
-        })}
+
+                <div className={`min-w-0 lg:col-span-7 ${flip ? "lg:order-1 lg:col-start-1" : "lg:order-2 lg:col-start-6"}`}>
+                  <div className="relative pb-8 pr-6 sm:pb-10 sm:pr-10">
+                    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-lift">
+                      <div className="flex h-8 items-center gap-1.5 border-b border-border px-3" aria-hidden>
+                        <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                      </div>
+                      <div className="relative aspect-[1366/766]">
+                        <Image src={`/shots/${key}.webp`} alt={`${p!.title} on desktop`} fill sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover object-top" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 right-0 w-[22%] min-w-[84px] overflow-hidden rounded-[18px] border-[5px] border-foreground bg-foreground shadow-lift">
+                      <div className="relative aspect-[720/1558] overflow-hidden rounded-[13px]">
+                        <Image src={`/shots/${key}-m.webp`} alt={`${p!.title} on a phone`} fill sizes="200px" className="object-cover object-top" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
-      {showAll && <div className="mt-20 flex justify-center">
-        <Link href="/work" className="btn-outline text-sm">See all projects</Link>
-      </div>}
     </section>
   );
 }

@@ -1,6 +1,5 @@
-// components/three/chess/pieces.ts
-// Which tool each chess piece stands for. White is the AI and product side I lead with, black is the rest of the stack.
-export type Kind = "k" | "q" | "r" | "b" | "n" | "p";
+// data/tools.ts
+// The 32 tools I use, in four groups, with what I use each one for and where it shows up.
 export type Tech = { name: string; use: string; seen: string };
 
 const t = (name: string, use: string, seen: string): Tech => ({ name, use, seen });
@@ -21,7 +20,7 @@ export const WHITE: { back: Tech[]; pawns: Tech[] } = {
     t("Supabase", "Auth, Postgres and storage for quick product back ends.", "FlonexTV"),
     t("Turso", "Light SQLite at the edge for stats and settings.", "This blog"),
     t("Tailwind", "Styling every interface quickly and consistently.", "This site"),
-    t("three.js", "Real-time 3D for the web: games, product scenes, this board.", "LAST BUS, Bùkà Hustle"),
+    t("three.js", "Real-time 3D for the web: games and product scenes.", "LAST BUS, Bùkà Hustle"),
     t("React", "Component UIs across web projects.", "Jagora"),
     t("Node.js", "APIs, scripts and server code.", "STORM APIs"),
     t("Docker", "Packaging models and APIs so they run the same anywhere.", "STORM servers"),
@@ -52,5 +51,17 @@ export const BLACK: { back: Tech[]; pawns: Tech[] } = {
   ],
 };
 
-export const ORDER: Kind[] = ["r", "n", "b", "q", "k", "b", "n", "r"];
-export const KIND_NAME: Record<Kind, string> = { k: "King", q: "Queen", r: "Rook", b: "Bishop", n: "Knight", p: "Pawn" };
+
+const FILES = [
+  ["nextjs", "flutter", "huggingface", "pytorch", "python", "kaggle", "rust", "typescript"],
+  ["supabase", "turso", "tailwind", "threejs", "react", "nodejs", "docker", "git"],
+  ["postgresql", "playwright", "gradio", "cuda", "transformers", "jupyter", "pandas", "express"],
+  ["html5", "css3", "javascript", "numpy", "prisma", "firebase", "vercel", "groq"],
+];
+
+export const TOOL_GROUPS = [
+  { title: "Core", techs: WHITE.back },
+  { title: "Web and product", techs: WHITE.pawns },
+  { title: "AI and data", techs: BLACK.back },
+  { title: "Also in my toolbox", techs: BLACK.pawns },
+].map((g, gi) => ({ title: g.title, items: g.techs.map((t, i) => ({ ...t, logo: `/logos/${FILES[gi][i]}.svg` })) }));

@@ -1,101 +1,81 @@
 // components/layout/Footer.tsx
-"use client";
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
-import { SocialHang } from "@/components/three/footer/SocialHang";
+import { siteConfig, socialLinks } from "@/config/site";
 
-const HANGING = [
-  { label: "GitHub", href: siteConfig.socials.github, color: "#24292e" },
-  { label: "LinkedIn", href: siteConfig.socials.linkedin, color: "#0A66C2" },
-  { label: "X", href: siteConfig.socials.twitter, color: "#000000" },
-  { label: "TikTok", href: siteConfig.socials.tiktok, color: "#000000" },
-  { label: "Kaggle", href: siteConfig.socials.kaggle, color: "#20BEFF" },
-  { label: "Hugging Face", href: siteConfig.axiveri.huggingface, color: "#FFD21E" },
+const PAGES = [
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Axiveri", href: "/axiveri" },
+  { label: "Blog", href: "/blogs" },
+  { label: "Contact", href: "/contact" },
 ];
-
+const MORE = [
+  { label: "Automation", href: "/automation" },
+  { label: "Benchmarks", href: "/benchmarks" },
+  { label: "Certificates", href: "/certificates" },
+  { label: "Games", href: "/games" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Reviews", href: "/reviews" },
+  { label: "Ask about me", href: "/ask-about-me" },
+  { label: "FAQ", href: "/faq" },
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const linkCls = "text-small text-muted-foreground transition-colors hover:text-foreground";
 
   return (
-    <footer className="relative overflow-hidden border-t border-border bg-background">
-      <SocialHang items={HANGING} />
-      <div className="container-padded pb-6 pt-4 md:pt-6 space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-
-          {/* Brand */}
-          <div className="space-y-4">
-            <Link href="/" className="text-xl font-extrabold tracking-tight block">
-              {siteConfig.name}
-            </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Self-taught developer & AI engineer building high-quality web apps,
-              intelligent tools, and open-source AI models, from Next.js to Groq to Africlaude.
+    <footer className="border-t border-border bg-card">
+      <div className="container-padded pt-section-sm">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-4">
+            <Link href="/" className="font-display text-h4 text-foreground">{siteConfig.name}</Link>
+            <p className="mt-3 max-w-sm text-small text-muted-foreground">
+              Emmanuel Ariyo. Machine learning engineer and full-stack developer from Nigeria, building speech and
+              language AI for African languages.
             </p>
+            <a href={`mailto:${siteConfig.author.email}`} className="link-quiet mt-5 inline-block text-small">{siteConfig.author.email}</a>
           </div>
 
-          {/* Links */}
-          <div className="space-y-4">
-            <p className="text-sm font-extrabold text-foreground">Portfolio</p>
-            <nav className="flex flex-col gap-3">
-              {[
-                { label: "Work",        href: "/work" },
-                { label: "Services",    href: "/services" },
-                { label: "Automation",  href: "/automation" },
-                { label: "Benchmarks",  href: "/benchmarks" },
-                { label: "About",       href: "/about" },
-                { label: "FAQ",         href: "/faq" },
-              ].map((link) => (
-                <Link key={link.href} href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors w-fit">
-                  {link.label}
-                </Link>
+          <nav aria-label="Pages" className="lg:col-span-2 lg:col-start-6">
+            <p className="text-caption font-semibold text-foreground">Pages</p>
+            <ul className="mt-4 space-y-2.5">
+              {PAGES.map((l) => <li key={l.href}><Link href={l.href} className={linkCls}>{l.label}</Link></li>)}
+            </ul>
+          </nav>
+
+          <nav aria-label="More pages" className="lg:col-span-2">
+            <p className="text-caption font-semibold text-foreground">More</p>
+            <ul className="mt-4 space-y-2.5">
+              {MORE.map((l) => <li key={l.href}><Link href={l.href} className={linkCls}>{l.label}</Link></li>)}
+            </ul>
+          </nav>
+
+          <div className="lg:col-span-3 lg:col-start-10">
+            <p className="text-caption font-semibold text-foreground">Profiles</p>
+            <ul className="mt-4 space-y-2.5">
+              {socialLinks.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className={linkCls}>
+                    {s.label} <span className="text-muted-foreground/70">{s.handle}</span>
+                  </a>
+                </li>
               ))}
-            </nav>
-          </div>
-
-          {/* Contact + Socials */}
-          <div className="space-y-4">
-            <p className="text-sm font-extrabold text-foreground">Get in Touch</p>
-            <a href={`mailto:${siteConfig.author.email}`}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors block">
-              {siteConfig.author.email}
-            </a>
-            <Link href="/axiveri"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors block">
-              Axiveri, AI Research
-            </Link>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        {/* sign-off: heavy condensed type (Anton) in the style of the reference, in black and white */}
-        <div style={{ containerType: "inline-size" }} className="relative select-none pt-[8cqw]">
-          {/* big sign-off with a 3D figure giving two thumbs up beside it */}
-          <div className="flex items-end justify-center gap-[1.5cqw]">
-            <p aria-hidden className="pointer-events-none whitespace-nowrap uppercase leading-[0.86] text-foreground/90" style={{ fontFamily: "var(--font-signoff)", fontSize: "19cqw", letterSpacing: "-0.01em" }}>
-              Thank you
-            </p>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/footer-thumbs.webp" alt="A 3D figure giving two thumbs up" loading="lazy" decoding="async"
-              className="pointer-events-none shrink-0" style={{ height: "23cqw", width: "auto" }} />
-          </div>
-          <p className="relative mt-3 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>
-            <span className="text-foreground/80">Emmanuel Ariyo</span>
-            <span className="text-brand">{year}</span>
+        {/* sign-off: the wordmark set to the full width of the page */}
+        <div style={{ containerType: "inline-size" }} className="mt-section-sm select-none" aria-hidden>
+          <p className="font-display font-extrabold text-foreground" style={{ fontSize: "13.9cqw", letterSpacing: "-0.055em", lineHeight: 0.8 }}>
+            Ememzyvisuals<span className="text-sun">.</span>
           </p>
         </div>
-        <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">
-            © {year} {siteConfig.fullName}. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Designed &amp; built by Emmanuel Ariyo · Founder of{" "}
-            <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors underline underline-offset-2">
-              Axiveri
-            </a>
-          </p>
+
+        <div className="mt-8 flex flex-col gap-2 border-t border-border py-6 text-caption text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {year} {siteConfig.fullName}. All rights reserved.</p>
+          <p>Designed and built by Emmanuel Ariyo, founder of Axiveri.</p>
         </div>
       </div>
     </footer>

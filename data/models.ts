@@ -1,5 +1,5 @@
 // Axiveri open model series, shared by the Axiveri page and the home page.
-import type { ModelKind } from "@/components/three/models/modelStage";
+export type ModelKind = "asr" | "tts" | "llm" | "image";
 
 export type Series = { slug: string; name: string; type: string; kind: ModelKind; visual: string; desc: string; tags: string[]; stat: string; links: { label: string; href: string }[] };
 export const MODEL_SERIES: Series[] = [
