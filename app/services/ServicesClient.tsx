@@ -186,13 +186,14 @@ export function ServicesClient() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-3xl space-y-6"
+          className="space-y-6"
         >
           <div className="inline-flex items-center gap-2 pill">
             <span className="text-xs font-medium">Available for new projects</span>
           </div>
-          <h1 className="section-heading">
-            Need a website,<br />AI system, or<br />automation?
+          {/* one line per phrase on phones, spread across the full width on desktop */}
+          <h1 className="section-heading max-w-[15ch] lg:max-w-none" style={{ fontSize: "clamp(3.4rem, 7.2vw, 8rem)" }}>
+            Need a website, AI system, or automation?
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
             I build premium digital products, from clean business websites to

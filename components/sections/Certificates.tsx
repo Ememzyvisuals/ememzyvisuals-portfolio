@@ -1,11 +1,11 @@
 // components/sections/Certificates.tsx
-// The same framed certificates as the certificates page (each tilts toward the pointer), the first three here.
+// The same framed certificates as the certificates page (each tilts toward the pointer), the first four here, with the full list on /certificates.
 import Link from "next/link";
 import { CERTIFICATES } from "@/data/extras";
 import { FramedCertificate } from "@/app/certificates/FramedCertificate";
 
 export function CertificatesSection() {
-  const shown = CERTIFICATES.slice(0, 3);
+  const shown = CERTIFICATES.slice(0, 4);
   return (
     <section id="certificates" className="py-section">
       <div className="container-padded">
@@ -13,7 +13,7 @@ export function CertificatesSection() {
         <p className="font-museum mt-3 max-w-2xl text-xl text-foreground/75 md:text-2xl">
           The courses behind my work, in the order I took them. Move over a frame to tilt it.
         </p>
-        <div className="mt-14 grid gap-x-10 gap-y-16 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 xl:grid-cols-4">
           {shown.map((c, i) => (
             <article key={c.slug}>
               <FramedCertificate image={c.image} alt={`${c.course} certificate from ${c.issuer}`} />
@@ -32,7 +32,7 @@ export function CertificatesSection() {
           ))}
         </div>
         <div className="mt-16 flex justify-center">
-          <Link href="/certificates" className="btn-outline text-sm">See all {CERTIFICATES.length} certificates</Link>
+          <Link href="/certificates" className="btn-outline text-sm">See the full list</Link>
         </div>
       </div>
     </section>

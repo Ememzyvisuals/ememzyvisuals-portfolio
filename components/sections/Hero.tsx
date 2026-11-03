@@ -1,18 +1,31 @@
 // components/sections/Hero.tsx
 // The opening screen: the name in the site's big condensed type, what I do and the way to reach me on the left,
-// the adire pattern tiles on the right (stacked on phones). No 3D scene.
+// the illustration on the right (stacked on phones), or the adire pattern tiles until it is added. No 3D scene.
+import fs from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import { HeroArt } from "./HeroArt";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
 
+// drop the illustration into public/illustrations/hero.(png|webp|svg|jpg) and it replaces the pattern tiles
+function findIllustration(): string | null {
+  for (const ext of ["png", "webp", "svg", "jpg"]) {
+    try {
+      if (fs.existsSync(path.join(process.cwd(), "public", "illustrations", `hero.${ext}`))) return `/illustrations/hero.${ext}`;
+    } catch {}
+  }
+  return null;
+}
+
 export function Hero() {
+  const art = findIllustration();
   return (
-    <section aria-label="Introduction" className="tone-blue relative pt-28 pb-section md:pt-36 lg:flex lg:min-h-[min(100svh,980px)] lg:items-center">
+    <section aria-label="Introduction" className="relative pt-28 pb-section md:pt-36 lg:flex lg:min-h-[min(100svh,980px)] lg:items-center">
       <div className="container-padded grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
           <h1
             className="hero-rise font-anton uppercase text-foreground"
-            style={{ fontWeight: 400, fontSize: "clamp(4rem, 10.5vw, 10rem)", lineHeight: 0.95, letterSpacing: "0" }}
+            style={{ fontWeight: 400, fontSize: "clamp(4rem, 10.5vw, 10rem)", lineHeight: 1.04, letterSpacing: "0" }}
           >
             Hi, I&apos;m
             <br />
@@ -41,7 +54,7 @@ export function Hero() {
         </div>
 
         <div className="lg:col-span-5">
-          <HeroArt />
+          <HeroArt src={art} />
         </div>
       </div>
     </section>

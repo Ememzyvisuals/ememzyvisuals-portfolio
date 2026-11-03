@@ -1,13 +1,13 @@
 "use client";
 // components/layout/Navbar.tsx
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MoreHorizontal } from "lucide-react";
 import { ThemePill } from "./ThemePill";
 import { useTheme } from "next-themes";
-import { navItems, siteConfig } from "@/config/site";
+import { navItems, primaryNav, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 
@@ -26,7 +26,21 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  useEffect(() => setMobileOpen(false), [pathname]);
+  // desktop: the main links stay in the bar, the rest open from the "More" button
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLElement>(null);
+  const mainItems = primaryNav.map((h) => navItems.find((i) => i.href === h) ?? { label: "Games", href: h });
+  const moreItems = navItems.filter((i) => !primaryNav.includes(i.href) && !(i.href === "/games" && primaryNav.includes("/#games")));
+  useEffect(() => {
+    if (!moreOpen) return;
+    const close = (e: MouseEvent) => { if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false); };
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setMoreOpen(false); };
+    document.addEventListener("mousedown", close);
+    document.addEventListener("keydown", esc);
+    return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", esc); };
+  }, [moreOpen]);
+
+  useEffect(() => { setMobileOpen(false); setMoreOpen(false); }, [pathname]);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -37,7 +51,8 @@ export function Navbar() {
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
         <nav
           aria-label="Main navigation"
-          className="hidden md:flex"
+          className="relative hidden md:flex"
+          ref={moreRef}
         >
         <GlassPanel
           cornerRadius={16}
@@ -64,7 +79,7 @@ export function Navbar() {
 
           <div className="w-px h-4 bg-border mx-1" />
 
-          {navItems.map((item) => (
+          {mainItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -79,9 +94,45 @@ export function Navbar() {
             </Link>
           ))}
 
+          {/* the remaining pages */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setMoreOpen((v) => !v)}
+              aria-expanded={moreOpen}
+              aria-haspopup="menu"
+              aria-label="More pages"
+              className={cn(
+                "flex h-8 w-9 items-center justify-center rounded-lg transition-colors",
+                moreOpen || moreItems.some((i) => isActive(i.href))
+                  ? "bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              )}
+            >
+              <MoreHorizontal size={18} />
+            </button>
+          </div>
+
           {/* Theme toggle */}
           <span className="ml-2"><ThemePill /></span>
         </GlassPanel>
+          {moreOpen && (
+              <div role="menu" className="absolute right-16 top-[calc(100%+10px)] z-50 w-56 rounded-xl border border-border bg-background p-1.5 shadow-card-hover">
+                {moreItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    role="menuitem"
+                    className={cn(
+                      "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      isActive(item.href) ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
         </nav>
 
         {/* ─── MOBILE HEADER ───────────────────────────────────────── */}

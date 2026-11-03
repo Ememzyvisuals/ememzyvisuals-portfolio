@@ -433,7 +433,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
 
   /* camera */
   const tilt = new THREE.Vector2(), tiltS = new THREE.Vector2();
-  let portrait = false;
+  let portrait = false, narrow = false;
   const resize = () => {
     const w = el.clientWidth, h = el.clientHeight;
     renderer.setSize(w, h, false);
@@ -441,6 +441,7 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     renderer.domElement.style.height = "100%";
     camera.aspect = w / h;
     portrait = w / h < 1;
+    narrow = w < 700; // phones: the board is shown wide but small, so step back to keep every piece in view
     camera.fov = portrait ? 44 : 30;
     camera.updateProjectionMatrix();
   };
@@ -472,11 +473,11 @@ export function mountChess(el: HTMLElement, opts: { dark: boolean; onInfo: (i: P
     const t = now / 1000;
     // low, close view across the board (pieces stand up against the page); lifts while a piece is picked so the moves are visible
     lift += ((selected ? 1 : 0) - lift) * (1 - Math.exp(-dt * 3));
-    const dist = (portrait ? 15.5 : 13) + lift * 2;
+    const dist = (portrait ? 14.5 : narrow ? 16.5 : 13.8) + lift * 2;
     const yaw = VIEW_YAW + 0.15 + (1 - e) * 0.5 + tiltS.x * 0.12 + Math.sin(t * 0.15) * 0.03;
     const pitch = (portrait ? 0.3 : 0.22) + lift * 0.45 + (1 - e) * 0.15 + tiltS.y * 0.04;
     camera.position.set(Math.sin(yaw) * Math.cos(pitch) * dist, Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
-    lookS.set(look.x + 0.5, (portrait ? 1.7 : 0.8) * (1 - lift), look.z - 0.5);
+    lookS.set(look.x + 0.5, (portrait ? 1.7 : -0.9) * (1 - lift), look.z - 0.5);
     camera.lookAt(lookS);
 
     for (let i = anims.length - 1; i >= 0; i--) {

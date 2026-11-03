@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { buildMeta } from "@/lib/metadata";
 import { ContactSection } from "@/components/sections/Contact";
+import { Globe } from "@/components/three/earth/Globe";
 
 export const metadata: Metadata = buildMeta({
   title: "Hire a Web Developer & AI Engineer | Contact Emmanuel Ariyo",
@@ -23,5 +24,11 @@ export const metadata: Metadata = buildMeta({
 });
 
 export default function ContactPage() {
-  return <ContactSection page />;
+  // the contact section at full width (heading and card on the left, form on the right);
+  // the globe sits under the card, where the sent message flies to
+  return (
+    <div className="min-h-screen pt-10 md:pt-16">
+      <ContactSection aside={<Globe className="mx-auto aspect-square w-full max-w-[460px]" />} />
+    </div>
+  );
 }

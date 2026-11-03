@@ -88,12 +88,3 @@ export const navItems = [
   { label: "Contact",      href: "/contact" },
 ];
 
-// profiles listed on the contact page
-export const socialLinks = [
-  { label: "X", handle: "@Ememzyvisuals", href: siteConfig.socials.twitter },
-  { label: "GitHub", handle: "Ememzyvisuals", href: siteConfig.socials.github },
-  { label: "LinkedIn", handle: "in/ememzyvisuals", href: siteConfig.socials.linkedin },
-  { label: "TikTok", handle: "@ememzyvisuals", href: siteConfig.socials.tiktok },
-  { label: "Hugging Face", handle: "Axiveri", href: siteConfig.axiveri.huggingface },
-  { label: "Kaggle", handle: "ememzyvisuals", href: siteConfig.socials.kaggle },
-];

@@ -54,9 +54,10 @@ function MotifSvg({ motif, fg, col }: { motif: Motif; fg: string; col: number })
 
 export function HeroArt({ src }: { src?: string | null }) {
   if (src) {
+    // the illustration sits straight on the page: no frame, no box, nothing cut off
     return (
-      <figure className="hero-art relative aspect-[4/5] w-full overflow-hidden rounded-[28px] border border-border bg-card shadow-lift">
-        <Image src={src} alt="Illustration of Emmanuel Ariyo" fill priority sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+      <figure className="hero-rise relative mx-auto aspect-[1073/1260] w-full max-w-[620px]" style={{ animationDelay: "120ms" }}>
+        <Image src={src} alt="Illustration of Emmanuel Ariyo at work" fill priority sizes="(min-width: 1024px) 42vw, 92vw" className="object-contain" />
       </figure>
     );
   }
