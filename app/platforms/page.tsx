@@ -29,11 +29,11 @@ const PLATFORMS = ALL_PROJECTS.filter((p) =>
 
 export default function PlatformsPage() {
   return (
-    <div className="py-16 md:py-24">
+    <div className="pt-12 md:pt-16 pb-section">
       <div className="container-padded space-y-12">
         <div>
-          <h1 className="section-heading">Platforms</h1>
-          <p className="text-lg text-muted-foreground mt-4 max-w-xl">
+          <h1 className="text-h1">Platforms</h1>
+          <p className="text-lead text-muted-foreground mt-4 max-w-xl">
             Full-scale platforms and SaaS products serving real users
             with production-ready infrastructure.
           </p>

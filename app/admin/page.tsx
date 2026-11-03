@@ -308,7 +308,7 @@ function ReviewAdmin() {
                 <p className="text-sm text-foreground/80 leading-relaxed">{r.content}</p>
               </div>
               {filter === "APPROVED" && (
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
+                <span className="inline-flex items-center gap-1.5 text-caption font-bold text-emerald-600 ">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" /> Visible on /reviews
                 </span>
               )}

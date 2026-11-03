@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ALL_PROJECTS } from "@/data/projects";
 import { cn } from "@/lib/utils";
@@ -29,16 +28,12 @@ export function ProjectsGrid() {
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <h2
             className="section-heading"
           >
             Projects.
-          </motion.h2>
-          <Link href="/work" className="btn-outline self-start md:self-auto text-sm">
+          </h2>
+          <Link href="/work" className="btn-outline self-start md:self-auto text-small">
             View All </Link>
         </div>
 

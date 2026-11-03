@@ -43,13 +43,13 @@ export default async function BlogsPage() {
       <div className="container-padded">
         <header className="grid gap-6 border-b border-border pb-10 md:grid-cols-[1fr_auto] md:items-end">
           <div className="max-w-2xl">
-            <p className="text-sm font-medium text-muted-foreground">Blog</p>
-            <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">Writing</h1>
-            <p className="mt-4 text-[17px] leading-relaxed text-foreground/70">
+            <p className="text-small font-medium text-muted-foreground">Blog</p>
+            <h1 className="text-h1 mt-2 text-foreground">Writing</h1>
+            <p className="mt-4 text-body text-foreground/70">
               What I learn building speech and language AI for African languages, and shipping products from Nigeria.
             </p>
           </div>
-          <p className="text-sm text-muted-foreground">{posts.length} posts · {topics.length} topics</p>
+          <p className="text-small text-muted-foreground">{posts.length} posts · {topics.length} topics</p>
         </header>
 
         {lead && (
@@ -58,17 +58,17 @@ export default async function BlogsPage() {
               {lead.cover && <Image src={lead.cover} alt={lead.title} fill priority sizes="(min-width:768px) 55vw, 100vw" className="object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]" />}
             </div>
             <div className="flex flex-col p-6 sm:p-8 lg:p-10">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <div className="flex items-center gap-2 text-caption font-medium text-muted-foreground">
                 <span className="rounded-full bg-foreground px-2.5 py-1 text-background">Latest</span>
                 <span>{lead.topic}</span>
               </div>
-              <h2 className="mt-5 font-display text-2xl font-extrabold leading-tight tracking-tight text-foreground sm:text-3xl">{lead.title}</h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-foreground/70 line-clamp-4">{lead.excerpt}</p>
-              <div className="mt-auto flex items-center gap-3 pt-8 text-sm">
+              <h2 className="mt-5 font-display text-h4 font-extrabold text-foreground">{lead.title}</h2>
+              <p className="mt-4 text-small text-foreground/70 line-clamp-4">{lead.excerpt}</p>
+              <div className="mt-auto flex items-center gap-3 pt-8 text-small">
                 <Image src="/images/emmanuel.jpg" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
                 <div>
                   <p className="font-medium text-foreground">Emmanuel Ariyo</p>
-                  <p className="text-xs text-muted-foreground">{formatDay(lead.date)} · {lead.minutes} min read</p>
+                  <p className="text-caption text-muted-foreground">{formatDay(lead.date)} · {lead.minutes} min read</p>
                 </div>
               </div>
             </div>
@@ -79,12 +79,12 @@ export default async function BlogsPage() {
 
         <section className="card-surface mt-20 grid gap-6 p-6 sm:p-10 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Working on something like this?</h2>
-            <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-foreground/70">Speech AI, African language models, or a product that has to work well in Nigeria. I am happy to talk it through.</p>
+            <h2 className="font-display text-h4 font-extrabold text-foreground">Working on something like this?</h2>
+            <p className="mt-2 max-w-xl text-small text-foreground/70">Speech AI, African language models, or a product that has to work well in Nigeria. I am happy to talk it through.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/contact" className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground hover:opacity-90">Get in touch</Link>
-            <Link href="/work" className="rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:bg-secondary">See my work</Link>
+            <Link href="/contact" className="rounded-full bg-brand px-6 py-3 text-small font-semibold text-brand-foreground hover:opacity-90">Get in touch</Link>
+            <Link href="/work" className="rounded-full border border-border px-6 py-3 text-small font-semibold text-foreground hover:bg-secondary">See my work</Link>
           </div>
         </section>
       </div>

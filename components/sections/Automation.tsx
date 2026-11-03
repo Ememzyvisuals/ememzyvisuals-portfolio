@@ -1,9 +1,9 @@
 "use client";
 // components/sections/Automation.tsx
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Terminal, Bot, Mic, Github, ExternalLink } from "lucide-react";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Terminal, Bot, Mic, Github } from "lucide-react";
 
 const AUTOMATION_PROJECTS = [
   {
@@ -13,9 +13,9 @@ const AUTOMATION_PROJECTS = [
     description:
       "A full-featured AI assistant inside Telegram. Image generation, media downloads, voice notes, PDF creation, group management, Mini App with games, and a Telegram Stars payment system.",
     icon: Bot,
-    iconBg: "bg-blue-50 dark:bg-blue-950",
-    iconColor: "text-blue-600 dark:text-blue-400",
-    accentColor: "border-blue-200 dark:border-blue-800",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
+    accentColor: "border-l-sun",
     techStack: ["Python", "Groq API", "python-telegram-bot", "Docker"],
     links: {
       live: "https://t.me/lumeoai_bot",
@@ -35,9 +35,9 @@ const AUTOMATION_PROJECTS = [
     description:
       "A Distributed Intelligence Network and Cognitive Autonomous Worker. Executes complex real-world tasks from natural language, code generation, cybersecurity auditing, desktop automation, and more.",
     icon: Terminal,
-    iconBg: "bg-cyan-50 dark:bg-cyan-950",
-    iconColor: "text-cyan-600 dark:text-cyan-400",
-    accentColor: "border-cyan-200 dark:border-cyan-800",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
+    accentColor: "border-l-sun",
     techStack: ["Rust", "Python", "Node.js", "Ollama", "Playwright"],
     links: {
       github: "https://github.com/Ememzyvisuals/microdragon",
@@ -57,9 +57,9 @@ const AUTOMATION_PROJECTS = [
     description:
       "Production inference code for WazobiaVoice, a ~2B-parameter multilingual TTS and zero-shot voice cloning model covering Yoruba, Hausa, Igbo, Nigerian Pidgin, and Nigerian English, built by Axiveri.",
     icon: Mic,
-    iconBg: "bg-emerald-50 dark:bg-emerald-950",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    accentColor: "border-emerald-200 dark:border-emerald-800",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
+    accentColor: "border-l-sun",
     techStack: ["PyTorch", "Chatterbox Architecture", "Groq", "Python"],
     links: {
       github: "https://github.com/Ememzyvisuals/wazobiavoice-TTS",
@@ -73,41 +73,27 @@ const AUTOMATION_PROJECTS = [
   },
 ];
 
-export function AutomationSection() {
+export function AutomationSection({ page = false }: { page?: boolean } = {}) {
   return (
-    <section id="automation" className="py-section">
-      <div className="container-padded space-y-12">
+    <section id="automation" className={page ? "pb-section pt-12 md:pt-16" : "py-section"}>
+      <div className="container-padded space-y-stack">
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
-        >
-          <div>
-            <h2 className="section-heading">Automation</h2>
-            <p className="text-muted-foreground mt-3 text-lg max-w-md">
-              AI agents and autonomous systems that execute real-world tasks end-to-end.
-            </p>
-          </div>
-          <Link href="/automation" className="btn-outline self-start text-sm">
-            Explore All
-          </Link>
-        </motion.div>
+        <SectionHeader
+          as={page ? "h1" : "h2"}
+          title="Automation"
+          intro="AI agents and autonomous systems that carry out real tasks from start to finish."
+          action={page ? undefined : <Link href="/automation" className="btn-outline">See all automation work</Link>}
+        />
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {AUTOMATION_PROJECTS.map((project, i) => {
             const Icon = project.icon;
             return (
-              <motion.article
+              <article
                 key={project.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+               
+               
                 className={`card-surface p-6 space-y-5 border-l-2 ${project.accentColor}`}
               >
                 {/* Header */}
@@ -118,7 +104,7 @@ export function AutomationSection() {
                     </div>
                     <div>
                       <h3 className="font-bold text-foreground">{project.title}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-caption text-muted-foreground mt-0.5">
                         {project.subtitle}
                       </p>
                     </div>
@@ -130,9 +116,9 @@ export function AutomationSection() {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground transition-colors"
+                        className="inline-flex h-9 items-center rounded-full border border-border px-3.5 text-caption font-semibold text-foreground hover:border-foreground transition-colors"
                       >
-                        <ExternalLink size={14} />
+                        Live
                       </a>
                     )}
                     {project.links.github && (
@@ -140,23 +126,24 @@ export function AutomationSection() {
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground transition-colors"
+                        aria-label={`${project.title} on GitHub`}
+                        className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground hover:border-foreground transition-colors"
                       >
-                        <Github size={14} />
+                        <Github size={16} />
                       </a>
                     )}
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-small text-muted-foreground">
                   {project.description}
                 </p>
 
                 {/* Highlights */}
                 <ul className="space-y-1.5">
                   {project.highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2 text-sm text-foreground">
+                    <li key={h} className="flex items-center gap-2 text-small text-foreground">
                       <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 flex-shrink-0" />
                       {h}
                     </li>
@@ -178,7 +165,7 @@ export function AutomationSection() {
                     </a>
                   )}
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>

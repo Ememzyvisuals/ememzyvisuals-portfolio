@@ -14,9 +14,9 @@ export const metadata: Metadata = buildMeta({
 
 export default function AskPage() {
   return (
-    <div className="min-h-screen pb-16 pt-6 md:pb-24 md:pt-10">
+    <div className="min-h-screen pb-section pt-6 md:pt-10">
       <ErrorBoundary>
-        <AskAboutMe />
+        <AskAboutMe page />
       </ErrorBoundary>
     </div>
   );

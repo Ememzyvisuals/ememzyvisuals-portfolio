@@ -30,13 +30,13 @@ export function WalletCopy() {
         return (
           <div key={key} className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-extrabold text-foreground">{w.label}</span>
-              <span className="text-[10px] text-muted-foreground">{w.network}</span>
+              <span className="text-caption font-extrabold text-foreground">{w.label}</span>
+              <span className="text-caption text-muted-foreground">{w.network}</span>
             </div>
             <button
               onClick={() => copy(w.address, key)}
               title="Click to copy"
-              className="w-full flex items-center justify-between gap-2 text-[10px] font-mono text-muted-foreground bg-muted px-3 py-2 rounded-xl hover:text-foreground hover:bg-secondary transition-colors cursor-copy group"
+              className="w-full flex items-center justify-between gap-2 text-caption font-mono text-muted-foreground bg-muted px-3 py-2 rounded-xl hover:text-foreground hover:bg-secondary transition-colors cursor-copy group"
             >
               <span className="truncate">{w.address}</span>
               {isCopied

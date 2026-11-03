@@ -4,7 +4,7 @@
 // towards you. Drag or swipe to move along it; the centre video plays silently; tap any card to open it
 // full screen (videos with sound). Below, everything in a grid with category filters.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, X } from "lucide-react";
 import type { GalleryItem } from "@/lib/store";
 
 const fmtDur = (s: number | null) => (s ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}` : "");
@@ -67,8 +67,8 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
   if (!n) return (
     <div className="container-padded mt-16">
       <div className="card-surface mx-auto max-w-xl p-10 text-center">
-        <p className="font-display text-xl font-extrabold text-foreground">New photos and videos are on the way.</p>
-        <p className="mt-2 text-sm text-muted-foreground">Check back soon.</p>
+        <p className="font-display text-lead font-extrabold text-foreground">New photos and videos are on the way.</p>
+        <p className="mt-2 text-small text-muted-foreground">Check back soon.</p>
       </div>
     </div>
   );
@@ -104,7 +104,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
                     <img src={it.url} alt={it.title} draggable={false} loading={ad < 3 ? "eager" : "lazy"} className="h-full w-full object-cover" />
                   )}
                   {it.kind === "video" && (
-                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
+                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-caption font-semibold text-white backdrop-blur">
                       <Play size={11} fill="currentColor" /> {fmtDur(it.duration)}
                     </span>
                   )}
@@ -115,12 +115,12 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
         </div>
         {/* caption of the centre card */}
         <div className="container-padded mt-4 flex items-center justify-center gap-4">
-          <button onClick={() => go(centre - 1)} disabled={centre <= 0} aria-label="Previous" className="grid h-10 w-10 place-items-center rounded-full border border-border text-foreground hover:bg-secondary disabled:opacity-30"><ChevronLeft size={18} /></button>
+          <button onClick={() => go(centre - 1)} disabled={centre <= 0} className="inline-flex h-10 items-center rounded-full border border-border px-4 text-caption font-semibold text-foreground hover:bg-secondary disabled:opacity-30">Previous</button>
           <div className="min-w-0 max-w-md text-center">
-            <p className="truncate font-display text-lg font-bold text-foreground">{items[centre]?.title}</p>
-            <p className="truncate text-sm text-muted-foreground">{items[centre]?.description || items[centre]?.category}</p>
+            <p className="truncate font-display text-lead font-bold text-foreground">{items[centre]?.title}</p>
+            <p className="truncate text-small text-muted-foreground">{items[centre]?.description || items[centre]?.category}</p>
           </div>
-          <button onClick={() => go(centre + 1)} disabled={centre >= n - 1} aria-label="Next" className="grid h-10 w-10 place-items-center rounded-full border border-border text-foreground hover:bg-secondary disabled:opacity-30"><ChevronRight size={18} /></button>
+          <button onClick={() => go(centre + 1)} disabled={centre >= n - 1} className="inline-flex h-10 items-center rounded-full border border-border px-4 text-caption font-semibold text-foreground hover:bg-secondary disabled:opacity-30">Next</button>
         </div>
       </section>
 
@@ -128,7 +128,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
       {n > 4 && (
         <section className="container-padded mt-20">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-3">
-            <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Everything</h2>
+            <h2 className="font-display text-h4 font-extrabold text-foreground">Everything</h2>
             <div className="flex flex-wrap gap-5">
               {cats.map((c) => (
                 <button key={c} onClick={() => setCat(c)} className={`text-sm font-medium ${cat === c ? "text-foreground underline underline-offset-8" : "text-muted-foreground hover:text-foreground"}`}>{c}</button>
@@ -141,7 +141,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={it.kind === "video" ? it.poster || it.url : it.url} alt={it.title} loading="lazy" className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                 {it.kind === "video" && <span className="absolute left-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/55 text-white backdrop-blur"><Play size={13} fill="currentColor" /></span>}
-                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">{it.title}</span>
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 text-small font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">{it.title}</span>
               </button>
             ))}
           </div>
@@ -152,7 +152,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
       {open !== null && items[open] && (
         <div className="fixed inset-0 z-[70] flex flex-col bg-black/92 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={items[open].title} onClick={() => setOpen(null)}>
           <div className="flex items-center justify-between p-4 text-white">
-            <p className="truncate pr-4 font-display text-lg font-bold">{items[open].title}</p>
+            <p className="truncate pr-4 font-display text-lead font-bold">{items[open].title}</p>
             <button onClick={() => setOpen(null)} aria-label="Close" className="grid h-10 w-10 place-items-center rounded-full hover:bg-white/10"><X size={20} /></button>
           </div>
           <div className="flex min-h-0 flex-1 items-center justify-center px-4 pb-6" onClick={(e) => e.stopPropagation()}>
@@ -163,7 +163,7 @@ export function GalleryView({ items }: { items: GalleryItem[] }) {
               <img src={items[open].url} alt={items[open].title} className="max-h-full max-w-full rounded-xl object-contain" />
             )}
           </div>
-          {items[open].description && <p className="px-6 pb-6 text-center text-sm text-white/75" onClick={(e) => e.stopPropagation()}>{items[open].description}</p>}
+          {items[open].description && <p className="px-6 pb-6 text-center text-small text-white/75" onClick={(e) => e.stopPropagation()}>{items[open].description}</p>}
         </div>
       )}
     </>

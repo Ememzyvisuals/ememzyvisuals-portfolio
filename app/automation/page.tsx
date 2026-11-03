@@ -15,8 +15,6 @@ export const metadata: Metadata = buildMeta({
 // No extra header here, AutomationSection already has the "Automation." heading
 export default function AutomationPage() {
   return (
-    <div className="py-16 md:py-24">
-      <AutomationSection />
-    </div>
+    <AutomationSection page />
   );
 }

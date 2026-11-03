@@ -1,19 +1,13 @@
 "use client";
 // app/about/AboutClient.tsx
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { IdCard } from "@/components/three/idcard/IdCard";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-};
 
 export function AboutClient() {
   return (
-    <div className="py-16 md:py-24 space-y-24">
+    <div className="pt-12 md:pt-16 pb-section space-y-section-sm">
 
       {/* ── Hero section, photo + name ─────────────────────────── */}
       <div className="container-padded">
@@ -23,46 +17,41 @@ export function AboutClient() {
           <IdCard />
 
           {/* Intro text */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
+          <div
             className="space-y-5"
           >
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.15em]">About me</p>
 
             <h1
-              className="font-extrabold text-foreground leading-[1.05]"
-              style={{ fontSize: "clamp(2.2rem, 6vw, 3.8rem)", letterSpacing: "-0.04em" }}
+              className="text-h1 text-foreground"
             >
               Emmanuel Ariyo.
             </h1>
 
-            <p className="text-lg text-foreground/80 leading-relaxed">
+            <p className="text-lead text-foreground/80">
               I build speech AI for African languages. Not voices that just read text aloud, but speech that
               carries emotion and expression and can hold a real conversation.
             </p>
 
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-body text-muted-foreground">
               By day I am a Machine Learning Engineer on the speech AI team at PlotWeaver. I am also the founder
               of Axiveri, where we publish open models so that AI can finally hear, understand and speak the
               languages Africa actually speaks. I am self-taught, and I still ship the full products around these
               models too, from the web app to the API.
             </p>
 
-            <p className="text-sm text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
+            <p className="text-small text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/contact" className="btn-primary group text-sm">
-                Work With Me </Link>
-              <Link href="/work" className="btn-outline text-sm">
-                See My Work
+              <Link href="/contact" className="btn-primary group text-small">
+                Work with me </Link>
+              <Link href="/work" className="btn-outline text-small">
+                See my work
               </Link>
-              <a href="/emmanuel-ariyo-cv.pdf" download className="btn-outline text-sm">
+              <a href="/emmanuel-ariyo-cv.pdf" download className="btn-outline text-small">
                 Download CV
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -71,14 +60,12 @@ export function AboutClient() {
       {/* ── My Story ────────────────────────────────────────────── */}
       <div className="container-padded">
         <div className="max-w-2xl space-y-8">
-          <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-            <h2 className="section-heading">My Story</h2>
-          </motion.div>
+          <div>
+            <h2 className="section-heading">My story</h2>
+          </div>
 
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="space-y-5 text-muted-foreground leading-relaxed text-[16px]"
+          <div
+            className="space-y-5 text-muted-foreground text-body"
           >
             <p>
               I did not study computer science and I never went to a bootcamp. I taught myself, one free tutorial,
@@ -105,21 +92,19 @@ export function AboutClient() {
               they make sense, and I build the whole thing: the data pipeline, the model, the API and the product
               people actually touch.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       <div className="container-padded"><div className="section-divider" /></div>
 
-      {/* ── What I Do ───────────────────────────────────────────── */}
+      {/* ── What I do ───────────────────────────────────────────── */}
       <div className="container-padded space-y-10">
-        <motion.h2
-          {...fadeUp}
-          transition={{ duration: 0.5 }}
+        <h2
           className="section-heading"
         >
-          What I Do.
-        </motion.h2>
+          What I do
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
@@ -136,15 +121,13 @@ export function AboutClient() {
               desc: "Telegram bots, WhatsApp automation, AI agents, and workflow systems. Lumeo AI handles thousands of Telegram interactions. Microdragon executes complex real-world tasks from natural language.",
             },
           ].map(({ title, desc }, i) => (
-            <motion.div
+            <div
               key={title}
-              {...fadeUp}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-surface p-6 space-y-4"
             >
-              <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-            </motion.div>
+              <h3 className="font-extrabold text-foreground">{title}</h3>
+              <p className="text-small text-muted-foreground">{desc}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -153,16 +136,16 @@ export function AboutClient() {
 
       {/* ── AI Research: open models published under Axiveri, with numbers from Hugging Face ── */}
       <div className="container-padded space-y-10">
-        <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
+        <div>
           <h2 className="section-heading">AI Research</h2>
-          <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
+          <p className="text-muted-foreground mt-3 text-lead max-w-2xl">
             Open models and datasets for African speech and language, published under{" "}
             <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="text-foreground font-semibold underline underline-offset-4">Axiveri</a>{" "}
             so anyone can build on them.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.05 }} className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-border py-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-border py-8 md:grid-cols-4">
           {[
             { n: "8", l: "open models" },
             { n: "4", l: "open datasets" },
@@ -170,11 +153,11 @@ export function AboutClient() {
             { n: "1", l: "live speech demo" },
           ].map((x) => (
             <div key={x.l}>
-              <p className="font-display text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{x.n}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{x.l}</p>
+              <p className="font-display text-h3 font-extrabold text-foreground">{x.n}</p>
+              <p className="mt-1 text-small text-muted-foreground">{x.l}</p>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         <div className="grid gap-5 md:grid-cols-2">
           {[
@@ -185,16 +168,16 @@ export function AboutClient() {
             { kind: "Image generation", title: "AfriVision", desc: "A FLUX LoRA trained on the AfriVision-30K dataset to generate African people, places and culture as they really look.", stat: "AfriVision-30K: 81 downloads this month", link: "https://huggingface.co/Axiveri/AfriVision-Base" },
             { kind: "Benchmark", title: "TruthGuard", desc: "120 questions that test whether a language model knows when it does not know. Open on Kaggle.", stat: "CC BY-SA 4.0", link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation" },
           ].map((m, i) => (
-            <motion.a key={m.title} href={m.link} target="_blank" rel="noopener noreferrer" {...fadeUp} transition={{ duration: 0.5, delay: i * 0.05 }}
+            <a key={m.title} href={m.link} target="_blank" rel="noopener noreferrer"
               className="card-surface group flex flex-col p-6 transition-transform duration-300 hover:-translate-y-1">
-              <p className="text-xs font-medium text-muted-foreground">{m.kind}</p>
-              <h3 className="mt-2 font-display text-xl font-extrabold tracking-tight text-foreground">{m.title}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">{m.desc}</p>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
+              <p className="text-caption font-medium text-muted-foreground">{m.kind}</p>
+              <h3 className="mt-2 font-display text-lead font-extrabold text-foreground">{m.title}</h3>
+              <p className="mt-2 flex-1 text-small text-foreground/70">{m.desc}</p>
+              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-caption">
                 <span className="text-muted-foreground">{m.stat}</span>
                 <span className="inline-flex items-center gap-1 font-semibold text-foreground">View </span>
               </div>
-            </motion.a>
+            </a>
           ))}
         </div>
       </div>
@@ -203,13 +186,11 @@ export function AboutClient() {
 
       {/* ── Values ──────────────────────────────────────────────── */}
       <div className="container-padded space-y-10">
-        <motion.h2
-          {...fadeUp}
-          transition={{ duration: 0.5 }}
+        <h2
           className="section-heading"
         >
           How I Work.
-        </motion.h2>
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
           {[
@@ -218,15 +199,13 @@ export function AboutClient() {
             { title: "Own the whole pipeline", desc: "Data collection, training, evaluation, the API and the app. Knowing every layer is how I fix problems fast." },
             { title: "Measure, do not guess", desc: "Every model gets a proper evaluation, word error rates for speech recognition and listening tests for voices, before anyone else hears it." },
           ].map(({ title, desc }, i) => (
-            <motion.div
+            <div
               key={title}
-              {...fadeUp}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
               className="card-surface p-6 space-y-2 border-l-2 border-foreground/20"
             >
               <h3 className="font-extrabold text-foreground">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-            </motion.div>
+              <p className="text-small text-muted-foreground">{desc}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -235,35 +214,32 @@ export function AboutClient() {
 
       {/* ── CTA ─────────────────────────────────────────────────── */}
       <div className="container-padded">
-        <motion.div
-          {...fadeUp}
-          transition={{ duration: 0.5 }}
+        <div
           className="rounded-2xl bg-foreground text-background p-10 md:p-14 text-center space-y-5 max-w-2xl mx-auto"
         >
           <h2
-            className="font-extrabold leading-tight"
-            style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)", letterSpacing: "-0.04em" }}
+            className="font-extrabold"
           >
             Let&apos;s build something.
           </h2>
-          <p className="text-background/70 leading-relaxed">
+          <p className="text-background/70">
             Open to freelance contracts, full-time roles, and interesting
             collaborations. If you have a project in mind, I&apos;d love to hear about it.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-bold text-sm hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-bold text-small hover:opacity-90 transition-opacity"
             >
               Get In Touch </Link>
             <Link
               href="/work"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-bold text-sm hover:border-background/60 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-bold text-small hover:border-background/60 transition-colors"
             >
               View My Work
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
 
     </div>

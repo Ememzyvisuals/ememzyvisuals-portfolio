@@ -94,20 +94,20 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
             {shareOpen && (
               <div className="absolute left-0 top-full z-20 mt-2 w-48 rounded-xl border border-border bg-background p-1.5 shadow-card">
                 {(["x", "whatsapp", "linkedin", "facebook"] as const).map((k) => (
-                  <button key={k} onClick={() => share(k)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
+                  <button key={k} onClick={() => share(k)} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-small text-foreground/80 hover:bg-secondary hover:text-foreground">
                     {ShareIcons[k]} {k === "x" ? "X" : k[0].toUpperCase() + k.slice(1)}
                   </button>
                 ))}
-                <button onClick={() => share("copy")} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
+                <button onClick={() => share("copy")} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-small text-foreground/80 hover:bg-secondary hover:text-foreground">
                   {copied ? <Check size={15} /> : <Link2 size={15} />} {copied ? "Copied" : "Copy link"}
                 </button>
               </div>
             )}
           </div>
-          <span className="ml-auto inline-flex items-center gap-1.5 pr-1 text-sm text-muted-foreground"><Eye size={16} /> {s.views.toLocaleString()}</span>
+          <span className="ml-auto inline-flex items-center gap-1.5 pr-1 text-small text-muted-foreground"><Eye size={16} /> {s.views.toLocaleString()}</span>
           <button onClick={save} aria-pressed={saved} aria-label="Save" className={iconBtn}><Bookmark size={21} fill={saved ? "currentColor" : "none"} /></button>
         </div>
-        <p className="px-2 pt-1 text-sm text-foreground">
+        <p className="px-2 pt-1 text-small text-foreground">
           <span className="font-semibold">{s.likes.toLocaleString()} {s.likes === 1 ? "like" : "likes"}</span>
           <span className="text-muted-foreground"> · {s.comments.length} {s.comments.length === 1 ? "comment" : "comments"} · {s.shares} shares</span>
         </p>
@@ -115,24 +115,24 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
 
       {/* comments */}
       <section id="comments" className="mt-14">
-        <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground">Comments</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Your email is never shown.</p>
+        <h2 className="font-display text-h4 font-extrabold text-foreground">Comments</h2>
+        <p className="mt-1 text-small text-muted-foreground">Your email is never shown.</p>
         <form onSubmit={submit} className="mt-6 grid gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-medium text-foreground">Name
+          <label className="block text-small font-medium text-foreground">Name
             <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={60} className={cn(field, "mt-1.5")} />
           </label>
-          <label className="block text-sm font-medium text-foreground">Email (optional)
+          <label className="block text-small font-medium text-foreground">Email (optional)
             <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={120} className={cn(field, "mt-1.5")} />
           </label>
-          <label className="block text-sm font-medium text-foreground sm:col-span-2">Comment
+          <label className="block text-small font-medium text-foreground sm:col-span-2">Comment
             <textarea ref={replyRef} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={5} maxLength={2000} placeholder="Share your thoughts" className={cn(field, "mt-1.5 resize-y")} />
           </label>
           <div className="flex items-center gap-4 sm:col-span-2">
-            <button disabled={sending || !s.ready} className="rounded-full bg-brand px-7 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-85 disabled:opacity-50">
+            <button disabled={sending || !s.ready} className="rounded-full bg-brand px-7 py-3 text-small font-semibold text-brand-foreground transition-opacity hover:opacity-85 disabled:opacity-50">
               {sending ? "Posting..." : "Post comment"}
             </button>
-            {note && <span className="text-sm text-muted-foreground">{note}</span>}
-            {!s.ready && <span className="text-sm text-muted-foreground">Comments open soon.</span>}
+            {note && <span className="text-small text-muted-foreground">{note}</span>}
+            {!s.ready && <span className="text-small text-muted-foreground">Comments open soon.</span>}
           </div>
         </form>
 
@@ -140,13 +140,13 @@ export function PostActions({ slug, title, url }: { slug: string; title: string;
           <ul className="mt-12 divide-y divide-border border-t border-border">
             {s.comments.map((c) => (
               <li key={c.id} className="flex gap-4 py-6">
-                <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full bg-secondary text-sm font-bold text-foreground">{c.name.slice(0, 1).toUpperCase()}</span>
+                <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full bg-secondary text-small font-bold text-foreground">{c.name.slice(0, 1).toUpperCase()}</span>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-foreground">
+                  <p className="text-small font-semibold text-foreground">
                     {c.name}
-                    <span className="ml-2 text-xs font-normal text-muted-foreground">{new Date(c.t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+                    <span className="ml-2 text-caption font-normal text-muted-foreground">{new Date(c.t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
                   </p>
-                  <p className="mt-1.5 whitespace-pre-line text-[15px] leading-relaxed text-foreground/80">{c.body}</p>
+                  <p className="mt-1.5 whitespace-pre-line text-small text-foreground/80">{c.body}</p>
                 </div>
               </li>
             ))}

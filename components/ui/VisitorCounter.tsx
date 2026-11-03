@@ -26,7 +26,7 @@ export function VisitorCounter() {
   if (!count) return null;
 
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-secondary text-xs font-semibold text-muted-foreground">
+    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-secondary text-caption font-semibold text-muted-foreground">
       <Users size={11} />
       <span>{count.toLocaleString()} portfolio visits</span>
     </div>

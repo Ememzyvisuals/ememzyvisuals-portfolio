@@ -28,11 +28,11 @@ export default async function GalleryPage() {
   return (
     <div className="pb-24 pt-10 md:pt-16">
       <header className="container-padded mx-auto max-w-2xl text-center">
-        <p className="text-sm font-semibold text-muted-foreground">Gallery</p>
-        <h1 className="mt-3 font-display font-extrabold leading-[1.02] tracking-tight text-foreground" style={{ fontSize: "clamp(2.4rem, 6vw, 4.2rem)" }}>
+        <p className="text-small font-semibold text-muted-foreground">Gallery</p>
+        <h1 className="text-h1 mt-3 text-foreground">
           Behind the work.
         </h1>
-        <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-foreground/70">
+        <p className="mx-auto mt-4 max-w-lg text-body text-foreground/70">
           Photos and videos from the desk, the recording sessions and the places this work takes me.
         </p>
       </header>

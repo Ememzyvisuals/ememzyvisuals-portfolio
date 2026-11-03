@@ -3,7 +3,6 @@
 // The ENTIRE card (image + text) is ONE rounded rectangle, exactly Allwell
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Smartphone, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -29,11 +28,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
   const isInDev = project.status === "IN_DEVELOPMENT";
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.48, delay: index * 0.05 }}
+    <article
       // ── ONE rounded rectangle wrapping EVERYTHING ──────────────────
       className="group rounded-3xl overflow-hidden liquid-glass"
     >
@@ -43,7 +38,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
         {/* IN PROGRESS badge, top-left on image */}
         {isInDev && (
           <div className="absolute top-4 left-4 z-10">
-            <span className="text-[11px] font-extrabold px-3 py-1.5 rounded-full bg-black text-white uppercase tracking-widest">
+            <span className="text-caption font-extrabold px-3 py-1.5 rounded-full bg-black text-white">
               IN PROGRESS
             </span>
           </div>
@@ -82,7 +77,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
       <div className="px-6 py-6 space-y-3">
 
         {/* Row 1: category label */}
-        <div className="flex items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.12em]">
+        <div className="flex items-center gap-2 text-caption font-semibold text-muted-foreground">
           {isMobile
             ? <Smartphone size={11} strokeWidth={2.5} />
             : <Globe size={11} strokeWidth={2.5} />
@@ -95,23 +90,19 @@ export function ProjectCard({ project, index = 0 }: Props) {
         {/* Row 2: title + black circle arrow */}
         <div className="flex items-start justify-between gap-3">
           <h3
-            className="font-extrabold text-foreground leading-[1.05]"
-            style={{
-              fontSize: "clamp(1.7rem, 5vw, 2.3rem)",
-              letterSpacing: "-0.035em",
-            }}
+            className="font-extrabold text-foreground"
           >
             {project.title}
           </h3>
           <Link
             href={`/project/${project.slug}`}
-            className="flex-shrink-0 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background mt-0.5 transition-transform duration-200 hover:scale-105"
+            className="flex-shrink-0 rounded-full bg-foreground px-4 py-2 text-small font-semibold text-background mt-0.5 transition-transform duration-200 hover:scale-105"
             aria-label={`View ${project.title}`}
           >View</Link>
         </div>
 
         {/* Row 3: description */}
-        <p className="text-[15px] text-muted-foreground leading-relaxed">
+        <p className="text-small text-muted-foreground">
           {project.description}
         </p>
 
@@ -121,7 +112,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
             {project.techStack.slice(0, 5).map((tech) => (
               <span
                 key={tech}
-                className="text-[11px] font-bold px-3.5 py-1.5 rounded-full border border-border text-muted-foreground uppercase tracking-[0.06em]"
+                className="text-caption font-bold px-3.5 py-1.5 rounded-full border border-border text-muted-foreground"
               >
                 {tech}
               </span>
@@ -129,6 +120,6 @@ export function ProjectCard({ project, index = 0 }: Props) {
           </div>
         )}
       </div>
-    </motion.article>
+    </article>
   );
 }

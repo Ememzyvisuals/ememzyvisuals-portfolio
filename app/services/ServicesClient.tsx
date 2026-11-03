@@ -2,7 +2,6 @@
 // app/services/ServicesClient.tsx
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   Globe,
   Layers,
@@ -33,9 +32,9 @@ const SERVICES = [
     ],
     timeline: "3 to 14 days",
     stack: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Vercel"],
-    color: "border-blue-200 dark:border-blue-800",
-    iconBg: "bg-blue-50 dark:bg-blue-950",
-    iconColor: "text-blue-600 dark:text-blue-400",
+    color: "border-l-sun",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
   },
   {
     id: "webapp",
@@ -53,9 +52,9 @@ const SERVICES = [
     ],
     timeline: "2 to 8 weeks",
     stack: ["Next.js 15", "TypeScript", "Supabase", "PostgreSQL", "Prisma"],
-    color: "border-violet-200 dark:border-violet-800",
-    iconBg: "bg-violet-50 dark:bg-violet-950",
-    iconColor: "text-violet-600 dark:text-violet-400",
+    color: "border-l-sun",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
   },
   {
     id: "ai",
@@ -73,9 +72,9 @@ const SERVICES = [
     ],
     timeline: "1 to 6 weeks",
     stack: ["Groq API", "LLaMA 70B", "pgvector", "Python", "Next.js"],
-    color: "border-emerald-200 dark:border-emerald-800",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
+    color: "border-l-sun",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
   },
   {
     id: "automation",
@@ -113,9 +112,9 @@ const SERVICES = [
     ],
     timeline: "1 to 4 weeks",
     stack: ["Node.js", "Express", "PostgreSQL", "Prisma", "Docker"],
-    color: "border-cyan-200 dark:border-cyan-800",
-    iconBg: "bg-cyan-50 dark:bg-cyan-950",
-    iconColor: "text-cyan-600 dark:text-cyan-400",
+    color: "border-l-sun",
+    iconBg: "bg-brand-soft",
+    iconColor: "text-brand",
   },
 ];
 
@@ -164,49 +163,41 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         />
       </button>
       {open && (
-        <p className="text-muted-foreground text-sm leading-relaxed pb-5">{a}</p>
+        <p className="text-muted-foreground text-small pb-5">{a}</p>
       )}
     </div>
   );
 }
 
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-};
 
 export function ServicesClient() {
   return (
-    <div className="py-16 md:py-24 space-y-24">
+    <div className="pt-12 md:pt-16 pb-section space-y-section-sm">
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <div className="container-padded">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <div
           className="max-w-3xl space-y-6"
         >
           <div className="inline-flex items-center gap-2 pill">
-            <span className="text-xs font-medium">Available for new projects</span>
+            <span className="text-caption font-medium">Available for new projects</span>
           </div>
-          <h1 className="section-heading">
+          <h1 className="text-h1">
             Need a website,<br />AI system, or<br />automation?
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="text-lead text-muted-foreground max-w-2xl">
             I build premium digital products, from clean business websites to
             full AI-powered platforms. Fast, high-quality, and built to grow
             your business.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link href="/contact" className="btn-primary">
-              Start a Project </Link>
+              Start a project </Link>
             <Link href="/work" className="btn-outline">
-              See My Work
+              See my work
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Quick trust bar ──────────────────────────────────────────── */}
@@ -214,14 +205,14 @@ export function ServicesClient() {
         <div className="container-padded py-6">
           <div className="flex flex-wrap items-center gap-6 md:gap-12">
             {[
-              { value: "10+", label: "Projects Shipped" },
-              { value: "3+", label: "AI Systems Built" },
-              { value: "Worldwide", label: "Clients Served" },
+              { value: "10+", label: "Projects shipped" },
+              { value: "3+", label: "AI systems built" },
+              { value: "Worldwide", label: "Clients served" },
               { value: "Fast", label: "Delivery" },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="font-bold text-lg text-foreground">{stat.value}</p>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="font-bold text-lead text-foreground">{stat.value}</p>
+                <p className="text-caption text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -230,22 +221,20 @@ export function ServicesClient() {
 
       {/* ── Service cards ────────────────────────────────────────────── */}
       <div className="container-padded space-y-6">
-        <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-          <h2 className="text-4xl font-bold tracking-tight">What I Build</h2>
-          <p className="text-muted-foreground mt-2 text-lg max-w-xl">
+        <div>
+          <h2 className="text-h3 font-bold">What I build</h2>
+          <p className="text-muted-foreground mt-2 text-lead max-w-xl">
             Every service below is backed by real shipped products. Not demos, production systems.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {SERVICES.map((service, i) => {
             const Icon = service.icon;
             return (
-              <motion.div
+              <div
                 key={service.id}
                 id={service.id}
-                {...fadeUp}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
                 className={cn(
                   "card-surface p-7 space-y-5 border-l-2",
                   service.color
@@ -257,21 +246,21 @@ export function ServicesClient() {
                     <Icon size={20} className={service.iconColor} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-foreground">{service.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{service.tagline}</p>
+                    <h3 className="font-bold text-lead text-foreground">{service.title}</h3>
+                    <p className="text-caption text-muted-foreground mt-0.5">{service.tagline}</p>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-small text-muted-foreground">
                   {service.description}
                 </p>
 
                 {/* Deliverables */}
                 <ul className="space-y-2">
                   {service.deliverables.map((d) => (
-                    <li key={d} className="flex items-start gap-2 text-sm text-foreground">
-                      <CheckCircle2 size={14} className="text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <li key={d} className="flex items-start gap-2 text-small text-foreground">
+                      <CheckCircle2 size={14} className="text-success flex-shrink-0 mt-0.5" />
                       {d}
                     </li>
                   ))}
@@ -280,8 +269,8 @@ export function ServicesClient() {
                 {/* Footer row */}
                 <div className="flex items-center justify-between pt-2 border-t border-border">
                   <div>
-                    <p className="text-xs text-muted-foreground">Typical delivery</p>
-                    <p className="text-sm font-semibold text-foreground">{service.timeline}</p>
+                    <p className="text-caption text-muted-foreground">Typical delivery</p>
+                    <p className="text-small font-semibold text-foreground">{service.timeline}</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 max-w-[55%] justify-end">
                     {service.stack.slice(0, 3).map((t) => (
@@ -289,7 +278,7 @@ export function ServicesClient() {
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -297,62 +286,60 @@ export function ServicesClient() {
 
       {/* ── Process section ──────────────────────────────────────────── */}
       <div className="container-padded space-y-10">
-        <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-          <h2 className="text-4xl font-bold tracking-tight">How It Works</h2>
-          <p className="text-muted-foreground mt-2 text-lg max-w-xl">
+        <div>
+          <h2 className="text-h3 font-bold">How it works</h2>
+          <p className="text-muted-foreground mt-2 text-lead max-w-xl">
             Simple, transparent, no back-and-forth confusion.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
           {[
             {
               step: "01",
-              title: "Tell Me What You Need",
+              title: "Tell me what you need",
               desc: "Send a message with your idea, requirements, or problem. No long forms, just talk to me.",
             },
             {
               step: "02",
-              title: "Get a Clear Quote",
+              title: "Get a clear quote",
               desc: "I'll send you a scope, timeline, and price. No hidden fees. No surprises.",
             },
             {
               step: "03",
-              title: "I Build It",
+              title: "I build it",
               desc: "You get progress updates. I deliver clean, tested, production-ready code.",
             },
             {
               step: "04",
-              title: "Launch & Grow",
+              title: "Launch and grow",
               desc: "Your product is live, fast, and SEO-ready. I'm available post-launch for support.",
             },
           ].map((item, i) => (
-            <motion.div
+            <div
               key={item.step}
-              {...fadeUp}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-surface p-6 space-y-3"
             >
-              <span className="text-3xl font-black text-muted-foreground/20">
+              <span className="text-h3 font-black text-muted-foreground/20">
                 {item.step}
               </span>
               <h3 className="font-bold text-foreground">{item.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-            </motion.div>
+              <p className="text-small text-muted-foreground">{item.desc}</p>
+            </div>
           ))}
         </div>
       </div>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
       <div className="container-padded space-y-8">
-        <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
-          <h2 className="text-4xl font-bold tracking-tight">
+        <div>
+          <h2 className="text-h3 font-bold">
             Frequently Asked Questions
           </h2>
-          <p className="text-muted-foreground mt-2 text-lg max-w-xl">
+          <p className="text-muted-foreground mt-2 text-lead max-w-xl">
             If your question isn&apos;t here, just ask directly.
           </p>
-        </motion.div>
+        </div>
 
         <div className="max-w-2xl space-y-0">
           {FAQS.map((faq) => (
@@ -363,21 +350,19 @@ export function ServicesClient() {
 
       {/* ── Final CTA ────────────────────────────────────────────────── */}
       <div className="container-padded">
-        <motion.div
-          {...fadeUp}
-          transition={{ duration: 0.5 }}
+        <div
           className="rounded-2xl bg-foreground text-background p-10 md:p-14 text-center space-y-6"
         >
           <div className="flex justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-background/20 bg-background/10 text-sm font-medium text-background/80">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-background/20 bg-background/10 text-small font-medium text-background/80">
               Available right now
             </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+          <h2 className="text-h3 font-bold">
             Ready to build something?
           </h2>
-          <p className="text-background/70 text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-background/70 text-lead max-w-xl mx-auto">
             Whether you need a website this week, an AI system for your product,
             or automation that saves your team hours every day, let&apos;s talk.
           </p>
@@ -385,22 +370,22 @@ export function ServicesClient() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-semibold text-sm hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-semibold text-small hover:opacity-90 transition-opacity"
             >
               <MessageSquare size={15} />
-              Start a Project
+              Start a project
             </Link>
             <Link
               href="/work"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-semibold text-sm hover:border-background/60 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-background/30 text-background font-semibold text-small hover:border-background/60 transition-colors"
             >
-              See My Work </Link>
+              See my work </Link>
           </div>
 
-          <p className="text-background/40 text-xs">
+          <p className="text-background/40 text-caption">
             ememzyvisuals@gmail.com · Available worldwide
           </p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

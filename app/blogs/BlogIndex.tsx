@@ -39,7 +39,7 @@ export function BlogIndex({ posts, topics }: { posts: Card[]; topics: string[] }
             value={term}
             onChange={(e) => setTerm(e.target.value)}
             placeholder="Search posts"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-sm outline-none focus:border-foreground/50"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-small outline-none focus:border-foreground/50"
           />
         </label>
       </div>
@@ -51,10 +51,10 @@ export function BlogIndex({ posts, topics }: { posts: Card[]; topics: string[] }
               {p.cover && <Image src={p.cover} alt={p.title} fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />}
             </div>
             <div className="flex flex-1 flex-col p-5 sm:p-6">
-              <p className="text-xs font-medium text-muted-foreground">{p.topic} · {p.minutes} min read</p>
-              <h3 className="mt-2.5 font-display text-lg font-bold leading-snug tracking-tight text-foreground">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/65 line-clamp-3">{p.excerpt}</p>
-              <div className="mt-auto flex items-center gap-2 pt-6 text-xs text-muted-foreground">
+              <p className="text-caption font-medium text-muted-foreground">{p.topic} · {p.minutes} min read</p>
+              <h3 className="mt-2.5 font-display text-lead font-bold text-foreground">{p.title}</h3>
+              <p className="mt-2 text-small text-foreground/65 line-clamp-3">{p.excerpt}</p>
+              <div className="mt-auto flex items-center gap-2 pt-6 text-caption text-muted-foreground">
                 <span>{p.day}</span>
                 <span className="ml-auto inline-flex items-center gap-3">
                   <span className="inline-flex items-center gap-1"><Eye size={13} />{p.views}</span>

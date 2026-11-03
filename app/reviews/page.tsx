@@ -17,8 +17,6 @@ export const metadata: Metadata = buildMeta({
 
 export default function ReviewsPage() {
   return (
-    <div className="min-h-screen py-16 md:py-24">
-      <ReviewsSection />
-    </div>
+    <ReviewsSection page />
   );
 }

@@ -18,8 +18,8 @@ export function Contents({ items }: { items: { id: string; text: string }[] }) {
   }, [items]);
   if (!items.length) return null;
   return (
-    <nav aria-label="Contents" className="text-sm">
-      <p className="font-display text-sm font-bold text-foreground">Contents</p>
+    <nav aria-label="Contents" className="text-small">
+      <p className="font-display text-small font-bold text-foreground">Contents</p>
       <ul className="mt-4 space-y-1 border-l border-border">
         {items.map((i) => (
           <li key={i.id}>
@@ -45,21 +45,21 @@ export function Subscribe() {
   return (
     <section className="card-surface grid gap-5 p-6 sm:p-8 md:grid-cols-[1fr_minmax(0,360px)] md:items-center">
       <div>
-        <h2 className="font-display text-xl font-extrabold tracking-tight text-foreground sm:text-2xl">Get the next post by email</h2>
-        <p className="mt-1.5 text-sm leading-relaxed text-foreground/65">One short email when something new is out. Nothing else.</p>
+        <h2 className="font-display text-lead font-extrabold text-foreground">Get the next post by email</h2>
+        <p className="mt-1.5 text-small text-foreground/65">One short email when something new is out. Nothing else.</p>
       </div>
       {state === "done" ? (
-        <p className="text-sm font-medium text-foreground">You are on the list. Thank you.</p>
+        <p className="text-small font-medium text-foreground">You are on the list. Thank you.</p>
       ) : (
         <form onSubmit={submit} className="flex gap-2">
           <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
-            className="min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-foreground/50" />
-          <button disabled={state === "sending"} className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground disabled:opacity-60">
+            className="min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-3 text-small outline-none focus:border-foreground/50" />
+          <button disabled={state === "sending"} className="rounded-xl bg-brand px-5 py-3 text-small font-semibold text-brand-foreground disabled:opacity-60">
             {state === "sending" ? "..." : "Subscribe"}
           </button>
         </form>
       )}
-      {state === "error" && <p className="text-xs text-muted-foreground md:col-span-2">Could not subscribe right now. Please try again later.</p>}
+      {state === "error" && <p className="text-caption text-muted-foreground md:col-span-2">Could not subscribe right now. Please try again later.</p>}
     </section>
   );
 }

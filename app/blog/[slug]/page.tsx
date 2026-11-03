@@ -52,21 +52,21 @@ export default function BlogPostPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="container-padded pb-24 pt-8 md:pt-12">
-        <Link href="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"> All posts
+        <Link href="/blogs" className="inline-flex items-center gap-2 text-small text-muted-foreground hover:text-foreground"> All posts
         </Link>
 
         <header className="mx-auto mt-8 max-w-3xl text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-small text-muted-foreground">
             <span className="font-medium text-foreground">{p.topic}</span> · {formatDay(p.date)} · {p.minutes} min read
           </p>
-          <h1 className="mt-4 font-display text-[2rem] font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-5xl">{p.title}</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-foreground/70">{p.excerpt}</p>
+          <h1 className="text-h1 mt-4 text-foreground">{p.title}</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lead text-foreground/70">{p.excerpt}</p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <div className="flex items-center gap-3 text-left">
               <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
-              <div className="text-sm">
+              <div className="text-small">
                 <p className="font-semibold text-foreground">Emmanuel Ariyo</p>
-                <p className="text-xs text-muted-foreground">AI engineer, Axiveri</p>
+                <p className="text-caption text-muted-foreground">AI engineer, Axiveri</p>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
@@ -94,7 +94,7 @@ export default function BlogPostPage({ params }: Props) {
 
             {p.tags.length > 0 && (
               <div className="mt-12 flex flex-wrap gap-2">
-                {p.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground/75">{t}</span>)}
+                {p.tags.map((t) => <span key={t} className="rounded-full border border-border px-3 py-1 text-caption font-medium text-foreground/75">{t}</span>)}
               </div>
             )}
 
@@ -103,12 +103,12 @@ export default function BlogPostPage({ params }: Props) {
             <div className="card-surface mt-14 flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:p-7">
               <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={72} height={72} className="h-16 w-16 rounded-full object-cover" />
               <div>
-                <p className="text-xs font-medium text-muted-foreground">Written by</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-foreground">Emmanuel Ariyo</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-foreground/70">
+                <p className="text-caption font-medium text-muted-foreground">Written by</p>
+                <p className="mt-0.5 font-display text-lead font-extrabold text-foreground">Emmanuel Ariyo</p>
+                <p className="mt-1.5 text-small text-foreground/70">
                   Machine learning engineer and full-stack developer from Nigeria. I build speech and language AI for African languages and publish open models under Axiveri.
                 </p>
-                <Link href="/about" className="mt-2 inline-block text-sm font-semibold text-foreground underline underline-offset-4">More about me</Link>
+                <Link href="/about" className="mt-2 inline-block text-small font-semibold text-foreground underline underline-offset-4">More about me</Link>
               </div>
             </div>
           </article>
@@ -117,8 +117,8 @@ export default function BlogPostPage({ params }: Props) {
         {related.length > 0 && (
           <section className="mx-auto mt-24 max-w-5xl">
             <div className="flex items-end justify-between">
-              <h2 className="font-display text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Keep reading</h2>
-              <Link href="/blogs" className="text-sm font-medium text-muted-foreground hover:text-foreground">All posts</Link>
+              <h2 className="font-display text-h4 font-extrabold text-foreground">Keep reading</h2>
+              <Link href="/blogs" className="text-small font-medium text-muted-foreground hover:text-foreground">All posts</Link>
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((r) => (
@@ -127,8 +127,8 @@ export default function BlogPostPage({ params }: Props) {
                     {r.cover && <Image src={r.cover} alt={r.title} fill sizes="(min-width:1024px) 330px, (min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />}
                   </div>
                   <div className="p-5">
-                    <p className="text-xs font-medium text-muted-foreground">{r.topic} · {r.minutes} min read</p>
-                    <p className="mt-2 font-display text-base font-bold leading-snug text-foreground">{r.title}</p>
+                    <p className="text-caption font-medium text-muted-foreground">{r.topic} · {r.minutes} min read</p>
+                    <p className="mt-2 font-display text-body font-bold text-foreground">{r.title}</p>
                   </div>
                 </Link>
               ))}

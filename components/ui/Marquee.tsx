@@ -23,7 +23,7 @@ export function Marquee() {
         }}
       >
         {repeated.map((item, i) => (
-          <span key={i} className="flex items-center gap-3 text-sm font-bold text-muted-foreground uppercase tracking-widest">
+          <span key={i} className="flex items-center gap-3 text-small font-bold text-muted-foreground">
             <span className="w-1.5 h-1.5 rounded-full bg-foreground/30 inline-block flex-shrink-0" />
             {item}
           </span>

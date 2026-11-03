@@ -40,7 +40,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
         return this.props.fallback;
       }
       return (
-        <div className="card-surface p-8 text-center text-sm text-muted-foreground">
+        <div className="card-surface p-8 text-center text-small text-muted-foreground">
           Something went wrong loading this section. Try refreshing the page.
         </div>
       );

@@ -24,7 +24,8 @@ const SUGGESTED = [
 
 type SR = { lang: string; interimResults: boolean; continuous: boolean; start: () => void; stop: () => void; onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null; onend: (() => void) | null; onerror: (() => void) | null };
 
-export function AskAboutMe() {
+export function AskAboutMe({ page = false }: { page?: boolean } = {}) {
+  const Title = page ? "h1" : "h2";
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -123,15 +124,15 @@ export function AskAboutMe() {
               <span className="absolute inset-0 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_1.3s_infinite]" />
               <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={112} height={112} className="relative h-28 w-28 rounded-full object-cover shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)]" />
             </div>
-            <h2 className="section-heading mt-8 text-foreground">
+            <Title className="mt-8 text-h2 text-foreground">
               Ask about my work
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-foreground/70">
+            </Title>
+            <p className="mx-auto mt-4 max-w-lg text-body text-foreground/70">
               An assistant that knows my projects, my speech AI research and how I work. Type, or tap the mic and just ask.
             </p>
             <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-2">
               {SUGGESTED.map((q) => (
-                <button key={q} onClick={() => send(q)} className="rounded-full border border-border px-4 py-2 text-sm text-foreground/80 transition-colors hover:border-foreground/40 hover:text-foreground">
+                <button key={q} onClick={() => send(q)} className="rounded-full border border-border px-4 py-2 text-small text-foreground/80 transition-colors hover:border-foreground/40 hover:text-foreground">
                   {q}
                 </button>
               ))}
@@ -143,22 +144,22 @@ export function AskAboutMe() {
           <div className="space-y-8 pb-6 pt-2">
             {messages.map((m) => m.role === "user" ? (
               <div key={m.id} className="flex justify-end">
-                <p className="max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-br-lg bg-foreground px-5 py-3 text-[15px] leading-relaxed text-background">{m.content}</p>
+                <p className="max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-br-lg bg-foreground px-5 py-3 text-small text-background">{m.content}</p>
               </div>
             ) : (
               <div key={m.id} className="flex gap-3">
                 <Image src="/images/emmanuel.jpg" alt="" width={36} height={36} className="mt-0.5 h-9 w-9 flex-shrink-0 rounded-full object-cover" />
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold text-muted-foreground">Emmanuel&apos;s assistant</p>
+                  <p className="text-caption font-semibold text-muted-foreground">Emmanuel&apos;s assistant</p>
                   {m.content ? (
-                    <div className="mt-1.5 whitespace-pre-wrap text-[15.5px] leading-[1.75] text-foreground/90">{m.content}</div>
+                    <div className="mt-1.5 whitespace-pre-wrap text-small text-foreground/90">{m.content}</div>
                   ) : (
                     <div className="mt-3 flex h-5 items-end gap-1" aria-label="Thinking">
                       {[0, 1, 2, 3, 4].map((i) => <span key={i} className="block w-1 rounded-full bg-foreground/50" style={{ height: 6, animation: `askbar 0.9s ease-in-out ${i * 0.12}s infinite` }} />)}
                     </div>
                   )}
                   {m.content && canSpeak && !(loading && m === messages[messages.length - 1]) && (
-                    <button onClick={() => speak(m)} className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground">
+                    <button onClick={() => speak(m)} className="mt-2 inline-flex items-center gap-1.5 text-caption font-semibold text-muted-foreground hover:text-foreground">
                       {speaking === m.id ? <><Square size={12} /> Stop</> : <><Volume2 size={13} /> Listen</>}
                     </button>
                   )}
@@ -175,7 +176,7 @@ export function AskAboutMe() {
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={1}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
             placeholder={listening ? "Listening..." : "Ask anything about my work"} aria-label="Your question"
-            className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent py-3 text-[15px] text-foreground outline-none placeholder:text-muted-foreground" />
+            className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent py-3 text-small text-foreground outline-none placeholder:text-muted-foreground" />
           {canListen && (
             <button type="button" onClick={listen} aria-label={listening ? "Stop listening" : "Ask with your voice"}
               className={cn("grid h-11 w-11 flex-shrink-0 place-items-center rounded-full transition-colors", listening ? "bg-red-500 text-white" : "text-foreground hover:bg-secondary")}>
@@ -188,11 +189,11 @@ export function AskAboutMe() {
           </button>
         </form>
         {!empty && (
-          <button onClick={() => { window.speechSynthesis?.cancel(); setMessages([]); }} className="mx-auto mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground">
+          <button onClick={() => { window.speechSynthesis?.cancel(); setMessages([]); }} className="mx-auto mt-3 inline-flex items-center gap-1.5 text-caption text-muted-foreground hover:text-foreground">
             <RotateCcw size={12} /> Start a new conversation
           </button>
         )}
-        <p className="mt-3 text-center text-xs text-muted-foreground">Answers are written by AI from my portfolio and can be wrong. For anything important, <a href="/contact" className="underline underline-offset-2">message me</a>.</p>
+        <p className="mt-3 text-center text-caption text-muted-foreground">Answers are written by AI from my portfolio and can be wrong. For anything important, <a href="/contact" className="underline underline-offset-2">message me</a>.</p>
       </div>
     </section>
   );

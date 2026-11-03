@@ -15,8 +15,6 @@ export const metadata: Metadata = buildMeta({
 // No extra header, BenchmarkSection already has the "Benchmarks." heading
 export default function BenchmarksPage() {
   return (
-    <div className="py-16 md:py-24">
-      <BenchmarkSection />
-    </div>
+    <BenchmarkSection page />
   );
 }

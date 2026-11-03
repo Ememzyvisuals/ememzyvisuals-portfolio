@@ -40,8 +40,12 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const slug = params.slug;
   if (!getPost(slug)) return NextResponse.json({ error: "not found" }, { status: 404 });
-  if (!tursoReady) return NextResponse.json({ error: "database not configured" }, { status: 503 });
   const b = await req.json().catch(() => ({}));
+  // without the database, counters are a quiet no-op (no failed request in the console); comments still report it
+  if (!tursoReady) {
+    if (b.action === "comment") return NextResponse.json({ error: "database not configured" }, { status: 503 });
+    return NextResponse.json({ ready: false, views: 0, likes: 0, shares: 0, liked: false, comments: [] });
+  }
   const vid = clean(b.vid, 64);
   const now = Date.now();
   try {

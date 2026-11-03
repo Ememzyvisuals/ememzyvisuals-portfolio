@@ -7,11 +7,12 @@ Name: Emmanuel Ariyo
 Online alias: Ememzyvisuals
 Role: Self-taught Creative Software Developer, AI Systems Engineer, Founder of Axiveri
 Location: Nigeria
-Email: contact@ememzyvisuals.com
+Email: ememzyvisuals@gmail.com
 Portfolio: https://ememzyvisuals.vercel.app
-GitHub: https://github.com/ememzyvisuals
-X/Twitter: https://twitter.com/ememzyvisuals
+GitHub: https://github.com/Ememzyvisuals
+X/Twitter: https://x.com/Ememzyvisuals
 LinkedIn: https://www.linkedin.com/in/ememzyvisuals
+TikTok: https://www.tiktok.com/@ememzyvisuals
 Kaggle: https://www.kaggle.com/ememzyvisuals
 HuggingFace (Axiveri): https://huggingface.co/Axiveri
 

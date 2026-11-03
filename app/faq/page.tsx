@@ -66,7 +66,7 @@ const faqs = [
   },
   {
     q: "Where can I find Emmanuel Ariyo's work?",
-    a: "Emmanuel's portfolio is at ememzyvisuals.vercel.app. His code is on GitHub at github.com/ememzyvisuals. His AI research is on Kaggle at kaggle.com/ememzyvisuals. His models are on HuggingFace at huggingface.co/Axiveri.",
+    a: "Emmanuel's portfolio is at ememzyvisuals.vercel.app. His code is on GitHub at github.com/Ememzyvisuals. His AI research is on Kaggle at kaggle.com/ememzyvisuals. His models are on HuggingFace at huggingface.co/Axiveri.",
   },
 ];
 
@@ -85,22 +85,21 @@ export default function FAQPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="min-h-screen bg-background">
-        <section className="container-padded pt-32 pb-16">
+        <section className="container-padded pt-12 md:pt-16 pb-16">
           <div className="max-w-3xl mx-auto">
             <h1
-              className="font-extrabold text-foreground leading-[0.95] mb-6"
-              style={{ fontSize: "clamp(2.5rem, 7vw, 5rem)", letterSpacing: "-0.04em" }}
+              className="text-h1 text-foreground mb-6"
             >
               FAQ
             </h1>
-            <p className="text-lg text-muted-foreground mb-16 leading-relaxed">
+            <p className="text-lead text-muted-foreground mb-16">
               Common questions about Emmanuel Ariyo, Ememzyvisuals, Axiveri, and working together.
             </p>
             <div className="space-y-6">
               {faqs.map(({ q, a }, i) => (
                 <div key={i} className="border-b border-border pb-6 last:border-0">
-                  <h2 className="font-extrabold text-foreground mb-3 text-lg leading-snug">{q}</h2>
-                  <p className="text-muted-foreground leading-relaxed">{a}</p>
+                  <h2 className="font-extrabold text-foreground mb-3 text-lead">{q}</h2>
+                  <p className="text-muted-foreground">{a}</p>
                 </div>
               ))}
             </div>

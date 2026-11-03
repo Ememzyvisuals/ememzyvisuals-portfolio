@@ -1,40 +1,24 @@
 "use client";
 // components/sections/Benchmarks.tsx
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { FlaskConical, Database, ExternalLink, BarChart3, BookOpen } from "lucide-react";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { FlaskConical, Database, BarChart3, BookOpen } from "lucide-react";
 
-export function BenchmarkSection() {
+export function BenchmarkSection({ page = false }: { page?: boolean } = {}) {
   return (
-    <section id="benchmarks" className="py-section bg-[hsl(var(--section-alt))]">
-      <div className="container-padded space-y-12">
+    <section id="benchmarks" className={page ? "pb-section pt-12 md:pt-16" : "py-section bg-card border-y border-border"}>
+      <div className="container-padded space-y-stack">
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
-        >
-          <div>
-            <h2 className="section-heading">Benchmarks</h2>
-            <p className="text-muted-foreground mt-3 text-lg max-w-md">
-              AI evaluation research and LLM testing infrastructure I&apos;ve published.
-            </p>
-          </div>
-          <Link href="/benchmarks" className="btn-outline self-start text-sm">
-            View Research
-          </Link>
-        </motion.div>
+        <SectionHeader
+          as={page ? "h1" : "h2"}
+          title="Benchmarks"
+          intro="AI evaluation research and LLM testing tools I have published."
+          action={page ? undefined : <Link href="/benchmarks" className="btn-outline">View the research</Link>}
+        />
 
         {/* TruthGuard, Featured Benchmark */}
-        <motion.article
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+        <article
           className="card-surface overflow-hidden"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -43,15 +27,15 @@ export function BenchmarkSection() {
             <div className="p-8 md:p-10 space-y-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="p-2 rounded-xl bg-violet-50 dark:bg-violet-950">
-                    <FlaskConical size={18} className="text-violet-600 dark:text-violet-400" />
+                  <div className="p-2 rounded-xl bg-brand-soft">
+                    <FlaskConical size={18} className="text-brand" />
                   </div>
-                  <span className="pill text-xs">
+                  <span className="pill text-caption">
                     Metacognition Track · AGI Cognitive Abilities
                   </span>
                 </div>
-                <h3 className="text-3xl font-bold tracking-tight">TruthGuard</h3>
-                <p className="text-muted-foreground text-base leading-relaxed">
+                <h3 className="text-h3 font-bold">TruthGuard</h3>
+                <p className="text-muted-foreground text-body">
                   A 120-question confidence calibration benchmark designed to evaluate
                   the metacognitive abilities of Large Language Models. Measures how
                   accurately models align stated confidence with actual correctness , 
@@ -67,15 +51,15 @@ export function BenchmarkSection() {
                   { value: "CC BY-SA 4.0", label: "License" },
                 ].map((m) => (
                   <div key={m.label} className="space-y-0.5">
-                    <p className="text-xl font-bold text-foreground">{m.value}</p>
-                    <p className="text-xs text-muted-foreground">{m.label}</p>
+                    <p className="text-lead font-bold text-foreground">{m.value}</p>
+                    <p className="text-caption text-muted-foreground">{m.label}</p>
                   </div>
                 ))}
               </div>
 
               {/* Difficulty tiers */}
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-caption font-semibold text-muted-foreground">
                   Question Tiers
                 </p>
                 <div className="flex gap-2 flex-wrap">
@@ -98,7 +82,7 @@ export function BenchmarkSection() {
                   href="https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary text-sm"
+                  className="btn-primary text-small"
                 >
                   <BookOpen size={15} />
                   View Notebook
@@ -107,7 +91,7 @@ export function BenchmarkSection() {
                   href="https://www.kaggle.com/datasets/ememzyvisuals/truthguard-benchmark-metacognition"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-outline text-sm"
+                  className="btn-outline text-small"
                 >
                   <Database size={14} />
                   Dataset
@@ -117,7 +101,7 @@ export function BenchmarkSection() {
 
             {/* Right, Visual */}
             <div className="bg-secondary border-l border-border p-8 md:p-10 flex flex-col justify-center gap-6">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <p className="text-caption font-semibold text-muted-foreground">
                 What It Measures
               </p>
 
@@ -143,14 +127,14 @@ export function BenchmarkSection() {
                     <Icon size={15} className="text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="font-semibold text-sm text-foreground">{title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{desc}</p>
+                    <p className="font-semibold text-small text-foreground">{title}</p>
+                    <p className="text-caption text-muted-foreground mt-0.5">{desc}</p>
                   </div>
                 </div>
               ))}
 
               <div className="pt-2 border-t border-border">
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-caption text-muted-foreground">
                   Contributes to the AI safety and alignment field by providing a
                   practical tool for improving model calibration. Open dataset available
                   for the research community.
@@ -158,7 +142,7 @@ export function BenchmarkSection() {
               </div>
             </div>
           </div>
-        </motion.article>
+        </article>
       </div>
     </section>
   );
