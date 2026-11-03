@@ -10,7 +10,7 @@ export function AboutClient() {
     <div className="pt-12 md:pt-16 pb-section space-y-section-sm">
 
       {/* ── Hero section, photo + name ─────────────────────────── */}
-      <div className="container-padded">
+      <div className="container-padded overflow-x-clip">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 
           {/* ID card on a lanyard: drag it, flick it, tap to flip */}

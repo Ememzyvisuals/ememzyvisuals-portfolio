@@ -38,7 +38,7 @@ export function WalletCopy() {
               title="Click to copy"
               className="w-full flex items-center justify-between gap-2 text-caption font-mono text-muted-foreground bg-muted px-3 py-2 rounded-xl hover:text-foreground hover:bg-secondary transition-colors cursor-copy group"
             >
-              <span className="truncate">{w.address}</span>
+              <span className="min-w-0 truncate">{w.address}</span>
               {isCopied
                 ? <Check size={11} className="flex-shrink-0 text-green-500" />
                 : <Copy size={11} className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />

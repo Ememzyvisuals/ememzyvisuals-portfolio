@@ -179,7 +179,7 @@ export default function AxiveriPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-6 mb-16 [&>*]:min-w-0">
             <div className="p-6 rounded-3xl border border-border bg-card space-y-4">
               <p className="font-extrabold text-foreground text-lead">Support</p>
               <p className="text-small text-muted-foreground">
@@ -208,10 +208,10 @@ export default function AxiveriPage() {
 
             <div className="p-6 rounded-3xl border-2 border-[#c24a00] bg-[#c24a00] text-white space-y-4">
               <p className="font-extrabold text-lead">Fund / Invest</p>
-              <p className="text-small opacity-70">
+              <p className="text-small text-white/90">
                 Serious investment or grant inquiries for Axiveri&apos;s research and model development.
               </p>
-              <ul className="space-y-2 text-small opacity-70">
+              <ul className="space-y-2 text-small text-white/90">
                 <li>· Compute grants</li>
                 <li>· Research grants</li>
                 <li>· Strategic investment</li>
