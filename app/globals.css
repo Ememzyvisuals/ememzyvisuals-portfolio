@@ -97,9 +97,13 @@
 @layer components {
 
   /* Responsive container */
+  /* (the content spreads across the whole screen; the side margins grow with it, so a wide monitor is filled
+     instead of leaving empty bands on both sides) */
   .container-padded {
-    @apply w-full max-w-[1600px] mx-auto px-5 md:px-10 lg:px-16;
+    @apply w-full mx-auto px-5 md:px-10 lg:px-16;
+    max-width: 2400px;
   }
+  @media (min-width: 1536px) { .container-padded { padding-left: clamp(4rem, 4.2vw, 7rem); padding-right: clamp(4rem, 4.2vw, 7rem); } }
 
   /* Section headings, "Projects." "Tech Stack." style */
   /* section titles: big, heavy condensed type (Anton), like the reference */
