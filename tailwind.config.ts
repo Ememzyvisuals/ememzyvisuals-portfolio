@@ -15,8 +15,19 @@ const config: Config = {
         display: ['var(--font-display)', '-apple-system', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
+      // text sizes used by the contact section
+      fontSize: {
+        h4: ["1.25rem", { lineHeight: "1.3", letterSpacing: "-0.012em", fontWeight: "700" }],
+        lead: ["clamp(1.125rem, 1.03rem + 0.4vw, 1.375rem)", { lineHeight: "1.55" }],
+        body: ["1.0625rem", { lineHeight: "1.65" }],
+        small: ["0.9375rem", { lineHeight: "1.55" }],
+        caption: ["0.8125rem", { lineHeight: "1.45", letterSpacing: "0.005em" }],
+      },
       colors: {
-        brand: { DEFAULT: "hsl(var(--brand))", foreground: "hsl(var(--brand-foreground))" },
+        brand: { DEFAULT: "hsl(var(--brand))", foreground: "hsl(var(--brand-foreground))", soft: "hsl(var(--brand-soft))" },
+        sun: { DEFAULT: "hsl(var(--sun))" },
+        success: "hsl(var(--success))",
+        danger: "hsl(var(--danger))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
@@ -38,6 +49,7 @@ const config: Config = {
         "card": "0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04)",
         "card-hover": "0 4px 24px 0 rgb(0 0 0 / 0.08)",
         "phone": "0 30px 80px -10px rgb(0 0 0 / 0.4)",
+        "lift": "0 24px 60px -24px rgb(20 24 40 / 0.35)",
       },
       spacing: {
         "section": "5rem",

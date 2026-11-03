@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { buildMeta } from "@/lib/metadata";
 import { ContactSection } from "@/components/sections/Contact";
-import { Globe } from "@/components/three/earth/Globe";
 
 export const metadata: Metadata = buildMeta({
   title: "Hire a Web Developer & AI Engineer | Contact Emmanuel Ariyo",
@@ -24,16 +23,5 @@ export const metadata: Metadata = buildMeta({
 });
 
 export default function ContactPage() {
-  return (
-    <div className="min-h-screen py-10 md:py-16">
-      <div className="container-padded grid items-start gap-10 lg:grid-cols-[minmax(0,36rem)_1fr] lg:gap-12">
-        <div className="[&_#contact]:py-0 [&_.container-padded]:px-0">
-          <ContactSection />
-        </div>
-        <div className="lg:sticky lg:top-24">
-          <Globe className="mx-auto aspect-square w-full max-w-[560px]" />
-        </div>
-      </div>
-    </div>
-  );
+  return <ContactSection page />;
 }
