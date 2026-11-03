@@ -69,7 +69,7 @@ export function HeroArt({ src }: { src?: string | null }) {
           return (
             <div
               key={i}
-              className={`hero-tile aspect-square overflow-hidden ${motif === "wave" ? "rounded-md" : "rounded-xl"} ${i >= 12 ? "max-sm:hidden" : ""}`}
+              className={`hero-tile aspect-square overflow-hidden ${motif === "wave" ? "rounded-md" : "rounded-xl"}`}
               style={{ background: f.bg, color: f.bg, animationDelay: `${80 + i * 28}ms` }}
             >
               <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
