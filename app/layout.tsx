@@ -54,8 +54,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F2EE" },
+    { media: "(prefers-color-scheme: dark)", color: "#101219" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -125,17 +125,12 @@ const faqSchema = {
   ],
 };
 
-const signoff = localFont({ src: "./fonts/anton.woff2", variable: "--font-signoff", weight: "400", display: "swap" });
 const display = localFont({ src: "./fonts/bricolage.woff2", variable: "--font-display", weight: "200 800", display: "swap" });
 const body = localFont({ src: "./fonts/outfit.woff2", variable: "--font-body", weight: "100 900", display: "swap" });
-const serif = localFont({
-  src: [{ path: "./fonts/garamond-400.woff2", style: "normal" }, { path: "./fonts/garamond-400i.woff2", style: "italic" }],
-  variable: "--font-serif", weight: "400", display: "swap",
-});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${serif.variable} ${signoff.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }} />
@@ -146,12 +141,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* the intro loader shows once per visit: mark later page loads before anything paints */}
         <script dangerouslySetInnerHTML={{ __html: "try{if(sessionStorage.getItem('ev_intro')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-seen');sessionStorage.setItem('ev_intro','1')}catch(e){}" }} />
       </head>
-      <body
-        style={{
-          WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale",
-        }}
-      >
+      <body>
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-brand focus:px-5 focus:py-3 focus:text-small focus:font-semibold focus:text-brand-foreground">
+          Skip to content
+        </a>
         {/* Hidden SVG filter powering the site-wide `.liquid-glass` utility */}
         <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
           <filter id="liquid-glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
@@ -167,7 +160,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Navbar />
-          <main>{children}</main>
+          <main id="main">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

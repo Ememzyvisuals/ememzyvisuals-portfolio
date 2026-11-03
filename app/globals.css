@@ -2,172 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* ── DESIGN TOKENS ──────────────────────────────────────────────────────── */
+/* ── DESIGN TOKENS ──────────────────────────────────────────────────────────
+   Warm stone neutrals, adire indigo as the main accent, and the signature orange
+   (sun) for small highlights. sun-ink is the orange that is dark enough for text. */
 @layer base {
   :root {
-    --background: 36 18% 95%;
-    --foreground: 0 0% 5%;
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
-    --primary: 0 0% 5%;
+    --background: 40 18% 95%;      /* #F4F2EE stone paper */
+    --foreground: 225 14% 10%;     /* #16181D ink */
+    --card: 40 30% 98.5%;          /* #FCFBF9 */
+    --card-foreground: 225 14% 10%;
+    --popover: 40 30% 98.5%;
+    --popover-foreground: 225 14% 10%;
+    --primary: 231 54% 39%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 15%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 46%;
-    --accent: 0 0% 92%;
-    --accent-foreground: 0 0% 10%;
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 23 99% 50%;
-    --brand: 0 0% 7%;
+    --secondary: 40 16% 90%;       /* #EAE7E1 */
+    --secondary-foreground: 225 14% 16%;
+    --muted: 40 16% 90%;
+    --muted-foreground: 224 8% 36%;/* #545864, 6.3:1 on paper */
+    --accent: 40 16% 90%;
+    --accent-foreground: 225 14% 12%;
+    --border: 38 14% 84%;          /* #DCD8CF */
+    --input: 38 14% 80%;
+    --ring: 231 54% 45%;
+    --brand: 231 54% 39%;          /* #2E3D99 adire indigo */
     --brand-foreground: 0 0% 100%;
+    --brand-soft: 231 60% 93%;
+    --sun: 21 90% 48%;             /* #E8590C signature orange */
+    --sun-ink: 21 89% 36%;         /* orange for text, 5.4:1 on paper */
+    --sun-soft: 28 90% 91%;
+    --success: 152 60% 30%;
+    --danger: 0 68% 44%;
+    --shadow: 225 30% 12%;
     --radius: 1rem;
   }
 
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 96%;
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 96%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 11%;
-    --secondary-foreground: 0 0% 80%;
-    --muted: 0 0% 13%;
-    --muted-foreground: 0 0% 56%;
-    --accent: 0 0% 13%;
-    --accent-foreground: 0 0% 90%;
-    --border: 0 0% 16%;
-    --input: 0 0% 13%;
-    --ring: 23 99% 55%;
-    --brand: 0 0% 96%;
-    --brand-foreground: 0 0% 7%;
+    --background: 228 22% 8%;      /* #101219 indigo night */
+    --foreground: 43 15% 92%;      /* #EEECE7 */
+    --card: 226 21% 11%;           /* #171A23 */
+    --card-foreground: 43 15% 92%;
+    --popover: 226 21% 11%;
+    --popover-foreground: 43 15% 92%;
+    --primary: 232 100% 80%;
+    --primary-foreground: 228 22% 8%;
+    --secondary: 226 20% 15%;
+    --secondary-foreground: 43 12% 84%;
+    --muted: 226 20% 15%;
+    --muted-foreground: 225 10% 68%; /* #A6AAB6, 7.9:1 on night */
+    --accent: 226 20% 15%;
+    --accent-foreground: 43 15% 92%;
+    --border: 225 18% 20%;
+    --input: 225 18% 26%;
+    --ring: 232 100% 80%;
+    --brand: 232 100% 80%;         /* #9AA6FF indigo light */
+    --brand-foreground: 228 30% 8%;
+    --brand-soft: 231 35% 20%;
+    --sun: 24 100% 62%;            /* #FF8A3D */
+    --sun-ink: 24 100% 66%;
+    --sun-soft: 22 45% 18%;
+    --success: 152 55% 55%;
+    --danger: 0 85% 70%;
+    --shadow: 0 0% 0%;
   }
 }
 
 /* ── BASE ───────────────────────────────────────────────────────────────── */
 @layer base {
- *, *::before, *::after { @apply border-border; box-sizing: border-box; }
+  *, *::before, *::after { @apply border-border; box-sizing: border-box; }
 
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Outfit for body text */
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    text-rendering: optimizeLegibility;
   }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   body {
-    @apply bg-background text-foreground;
-    /* soft glow from the top and a fine film grain, like the reference */
-    background-image: radial-gradient(120% 70% at 50% 0%, hsl(var(--foreground) / 0.06), transparent 70%);
-    background-attachment: fixed;
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    font-weight: 400;
+    @apply bg-background text-foreground text-body;
+    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 450;
+    overflow-x: clip;
   }
 
-  /* All headings: Bricolage Grotesque */
+  /* Headings: Bricolage Grotesque, sentence case, one size per level */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), -apple-system, sans-serif !important;
+    font-family: var(--font-display), -apple-system, sans-serif;
     font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
+    text-wrap: balance;
   }
+  h1 { @apply text-h1; }
+  h2 { @apply text-h2; }
+  h3 { @apply text-h3; }
+  h4, h5, h6 { @apply text-h4; }
+  p { text-wrap: pretty; }
+  strong, b { font-weight: 650; }
 
-  /* Smooth scrolling for hash links */
-  section { scroll-margin-top: 80px; }
-  ::selection { @apply bg-foreground text-background; }
+  section { scroll-margin-top: 96px; }
+  ::selection { background: hsl(var(--brand)); color: hsl(var(--brand-foreground)); }
+  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; border-radius: 6px; }
 }
 
-/* ── UTILITY CLASSES ────────────────────────────────────────────────────── */
+/* ── COMPONENT CLASSES ───────────────────────────────────────────────────── */
 @layer components {
-
-  /* Responsive container */
+  /* page width: wide on desktop, 16 to 20px gutters on phones */
   .container-padded {
-    @apply w-full max-w-[1600px] mx-auto px-5 md:px-10 lg:px-16;
+    @apply w-full max-w-page mx-auto px-5 sm:px-8 lg:px-12 2xl:px-16;
   }
+  .section-padding { @apply py-section; }
 
-  /* Section headings, "Projects." "Tech Stack." style */
-  /* section titles: big, heavy condensed type (Anton), like the reference */
+  /* section titles: the h2 step of the scale everywhere */
   .section-heading {
-    font-family: var(--font-signoff), "Anton", Impact, sans-serif !important;
-    font-weight: 400 !important;
-    text-transform: uppercase;
-    font-size: clamp(3.6rem, 11vw, 9.5rem);
-    letter-spacing: -0.005em;
-    line-height: 0.88;
+    font-family: var(--font-display), -apple-system, sans-serif;
+    @apply text-h2 text-foreground;
   }
+  .section-heading + p { @apply text-lead text-muted-foreground; max-width: 40rem; }
 
-  /* Black filled pill button */
+  .eyebrow { @apply text-caption font-semibold text-sun-ink; }
+
   .btn-primary {
-    background: hsl(var(--brand)); color: hsl(var(--brand-foreground));
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
-           font-bold text-sm
-           hover:opacity-85 transition-opacity duration-200
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
-    font-family: var(--font-display), sans-serif !important;
+    @apply inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full text-small font-semibold
+           bg-brand text-brand-foreground transition-[background-color,box-shadow,transform] duration-200
+           hover:shadow-card-hover active:translate-y-px disabled:opacity-60 disabled:cursor-not-allowed;
   }
+  .btn-primary:hover { background: hsl(var(--brand) / 0.9); }
 
-  /* Outlined button */
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl
-           border-2 border-foreground bg-transparent text-foreground font-bold text-sm
-           hover:bg-foreground hover:text-background transition-all duration-200
-           focus-visible:outline-none;
-    font-family: var(--font-display), sans-serif !important;
+    @apply inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full text-small font-semibold
+           border border-foreground/25 bg-transparent text-foreground transition-colors duration-200
+           hover:border-foreground hover:bg-foreground hover:text-background;
   }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+  .link-quiet { @apply font-semibold text-foreground underline decoration-foreground/25 underline-offset-4 hover:decoration-sun transition-colors; }
 
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* solid card: the default surface for content blocks */
   .card-surface {
-    @apply rounded-2xl border border-border overflow-hidden;
-    position: relative;
-    background: hsl(var(--background) / 0.55);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    backdrop-filter: url(#liquid-glass-distortion) blur(2px) saturate(160%);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--background) / 0.6),
-      inset 0 0 24px hsl(var(--background) / 0.2),
-      0 10px 40px -12px hsl(var(--foreground) / 0.12);
+    @apply relative rounded-2xl border border-border bg-card overflow-hidden shadow-card;
   }
 
-  .dark .card-surface {
-    background: hsl(var(--background) / 0.55);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--foreground) / 0.06),
-      inset 0 0 24px hsl(var(--background) / 0.25),
-      0 10px 40px -12px hsl(0 0% 0% / 0.4);
-  }
-
-  /* ── Real liquid glass (SVG feDisplacementMap distortion + backdrop blur) ──
-     Falls back gracefully to a plain frosted-glass blur on Safari/iOS,
-     which doesn't support url() filters inside backdrop-filter yet. */
+  /* Liquid glass (SVG feDisplacementMap distortion + backdrop blur), used on the navigation.
+     Falls back to a frosted blur on Safari/iOS, which has no url() filters in backdrop-filter. */
   .liquid-glass {
     position: relative;
-    background: hsl(var(--background) / 0.4);
+    background: hsl(var(--background) / 0.55);
     -webkit-backdrop-filter: blur(16px) saturate(160%);
     backdrop-filter: url(#liquid-glass-distortion) blur(2px) saturate(160%);
     border: 1px solid hsl(var(--foreground) / 0.1);
     box-shadow:
       inset 0 1px 0 hsl(var(--background) / 0.6),
       inset 0 0 24px hsl(var(--background) / 0.25),
-      0 10px 40px -12px hsl(var(--foreground) / 0.18);
+      0 10px 40px -12px hsl(var(--shadow) / 0.18);
   }
-
   .dark .liquid-glass {
-    background: hsl(var(--background) / 0.45);
+    background: hsl(var(--background) / 0.6);
     box-shadow:
       inset 0 1px 0 hsl(var(--foreground) / 0.08),
       inset 0 0 24px hsl(var(--background) / 0.3),
@@ -175,25 +166,25 @@
   }
 
   .tech-badge {
-    @apply text-xs font-bold px-3 py-1 rounded-full border border-border
-           text-muted-foreground uppercase tracking-wider;
+    @apply inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-caption font-semibold text-foreground/80;
   }
-
   .pill {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs
-           font-semibold border border-border bg-secondary text-muted-foreground;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3 py-1 text-caption font-semibold text-secondary-foreground;
   }
 
   .section-divider { @apply w-full border-t border-border; }
 
-  .chat-bubble-assistant {
-    @apply bg-secondary text-foreground rounded-2xl rounded-tl-sm px-4 py-3;
-  }
-  .chat-bubble-user {
-    @apply bg-foreground text-background rounded-2xl rounded-tr-sm px-4 py-3;
-  }
+  .chat-bubble-assistant { @apply bg-secondary text-foreground rounded-2xl rounded-tl-sm px-4 py-3; }
+  .chat-bubble-user { @apply bg-brand text-brand-foreground rounded-2xl rounded-tr-sm px-4 py-3; }
 
-  /* Subtle grid bg */
+  .field {
+    @apply w-full h-12 rounded-xl border border-input bg-card px-4 text-body text-foreground placeholder:text-muted-foreground/80
+           outline-none transition-[border-color,box-shadow] duration-150
+           focus:border-brand focus:ring-4 focus:ring-brand/15;
+  }
+  .field[aria-invalid="true"] { @apply border-danger focus:ring-danger/15; }
+  textarea.field { @apply h-auto py-3 leading-relaxed; }
+
   .bg-grid-pattern {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(0 0 0 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   }
@@ -202,39 +193,19 @@
   }
 }
 
-/* ── ANIMATIONS ─────────────────────────────────────────────────────────── */
 @layer utilities {
-  .typing-cursor::after {
-    content: "▋";
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+  .typing-cursor::after { content: "\258B"; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 }
 
-/* Subheadings: EB Garamond (headings stay Bricolage, body Outfit) */
-.font-museum, h1.font-museum, h2.font-museum {
-  font-family: var(--font-serif), "EB Garamond", Georgia, serif !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.015em !important;
-  line-height: 0.98 !important;
-}
-.museum-shadow { text-shadow: 0 2px 30px rgba(255, 255, 255, 0.85); }
-.dark .museum-shadow { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.75); }
-
-/* The line under every section heading is the subheading: EB Garamond, one size everywhere */
-.section-heading + p {
-  font-family: var(--font-serif), "EB Garamond", Georgia, serif !important;
-  font-size: clamp(1.2rem, 2.2vw, 1.5rem) !important;
-  line-height: 1.3 !important;
-  letter-spacing: -0.005em;
-  font-weight: 400;
-}
+/* Older class names kept so every page shares the same two typefaces:
+   the serif subheading and the condensed display face are folded into the main scale. */
+.font-museum { font-family: var(--font-body), sans-serif; font-weight: 500; letter-spacing: -0.005em; }
+.font-anton { font-family: var(--font-display), sans-serif; font-weight: 800; letter-spacing: -0.035em; }
+.museum-shadow { text-shadow: none; }
 
 /* Blog article body: comfortable reading, Bricolage headings, EB Garamond pull quotes */
-.post-body { font-family: var(--font-body), sans-serif; font-size: 1.075rem; line-height: 1.8; color: hsl(var(--foreground) / 0.8); }
+.post-body { overflow-wrap: anywhere; font-family: var(--font-body), sans-serif; font-size: 1.075rem; line-height: 1.8; color: hsl(var(--foreground) / 0.8); }
 .post-body > * + * { margin-top: 1.25em; }
 .post-body h2 { font-family: var(--font-display), sans-serif !important; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; color: hsl(var(--foreground)); margin-top: 2.4em; scroll-margin-top: 96px; padding-top: 1.2em; border-top: 1px solid hsl(var(--border)); }
 .post-body h3 { font-family: var(--font-display), sans-serif !important; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: hsl(var(--foreground)); margin-top: 1.9em; }
@@ -271,12 +242,6 @@
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
-  .card-surface {
-    background: hsl(var(--background));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    box-shadow: 0 8px 28px -14px hsl(var(--foreground) / 0.16);
-  }
 }
 
 @keyframes hangswing { 0% { transform: rotate(0deg); } 15% { transform: rotate(16deg); } 35% { transform: rotate(-11deg); } 55% { transform: rotate(7deg); } 75% { transform: rotate(-3deg); } 100% { transform: rotate(0deg); } }
@@ -302,16 +267,18 @@
 @keyframes askwave { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
 @keyframes askbar { 0%, 100% { height: 6px; } 50% { height: 18px; } }
 
-/* signature orange: selection, links in posts, focus */
-::selection { background: hsl(var(--foreground)); color: hsl(var(--background)); }
-.post-body a:not(.post-link) { text-decoration-color: hsl(var(--brand)); }
-.post-body blockquote { border-left-color: hsl(var(--brand)); }
-.post-link-arrow { color: hsl(var(--brand)); }
 
-/* fine film grain over the whole page (light and dark) */
-body::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0.07; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.dark body::after { opacity: 0.12; }
-.font-anton { font-family: var(--font-signoff), "Anton", Impact, sans-serif !important; font-weight: 400 !important; }
+.post-body a:not(.post-link) { text-decoration-color: hsl(var(--sun)); }
+.post-body blockquote { border-left-color: hsl(var(--sun)); }
+.post-link-arrow { color: hsl(var(--sun)); }
+
+/* ── Hero illustration slot ── */
+:root { --art-indigo: 231 54% 36%; --art-paper: 40 30% 96%; --art-ink: 225 16% 13%; }
+.dark { --art-indigo: 231 50% 42%; --art-paper: 40 18% 86%; --art-ink: 228 25% 5%; }
+@keyframes tile-in { from { opacity: 0; transform: scale(.82) rotate(-8deg); } to { opacity: 1; transform: none; } }
+@keyframes art-float { 0%, 100% { transform: translateY(0) scale(1.02); } 50% { transform: translateY(-8px) scale(1.02); } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.hero-tile { animation: tile-in .7s cubic-bezier(.2,.7,.2,1) both; }
+.hero-art-float { animation: art-float 9s ease-in-out infinite; }
+.hero-rise { animation: rise-in .7s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) { .hero-tile, .hero-art-float, .hero-rise { animation: none; } }
