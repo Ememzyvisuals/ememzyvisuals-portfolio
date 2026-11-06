@@ -264,19 +264,21 @@ function ContactInner({ aside }: { aside?: React.ReactNode }) {
             blurAmount={0.1}
             elasticity={0.06}
             overLight={false}
-            className="!block rounded-2xl bg-foreground/90 text-background p-8 space-y-3"
-            fallbackClassName="rounded-2xl bg-foreground text-background p-8 space-y-3"
+            className="!block relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 pr-36 space-y-3"
+            fallbackClassName="liquid-glass relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 pr-36 space-y-3"
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/me/thumbs.webp" alt="" aria-hidden loading="lazy" className="pointer-events-none absolute -bottom-2 -right-4 w-40" />
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-background/70">Available for new projects</span>
+              <span className="text-sm font-medium text-muted-foreground">Available for new projects</span>
             </div>
             <h3 className="text-2xl font-extrabold">Let&apos;s Work Together</h3>
-            <p className="text-background/70 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Open to freelance contracts, full-time roles, partnerships, and investment
               conversations around Axiveri. If you have something in mind, reach out below.
             </p>
             <a href="mailto:ememzyvisuals@gmail.com"
-              className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-xl bg-background text-foreground text-sm font-bold hover:opacity-90 transition-opacity">
+              className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-xl bg-foreground text-background text-sm font-bold hover:opacity-90 transition-opacity">
               ememzyvisuals@gmail.com
             </a>
           </GlassPanel>

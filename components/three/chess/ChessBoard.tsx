@@ -40,7 +40,7 @@ export function ChessBoard() {
 
   return (
     <div className="relative">
-      <div className="relative -mx-5 aspect-[7/5] md:-mx-10 lg:-mx-16 lg:aspect-[2/1]">
+      <div className="relative -mx-5 aspect-[7/5] md:-mx-10 lg:-mx-16 lg:aspect-[16/9]">
         {state !== "ready" && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src="/stills/chess.webp" alt="A wooden chess set where each piece carries the logo of a tool Emmanuel uses"

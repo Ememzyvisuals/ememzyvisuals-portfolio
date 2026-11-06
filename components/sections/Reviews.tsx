@@ -38,6 +38,7 @@ const initials = (n: string) => n.split(/\s+/).map((x) => x[0]).join("").slice(0
 export function ReviewsSection() {
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [writing, setWriting] = useState(false);
   const [rating, setRating] = useState(5);
   const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>({ resolver: zodResolver(schema), defaultValues: { rating: 5 } });
 
@@ -115,16 +116,17 @@ export function ReviewsSection() {
         )}
 
         {/* leave a review */}
-        <div className="mt-14 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-          <div>
+        <div className={cn("mx-auto mt-14 grid max-w-5xl gap-8", writing && "lg:grid-cols-[1fr_1.2fr]")}>
+          <div className={cn("card-surface flex flex-col items-center p-8 text-center md:p-10", writing && "lg:items-start lg:text-left")}>
             <h3 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
               {list.length ? "Worked with me? Leave a review." : "Worked with me? Be the first to leave a review."}
             </h3>
             <p className="mt-3 max-w-md leading-relaxed text-foreground/70">
               Clients, teammates and collaborators are welcome. Reviews appear once I have checked them, and your email is never shown.
             </p>
+            {!writing && <button onClick={() => setWriting(true)} className="btn-primary mt-6 text-sm">Write a review</button>}
           </div>
-          {state === "success" ? (
+          {!writing ? null : state === "success" ? (
             <div className="card-surface flex flex-col items-center justify-center p-10 text-center">
               <p className="font-display text-xl font-extrabold text-foreground">Thank you.</p>
               <p className="mt-1 text-sm text-muted-foreground">Your review will appear here once it is approved.</p>
