@@ -1,6 +1,7 @@
 // app/page.tsx
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { Ticker } from "@/components/sections/Ticker";
 import { Hero } from "@/components/sections/Hero";
 import { Experience } from "@/components/sections/Experience";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -46,7 +47,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {divider}
+      <Ticker />
       <Experience />
       {divider}
       <ProjectsShowcase />

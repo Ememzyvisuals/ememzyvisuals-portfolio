@@ -35,7 +35,6 @@ export function HeroScroll({ count }: { count: number }) {
       ty = Math.max(-1, Math.min(1, (e.clientY / window.innerHeight) * 2 - 1));
       if (!raf2) raf2 = requestAnimationFrame(step);
     };
-    if (fine) window.addEventListener("pointermove", look, { passive: true });
     window.addEventListener("scroll", on, { passive: true });
     window.addEventListener("resize", on);
     return () => { window.removeEventListener("pointermove", look); cancelAnimationFrame(raf2); window.removeEventListener("scroll", on); window.removeEventListener("resize", on); cancelAnimationFrame(raf); };

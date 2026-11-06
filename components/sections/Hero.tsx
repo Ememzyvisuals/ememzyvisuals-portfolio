@@ -37,6 +37,7 @@ export function Hero() {
         <div className="relative mx-auto h-full max-w-[2400px]">
           {/* slide 0: my nickname and my moving character */}
           <div className="hero-slide" data-i="0">
+            <p className="hero-hi pointer-events-none absolute inset-x-0 select-none text-center font-display font-bold tracking-[-0.02em] text-white/80">Hi, I am</p>
             <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton font-normal uppercase leading-[0.82]">
               <span className="sr-only">Hi, I&apos;m </span>
               <span className="hidden md:inline">Ememzyvisuals</span>

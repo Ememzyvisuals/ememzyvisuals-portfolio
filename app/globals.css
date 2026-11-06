@@ -500,11 +500,6 @@ footer .grid { justify-items: center; }
 .site-center .self-start, .site-center .self-end { align-self: center !important; }
 .site-center .w-fit { margin-left: auto; margin-right: auto; }
 
-/* the character turns towards the cursor: his body pivots from the hips, his head leads a little */
-.hero-stage .hero-me > *, .hero-stage .hero-char > img {
-  transform-origin: 50% 100%;
-  transform: perspective(1400px) rotateY(calc(var(--mx, 0) * 14deg)) rotateX(calc(var(--my, 0) * -5deg)) translateX(calc(var(--mx, 0) * 18px));
-}
 /* (where a section asks for a left edge from a breakpoint up, like the hero's side text, that wins) */
 @media (min-width: 768px) {
   .site-center .md\:text-left, .site-center .md\:text-left :is(h1,h2,h3,h4,p,li,a,span,div) { text-align: left; }
@@ -533,3 +528,24 @@ footer .grid { justify-items: center; }
   .exp-line::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%);
     background: linear-gradient(to bottom, transparent, hsl(var(--border)) 6%, hsl(var(--border)) 94%, transparent); }
 }
+
+/* navigation, after the reference: small pills in the middle, the current page white, and a filled button on the right */
+.nav-pill2 { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border-radius: 999px; font-size: 13px; font-weight: 700; color: hsl(var(--foreground) / 0.7); transition: background-color .25s, color .25s; white-space: nowrap; }
+.nav-pill2:hover { color: hsl(var(--foreground)); background: hsl(var(--foreground) / 0.08); }
+.nav-pill2-on, .nav-pill2-on:hover { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+.nav-cta { display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 6px 0 18px; border-radius: 999px; background: hsl(var(--brand)); color: hsl(var(--brand-foreground)); font-size: 13.5px; font-weight: 800; transition: transform .2s; }
+.nav-cta:hover { transform: translateY(-1px); }
+.nav-cta-dot { width: 28px; height: 28px; border-radius: 999px; background: hsl(var(--brand-foreground)); opacity: .9;
+  -webkit-mask: radial-gradient(circle, #000 4px, transparent 4.5px); mask: radial-gradient(circle, #000 4px, transparent 4.5px); }
+.nav-cta-dot { -webkit-mask: none; mask: none; background: hsl(var(--brand-foreground) / .18); display: grid; place-items: center; }
+.nav-cta-dot::after { content: ""; width: 7px; height: 7px; border-radius: 99px; background: hsl(var(--brand-foreground)); }
+
+/* "Hi, I am" sits just above the big word, on its left */
+.hero-hi { bottom: calc(4% + 15.4vw * .82); left: 7%; right: auto; font-size: clamp(1rem, 1.6vw, 1.6rem); text-align: left; animation: heroIn .8s .2s both; }
+@media (max-width: 767px) { .hero-hi { bottom: calc(8% + 29vw * .9 * 2); left: 50%; transform: translateX(-50%); text-align: center; } }
+.hero-stage[data-slide]:not([data-slide="0"]) .hero-hi { opacity: 0; transition: opacity .5s; }
+/* the moving line of facts and the line of logos */
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker { display: flex; width: max-content; animation: tick 38s linear infinite; }
+.ticker-slow { animation-duration: 46s; }
+@media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }

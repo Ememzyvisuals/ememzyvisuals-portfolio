@@ -39,28 +39,23 @@ export function Navbar() {
         )}
       >
         <div className="flex items-center justify-between gap-4 px-4 pt-4 lg:container-padded lg:py-6">
-          <Link href="/" aria-label="Home" className="sr-only">{siteConfig.name}</Link>
+          <Link href="/" className="hidden font-display text-[17px] font-extrabold tracking-[-0.03em] text-foreground lg:block">{siteConfig.name}</Link>
 
-          {/* desktop: the main pages spread evenly across the top, then the menu and the theme on the right */}
-          <nav aria-label="Main navigation" className="hidden flex-1 items-center gap-9 lg:flex">
-            {[{ label: "Home", href: "/" }, ...mainItems].map((item) => (
-              <Link key={item.href} href={item.href} className={cn("nav-link", isActive(item.href) && "nav-link-on")}>
+          {/* desktop: the pages as a row of small pills in the middle, the current one filled */}
+          <nav aria-label="Main navigation" className="nav-pills absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-border bg-background/60 p-1 backdrop-blur-md lg:flex">
+            {mainItems.map((item) => (
+              <Link key={item.href} href={item.href} className={cn("nav-pill2", isActive(item.href) && "nav-pill2-on")}>
                 {item.label}
               </Link>
             ))}
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="nav-pill2" aria-label={mobileOpen ? "Close the menu" : "More pages"} aria-expanded={mobileOpen}>
+              {mobileOpen ? <X size={15} strokeWidth={2.4} /> : <Menu size={15} strokeWidth={2.4} />}
+            </button>
           </nav>
 
-          <div className="ml-auto hidden items-center gap-5 lg:flex">
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="nav-link"
-              aria-label={mobileOpen ? "Close the menu" : "Open the menu"}
-              aria-expanded={mobileOpen}
-            >
-              {mobileOpen ? <X size={18} strokeWidth={2.2} /> : <Menu size={18} strokeWidth={2.2} />}
-              <span>{mobileOpen ? "Close" : "Menu"}</span>
-            </button>
+          <div className="ml-auto hidden items-center gap-3 lg:flex">
             <ThemePill size="sm" />
+            <Link href="/contact" className="nav-cta">Start a project<span className="nav-cta-dot" aria-hidden /></Link>
           </div>
 
           {/* phones and tablets: the glass bar as before, the name on the left, the theme and the menu on the right */}
