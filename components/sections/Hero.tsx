@@ -27,24 +27,22 @@ export function Hero() {
         {/* the side text, as in the reference: a title in light caps and a few small facts on the left, a short
             line and the buttons on the right */}
         <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
-          <div className="max-w-[22rem] font-display uppercase">
-            <p className="hero-in text-[clamp(1.35rem,1.8vw,1.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-white" style={{ animationDelay: "350ms" }}>
-              Software developer
+          <div className="max-w-[24rem]">
+            <p className="hero-in font-display text-[clamp(1.5rem,2vw,2rem)] font-bold leading-[1.15] tracking-[-0.03em] text-white" style={{ animationDelay: "350ms" }}>
+              Software developer,
               <br />
-              AI and ML engineer
+              AI and ML engineer.
             </p>
-            <dl className="hero-in mt-5 space-y-1 text-[11px] font-medium tracking-[0.06em] text-white/60" style={{ animationDelay: "480ms" }}>
-              <dt>Research</dt>
-              <dd className="text-white/85">NLP for African and low-resource languages</dd>
-              <dt className="pt-2">More of my work:</dt>
-              <dd className="flex gap-4 font-bold text-white">
-                <a href="https://github.com/Ememzyvisuals" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
-                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noreferrer" className="hover:underline">Hugging Face</a>
-              </dd>
-            </dl>
+            <p className="hero-in mt-3 text-[14px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "480ms" }}>
+              NLP research for African and low-resource languages.
+            </p>
+            <div className="hero-in mt-4 flex gap-4 text-[13px] font-bold text-white" style={{ animationDelay: "560ms" }}>
+              <a href="https://github.com/Ememzyvisuals" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">GitHub</a>
+              <a href="https://huggingface.co/Axiveri" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">Hugging Face</a>
+            </div>
           </div>
-          <div className="hidden max-w-[17rem] md:block">
-            <p className="hero-in text-[12.5px] font-medium leading-relaxed text-white/70" style={{ animationDelay: "560ms" }}>
+          <div className="hidden max-w-[19rem] md:block">
+            <p className="hero-in text-[14px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "560ms" }}>
               I research and build speech and language AI for African languages, and the software that puts it in people&apos;s hands. Also building{" "}
               <Link href="/axiveri" className="font-bold text-white underline decoration-white/30 underline-offset-4">Axiveri</Link>, open AI research for Africa.
             </p>
