@@ -5,6 +5,7 @@
 // and the video's sides fade into it, so the letters show again on either side of him.
 import Link from "next/link";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
+import { HeroMe } from "./HeroMe";
 
 export function Hero() {
   return (
@@ -20,17 +21,7 @@ export function Hero() {
 
         {/* me, in front */}
         <div className="hero-me pointer-events-none absolute inset-x-0 bottom-0 top-[10%] flex justify-center">
-          <video
-            className="h-full w-auto max-w-none object-cover"
-            src="/images/me/hero.mp4"
-            poster="/images/me/hero.webp"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-label="My 3D character, standing and looking around"
-          />
+          <HeroMe />
         </div>
 
         {/* what I do, and the way in */}
@@ -47,8 +38,8 @@ export function Hero() {
               <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
             </div>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <Link href="/axiveri" className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/80 hover:text-white">
-                Founder of Axiveri
+              <Link href="/axiveri" className="text-[14px] font-bold text-white/70 hover:text-white">
+                Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
               </Link>
               <VisitorCounter />
             </div>

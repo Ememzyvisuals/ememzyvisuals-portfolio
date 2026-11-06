@@ -50,24 +50,17 @@ export function Navbar() {
         )}
       >
         <div className="container-padded flex items-center justify-between gap-4 py-4 md:py-5">
-          <Link href="/" className="flex items-center gap-2.5 text-[15px] font-extrabold tracking-tight text-foreground">
-            <span aria-hidden className="h-6 w-6 overflow-hidden rounded-full bg-secondary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/me/hero.webp" alt="" className="h-full w-full scale-[1.9] object-cover object-[50%_28%]" />
-            </span>
+          <Link href="/" className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-foreground">
             {siteConfig.name}
           </Link>
 
           {/* desktop */}
-          <nav aria-label="Main navigation" ref={moreRef} className="relative hidden items-center gap-2 lg:flex">
+          <nav aria-label="Main navigation" ref={moreRef} className="relative hidden items-center gap-9 lg:flex">
             {mainItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={cn(
-                  "nav-pill",
-                  isActive(item.href) && "nav-pill-on"
-                )}
+                className={cn("nav-link", isActive(item.href) && "nav-link-on")}
               >
                 {item.label}
               </Link>
@@ -78,11 +71,11 @@ export function Navbar() {
               aria-expanded={moreOpen}
               aria-haspopup="menu"
               aria-label="More pages"
-              className={cn("nav-pill !px-3", (moreOpen || moreItems.some((i) => isActive(i.href))) && "nav-pill-on")}
+              className={cn("nav-link", (moreOpen || moreItems.some((i) => isActive(i.href))) && "nav-link-on")}
             >
               <MoreHorizontal size={16} />
             </button>
-            <span className="ml-1"><ThemePill /></span>
+            <span className="ml-2"><ThemePill /></span>
             {moreOpen && (
               <div role="menu" className="absolute right-0 top-[calc(100%+10px)] z-50 w-56 rounded-2xl border border-border bg-background p-1.5 shadow-card-hover">
                 {moreItems.map((item) => (
@@ -107,7 +100,7 @@ export function Navbar() {
             <ThemePill size="sm" />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="nav-pill"
+              className="nav-link"
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}
             >
