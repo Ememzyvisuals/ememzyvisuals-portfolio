@@ -13,10 +13,10 @@ export function Hero() {
       <div className="relative mx-auto flex min-h-[min(100svh,1000px)] max-w-[2400px] flex-col justify-end">
         {/* the name, behind */}
         <h1
-          className="hero-word pointer-events-none absolute inset-x-0 top-[18%] select-none text-center font-anton uppercase md:top-[14%]"
-          style={{ fontSize: "clamp(5rem, 21vw, 24rem)", lineHeight: 0.86, fontWeight: 400 }}
+          className="hero-word pointer-events-none absolute inset-x-0 top-[24%] select-none text-center font-anton uppercase md:top-[20%]"
+          style={{ fontSize: "clamp(3rem, 13.2vw, 17rem)", lineHeight: 0.86, fontWeight: 400 }}
         >
-          <span className="sr-only">Hi, I&apos;m </span>Emmanuel
+          <span className="sr-only">Hi, I&apos;m </span>Ememzyvisuals
         </h1>
 
         {/* me, in front */}
