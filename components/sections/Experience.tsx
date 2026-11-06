@@ -114,9 +114,9 @@ export function Experience() {
                 style={{ background: c.bg, color: c.ink }}
               >
                 <span aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full" style={{ background: c.glow }} />
-                <span className="relative mx-auto grid h-20 w-20 place-items-center overflow-hidden rounded-[24px] shadow-[0_14px_30px_-12px_rgba(0,0,0,.45)]" style={{ background: c.tile }}>
+                <span className="relative mx-auto grid h-20 w-20 place-items-center overflow-hidden rounded-[24px]" style={{ background: c.full ? "transparent" : c.tile, boxShadow: c.full ? "none" : "0 14px 30px -12px rgba(0,0,0,.45)" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={job.mark.src} alt={`${job.company} logo`} className={c.full ? "h-full w-full object-cover" : "h-11 w-auto object-contain"} />
+                  <img src={c.full ? "/brand/axiveri-mono.png" : job.mark.src} alt={`${job.company} logo`} className={c.full ? "h-16 w-auto object-contain" : "h-11 w-auto object-contain"} />
                 </span>
                 <div className="relative mt-6 flex flex-wrap items-center justify-center gap-2">
                   <span className="rounded-full px-3 py-1 text-[13px] font-bold" style={{ background: c.pill, color: c.ink }}>{job.period}</span>

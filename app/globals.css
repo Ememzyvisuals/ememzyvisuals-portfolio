@@ -552,6 +552,9 @@ footer .grid { justify-items: center; }
 .hero-hi { z-index: 6; } @media (max-width: 767px) { .hero-hi { left: 8%; transform: none; text-align: left; } }
 
 /* logos as flat white marks */
-.logo-mono { filter: brightness(0) invert(1); opacity: .8; }
-html:not(.dark) .logo-mono { filter: brightness(0); }
+/* (only the colour goes: the mark keeps its own shapes and inner details, turned to soft greys) */
+.logo-mono { filter: grayscale(1) brightness(1.35) contrast(1.05); opacity: .85; }
+.logo-mono-dark { filter: grayscale(1) invert(1) brightness(1.1); opacity: .85; }
+html:not(.dark) .logo-mono { filter: grayscale(1) brightness(.55); }
+html:not(.dark) .logo-mono-dark { filter: grayscale(1); }
 .hero-stage[data-slide]:not([data-slide="0"]) .hero-hi { opacity: 0 !important; animation: none; }
