@@ -13,9 +13,9 @@ const N = 16; // rope points per strap
 const CW = 2.16, CH = 3.44; // card size (54 x 86 mm)
 // three cards hung side by side, a little in and out of line
 const CARDS = [
-  { id: "se", x: -2.8, z: 0.15, delay: 0, tilt: -0.05 },
-  { id: "pw", x: 0, z: -0.2, delay: 0.15, tilt: 0.04 },
-  { id: "ax", x: 2.8, z: 0.1, delay: 0.3, tilt: -0.03 },
+  { id: "se", x: -1.25, z: 0.45, delay: 0, tilt: -0.06 }, // in front, to the left
+  { id: "pw", x: 0.3, z: 0, delay: 0.15, tilt: 0.04 },
+  { id: "ax", x: 1.7, z: -0.5, delay: 0.3, tilt: 0.1 }, // behind, to the right
 ];
 
 export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: () => void }): IdApi {
@@ -25,7 +25,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   } catch { opts.onFail(); return { dispose() {} }; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMapping = THREE.NeutralToneMapping; // (true colours, no washed-out glare)
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   polishRenderer(renderer);
@@ -36,9 +36,9 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.5;
+  scene.environmentIntensity = 0.32;
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-  const key = new THREE.DirectionalLight(0xffffff, 1.5);
+  const key = new THREE.DirectionalLight(0xffffff, 1.15);
   key.position.set(-3, 6, 7);
   key.castShadow = true;
   polishLight(key);
@@ -74,6 +74,10 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   const ringGeo = new THREE.TorusGeometry(0.16, 0.03, 12, 32);
   const hookGeo = new RoundedBoxGeometry(0.24, 0.42, 0.1, 3, 0.04);
   const SW = 0.34;
+  const sleeveGeo = new RoundedBoxGeometry(CW + 0.2, CH + 0.36, 0.08, 4, 0.16);
+  const sleeveMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.16, roughness: 0.25, metalness: 0, clearcoat: 0.4, clearcoatRoughness: 0.4, depthWrite: false });
+  const bandGeo = new RoundedBoxGeometry(CW + 0.2, 0.34, 0.085, 3, 0.12);
+  const bandMat = new THREE.MeshPhysicalMaterial({ color: 0xf4f4f6, transparent: true, opacity: 0.85, roughness: 0.7 });
 
   type Lanyard = {
     card: THREE.Group; hit: THREE.Object3D[]; pts: THREE.Vector3[]; prev: THREE.Vector3[]; anchor: THREE.Vector3;
@@ -81,21 +85,25 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
   };
   const lanyards: Lanyard[] = CARDS.map((c) => {
     const card = new THREE.Group();
-    const body = new THREE.Mesh(bodyGeo, new THREE.MeshPhysicalMaterial({ color: 0xf6f4ef, roughness: 0.35, clearcoat: 1, clearcoatRoughness: 0.12 }));
+    const body = new THREE.Mesh(bodyGeo, new THREE.MeshPhysicalMaterial({ color: 0xf6f4ef, roughness: 0.55, clearcoat: 0.2, clearcoatRoughness: 0.5 }));
     body.castShadow = true;
-    const faceMat = (n: string) => new THREE.MeshPhysicalMaterial({ map: tex(`${c.id}-${n}`), alphaMap: alpha, transparent: true, roughness: 0.4, clearcoat: 1, clearcoatRoughness: 0.08 });
+    const faceMat = (n: string) => new THREE.MeshPhysicalMaterial({ map: tex(`${c.id}-${n}`), alphaMap: alpha, transparent: true, roughness: 0.6, clearcoat: 0.15, clearcoatRoughness: 0.55 });
     const f = new THREE.Mesh(faceGeo, faceMat("front"));
     f.position.z = 0.0185;
     const bk = new THREE.Mesh(faceGeo, faceMat("back"));
     bk.position.z = -0.0185;
     bk.rotation.y = Math.PI;
     const ring = new THREE.Mesh(ringGeo, metal);
-    ring.position.y = CH / 2 - 0.12;
+    ring.position.y = CH / 2 + 0.1;
     ring.rotation.y = Math.PI / 2;
     const hook = new THREE.Mesh(hookGeo, metal);
-    hook.position.y = CH / 2 + 0.22;
+    hook.position.y = CH / 2 + 0.4;
     hook.castShadow = true;
-    card.add(body, f, bk, ring, hook);
+    // (a clear plastic badge holder around the card: a little larger, frosted white along the top where the clip goes)
+    const sleeve = new THREE.Mesh(sleeveGeo, sleeveMat);
+    const band = new THREE.Mesh(bandGeo, bandMat);
+    band.position.set(0, CH / 2 + 0.06, 0);
+    card.add(body, f, bk, sleeve, band, ring, hook);
     scene.add(card);
 
     const strapT = tex(`${c.id}-strap`);
@@ -108,7 +116,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     strapGeo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
     const bumpT = tex(`${c.id}-bump`);
     bumpT.wrapS = THREE.RepeatWrapping;
-    const strap = new THREE.Mesh(strapGeo, new THREE.MeshPhysicalMaterial({ map: strapT, bumpMap: bumpT, bumpScale: 2.2, roughness: 0.62, sheen: 0.22, sheenRoughness: 0.6, sheenColor: new THREE.Color(0xffffff), side: THREE.DoubleSide }));
+    const strap = new THREE.Mesh(strapGeo, new THREE.MeshPhysicalMaterial({ map: strapT, bumpMap: bumpT, bumpScale: 2.2, roughness: 0.62, sheen: 0, sheenRoughness: 0.6, sheenColor: new THREE.Color(0xffffff), side: THREE.DoubleSide }));
     strap.castShadow = true;
     strap.frustumCulled = false;
     scene.add(strap);
@@ -127,7 +135,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     // the canvas reaches up to the top of the page (data-ext px above the card area) so the straps come
     // down from off screen; keep the cards the same size by scaling the view with the real card area height
     const ext = Number(el.dataset.ext || 0), base = Math.max(1, h - ext);
-    const span = w < 640 ? 12.8 : 8.6; // (phones: a wider view so all three cards fit side by side)
+    const span = w < 640 ? 9.6 : 5.0; // (phones: a wider view so all three cards fit side by side)
     const unit = span / base; // world units per pixel
     const viewH = h * unit;
     const cy = -0.3 + (ext / 2) * unit; // card area stays where it was; the extra height sits above it
@@ -137,7 +145,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     seg = (span * 0.4 + ext * unit) / (N - 1);
     // keep both cards inside narrow screens
     const halfW = (span * (w / base)) / 2;
-    const squeeze = Math.min(1, (halfW - CW / 2 - 0.15) / 2.8);
+    const squeeze = Math.min(1, (halfW - CW / 2 - 0.15) / 1.7);
     for (const l of lanyards) l.anchor.set(l.x * squeeze, cy + viewH / 2 + 0.6, l.z);
   };
   const ro = new ResizeObserver(layout);
