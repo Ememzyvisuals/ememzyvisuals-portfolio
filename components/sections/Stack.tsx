@@ -1,9 +1,7 @@
 "use client";
 // components/sections/Stack.tsx
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChessBoard } from "@/components/three/chess/ChessBoard";
 import { WHITE, BLACK } from "@/components/three/chess/pieces";
 
 // Same 32 tools and logos as the chess board, in the same groups.
@@ -35,7 +33,6 @@ function TechBox({ name, logo }: { name: string; logo: string }) {
 }
 
 export function Stack() {
-  const [all, setAll] = useState(false);
   return (
     <section className="py-section bg-background">
       <div className="container-padded space-y-6">
@@ -47,19 +44,11 @@ export function Stack() {
         >
           <div className="text-center">
             <h2 className="section-heading">Tech Stack</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">Every piece on this board is a tool I use.</p>
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-muted-foreground">The tools I build with every day.</p>
           </div>
         </motion.div>
 
-        <ChessBoard />
-
-        <div className="flex justify-center">
-          <button onClick={() => setAll((v) => !v)} className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary">
-            {all ? "Hide the full list" : "See the full list"}
-          </button>
-        </div>
-
-        <div className={all ? "space-y-6" : "hidden"}>
+        <div className="mx-auto grid max-w-6xl gap-x-10 gap-y-12 pt-6 md:grid-cols-2">
           {STACK_SECTIONS.map((section, si) => (
             <motion.div
               key={section.title}
@@ -67,12 +56,12 @@ export function Stack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: si * 0.06 }}
-              className="bg-[#0a0a0a] dark:bg-zinc-900 rounded-3xl px-5 pt-6 pb-8 space-y-6"
+              className="space-y-5"
             >
-              <h3 className="text-white text-xl font-extrabold text-center tracking-tight">
+              <h3 className="text-xl font-extrabold text-center tracking-tight text-foreground">
                 {section.title}
               </h3>
-              <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {section.items.map((item) => (
                   <TechBox key={item.name} name={item.name} logo={item.logo} />
                 ))}
