@@ -73,7 +73,6 @@ export function AboutClient() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.05fr_1.4fr] md:gap-16">
           {/* my 3D character, rising in and floating gently */}
           <motion.div {...fadeUp} transition={{ duration: 0.7 }} className="relative mx-auto w-full max-w-[520px]">
-            <div className="absolute inset-x-2 bottom-0 top-[22%] rounded-[44px] bg-secondary" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/me/laptop.webp" alt="My 3D character at a laptop" loading="lazy" className="about-float relative mx-auto w-[96%]" />
           </motion.div>
@@ -88,8 +87,8 @@ export function AboutClient() {
             className="space-y-5 text-muted-foreground leading-relaxed text-[17px] md:text-[18.5px]"
           >
             <p>
-              I did not study computer science and I never went to a bootcamp. I taught myself, one free tutorial,
-              one late night and one broken build at a time, starting with HTML, CSS and JavaScript.
+              I taught myself to build software, one free tutorial, one late night and one broken build at a time,
+              starting with HTML, CSS and JavaScript.
             </p>
             <p>
               What really taught me was shipping. Building something real, watching people use it, and fixing what
