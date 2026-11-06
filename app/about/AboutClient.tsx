@@ -4,6 +4,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { IdCard } from "@/components/three/idcard/IdCard";
+import { AboutIntro } from "@/components/sections/AboutIntro";
+import { HowIWork } from "@/components/sections/HowIWork";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -67,6 +69,10 @@ export function AboutClient() {
       </div>
 
       <div className="container-padded"><div className="section-divider" /></div>
+
+      {/* ── under the ID cards, after the editorial reference: intro, photo, numbers, quote, then how I work ── */}
+      <AboutIntro />
+      <HowIWork />
 
       {/* ── My Story ────────────────────────────────────────────── */}
       <div className="container-padded">

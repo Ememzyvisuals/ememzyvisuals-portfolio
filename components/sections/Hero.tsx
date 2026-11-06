@@ -87,17 +87,17 @@ export function Hero() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.img} alt={s.alt} loading="lazy" className="h-full w-auto max-w-none object-contain object-bottom" />
               </div>
-              <div className="hero-side-alt container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
+              <div className="hero-side-alt container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[13vh]">
                 <div className="mx-auto max-w-[24rem] text-center md:mx-0 md:max-w-[28rem] md:text-left">
-                  <p className="font-display text-[clamp(1.6rem,2.5vw,2.6rem)] font-bold leading-[1.15] tracking-[-0.03em] text-white">
+                  <p className="font-display text-[clamp(1.9rem,3.4vw,3.6rem)] font-extrabold leading-[1.08] tracking-[-0.035em] text-white">
                     {s.title[0]}
                     <br />
                     {s.title[1]}
                   </p>
-                  <p className="mt-3 text-[14px] font-semibold leading-relaxed text-white/65 md:text-[15.5px]">{s.line}</p>
+                  <p className="mt-3 text-[15px] font-semibold leading-relaxed text-white/75 md:text-[18px]">{s.line}</p>
                 </div>
-                <div className="hidden max-w-[22rem] md:block">
-                  <p className="text-[15.5px] font-semibold leading-relaxed text-white/65">{s.text}</p>
+                <div className="hidden max-w-[24rem] md:block">
+                  <p className="text-[17px] font-semibold leading-relaxed text-white/75">{s.text}</p>
                   <div className="mt-5 flex gap-2.5">
                     <Link href={s.cta.href} tabIndex={-1} className="hero-chip hero-chip-on">{s.cta.label}</Link>
                   </div>

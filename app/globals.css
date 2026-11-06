@@ -475,42 +475,44 @@ body::after {
 /* Everything centred, on every page and in the footer: headings, text, lists, buttons, tags and card contents.
    Long-form reading (a blog post, the form fields, code) keeps its normal left edge. */
 .site-center, footer { text-align: center; }
-.site-center :is(h1,h2,h3,h4,p,li,dt,dd,blockquote,figcaption,label),
+.site-center :is(h1,h2,h3,h4,p,li,dt,dd,blockquote,figcaption,label):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *),
 footer :is(h1,h2,h3,h4,p,li,a,span) { text-align: center; }
-.site-center :is([class*="max-w-"]):not(input):not(textarea):not(select):not(img):not(video):not(canvas),
+.site-center :is([class*="max-w-"]):not(input):not(textarea):not(select):not(img):not(video):not(canvas):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *),
 footer [class*="max-w-"] { margin-left: auto; margin-right: auto; }
-.site-center .flex:not(.flex-col):not([class*="justify-between"]):not([class*="justify-end"]):not([class*="justify-around"]),
-.site-center .inline-flex:not([class*="justify-between"]),
+.site-center .flex:not(.flex-col):not([class*="justify-between"]):not([class*="justify-end"]):not([class*="justify-around"]):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *),
+.site-center .inline-flex:not([class*="justify-between"]):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *),
 footer .container-padded .flex:not(.flex-col):not([class*="justify-between"]) { justify-content: center; }
-.site-center .flex-col:not([class*="items-"]), footer .flex-col:not([class*="items-"]) { align-items: center; }
-.site-center ul:not(.list-disc):not(.list-decimal), footer ul { padding-left: 0; }
-.site-center li:has(> svg:first-child), .site-center li.flex { justify-content: center; }
+.site-center .flex-col:not([class*="items-"]):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), footer .flex-col:not([class*="items-"]) { align-items: center; }
+.site-center ul:not(.list-disc):not(.list-decimal):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), footer ul { padding-left: 0; }
+.site-center li:has(> svg:first-child):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), .site-center li.flex:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ justify-content: center; }
 footer nav { align-items: center; }
 footer .grid { justify-items: center; }
+/* (cards keep their own inside layout, as they were built) */
+.site-center :is([class*="rounded-"][class*="border"]:not(.rounded-full), [class*="card-surface"], .glass-card):not([class*="text-center"]) { text-align: left; }
 /* (keep normal reading edges where centring hurts) */
-.site-center :is(.post-body, .post-body *, form input, form textarea, form select, pre, code, .text-left) { text-align: left; }
-.site-center form label { text-align: left; }
-.site-center .post-body [class*="max-w-"] { margin-left: 0; }
+.site-center :is(.post-body, .post-body *, form input, form textarea, form select, pre, code, .text-left):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ text-align: left; }
+.site-center form label:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ text-align: left; }
+.site-center .post-body [class*="max-w-"]:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ margin-left: 0; }
 
 /* (headers laid out as title + button on one row become one centred column) */
-.site-center [class*="grid-cols-[1fr_auto]"] { grid-template-columns: 1fr !important; justify-items: center; }
-.site-center :is(h1, h2) { margin-left: auto; margin-right: auto; }
-.site-center .section-heading { width: 100%; }
-.site-center .flex[class*="justify-between"]:has(> h1, > h2, > div > h1, > div > h2) { flex-direction: column; align-items: center; gap: 1.25rem; }
-.site-center .self-start, .site-center .self-end { align-self: center !important; }
-.site-center .w-fit { margin-left: auto; margin-right: auto; }
+.site-center [class*="grid-cols-[1fr_auto]"]:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ grid-template-columns: 1fr !important; justify-items: center; }
+.site-center :is(h1, h2):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ margin-left: auto; margin-right: auto; }
+.site-center .section-heading:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ width: 100%; }
+.site-center .flex[class*="justify-between"]:has(> h1, > h2, > div > h1, > div > h2):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ flex-direction: column; align-items: center; gap: 1.25rem; }
+.site-center .self-start:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), .site-center .self-end:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ align-self: center !important; }
+.site-center .w-fit:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ margin-left: auto; margin-right: auto; }
 
 /* (where a section asks for a left edge from a breakpoint up, like the hero's side text, that wins) */
 @media (min-width: 768px) {
-  .site-center .md\:text-left, .site-center .md\:text-left :is(h1,h2,h3,h4,p,li,a,span,div) { text-align: left; }
-  .site-center .md\:text-right, .site-center .md\:text-right :is(p,a,span,div) { text-align: right; }
-  .site-center .md\:justify-start { justify-content: flex-start !important; }
-  .site-center .md\:mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+  .site-center .md\:text-left:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), .site-center .md\:text-left :is(h1,h2,h3,h4,p,li,a,span,div):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ text-align: left; }
+  .site-center .md\:text-right:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), .site-center .md\:text-right :is(p,a,span,div):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ text-align: right; }
+  .site-center .md\:justify-start:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ justify-content: flex-start !important; }
+  .site-center .md\:mx-0:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ margin-left: 0 !important; margin-right: 0 !important; }
 }
 @media (min-width: 1024px) {
-  .site-center .lg\:text-left, .site-center .lg\:text-left :is(h1,h2,h3,h4,p,li,a,span,div) { text-align: left; }
-  .site-center .lg\:justify-start { justify-content: flex-start !important; }
-  .site-center .lg\:mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+  .site-center .lg\:text-left:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *), .site-center .lg\:text-left :is(h1,h2,h3,h4,p,li,a,span,div):not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ text-align: left; }
+  .site-center .lg\:justify-start:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ justify-content: flex-start !important; }
+  .site-center .lg\:mx-0:not(:is([class*="rounded-"][class*="border"], [class*="card-surface"], .glass-card) *){ margin-left: 0 !important; margin-right: 0 !important; }
 }
 .site-center .hero-side > div:last-child p, .site-center .hero-side-alt > div:last-child p { text-align: left; }
 .site-center .hero-side > div:last-child .flex, .site-center .hero-side-alt > div:last-child .flex { justify-content: flex-start; }
@@ -566,3 +568,6 @@ html:not(.dark) .logo-mono-dark { filter: grayscale(1); }
   -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 85%); mask-image: linear-gradient(to left, #000 30%, transparent 85%);
 }
 .lines-bg > * { position: relative; }
+
+/* "How I work": one card per row in a zig-zag, each row overlapping the last a little */
+@media (min-width: 768px) { .how-card[data-row="1"]{grid-row:1} .how-card[data-row="2"]{grid-row:2} .how-card[data-row="3"]{grid-row:3} .how-card[data-row="4"]{grid-row:4} .how-card:not([data-row="1"]){margin-top:-70px} }

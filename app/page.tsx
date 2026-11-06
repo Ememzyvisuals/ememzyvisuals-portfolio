@@ -2,8 +2,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { Ticker } from "@/components/sections/Ticker";
-import { AboutIntro } from "@/components/sections/AboutIntro";
-import { HowIWork } from "@/components/sections/HowIWork";
 import { WhatIDo } from "@/components/sections/WhatIDo";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
@@ -52,11 +50,8 @@ export default function HomePage() {
     <>
       <Hero />
       <Ticker />
-      <AboutIntro />
-      {divider}
       <Experience />
       {divider}
-      <HowIWork />
       <WhatIDo />
       <ProjectsShowcase />
       {divider}

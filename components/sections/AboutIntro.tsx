@@ -28,7 +28,7 @@ export function AboutIntro() {
             model to the app people actually touch.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
-            <Link href="/about" className="btn-primary text-sm">More about me</Link>
+            <Link href="/contact" className="btn-primary text-sm">Work with me</Link>
             <a href="/emmanuel-ariyo-cv.pdf" download className="btn-outline text-sm">Download CV</a>
           </div>
         </motion.div>
@@ -43,19 +43,19 @@ export function AboutIntro() {
 
         {/* the dark card: one big number and the skills as tilted pills */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}
-          className="lines-bg relative overflow-hidden rounded-[32px] bg-[#0a0a0a] p-8 text-white md:p-10">
+          className="relative overflow-hidden rounded-[32px] border border-border bg-card p-8 text-center text-foreground md:p-10">
           <p className="font-display text-6xl font-extrabold tracking-[-0.05em] md:text-7xl">2,500+</p>
-          <p className="mt-2 text-[15px] font-bold text-white/70">model and dataset downloads every month</p>
+          <p className="mt-2 text-[15px] font-bold text-muted-foreground">model and dataset downloads every month</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {SKILLS.map((s) => (
-              <span key={s.t} className="rounded-full bg-white px-4 py-2 text-[14px] font-extrabold text-black shadow-[0_8px_20px_-8px_rgba(0,0,0,.6)]" style={{ transform: `rotate(${s.r}deg)` }}>{s.t}</span>
+              <span key={s.t} className="rounded-full bg-foreground px-4 py-2 text-[14px] font-extrabold text-background shadow-[0_8px_20px_-8px_rgba(0,0,0,.6)]" style={{ transform: `rotate(${s.r}deg)` }}>{s.t}</span>
             ))}
           </div>
         </motion.div>
 
         {/* a quote from me, with a round photo */}
         <motion.figure initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
-          className="card-surface flex flex-col items-center justify-center gap-6 p-8 md:flex-row md:p-10">
+          className="card-surface flex flex-col items-center justify-center gap-6 p-8 text-center md:flex-row md:p-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/emmanuel.jpg" alt="" loading="lazy" className="h-28 w-28 shrink-0 rounded-full object-cover object-[50%_22%] grayscale md:h-36 md:w-36" />
           <blockquote>
