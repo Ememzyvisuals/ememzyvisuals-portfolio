@@ -117,11 +117,12 @@ export function AskAboutMe() {
       <div className={cn("mx-auto flex max-w-5xl flex-col", empty && "min-h-[64vh] justify-center")}>
         {empty && (
           <div className="text-center">
-            {/* my photo inside a soft, moving voice wave */}
-            <div className="relative mx-auto h-28 w-28">
-              <span className="absolute inset-0 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_infinite]" />
-              <span className="absolute inset-0 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_1.3s_infinite]" />
-              <Image src="/images/emmanuel.jpg" alt="Emmanuel Ariyo" width={112} height={112} className="relative h-28 w-28 rounded-full object-cover shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)]" />
+            {/* my 3D character waving hello, inside a soft, moving voice wave */}
+            <div className="relative mx-auto h-44 w-44">
+              <span className="absolute inset-4 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_infinite]" />
+              <span className="absolute inset-4 rounded-full border border-foreground/20 [animation:askwave_2.6s_ease-out_1.3s_infinite]" />
+              <span className="absolute inset-4 rounded-full bg-secondary" />
+              <Image src="/images/me/wave.webp" alt="My 3D character waving hello" width={220} height={212} className="absolute bottom-4 left-1/2 h-48 w-auto max-w-none -translate-x-1/2 [clip-path:inset(-40%_0_0_0_round_0_0_999px_999px)]" />
             </div>
             <h2 className="section-heading mt-8 text-foreground">
               Ask about my work
@@ -147,7 +148,7 @@ export function AskAboutMe() {
               </div>
             ) : (
               <div key={m.id} className="flex gap-3">
-                <Image src="/images/emmanuel.jpg" alt="" width={36} height={36} className="mt-0.5 h-9 w-9 flex-shrink-0 rounded-full object-cover" />
+                <Image src="/images/me/polo.webp" alt="" width={36} height={40} className="mt-0.5 h-9 w-9 flex-shrink-0 rounded-full bg-secondary object-cover object-top" />
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-semibold text-muted-foreground">Emmanuel&apos;s assistant</p>
                   {m.content ? (

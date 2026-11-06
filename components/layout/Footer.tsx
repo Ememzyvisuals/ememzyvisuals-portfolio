@@ -77,7 +77,7 @@ export function Footer() {
               Thank you
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/footer-thumbs.webp" alt="A 3D figure giving two thumbs up" loading="lazy" decoding="async"
+            <img src="/images/me/thumbs.webp" alt="My 3D character giving two thumbs up" loading="lazy" decoding="async"
               className="pointer-events-none shrink-0" style={{ height: "23cqw", width: "auto" }} />
           </div>
           <p className="relative mt-3 flex items-center justify-center gap-3 whitespace-nowrap uppercase leading-none" style={{ fontFamily: "var(--font-signoff)", fontSize: "5.4cqw" }}>

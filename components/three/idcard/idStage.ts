@@ -1,5 +1,5 @@
 // components/three/idcard/idStage.ts
-// My two ID cards on their lanyards: PlotWeaver (Machine Learning Engineer) in front, Axiveri (Founder) just behind.
+// My three ID cards on woven lanyards: Software Engineer, PlotWeaver (Machine Learning Engineer) and Axiveri (Founder).
 // They drop in when the page opens. Each strap is simulated as a rope. Grab and drag a card, let go and it swings;
 // flick it sideways and it spins; tap it to flip it over.
 import * as THREE from "three";
@@ -11,9 +11,11 @@ export type IdApi = { dispose: () => void };
 
 const N = 16; // rope points per strap
 const CW = 2.16, CH = 3.44; // card size (54 x 86 mm)
+// three cards hung side by side, a little in and out of line
 const CARDS = [
-  { id: "ax", x: 0.95, z: -0.55, delay: 0.25, tilt: 0.12 }, // behind, to the right
-  { id: "pw", x: -0.55, z: 0.35, delay: 0, tilt: -0.06 }, // in front
+  { id: "se", x: -2.8, z: 0.15, delay: 0, tilt: -0.05 },
+  { id: "pw", x: 0, z: -0.2, delay: 0.15, tilt: 0.04 },
+  { id: "ax", x: 2.8, z: 0.1, delay: 0.3, tilt: -0.03 },
 ];
 
 export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: () => void }): IdApi {
@@ -104,7 +106,9 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     strapGeo.setIndex(idx);
     strapGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     strapGeo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
-    const strap = new THREE.Mesh(strapGeo, new THREE.MeshStandardMaterial({ map: strapT, roughness: 0.75, side: THREE.DoubleSide }));
+    const bumpT = tex(`${c.id}-bump`);
+    bumpT.wrapS = THREE.RepeatWrapping;
+    const strap = new THREE.Mesh(strapGeo, new THREE.MeshPhysicalMaterial({ map: strapT, bumpMap: bumpT, bumpScale: 2.2, roughness: 0.62, sheen: 0.22, sheenRoughness: 0.6, sheenColor: new THREE.Color(0xffffff), side: THREE.DoubleSide }));
     strap.castShadow = true;
     strap.frustumCulled = false;
     scene.add(strap);
@@ -123,16 +127,17 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     // the canvas reaches up to the top of the page (data-ext px above the card area) so the straps come
     // down from off screen; keep the cards the same size by scaling the view with the real card area height
     const ext = Number(el.dataset.ext || 0), base = Math.max(1, h - ext);
-    const unit = 8.6 / base; // world units per pixel
+    const span = w < 640 ? 12.8 : 8.6; // (phones: a wider view so all three cards fit side by side)
+    const unit = span / base; // world units per pixel
     const viewH = h * unit;
     const cy = -0.3 + (ext / 2) * unit; // card area stays where it was; the extra height sits above it
     camera.position.set(0, cy, viewH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
     camera.lookAt(0, cy, 0);
     camera.updateProjectionMatrix();
-    seg = (8.6 * 0.4 + ext * unit) / (N - 1);
+    seg = (span * 0.4 + ext * unit) / (N - 1);
     // keep both cards inside narrow screens
-    const halfW = (8.6 * (w / base)) / 2;
-    const squeeze = Math.min(1, (halfW - CW / 2 - 0.15) / 1.0);
+    const halfW = (span * (w / base)) / 2;
+    const squeeze = Math.min(1, (halfW - CW / 2 - 0.15) / 2.8);
     for (const l of lanyards) l.anchor.set(l.x * squeeze, cy + viewH / 2 + 0.6, l.z);
   };
   const ro = new ResizeObserver(layout);
@@ -212,6 +217,11 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
         if (!live) continue;
         p.add(d);
         p.y += g * (i === N - 1 ? 2.2 : 1);
+        if (grabbed !== l) {
+          const w = Math.sin(now * 0.0011 + l.x * 1.7) * 0.6 + Math.sin(now * 0.0023 + l.x) * 0.3;
+          p.x += w * 0.00055 * i;
+          p.z += Math.cos(now * 0.0009 + l.x) * 0.00035 * i;
+        }
         p.z += (l.z - p.z) * 0.1;
       }
       if (grabbed === l) pts[N - 1].lerp(target, 0.35);
@@ -231,7 +241,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
       // card hangs from the end of the strap and leans with it; spin settles to front or back
       const C = pts[N - 1];
       up.copy(pts[N - 3]).sub(C).normalize();
-      l.spinV += (-6 * Math.sin(l.spin - l.flip - l.tilt) - 1.4 * l.spinV) * dt;
+      l.spinV += (-6 * Math.sin(l.spin - l.flip - l.tilt - Math.sin(now * 0.0007 + l.x) * 0.09) - 1.4 * l.spinV) * dt;
       l.spin += l.spinV * dt;
       q.setFromUnitVectors(Y, up);
       qs.setFromAxisAngle(Y, l.spin);

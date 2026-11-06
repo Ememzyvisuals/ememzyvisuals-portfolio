@@ -17,10 +17,11 @@ export function AboutClient() {
 
       {/* ── Hero section, photo + name ─────────────────────────── */}
       <div className="container-padded">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        {/* four ID cards on lanyards across the page: drag them, flick them, tap to flip */}
+        <IdCard />
+        <p className="mt-2 text-center text-[13px] font-semibold text-muted-foreground">Drag a card, or tap it to turn it over.</p>
 
-          {/* ID card on a lanyard: drag it, flick it, tap to flip */}
-          <IdCard />
+        <div className="mx-auto mt-14 max-w-2xl text-center">
 
           {/* Intro text */}
           <motion.div
@@ -52,7 +53,7 @@ export function AboutClient() {
 
             <p className="text-sm text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
               <Link href="/contact" className="btn-primary group text-sm">
                 Work With Me </Link>
               <Link href="/work" className="btn-outline text-sm">
