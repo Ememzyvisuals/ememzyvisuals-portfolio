@@ -75,7 +75,7 @@ export function Devices3D({ scene, className = "", fallback }: { scene: Scene; c
       {!lite && (
         <div
           ref={box}
-          className={`absolute inset-0 transition-opacity duration-700 ${state === "ready" ? "opacity-100" : "opacity-0"}`}
+          className={`absolute -inset-x-[10%] -inset-y-[22%] transition-opacity duration-700 ${state === "ready" ? "opacity-100" : "opacity-0"}`}
           role="img"
           aria-label={
             scene === "phones"

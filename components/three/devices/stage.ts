@@ -579,7 +579,11 @@ export function mount(el: HTMLElement, scene: Scene, onReady: () => void, onFail
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     const tan = Math.tan((camera.fov * PI) / 360);
-    const dist = Math.max(frame.h / 2 / tan, frame.w / 2 / (tan * camera.aspect)) * 1.04;
+    // (the canvas reaches past its box on every side, so a turning laptop is never cut off at the top: the devices are
+    // framed to the inner box, the same size as before, and the extra room around them is empty, see-through page)
+    const PY = 0.22, PX = 0.1;
+    const fh = frame.h * (1 + 2 * PY), fw = frame.w * (1 + 2 * PX);
+    const dist = Math.max(fh / 2 / tan, fw / 2 / (tan * camera.aspect)) * 1.04;
     camera.position.set(0, Math.sin(elev) * dist, Math.cos(elev) * dist);
     camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();

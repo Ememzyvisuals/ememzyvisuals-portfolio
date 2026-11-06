@@ -113,7 +113,7 @@ export function AskAboutMe() {
   const empty = messages.length === 0;
 
   return (
-    <section id="ask" className="container-padded">
+    <section id="ask" className="ask-zone container-padded">
       <div className={cn("mx-auto flex max-w-5xl flex-col", empty && "min-h-[64vh] justify-center")}>
         {empty && (
           <div className="text-center">
@@ -172,7 +172,7 @@ export function AskAboutMe() {
 
         {/* the ask bar */}
         <form onSubmit={(e) => { e.preventDefault(); send(input); }}
-          className={cn("card-surface flex items-end gap-2 rounded-[28px] p-2 pl-5", empty ? "mt-10" : "sticky bottom-4")}>
+          className={cn("ask-box card-surface flex items-end gap-2 rounded-[28px] p-2 pl-5", empty ? "mt-10" : "sticky bottom-4")}>
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={1}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
             placeholder={listening ? "Listening..." : "Ask anything about my work"} aria-label="Your question"

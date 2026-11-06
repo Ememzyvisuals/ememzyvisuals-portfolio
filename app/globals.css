@@ -521,3 +521,15 @@ footer .grid { justify-items: center; }
 .site-center .hero-side > div:last-child .flex, .site-center .hero-side-alt > div:last-child .flex { justify-content: flex-start; }
 @media (max-width: 767px) { .site-center .hero-side > div:last-child p, .site-center .hero-side-alt > div:last-child p { text-align: center; } }
 @media (min-width: 768px) { .site-center :is(.hero-side, .hero-side-alt) > div { margin-left: 0 !important; margin-right: 0 !important; } }
+/* (typing boxes keep their normal layout: text from the left, the buttons at the end) */
+.site-center :is(input, textarea, select) { text-align: left !important; }
+
+/* (the Ask box keeps its own layout: the typing area fills the row from the left, the buttons at the end) */
+.site-center .ask-box { justify-content: flex-start !important; width: 100%; max-width: none; }
+.site-center .ask-box :is(textarea, input) { flex: 1 1 auto; }
+
+/* the experience timeline: a soft line down the middle on wide screens */
+@media (min-width: 768px) {
+  .exp-line::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%);
+    background: linear-gradient(to bottom, transparent, hsl(var(--border)) 6%, hsl(var(--border)) 94%, transparent); }
+}

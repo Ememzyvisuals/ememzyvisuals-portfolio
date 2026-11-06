@@ -6,6 +6,7 @@ import Image from "next/image";
 import { WalletCopy } from "./WalletCopy";
 import { MODEL_SERIES } from "@/data/models";
 import { ModelVisual } from "@/components/three/models/ModelVisual";
+const ICON: Record<string, string> = { asr: "mic", tts: "bubbles", llm: "brain", image: "lens" };
 
 export const metadata: Metadata = {
   title: "Axiveri, African AI Research | Emmanuel Ariyo",
@@ -108,7 +109,10 @@ export default function AxiveriPage() {
           <div className="mt-14 space-y-20 md:space-y-28">
             {MODEL_SERIES.map((m, i) => (
               <article key={m.slug} className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
-                <ModelVisual kind={m.kind} label={m.visual} className={`aspect-[5/4] w-full rounded-3xl bg-[#fff6ee] dark:bg-[#1d130c] ${i % 2 ? "md:order-2" : ""}`} />
+                <div className={`grid aspect-[5/4] w-full place-items-center ${i % 2 ? "md:order-2" : ""}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/images/me/icon-${ICON[m.kind] ?? "brain"}.webp`} alt={m.visual} loading="lazy" className="about-float h-[78%] w-auto drop-shadow-[0_30px_40px_rgba(0,0,0,0.45)]" />
+                </div>
                 <div>
                   <p className="text-sm font-medium text-[#fc6401]">{m.type}</p>
                   <h3 className="mt-2 font-display font-extrabold tracking-tight text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>{m.name}</h3>

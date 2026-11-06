@@ -86,52 +86,50 @@ export function Experience() {
   return (
     <section id="experience" className="py-section">
       <div className="container-padded">
-        <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <h2 className="section-heading">Experience</h2>
-            <p className="font-museum mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
-              Teaching machines to hear and speak African languages, in production.
-            </p>
-          </div>
+        <div className="text-center">
+          <h2 className="section-heading">Experience</h2>
+          <p className="font-museum mx-auto mt-3 max-w-xl text-xl text-foreground/75 md:text-2xl">
+            Teaching machines to hear and speak African languages, in production.
+          </p>
         </div>
 
-        <ol className="mt-12 border-t border-border">
-          {JOBS.map((job, i) => (
-            <motion.li
-              key={job.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="grid gap-6 border-b border-border py-10 md:grid-cols-[220px_1fr] md:gap-12 md:py-14"
-            >
-              <div className="flex items-center gap-4 md:flex-col md:items-start">
-                <Mark m={job.mark} name={job.company} />
-                <div>
-                  <p className="font-display text-lg font-bold text-foreground">{job.period}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {job.where}
-                    {job.current && <span className="ml-2 font-semibold text-brand">Current</span>}
-                  </p>
+        {/* a timeline down the middle: each role is a card on alternating sides, its company's mark sitting on the line */}
+        <ol className="exp-line relative mx-auto mt-16 max-w-6xl">
+          {JOBS.map((job, i) => {
+            const right = i % 2 === 1;
+            return (
+              <motion.li
+                key={job.id}
+                initial={{ opacity: 0, x: right ? 60 : -60, y: 20 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, ease: [0.2, 0.75, 0.2, 1] }}
+                className="relative grid gap-6 pb-16 last:pb-0 md:grid-cols-2 md:gap-20"
+              >
+                {/* the mark, on the line */}
+                <div className="z-10 flex justify-center md:absolute md:left-1/2 md:top-6 md:-translate-x-1/2">
+                  <span className="rounded-[22px] bg-background p-1.5 shadow-[0_0_0_1px_hsl(var(--border))]"><Mark m={job.mark} name={job.company} /></span>
                 </div>
-              </div>
-
-              <div className="min-w-0">
-                <h3 className="font-display text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
-                  {job.role}
-                </h3>
-                <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
-                <p className="mt-5 max-w-4xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
-                <ul className="mt-6 grid gap-x-10 sm:grid-cols-2">
-                  {job.did.map((d) => (
-                    <li key={d} className="border-t border-border py-3 text-sm leading-relaxed text-foreground/85">
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.li>
-          ))}
+                <div className={right ? "md:col-start-2" : ""}>
+                  <article className="card-surface group relative overflow-hidden p-7 text-center transition-transform duration-500 hover:-translate-y-1 md:p-9">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      <span className="rounded-full border border-border px-3 py-1 text-[13px] font-bold text-foreground">{job.period}</span>
+                      <span className="rounded-full border border-border px-3 py-1 text-[13px] font-semibold text-muted-foreground">{job.where}</span>
+                      {job.current && <span className="rounded-full bg-brand px-3 py-1 text-[13px] font-bold text-brand-foreground">Current</span>}
+                    </div>
+                    <h3 className="mt-5 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">{job.role}</h3>
+                    <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
+                    <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
+                    <ul className="mx-auto mt-6 grid max-w-xl gap-2">
+                      {job.did.map((d) => (
+                        <li key={d} className="rounded-2xl bg-secondary/70 px-4 py-3 text-sm font-semibold leading-relaxed text-foreground/85">{d}</li>
+                      ))}
+                    </ul>
+                  </article>
+                </div>
+              </motion.li>
+            );
+          })}
         </ol>
       </div>
     </section>
