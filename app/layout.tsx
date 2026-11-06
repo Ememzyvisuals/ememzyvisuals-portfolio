@@ -167,7 +167,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Navbar />
-          <main>{children}</main>
+          <main className="site-center">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

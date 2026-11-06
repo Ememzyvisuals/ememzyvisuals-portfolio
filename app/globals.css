@@ -471,3 +471,31 @@ body::after {
 .proj-row.in .proj-text > *:nth-child(6) { transition-delay: .4s; }
 @media (max-width: 1023px) { .proj-text > * { transform: translateY(24px); } }
 @media (prefers-reduced-motion: reduce) { .proj-text > * { opacity: 1; transform: none; transition: none; } }
+
+/* Everything centred, on every page and in the footer: headings, text, lists, buttons, tags and card contents.
+   Long-form reading (a blog post, the form fields, code) keeps its normal left edge. */
+.site-center, footer { text-align: center; }
+.site-center :is(h1,h2,h3,h4,p,li,dt,dd,blockquote,figcaption,label),
+footer :is(h1,h2,h3,h4,p,li,a,span) { text-align: center; }
+.site-center :is([class*="max-w-"]):not(input):not(textarea):not(select):not(img):not(video):not(canvas),
+footer [class*="max-w-"] { margin-left: auto; margin-right: auto; }
+.site-center .flex:not(.flex-col):not([class*="justify-between"]):not([class*="justify-end"]):not([class*="justify-around"]),
+.site-center .inline-flex:not([class*="justify-between"]),
+footer .container-padded .flex:not(.flex-col):not([class*="justify-between"]) { justify-content: center; }
+.site-center .flex-col:not([class*="items-"]), footer .flex-col:not([class*="items-"]) { align-items: center; }
+.site-center ul:not(.list-disc):not(.list-decimal), footer ul { padding-left: 0; }
+.site-center li:has(> svg:first-child), .site-center li.flex { justify-content: center; }
+footer nav { align-items: center; }
+footer .grid { justify-items: center; }
+/* (keep normal reading edges where centring hurts) */
+.site-center :is(.post-body, .post-body *, form input, form textarea, form select, pre, code, .text-left) { text-align: left; }
+.site-center form label { text-align: left; }
+.site-center .post-body [class*="max-w-"] { margin-left: 0; }
+
+/* (headers laid out as title + button on one row become one centred column) */
+.site-center [class*="grid-cols-[1fr_auto]"] { grid-template-columns: 1fr !important; justify-items: center; }
+.site-center :is(h1, h2) { margin-left: auto; margin-right: auto; }
+.site-center .section-heading { width: 100%; }
+.site-center .flex[class*="justify-between"]:has(> h1, > h2, > div > h1, > div > h2) { flex-direction: column; align-items: center; gap: 1.25rem; }
+.site-center .self-start, .site-center .self-end { align-self: center !important; }
+.site-center .w-fit { margin-left: auto; margin-right: auto; }
