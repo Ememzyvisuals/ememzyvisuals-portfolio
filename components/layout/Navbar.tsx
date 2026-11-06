@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { ThemePill } from "./ThemePill";
 import { navItems, primaryNav, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -34,10 +35,10 @@ export function Navbar() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-[background] duration-300",
-          scrolled ? "bg-gradient-to-b from-background via-background/80 to-transparent" : "bg-transparent"
+          scrolled && !mobileOpen ? "bg-gradient-to-b from-background via-background/80 to-transparent" : "bg-transparent"
         )}
       >
-        <div className="container-padded flex items-center justify-between gap-4 py-5 md:py-6">
+        <div className="flex items-center justify-between gap-4 px-4 pt-4 lg:container-padded lg:py-6">
           <Link href="/" aria-label="Home" className="sr-only">{siteConfig.name}</Link>
 
           {/* desktop: the main pages spread evenly across the top, then the menu and the theme on the right */}
@@ -49,7 +50,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-5">
+          <div className="ml-auto hidden items-center gap-5 lg:flex">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="nav-link"
@@ -60,6 +61,31 @@ export function Navbar() {
               <span>{mobileOpen ? "Close" : "Menu"}</span>
             </button>
             <ThemePill size="sm" />
+          </div>
+
+          {/* phones and tablets: the glass bar as before, the name on the left, the theme and the menu on the right */}
+          <div className="w-full lg:hidden" role="navigation" aria-label="Main navigation">
+            <GlassPanel
+              cornerRadius={16}
+              displacementScale={40}
+              blurAmount={0.1}
+              elasticity={0.08}
+              className={cn("!flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border transition-shadow duration-300", scrolled && "shadow-card")}
+              fallbackClassName={cn("liquid-glass flex w-full items-center justify-between px-5 py-3 rounded-xl border border-border !bg-background/70", scrolled && "shadow-card")}
+            >
+              <Link href="/" className="text-sm font-bold text-foreground">{siteConfig.name}</Link>
+              <div className="flex items-center gap-2">
+                <ThemePill size="sm" />
+                <button
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground"
+                  aria-label="Toggle menu"
+                  aria-expanded={mobileOpen}
+                >
+                  {mobileOpen ? <X size={17} /> : <Menu size={17} />}
+                </button>
+              </div>
+            </GlassPanel>
           </div>
         </div>
       </header>
@@ -76,7 +102,7 @@ export function Navbar() {
                   href={item.href}
                   style={{ animationDelay: `${i * 22}ms` }}
                   className={cn(
-                    "menu-rise rounded-xl px-4 py-3 font-tech text-[13px] font-semibold uppercase tracking-[0.08em] transition-colors",
+                    "menu-rise rounded-xl px-4 py-3 font-display text-[13px] font-semibold uppercase tracking-[0.08em] transition-colors",
                     isActive(item.href) ? "bg-foreground text-background" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                   )}
                 >

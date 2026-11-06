@@ -13,10 +13,10 @@ export function Hero() {
       <HeroScroll />
       <div className="relative mx-auto h-[min(100svh,1000px)] min-h-[640px] max-w-[2400px]">
         {/* the word, behind, along the bottom */}
-        <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton uppercase leading-[0.8]">
+        <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-display font-extrabold uppercase leading-[0.82] tracking-[-0.04em]">
           <span className="sr-only">Hi, I&apos;m </span>
           <span className="hidden md:inline">Ememzyvisuals</span>
-          <span className="md:hidden">Ememzy<br />visuals</span>
+          <span className="block md:hidden">Ememzy</span><span className="block md:hidden">visuals</span>
         </h1>
 
         {/* me, in front */}
@@ -27,7 +27,7 @@ export function Hero() {
         {/* the side text, as in the reference: a title in light caps and a few small facts on the left, a short
             line and the buttons on the right */}
         <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
-          <div className="max-w-[22rem] font-tech uppercase">
+          <div className="max-w-[22rem] font-display uppercase">
             <p className="hero-in text-[clamp(1.35rem,1.8vw,1.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-white" style={{ animationDelay: "350ms" }}>
               Software developer
               <br />
