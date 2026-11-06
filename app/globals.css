@@ -571,3 +571,9 @@ html:not(.dark) .logo-mono-dark { filter: grayscale(1); }
 
 /* "How I work": one card per row in a zig-zag, each row overlapping the last a little */
 @media (min-width: 768px) { .how-card[data-row="1"]{grid-row:1} .how-card[data-row="2"]{grid-row:2} .how-card[data-row="3"]{grid-row:3} .how-card[data-row="4"]{grid-row:4} .how-card:not([data-row="1"]){margin-top:-70px} }
+
+/* first hero screen: my name up top behind me, the text and buttons down at the bottom either side */
+@media (min-width: 768px) {
+  .hero-word-top { top: 15% !important; bottom: auto !important; }
+  .hero-hi { top: calc(15% - clamp(1.5rem, 2.6vw, 2.8rem) - 18px); bottom: auto; }
+}

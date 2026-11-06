@@ -38,7 +38,7 @@ export function Hero() {
           {/* slide 0: my nickname and my moving character */}
           <div className="hero-slide" data-i="0">
             <p className="hero-hi pointer-events-none absolute inset-x-0 select-none text-center font-display font-bold tracking-[-0.02em] text-white/80">Hi, I am</p>
-            <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton font-normal uppercase leading-[0.82]">
+            <h1 className="hero-word hero-word-top pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton font-normal uppercase leading-[0.82]">
               <span className="sr-only">Hi, I&apos;m </span>
               <span className="hidden md:inline">Ememzyvisuals</span>
               <span className="block md:hidden">Ememzy</span><span className="block md:hidden">visuals</span>
@@ -46,7 +46,7 @@ export function Hero() {
             <div className="hero-me pointer-events-none absolute inset-x-0 bottom-0 top-[14%] flex justify-center">
               <HeroMe />
             </div>
-            <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
+            <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-end md:justify-between md:pb-[7vh] md:pt-0">
               <div className="mx-auto max-w-[24rem] text-center md:mx-0 md:max-w-[28rem] md:text-left">
                 <p className="hero-in font-display text-[clamp(1.6rem,2.5vw,2.6rem)] font-bold leading-[1.15] tracking-[-0.03em] text-white" style={{ animationDelay: "350ms" }}>
                   Software developer,
