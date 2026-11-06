@@ -24,10 +24,10 @@ export function Hero() {
 
         {/* the side text */}
         <div className="container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[30vh]">
-          <div className="hero-rise max-w-[19rem]" style={{ animationDelay: "250ms" }}>
-            <p className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white">Machine learning<br />engineer</p>
+          <div className="hero-rise max-w-[23rem]" style={{ animationDelay: "250ms" }}>
+            <p className="text-[12px] font-extrabold uppercase leading-[1.7] tracking-[0.12em] text-white">Software developer<br />AI and machine learning engineer<br />NLP researcher for African languages</p>
             <p className="mt-4 text-[14px] font-semibold leading-relaxed text-white/70">
-              I build speech and language AI for African languages, and the web products that put it in people&apos;s hands.
+              I research and build speech and language AI for African and other low-resource languages, and the software that puts it in people&apos;s hands.
             </p>
           </div>
           <div className="hero-rise hidden max-w-[19rem] flex-col gap-4 md:flex md:items-end md:text-right" style={{ animationDelay: "380ms" }}>

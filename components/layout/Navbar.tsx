@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, MoreHorizontal } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { ThemePill } from "./ThemePill";
 import { navItems, primaryNav, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -20,21 +20,9 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // desktop: the main links stay in the bar, the rest open from the "More" button
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLElement>(null);
   const mainItems = primaryNav.map((h) => navItems.find((i) => i.href === h) ?? { label: "Games", href: h });
-  const moreItems = navItems.filter((i) => !primaryNav.includes(i.href) && !(i.href === "/games" && primaryNav.includes("/#games")));
-  useEffect(() => {
-    if (!moreOpen) return;
-    const close = (e: MouseEvent) => { if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false); };
-    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setMoreOpen(false); };
-    document.addEventListener("mousedown", close);
-    document.addEventListener("keydown", esc);
-    return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", esc); };
-  }, [moreOpen]);
 
-  useEffect(() => { setMobileOpen(false); setMoreOpen(false); }, [pathname]);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -52,67 +40,34 @@ export function Navbar() {
         <div className="container-padded flex items-center justify-between gap-4 py-5 md:py-6">
           <Link href="/" aria-label="Home" className="sr-only">{siteConfig.name}</Link>
 
-          {/* desktop */}
-          <nav aria-label="Main navigation" ref={moreRef} className="relative hidden w-full items-center gap-10 lg:flex">
-            {mainItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn("nav-link", isActive(item.href) && "nav-link-on")}
-              >
+          {/* desktop: the main pages spread evenly across the top, then the menu and the theme on the right */}
+          <nav aria-label="Main navigation" className="hidden flex-1 items-center justify-between pr-14 lg:flex">
+            {[{ label: "Home", href: "/" }, ...mainItems].map((item) => (
+              <Link key={item.href} href={item.href} className={cn("nav-link", isActive(item.href) && "nav-link-on")}>
                 {item.label}
               </Link>
             ))}
-            <button
-              type="button"
-              onClick={() => setMoreOpen((v) => !v)}
-              aria-expanded={moreOpen}
-              aria-haspopup="menu"
-              aria-label="More pages"
-              className={cn("nav-link", (moreOpen || moreItems.some((i) => isActive(i.href))) && "nav-link-on")}
-            >
-              <MoreHorizontal size={16} />
-            </button>
-            <span className="ml-auto"><ThemePill /></span>
-            {moreOpen && (
-              <div role="menu" className="absolute right-0 top-[calc(100%+10px)] z-50 w-56 rounded-2xl border border-border bg-background p-1.5 shadow-card-hover">
-                {moreItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    className={cn(
-                      "block rounded-xl px-3 py-2 text-sm font-bold transition-colors",
-                      isActive(item.href) ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
           </nav>
 
-          {/* phones and tablets */}
-          <div className="ml-auto flex items-center gap-3 lg:hidden">
-            <ThemePill size="sm" />
+          <div className="flex items-center gap-5">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="nav-link"
-              aria-label="Toggle menu"
+              aria-label={mobileOpen ? "Close the menu" : "Open the menu"}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={16} /> : <Menu size={16} />}
+              {mobileOpen ? <X size={18} strokeWidth={2.2} /> : <Menu size={18} strokeWidth={2.2} />}
               <span>{mobileOpen ? "Close" : "Menu"}</span>
             </button>
+            <ThemePill size="sm" />
           </div>
         </div>
       </header>
 
-      {/* the menu on phones: the whole screen, big links */}
+      {/* the menu: the whole screen, every page in big type */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-background lg:hidden">
-          <nav aria-label="Main navigation" className="container-padded flex h-full flex-col justify-center gap-1 pb-10 pt-24">
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-background">
+          <nav aria-label="All pages" className="container-padded grid content-center gap-x-10 gap-y-1 pb-10 pt-24 md:min-h-full md:grid-cols-2 lg:grid-cols-3">
             {navItems.map((item, i) => (
               <Link
                 key={item.href}
