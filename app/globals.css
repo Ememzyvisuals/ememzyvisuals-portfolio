@@ -414,11 +414,44 @@ body::after {
 .hero-chip:hover { background: rgba(255,255,255,.1); }
 .hero-chip-on { background: #fff; color: #000; border-color: #fff; }
 .hero-chip-on:hover { background: rgba(255,255,255,.85); }
-/* the layers at different speeds as the page scrolls */
-.hero-stage .hero-word { translate: 0 calc(var(--hs, 0) * 12%); }
-.hero-stage .hero-me { translate: 0 calc(var(--hs, 0) * -8%); }
-.hero-stage .hero-side { opacity: calc(1 - var(--hs, 0) * 1.8); translate: 0 calc(var(--hs, 0) * -40px); }
 /* the character rises from below when the page opens, body first, like the reference */
 @keyframes heroMeRise { from { opacity: 0; transform: translateY(18%); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
 .hero-me { animation: heroMeRise 1.4s .1s cubic-bezier(.16,.8,.2,1) both !important; }
 @media (prefers-reduced-motion: reduce) { .hero-in, .hero-me { animation: none !important; } }
+
+/* the hero slides: one shows at a time; the others wait below, faded. Changing slide slides the old word down and
+   out while the new one rises in, swaps the character with a short rise, and fades the side text */
+.hero-stage { transition: background-color .9s ease; }
+.hero-stage[data-slide="1"] { background-color: #0b1022; }
+.hero-stage[data-slide="2"] { background-color: #140c22; }
+.hero-stage[data-slide="3"] { background-color: #1c1607; }
+.hero-slide { position: absolute; inset: 0; pointer-events: none; }
+.hero-slide .hero-word, .hero-slide .hero-me, .hero-slide .hero-char, .hero-slide .hero-side, .hero-slide .hero-side-alt {
+  transition: opacity .7s ease, transform .9s cubic-bezier(.2,.75,.2,1);
+}
+.hero-slide .hero-word { opacity: 0; transform: translateY(30%); }
+.hero-slide .hero-me, .hero-slide .hero-char { opacity: 0; transform: translateY(10%) scale(.96); }
+.hero-slide .hero-side, .hero-slide .hero-side-alt { opacity: 0; transform: translateY(24px); }
+.hero-stage[data-slide="0"] .hero-slide[data-i="0"],
+.hero-stage[data-slide="1"] .hero-slide[data-i="1"],
+.hero-stage[data-slide="2"] .hero-slide[data-i="2"],
+.hero-stage[data-slide="3"] .hero-slide[data-i="3"] { pointer-events: auto; }
+.hero-stage[data-slide="0"] .hero-slide[data-i="0"] :is(.hero-word,.hero-me,.hero-side),
+.hero-stage[data-slide="1"] .hero-slide[data-i="1"] :is(.hero-word,.hero-char,.hero-side-alt),
+.hero-stage[data-slide="2"] .hero-slide[data-i="2"] :is(.hero-word,.hero-char,.hero-side-alt),
+.hero-stage[data-slide="3"] .hero-slide[data-i="3"] :is(.hero-word,.hero-char,.hero-side-alt) { opacity: 1; transform: none; }
+/* (the slide that is active sends the character and text in a little later than the word) */
+.hero-stage .hero-slide .hero-char, .hero-stage .hero-slide .hero-me { transition-delay: .08s; }
+.hero-stage .hero-slide .hero-side-alt, .hero-stage .hero-slide .hero-side { transition-delay: .16s; }
+/* the other slides' words are a full word per screen, so a little bigger */
+.hero-word-alt { font-size: clamp(5rem, 30vw, 40rem) !important; }
+@media (max-width: 767px) {
+  .hero-word-alt { font-size: 31vw !important; bottom: 14% !important; }
+  .hero-char { top: 34% !important; }
+}
+.hero-dot { width: 6px; height: 6px; border-radius: 99px; background: rgba(255,255,255,.3); transition: height .4s ease, background .4s ease; }
+.hero-stage[data-slide="0"] .hero-dot[data-i="0"], .hero-stage[data-slide="1"] .hero-dot[data-i="1"],
+.hero-stage[data-slide="2"] .hero-dot[data-i="2"], .hero-stage[data-slide="3"] .hero-dot[data-i="3"] { height: 22px; background: #fff; }
+@media (prefers-reduced-motion: reduce) { .hero-slide * { transition: none !important; } }
+/* (inside the slides the show and hide is the transition above; the page-load keyframes would hold every layer visible) */
+.hero-slide .hero-word, .hero-slide .hero-me, .hero-slide .hero-char { animation: none !important; }
