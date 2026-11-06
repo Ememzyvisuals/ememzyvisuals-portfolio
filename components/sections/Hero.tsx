@@ -13,7 +13,7 @@ export function Hero() {
       <HeroScroll />
       <div className="relative mx-auto h-[min(100svh,1000px)] min-h-[640px] max-w-[2400px]">
         {/* the word, behind, along the bottom */}
-        <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-display font-extrabold uppercase leading-[0.82] tracking-[-0.04em]">
+        <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton font-normal uppercase leading-[0.82]">
           <span className="sr-only">Hi, I&apos;m </span>
           <span className="hidden md:inline">Ememzyvisuals</span>
           <span className="block md:hidden">Ememzy</span><span className="block md:hidden">visuals</span>
