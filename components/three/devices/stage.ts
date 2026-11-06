@@ -526,13 +526,24 @@ export function mount(el: HTMLElement, scene: Scene, onReady: () => void, onFail
     if (scene === "hero" || scene.startsWith("p:")) {
       const [lap, ph] = await Promise.all([first(want.laptop, "laptop"), first(want.phone, "phone")]);
       if (!alive) return;
-      const L = laptopPart(lap, [-0.5, 0, 0], [0, -0.22, 0], -0.32);
-      const P = phonePart(ph, [1.72, 0.86, 1.0], [-0.04, -0.42, -0.05], 1.3, -1.16, 0.5);
+      // (each project has its own pose, so the grid never repeats: side by side, phone in front, laptop turned, phone
+      // leading; the hero keeps the first)
+      const POSES: Record<string, number> = { claudgpt: 0, aethlife: 3, flonextv: 2, naijaprep: 1, studenthub: 0, nairanest: 3, storejet: 1, artoluwani: 2 };
+      const pose = scene.startsWith("p:") ? POSES[scene.slice(2)] ?? 0 : 0;
+      const layouts: [[number, number, number], [number, number, number], [number, number, number], [number, number, number], number][] = [
+        [[-0.5, 0, 0], [0, -0.22, 0], [1.72, 0.86, 1.0], [-0.04, -0.42, -0.05], 1.3],
+        [[0.25, 0, -0.4], [0, 0.18, 0], [-1.35, 0.9, 1.15], [0.04, 0.38, 0.06], 1.35],
+        [[-0.2, 0, 0], [0, -0.62, 0], [1.9, 0.7, 0.3], [-0.06, -0.85, -0.04], 1.2],
+        [[-1.1, 0, -0.6], [0, 0.42, 0], [0.9, 0.95, 1.2], [0.08, -0.18, 0.12], 1.6],
+      ];
+      const [la, lr, pa, pr, ps] = layouts[pose];
+      const L = laptopPart(lap, la, lr, -0.32);
+      const P = phonePart(ph, pa, pr, ps, -1.16, 0.5);
       parts.push(L, P);
       later.push({ screen: L.screen, names: want.laptop, kind: "laptop" }, { screen: P.screen, names: want.phone, kind: "phone" });
       world.position.set(-0.15, -0.8, -0.3);
       frame = { w: 5.0, h: 3.05 };
-      elev = 0.2;
+      elev = [0.2, 0.26, 0.14, 0.3][pose];
     } else if (scene === "phones") {
       const [a, b] = await Promise.all([first(want.a, "phone"), first(want.b, "android")]);
       if (!alive) return;

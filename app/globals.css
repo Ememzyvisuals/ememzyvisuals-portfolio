@@ -541,7 +541,7 @@ footer .grid { justify-items: center; }
 .nav-cta-dot::after { content: ""; width: 7px; height: 7px; border-radius: 99px; background: hsl(var(--brand-foreground)); }
 
 /* "Hi, I am" sits just above the big word, on its left */
-.hero-hi { bottom: calc(4% + 15.4vw * .82); left: 7%; right: auto; font-size: clamp(1rem, 1.6vw, 1.6rem); text-align: left; animation: heroIn .8s .2s both; }
+.hero-hi { bottom: calc(4% + 15.4vw * .82 + 10px); left: 7%; right: auto; font-size: clamp(1rem, 1.6vw, 1.6rem); text-align: left; animation: heroIn .8s .2s both; }
 @media (max-width: 767px) { .hero-hi { bottom: calc(8% + 29vw * .9 * 2); left: 50%; transform: translateX(-50%); text-align: center; } }
 .hero-stage[data-slide]:not([data-slide="0"]) .hero-hi { opacity: 0; transition: opacity .5s; }
 /* the moving line of facts and the line of logos */
@@ -549,3 +549,4 @@ footer .grid { justify-items: center; }
 .ticker { display: flex; width: max-content; animation: tick 38s linear infinite; }
 .ticker-slow { animation-duration: 46s; }
 @media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+.hero-hi { z-index: 6; } @media (max-width: 767px) { .hero-hi { left: 8%; transform: none; text-align: left; } }

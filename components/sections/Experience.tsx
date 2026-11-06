@@ -67,6 +67,12 @@ const JOBS: Job[] = [
   },
 ];
 
+const BRAND: Record<string, { bg: string; ink: string; pill: string; tile: string; tileInk: string; glow: string; full?: boolean }> = {
+  plotweaver: { bg: "linear-gradient(165deg,#d6ff3a,#a8d400)", ink: "#0e1a17", pill: "rgba(14,26,23,.1)", tile: "#ffffff", tileInk: "#c4f000", glow: "rgba(255,255,255,.35)" },
+  axiveri: { bg: "linear-gradient(165deg,#ff7a1a,#d94f00)", ink: "#ffffff", pill: "rgba(255,255,255,.16)", tile: "#ffffff", tileInk: "#d94f00", glow: "rgba(255,255,255,.18)", full: true },
+  renncora: { bg: "linear-gradient(165deg,#e21fe2,#8a0a9a)", ink: "#ffffff", pill: "rgba(255,255,255,.16)", tile: "#ffffff", tileInk: "#8a0a9a", glow: "rgba(255,255,255,.18)" },
+};
+
 function Mark({ m, name }: { m: Job["mark"]; name: string }) {
   return (
     <span
@@ -93,40 +99,38 @@ export function Experience() {
           </p>
         </div>
 
-        {/* a timeline down the middle: each role is a card on alternating sides, its company's mark sitting on the line */}
-        <ol className="exp-line relative mx-auto mt-16 max-w-6xl">
+        {/* one card per company, side by side, each in that company's own colours with its mark on top */}
+        <ol className="mx-auto mt-14 grid max-w-7xl gap-6 lg:grid-cols-3">
           {JOBS.map((job, i) => {
-            const right = i % 2 === 1;
+            const c = BRAND[job.id];
             return (
               <motion.li
                 key={job.id}
-                initial={{ opacity: 0, x: right ? 60 : -60, y: 20 }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.7, ease: [0.2, 0.75, 0.2, 1] }}
-                className="relative grid gap-6 pb-16 last:pb-0 md:grid-cols-2 md:gap-20"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease: [0.2, 0.75, 0.2, 1] }}
+                className="relative flex flex-col overflow-hidden rounded-[32px] p-8 text-center transition-transform duration-500 hover:-translate-y-1.5 md:p-10"
+                style={{ background: c.bg, color: c.ink }}
               >
-                {/* the mark, on the line */}
-                <div className="z-10 flex justify-center md:absolute md:left-1/2 md:top-6 md:-translate-x-1/2">
-                  <span className="rounded-[22px] bg-background p-1.5 shadow-[0_0_0_1px_hsl(var(--border))]"><Mark m={job.mark} name={job.company} /></span>
+                <span aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full" style={{ background: c.glow }} />
+                <span className="relative mx-auto grid h-20 w-20 place-items-center overflow-hidden rounded-[24px] shadow-[0_14px_30px_-12px_rgba(0,0,0,.45)]" style={{ background: c.tile }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={job.mark.src} alt={`${job.company} logo`} className={c.full ? "h-full w-full object-cover" : "h-11 w-auto object-contain"} />
+                </span>
+                <div className="relative mt-6 flex flex-wrap items-center justify-center gap-2">
+                  <span className="rounded-full px-3 py-1 text-[13px] font-bold" style={{ background: c.pill, color: c.ink }}>{job.period}</span>
+                  <span className="rounded-full px-3 py-1 text-[13px] font-semibold" style={{ background: c.pill, color: c.ink }}>{job.where}</span>
+                  {job.current && <span className="rounded-full px-3 py-1 text-[13px] font-extrabold" style={{ background: c.ink, color: c.tileInk }}>Current</span>}
                 </div>
-                <div className={right ? "md:col-start-2" : ""}>
-                  <article className="card-surface group relative overflow-hidden p-7 text-center transition-transform duration-500 hover:-translate-y-1 md:p-9">
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      <span className="rounded-full border border-border px-3 py-1 text-[13px] font-bold text-foreground">{job.period}</span>
-                      <span className="rounded-full border border-border px-3 py-1 text-[13px] font-semibold text-muted-foreground">{job.where}</span>
-                      {job.current && <span className="rounded-full bg-brand px-3 py-1 text-[13px] font-bold text-brand-foreground">Current</span>}
-                    </div>
-                    <h3 className="mt-5 font-display text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">{job.role}</h3>
-                    <p className="font-museum mt-1 text-xl text-foreground/70">{job.company}</p>
-                    <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/80 md:text-base">{job.summary}</p>
-                    <ul className="mx-auto mt-6 grid max-w-xl gap-2">
-                      {job.did.map((d) => (
-                        <li key={d} className="rounded-2xl bg-secondary/70 px-4 py-3 text-sm font-semibold leading-relaxed text-foreground/85">{d}</li>
-                      ))}
-                    </ul>
-                  </article>
-                </div>
+                <h3 className="relative mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight">{job.role}</h3>
+                <p className="relative mt-1 text-lg font-bold opacity-80">{job.company}</p>
+                <p className="relative mt-4 text-[15px] font-medium leading-relaxed opacity-85">{job.summary}</p>
+                <ul className="relative mt-6 grid gap-2">
+                  {job.did.map((d) => (
+                    <li key={d} className="rounded-2xl px-4 py-3 text-[14px] font-semibold leading-relaxed" style={{ background: c.pill }}>{d}</li>
+                  ))}
+                </ul>
               </motion.li>
             );
           })}
