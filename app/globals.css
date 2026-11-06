@@ -574,6 +574,6 @@ html:not(.dark) .logo-mono-dark { filter: grayscale(1); }
 
 /* first hero screen: my name up top behind me, the text and buttons down at the bottom either side */
 @media (min-width: 768px) {
-  .hero-word-top { top: 15% !important; bottom: auto !important; }
-  .hero-hi { top: calc(15% - clamp(1.5rem, 2.6vw, 2.8rem) - 18px); bottom: auto; }
+  .hero-word-top { top: 24% !important; bottom: auto !important; }
+  .hero-hi { top: calc(24% - clamp(1.5rem, 2.6vw, 2.8rem) - 18px); bottom: auto; }
 }
