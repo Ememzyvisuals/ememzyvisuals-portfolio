@@ -12,7 +12,7 @@ export function isLite(): boolean {
   const n = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean; effectiveType?: string } };
   if (window.matchMedia("(max-width: 768px)").matches) return true;
   if (n.connection?.saveData) return true;
-  if (n.connection?.effectiveType && /(^|-)2g|3g/.test(n.connection.effectiveType)) return true;
-  if (n.deviceMemory && n.deviceMemory <= 4) return true;
+  // (laptops and desktops always get the live 3D, whatever their memory; only very slow connections fall back)
+  if (n.connection?.effectiveType && /(^|-)2g/.test(n.connection.effectiveType)) return true;
   return false;
 }

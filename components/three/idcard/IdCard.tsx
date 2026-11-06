@@ -39,7 +39,7 @@ export function IdCard() {
   }, [mode, ext]);
 
   return (
-    <div ref={wrap} className="relative mx-auto h-[540px] w-full max-w-md md:mx-0 md:h-[700px] md:max-w-xl">
+    <div ref={wrap} className="relative mx-auto h-[600px] w-full max-w-lg md:mx-0 md:h-[780px] md:max-w-none">
       {mode === "live" && (
         <div ref={box} data-ext={ext} style={{ top: -ext }} className={`absolute inset-x-0 bottom-0 z-0 transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`} role="img"
           aria-label="Emmanuel's three ID cards on lanyards: Software Engineer, PlotWeaver Machine Learning Engineer, and Axiveri Founder." />

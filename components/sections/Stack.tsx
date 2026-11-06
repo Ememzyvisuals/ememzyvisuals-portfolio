@@ -26,8 +26,8 @@ function TechBox({ name, logo }: { name: string; logo: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 p-5 md:p-4 bg-white rounded-2xl aspect-square shadow-[0px_4px_24px_rgba(0,0,0,0.15)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.22)] transition-shadow duration-200">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 md:w-9 md:h-9 object-contain" loading="lazy" />
-      <span className="text-[12px] md:text-[10px] font-semibold text-center leading-tight text-gray-800">{name}</span>
+      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 md:w-16 md:h-16 object-contain" loading="lazy" />
+      <span className="text-[12px] md:text-[15px] font-bold text-center leading-tight text-gray-800">{name}</span>
     </div>
   );
 }
@@ -48,7 +48,7 @@ export function Stack() {
           </div>
         </motion.div>
 
-        <div className="mx-auto grid max-w-6xl gap-x-10 gap-y-12 pt-6 md:grid-cols-2">
+        <div className="mx-auto grid w-full gap-x-12 gap-y-14 pt-6 lg:grid-cols-2">
           {STACK_SECTIONS.map((section, si) => (
             <motion.div
               key={section.title}
@@ -58,10 +58,10 @@ export function Stack() {
               transition={{ duration: 0.5, delay: si * 0.06 }}
               className="space-y-5"
             >
-              <h3 className="text-xl font-extrabold text-center tracking-tight text-foreground">
+              <h3 className="text-2xl md:text-3xl font-extrabold text-center tracking-tight text-foreground">
                 {section.title}
               </h3>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:gap-5">
                 {section.items.map((item) => (
                   <TechBox key={item.name} name={item.name} logo={item.logo} />
                 ))}

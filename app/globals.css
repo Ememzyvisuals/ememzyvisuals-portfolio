@@ -499,3 +499,25 @@ footer .grid { justify-items: center; }
 .site-center .flex[class*="justify-between"]:has(> h1, > h2, > div > h1, > div > h2) { flex-direction: column; align-items: center; gap: 1.25rem; }
 .site-center .self-start, .site-center .self-end { align-self: center !important; }
 .site-center .w-fit { margin-left: auto; margin-right: auto; }
+
+/* the character turns towards the cursor: his body pivots from the hips, his head leads a little */
+.hero-stage .hero-me > *, .hero-stage .hero-char > img {
+  transform-origin: 50% 100%;
+  transform: perspective(1400px) rotateY(calc(var(--mx, 0) * 14deg)) rotateX(calc(var(--my, 0) * -5deg)) translateX(calc(var(--mx, 0) * 18px));
+}
+/* (where a section asks for a left edge from a breakpoint up, like the hero's side text, that wins) */
+@media (min-width: 768px) {
+  .site-center .md\:text-left, .site-center .md\:text-left :is(h1,h2,h3,h4,p,li,a,span,div) { text-align: left; }
+  .site-center .md\:text-right, .site-center .md\:text-right :is(p,a,span,div) { text-align: right; }
+  .site-center .md\:justify-start { justify-content: flex-start !important; }
+  .site-center .md\:mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+}
+@media (min-width: 1024px) {
+  .site-center .lg\:text-left, .site-center .lg\:text-left :is(h1,h2,h3,h4,p,li,a,span,div) { text-align: left; }
+  .site-center .lg\:justify-start { justify-content: flex-start !important; }
+  .site-center .lg\:mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+}
+.site-center .hero-side > div:last-child p, .site-center .hero-side-alt > div:last-child p { text-align: left; }
+.site-center .hero-side > div:last-child .flex, .site-center .hero-side-alt > div:last-child .flex { justify-content: flex-start; }
+@media (max-width: 767px) { .site-center .hero-side > div:last-child p, .site-center .hero-side-alt > div:last-child p { text-align: center; } }
+@media (min-width: 768px) { .site-center :is(.hero-side, .hero-side-alt) > div { margin-left: 0 !important; margin-right: 0 !important; } }

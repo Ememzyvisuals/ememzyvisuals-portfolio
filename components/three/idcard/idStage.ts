@@ -135,7 +135,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
     // the canvas reaches up to the top of the page (data-ext px above the card area) so the straps come
     // down from off screen; keep the cards the same size by scaling the view with the real card area height
     const ext = Number(el.dataset.ext || 0), base = Math.max(1, h - ext);
-    const span = w < 640 ? 9.6 : 5.0; // (phones: a wider view so all three cards fit side by side)
+    const span = w < 640 ? 9.0 : 4.6; // (phones: a wider view so all three cards fit side by side)
     const unit = span / base; // world units per pixel
     const viewH = h * unit;
     const cy = -0.3 + (ext / 2) * unit; // card area stays where it was; the extra height sits above it
@@ -225,11 +225,6 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
         if (!live) continue;
         p.add(d);
         p.y += g * (i === N - 1 ? 2.2 : 1);
-        if (grabbed !== l) {
-          const w = Math.sin(now * 0.0011 + l.x * 1.7) * 0.6 + Math.sin(now * 0.0023 + l.x) * 0.3;
-          p.x += w * 0.00055 * i;
-          p.z += Math.cos(now * 0.0009 + l.x) * 0.00035 * i;
-        }
         p.z += (l.z - p.z) * 0.1;
       }
       if (grabbed === l) pts[N - 1].lerp(target, 0.35);
@@ -249,7 +244,7 @@ export function mountId(el: HTMLElement, opts: { onReady: () => void; onFail: ()
       // card hangs from the end of the strap and leans with it; spin settles to front or back
       const C = pts[N - 1];
       up.copy(pts[N - 3]).sub(C).normalize();
-      l.spinV += (-6 * Math.sin(l.spin - l.flip - l.tilt - Math.sin(now * 0.0007 + l.x) * 0.09) - 1.4 * l.spinV) * dt;
+      l.spinV += (-6 * Math.sin(l.spin - l.flip - l.tilt) - 1.4 * l.spinV) * dt;
       l.spin += l.spinV * dt;
       q.setFromUnitVectors(Y, up);
       qs.setFromAxisAngle(Y, l.spin);

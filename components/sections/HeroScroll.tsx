@@ -22,9 +22,23 @@ export function HeroScroll({ count }: { count: number }) {
       });
     };
     on();
+    // (the character turns towards the cursor: --mx and --my from -1 to 1, eased so the turn stays smooth)
+    let mx = 0, my = 0, tx = 0, ty = 0, raf2 = 0;
+    const fine = window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const step = () => {
+      mx += (tx - mx) * 0.08; my += (ty - my) * 0.08;
+      el.style.setProperty("--mx", mx.toFixed(4)); el.style.setProperty("--my", my.toFixed(4));
+      raf2 = Math.abs(tx - mx) + Math.abs(ty - my) > 0.001 ? requestAnimationFrame(step) : 0;
+    };
+    const look = (e: PointerEvent) => {
+      tx = Math.max(-1, Math.min(1, (e.clientX / window.innerWidth) * 2 - 1));
+      ty = Math.max(-1, Math.min(1, (e.clientY / window.innerHeight) * 2 - 1));
+      if (!raf2) raf2 = requestAnimationFrame(step);
+    };
+    if (fine) window.addEventListener("pointermove", look, { passive: true });
     window.addEventListener("scroll", on, { passive: true });
     window.addEventListener("resize", on);
-    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener("pointermove", look); cancelAnimationFrame(raf2); window.removeEventListener("scroll", on); window.removeEventListener("resize", on); cancelAnimationFrame(raf); };
   }, [count]);
   return null;
 }
