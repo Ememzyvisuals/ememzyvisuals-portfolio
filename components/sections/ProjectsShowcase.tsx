@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Github } from "lucide-react";
 import { Devices3D } from "@/components/three/devices/Devices3D";
 import { ALL_PROJECTS } from "@/data/projects";
+import { ProjReveal } from "./ProjReveal";
 
 // projects that have both a desktop and a mobile screen in /public/shots
 const ON_DEVICES = ["claudgpt", "aethlife", "flonextv", "naijaprep", "studenthub", "nairanest", "storejet", "artoluwani"];
@@ -21,10 +22,11 @@ export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {})
 
   return (
     <section id="showcase" className="section-padding container-padded overflow-hidden">
-      <div className="mb-14 md:mb-20">
+      <ProjReveal />
+      <div className="mb-14 text-center md:mb-20">
         <h2 className="section-heading">Built and shipped</h2>
-        <p className="text-muted-foreground mt-3 max-w-xl">
-          Live products, each on its own screens. Tap the laptop or the phone, or drag to turn them.
+        <p className="text-muted-foreground mx-auto mt-3 max-w-xl text-lg">
+          Live products, each on its own screens. Scroll, and each one turns to show itself.
         </p>
       </div>
 
@@ -34,9 +36,9 @@ export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {})
           return (
             <article
               key={key}
-              className="grid gap-8 min-w-0 lg:grid-cols-2 lg:items-center lg:gap-14"
+              className="proj-row grid gap-8 min-w-0 lg:grid-cols-2 lg:items-center lg:gap-14"
             >
-              <div className={`min-w-0 order-2 ${flip ? "lg:order-2" : "lg:order-1"}`}>
+              <div className={`proj-text min-w-0 order-2 text-center lg:text-left ${flip ? "lg:order-2 proj-from-r" : "lg:order-1 proj-from-l"}`}>
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {String(i + 1).padStart(2, "0")} &nbsp;/&nbsp; {p!.isMobilePrimary ? "Mobile app" : "Web app"}
                 </div>
@@ -44,9 +46,9 @@ export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {})
                   {p!.title}
                 </h3>
                 {p!.subtitle && <p className="font-museum mt-2 text-xl md:text-2xl text-foreground/80">{p!.subtitle}</p>}
-                <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground max-w-xl">{p!.description}</p>
+                <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground lg:mx-0 md:text-[17px]">{p!.description}</p>
                 {p!.techStack && (
-                  <ul className="mt-6 flex flex-wrap gap-2 max-w-xl">
+                  <ul className="mx-auto mt-6 flex max-w-xl flex-wrap justify-center gap-2 lg:mx-0 lg:justify-start">
                     {p!.techStack.map((t) => (
                       <li key={t} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-foreground/80">
                         {t}
@@ -54,7 +56,7 @@ export function ProjectsShowcase({ showAll = true }: { showAll?: boolean } = {})
                     ))}
                   </ul>
                 )}
-                <div className="mt-7 flex flex-wrap items-center gap-3">
+                <div className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                   {p!.liveUrl && (
                     <Link
                       href={p!.liveUrl}

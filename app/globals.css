@@ -461,3 +461,13 @@ body::after {
 @keyframes aboutFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 .about-float { animation: aboutFloat 5s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .about-float { animation: none; } }
+
+/* the projects: each project's text slides in from its own side when it arrives, a line at a time */
+.proj-text > * { opacity: 0; transform: translateX(var(--from, -40px)); transition: opacity .8s ease, transform .9s cubic-bezier(.2,.75,.2,1); }
+.proj-from-r { --from: 40px; }
+.proj-row.in .proj-text > * { opacity: 1; transform: none; }
+.proj-row.in .proj-text > *:nth-child(2) { transition-delay: .08s; } .proj-row.in .proj-text > *:nth-child(3) { transition-delay: .16s; }
+.proj-row.in .proj-text > *:nth-child(4) { transition-delay: .24s; } .proj-row.in .proj-text > *:nth-child(5) { transition-delay: .32s; }
+.proj-row.in .proj-text > *:nth-child(6) { transition-delay: .4s; }
+@media (max-width: 1023px) { .proj-text > * { transform: translateY(24px); } }
+@media (prefers-reduced-motion: reduce) { .proj-text > * { opacity: 1; transform: none; transition: none; } }

@@ -742,6 +742,8 @@ export function mount(el: HTMLElement, scene: Scene, onReady: () => void, onFail
   const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0.05 });
   io.observe(el);
 
+  let autoAt = -1;
+  const autoN: number[] = [];
   const loop = (now: number) => {
     raf = requestAnimationFrame(loop);
     const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
@@ -757,8 +759,20 @@ export function mount(el: HTMLElement, scene: Scene, onReady: () => void, onFail
     px = lerp(px, tx, k);
     py = lerp(py, ty, k);
     sx = lerp(sx, reduce ? 0 : scroll, Math.min(1, dt * 6));
-    world.rotation.y = sx * -0.22 + px * 0.13;
-    world.rotation.x = py * 0.05 + sx * 0.04;
+    world.rotation.y = sx * -0.42 + px * 0.13;
+    world.rotation.x = py * 0.05 + sx * 0.08;
+    world.position.y = Math.sin(t * 0.8) * 0.04 - sx * 0.25;
+
+    // (no tap needed: when the devices come into the middle of the screen, each does its turn by itself, one after the
+    // other, once each time they scroll in; then again every few seconds while they stay in view)
+    const centred = Math.abs(scroll) < 0.35;
+    if (!reduce && centred && t > 1.6) {
+      if (autoAt < 0) autoAt = t;
+      parts.forEach((p, i) => {
+        const due = autoAt + 1.2 + i * 1.4 + (autoN[i] ?? 0) * 14;
+        if (p.act < 0 && !p.held && t >= due) { p.act = 0; autoN[i] = (autoN[i] ?? 0) + 1; }
+      });
+    } else if (!centred) { autoAt = -1; autoN.length = 0; }
 
     for (const p of parts) {
       p.enter(t, p);
