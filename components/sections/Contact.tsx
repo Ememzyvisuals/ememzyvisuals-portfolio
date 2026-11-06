@@ -126,14 +126,14 @@ function ContactForm({ defaultCategory }: { defaultCategory: string }) {
       {/* Category */}
       <div className="space-y-1.5">
         <label className="text-sm font-bold text-foreground">Inquiry Type</label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-2">
           {CATEGORIES.map((c) => (
             <button
               key={c.value}
               type="button"
               onClick={() => setCategory(c.value)}
               className={cn(
-                "px-3 py-2.5 rounded-xl border text-xs font-bold text-left transition-all",
+                "min-w-0 whitespace-normal px-3 py-2.5 rounded-xl border text-xs font-bold text-left transition-all",
                 category === c.value
                   ? "bg-foreground text-background border-foreground"
                   : "border-border text-muted-foreground hover:border-foreground/40"
@@ -245,7 +245,7 @@ function ContactInner({ aside }: { aside?: React.ReactNode }) {
   return (
     <section id="contact" className="relative py-section overflow-hidden">
       <div className="container-padded">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div className="space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
