@@ -59,6 +59,10 @@ export function Hero() {
                   <a href="https://github.com/Ememzyvisuals" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">GitHub</a>
                   <a href="https://huggingface.co/Axiveri" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">Hugging Face</a>
                 </div>
+                <div className="hero-in mt-5 flex justify-center gap-2.5 md:hidden" style={{ animationDelay: "640ms" }}>
+                  <Link href="/contact" className="hero-chip hero-chip-on">Get in touch</Link>
+                  <Link href="/work" className="hero-chip">See my work</Link>
+                </div>
               </div>
               <div className="hidden max-w-[22rem] md:block">
                 <p className="hero-in text-[15.5px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "560ms" }}>
@@ -108,16 +112,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* phones: the buttons after the slides */}
-      <div className="container-padded flex flex-col items-center gap-4 pb-10 pt-6 text-center md:hidden">
-        <div className="flex flex-wrap justify-center gap-2.5">
-          <Link href="/contact" className="hero-chip hero-chip-on">Get in touch</Link>
-          <Link href="/work" className="hero-chip">See my work</Link>
-        </div>
-        <Link href="/axiveri" className="text-[13px] font-semibold text-white/70">
-          Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
-        </Link>
-      </div>
     </section>
   );
 }

@@ -446,8 +446,9 @@ body::after {
 /* the other slides' words are a full word per screen, so a little bigger */
 .hero-word-alt { font-size: clamp(5rem, 30vw, 40rem) !important; }
 @media (max-width: 767px) {
-  .hero-word-alt { font-size: 31vw !important; bottom: 14% !important; }
-  .hero-char { top: 34% !important; }
+  .hero-word-alt { font-size: 34vw !important; bottom: auto !important; top: 31%; }
+  .hero-slide[data-i="0"] .hero-me { top: 50% !important; }
+  .hero-char { top: 40% !important; }
 }
 .hero-dot { width: 6px; height: 6px; border-radius: 99px; background: rgba(255,255,255,.3); transition: height .4s ease, background .4s ease; }
 .hero-stage[data-slide="0"] .hero-dot[data-i="0"], .hero-stage[data-slide="1"] .hero-dot[data-i="1"],
