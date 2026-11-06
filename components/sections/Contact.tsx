@@ -264,11 +264,9 @@ function ContactInner({ aside }: { aside?: React.ReactNode }) {
             blurAmount={0.1}
             elasticity={0.06}
             overLight={false}
-            className="!block relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 pr-36 space-y-3"
-            fallbackClassName="liquid-glass relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 pr-36 space-y-3"
+            className="!block relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 space-y-3"
+            fallbackClassName="liquid-glass relative overflow-hidden rounded-2xl border border-border bg-secondary/70 text-foreground p-8 space-y-3"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/me/thumbs.webp" alt="" aria-hidden loading="lazy" className="pointer-events-none absolute -bottom-2 -right-4 w-40" />
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">Available for new projects</span>
             </div>

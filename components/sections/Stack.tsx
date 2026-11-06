@@ -24,15 +24,12 @@ const STACK_SECTIONS = GROUPS.map((g, gi) => ({
   items: g.techs.map((t, i) => ({ name: t.name, logo: `/logos/${FILES[gi][i]}.svg` })),
 }));
 
-// one tool: its logo on a small white tile, its name beside it
 function TechBox({ name, logo }: { name: string; logo: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary/60 p-2.5 pr-4 transition-colors hover:bg-secondary">
-      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logo} alt="" width={26} height={26} className="h-[26px] w-[26px] object-contain" loading="lazy" />
-      </span>
-      <span className="min-w-0 truncate text-[14px] font-bold text-foreground">{name}</span>
+    <div className="flex flex-col items-center justify-center gap-3 p-5 md:p-4 bg-white rounded-2xl aspect-square shadow-[0px_4px_24px_rgba(0,0,0,0.15)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.22)] transition-shadow duration-200">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={logo} alt={name} width={52} height={52} className="w-12 h-12 md:w-9 md:h-9 object-contain" loading="lazy" />
+      <span className="text-[12px] md:text-[10px] font-semibold text-center leading-tight text-gray-800">{name}</span>
     </div>
   );
 }
@@ -62,7 +59,7 @@ export function Stack() {
           </button>
         </div>
 
-        <div className={all ? "mx-auto grid max-w-6xl gap-8 md:grid-cols-2" : "hidden"}>
+        <div className={all ? "space-y-6" : "hidden"}>
           {STACK_SECTIONS.map((section, si) => (
             <motion.div
               key={section.title}
@@ -70,12 +67,12 @@ export function Stack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: si * 0.06 }}
-              className="space-y-4"
+              className="bg-[#0a0a0a] dark:bg-zinc-900 rounded-3xl px-5 pt-6 pb-8 space-y-6"
             >
-              <h3 className="text-center text-lg font-extrabold tracking-tight text-foreground md:text-left">
+              <h3 className="text-white text-xl font-extrabold text-center tracking-tight">
                 {section.title}
               </h3>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
                 {section.items.map((item) => (
                   <TechBox key={item.name} name={item.name} logo={item.logo} />
                 ))}
