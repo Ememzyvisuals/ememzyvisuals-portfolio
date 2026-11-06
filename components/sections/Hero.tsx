@@ -27,22 +27,22 @@ export function Hero() {
         {/* the side text, as in the reference: a title in light caps and a few small facts on the left, a short
             line and the buttons on the right */}
         <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
-          <div className="max-w-[24rem]">
-            <p className="hero-in font-display text-[clamp(1.5rem,2vw,2rem)] font-bold leading-[1.15] tracking-[-0.03em] text-white" style={{ animationDelay: "350ms" }}>
+          <div className="mx-auto max-w-[24rem] text-center md:mx-0 md:max-w-[28rem] md:text-left">
+            <p className="hero-in font-display text-[clamp(1.6rem,2.5vw,2.6rem)] font-bold leading-[1.15] tracking-[-0.03em] text-white" style={{ animationDelay: "350ms" }}>
               Software developer,
               <br />
               AI and ML engineer.
             </p>
-            <p className="hero-in mt-3 text-[14px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "480ms" }}>
+            <p className="hero-in mt-3 text-[14px] md:text-[15.5px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "480ms" }}>
               NLP research for African and low-resource languages.
             </p>
-            <div className="hero-in mt-4 flex gap-4 text-[13px] font-bold text-white" style={{ animationDelay: "560ms" }}>
+            <div className="hero-in mt-4 flex justify-center gap-4 text-[13px] font-bold text-white md:justify-start" style={{ animationDelay: "560ms" }}>
               <a href="https://github.com/Ememzyvisuals" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">GitHub</a>
               <a href="https://huggingface.co/Axiveri" target="_blank" rel="noreferrer" className="underline decoration-white/30 underline-offset-4 hover:decoration-white">Hugging Face</a>
             </div>
           </div>
-          <div className="hidden max-w-[19rem] md:block">
-            <p className="hero-in text-[14px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "560ms" }}>
+          <div className="hidden max-w-[22rem] md:block">
+            <p className="hero-in text-[15.5px] font-semibold leading-relaxed text-white/65" style={{ animationDelay: "560ms" }}>
               I research and build speech and language AI for African languages, and the software that puts it in people&apos;s hands. Also building{" "}
               <Link href="/axiveri" className="font-bold text-white underline decoration-white/30 underline-offset-4">Axiveri</Link>, open AI research for Africa.
             </p>
@@ -56,8 +56,8 @@ export function Hero() {
       </div>
 
       {/* phones: the buttons below the picture */}
-      <div className="container-padded flex flex-col gap-4 pb-10 pt-6 md:hidden">
-        <div className="flex flex-wrap gap-2.5">
+      <div className="container-padded flex flex-col items-center gap-4 pb-10 pt-6 text-center md:hidden">
+        <div className="flex flex-wrap justify-center gap-2.5">
           <Link href="/contact" className="hero-chip hero-chip-on">Get in touch</Link>
           <Link href="/work" className="hero-chip">See my work</Link>
         </div>
