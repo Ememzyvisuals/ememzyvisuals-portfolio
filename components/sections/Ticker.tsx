@@ -3,13 +3,14 @@
 // have built with, each mark drawn here in its own colours.
 const FACTS = ["8 open models", "4 open datasets", "2,500+ downloads a month", "5 African languages", "10+ products shipped", "Speech AI in production"];
 
-const LOGOS: { name: string; mark: React.ReactNode }[] = [
-  { name: "PlotWeaver", mark: <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#c4f000]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/brand/plotweaver-icon.svg" alt="" className="h-5 w-auto" /></span> },
-  { name: "Axiveri", mark: <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-[#fc6401]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/brand/axiveri.png" alt="" className="h-full w-full object-cover" /></span> },
-  { name: "Renncora", mark: <span className="grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-white">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/brand/renncora.png" alt="" className="h-6 w-auto" /></span> },
-  { name: "Hugging Face", mark: <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#ffd21e]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/logos/huggingface.svg" alt="" className="h-6 w-6" /></span> },
-  { name: "Kaggle", mark: <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#20beff]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/logos/kaggle.svg" alt="" className="h-5 w-5 brightness-0 invert" /></span> },
-  { name: "Freelance", mark: <span className="grid h-9 w-9 place-items-center rounded-xl border border-border font-display text-sm font-extrabold">F</span> },
+// the logos as plain white marks, no tiles, like a "trusted by" strip: each mark with its name in its own heavy type
+const LOGOS: { name: string; src?: string }[] = [
+  { name: "PlotWeaver", src: "/brand/plotweaver-icon.svg" },
+  { name: "Axiveri", src: "/brand/axiveri-mono.png" },
+  { name: "Renncora", src: "/brand/renncora-mono.png" },
+  { name: "Hugging Face", src: "/logos/huggingface.svg" },
+  { name: "Kaggle", src: "/logos/kaggle.svg" },
+  { name: "Freelance" },
 ];
 
 export function Ticker() {
@@ -27,9 +28,13 @@ export function Ticker() {
       </div>
       <div className="ticker ticker-slow mt-6" style={{ animationDirection: "reverse" }}>
         {logos.map((l, i) => (
-          <span key={i} className="mx-6 flex shrink-0 items-center gap-3 text-[17px] font-extrabold tracking-[-0.02em] text-foreground/80">
-            {l.mark}
-            {l.name}
+          <span key={i} className="flex shrink-0 items-center">
+            <span className="mx-10 flex items-center gap-3 font-display text-[clamp(1.3rem,2vw,1.9rem)] font-extrabold tracking-[-0.04em] text-foreground/75">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {l.src && <img src={l.src} alt="" className="logo-mono h-8 w-auto max-w-[44px] object-contain" />}
+              {l.name}
+            </span>
+            <span className="text-foreground/40">+</span>
           </span>
         ))}
       </div>
