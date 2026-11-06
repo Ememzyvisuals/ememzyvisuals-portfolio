@@ -1,8 +1,7 @@
 // components/sections/Hero.tsx
-// The opening screen, after the character-slider reference: a huge name in the site's condensed type across the
-// screen, my 3D character (a short looping video on black) standing in front of it so his head and shoulders cover the
-// middle letters, and what I do with the way to reach me along the bottom. The section is pure black like the video,
-// and the video's sides fade into it, so the letters show again on either side of him.
+// The opening screen, laid out like the character-slider reference: the nickname huge along the bottom, running to
+// the edges in ash grey; my cut-out 3D character standing in front of it so his body covers the middle letters; the
+// title and one line top left, the buttons and Axiveri on the right. On phones the word splits into two lines.
 import Link from "next/link";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
 import { HeroMe } from "./HeroMe";
@@ -10,41 +9,49 @@ import { HeroMe } from "./HeroMe";
 export function Hero() {
   return (
     <section aria-label="Introduction" className="hero-stage relative overflow-hidden bg-black text-white">
-      <div className="relative mx-auto flex min-h-[min(100svh,1000px)] max-w-[2400px] flex-col justify-end">
-        {/* the name, behind */}
-        <h1
-          className="hero-word pointer-events-none absolute inset-x-0 top-[24%] select-none text-center font-anton uppercase md:top-[20%]"
-          style={{ fontSize: "clamp(3rem, 13.2vw, 17rem)", lineHeight: 0.86, fontWeight: 400 }}
-        >
-          <span className="sr-only">Hi, I&apos;m </span>Ememzyvisuals
+      <div className="relative mx-auto h-[min(100svh,1000px)] min-h-[640px] max-w-[2400px]">
+        {/* the word, behind, along the bottom */}
+        <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton uppercase leading-[0.8]">
+          <span className="sr-only">Hi, I&apos;m </span>
+          <span className="hidden md:inline">Ememzyvisuals</span>
+          <span className="md:hidden">Ememzy<br />visuals</span>
         </h1>
 
         {/* me, in front */}
-        <div className="hero-me pointer-events-none absolute inset-x-0 bottom-0 top-[10%] flex justify-center">
+        <div className="hero-me pointer-events-none absolute inset-x-0 bottom-0 top-[14%] flex justify-center">
           <HeroMe />
         </div>
 
-        {/* what I do, and the way in */}
-        <div className="container-padded relative z-10 grid gap-6 pb-10 pt-[70svh] md:grid-cols-2 md:items-end md:pb-14 md:pt-0">
-          <div className="hero-rise max-w-[26rem]" style={{ animationDelay: "250ms" }}>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/55">Machine learning engineer</p>
-            <p className="mt-3 text-[17px] font-semibold leading-relaxed text-white/85">
+        {/* the side text */}
+        <div className="container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[30vh]">
+          <div className="hero-rise max-w-[19rem]" style={{ animationDelay: "250ms" }}>
+            <p className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-white">Machine learning<br />engineer</p>
+            <p className="mt-4 text-[14px] font-semibold leading-relaxed text-white/70">
               I build speech and language AI for African languages, and the web products that put it in people&apos;s hands.
             </p>
           </div>
-          <div className="hero-rise flex flex-col gap-5 md:items-end" style={{ animationDelay: "380ms" }}>
-            <div className="flex flex-wrap gap-3">
+          <div className="hero-rise hidden max-w-[19rem] flex-col gap-4 md:flex md:items-end md:text-right" style={{ animationDelay: "380ms" }}>
+            <div className="flex flex-wrap gap-3 md:justify-end">
               <Link href="/contact" className="btn-primary">Get in touch</Link>
               <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
             </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <Link href="/axiveri" className="text-[14px] font-bold text-white/70 hover:text-white">
-                Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
-              </Link>
-              <VisitorCounter />
-            </div>
+            <Link href="/axiveri" className="text-[13px] font-semibold leading-relaxed text-white/70 hover:text-white">
+              Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
+            </Link>
+            <VisitorCounter />
           </div>
         </div>
+      </div>
+
+      {/* phones: the buttons below the picture */}
+      <div className="container-padded flex flex-col gap-4 pb-10 pt-6 md:hidden">
+        <div className="flex flex-wrap gap-3">
+          <Link href="/contact" className="btn-primary">Get in touch</Link>
+          <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
+        </div>
+        <Link href="/axiveri" className="text-[13px] font-semibold text-white/70">
+          Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
+        </Link>
       </div>
     </section>
   );

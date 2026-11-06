@@ -49,13 +49,11 @@ export function Navbar() {
           scrolled ? "bg-gradient-to-b from-background via-background/80 to-transparent" : "bg-transparent"
         )}
       >
-        <div className="container-padded flex items-center justify-between gap-4 py-4 md:py-5">
-          <Link href="/" className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-foreground">
-            {siteConfig.name}
-          </Link>
+        <div className="container-padded flex items-center justify-between gap-4 py-5 md:py-6">
+          <Link href="/" aria-label="Home" className="sr-only">{siteConfig.name}</Link>
 
           {/* desktop */}
-          <nav aria-label="Main navigation" ref={moreRef} className="relative hidden items-center gap-9 lg:flex">
+          <nav aria-label="Main navigation" ref={moreRef} className="relative hidden w-full items-center gap-10 lg:flex">
             {mainItems.map((item) => (
               <Link
                 key={item.href}
@@ -75,7 +73,7 @@ export function Navbar() {
             >
               <MoreHorizontal size={16} />
             </button>
-            <span className="ml-2"><ThemePill /></span>
+            <span className="ml-auto"><ThemePill /></span>
             {moreOpen && (
               <div role="menu" className="absolute right-0 top-[calc(100%+10px)] z-50 w-56 rounded-2xl border border-border bg-background p-1.5 shadow-card-hover">
                 {moreItems.map((item) => (
@@ -96,7 +94,7 @@ export function Navbar() {
           </nav>
 
           {/* phones and tablets */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="ml-auto flex items-center gap-3 lg:hidden">
             <ThemePill size="sm" />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
