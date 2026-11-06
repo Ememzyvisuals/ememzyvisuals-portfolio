@@ -394,7 +394,7 @@ body::after {
    point at, and stays under the current page */
 .nav-link {
   position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 6px 0;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-tech); font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   color: hsl(var(--foreground) / 0.78); transition: color .25s ease; white-space: nowrap;
 }
 .nav-link::after {
@@ -404,3 +404,22 @@ body::after {
 .nav-link:hover { color: hsl(var(--foreground)); }
 .nav-link:hover::after, .nav-link-on::after { transform: scaleX(1); transform-origin: left; }
 .nav-link-on { color: hsl(var(--foreground)); }
+
+@keyframes menuPanel { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
+.menu-panel { animation: menuPanel .3s cubic-bezier(.2,.7,.2,1) both; transform-origin: top right; }
+
+/* the hero's side text slides up into place one line after another; the small buttons are thin pills */
+@keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero-in { animation: heroIn .8s cubic-bezier(.2,.7,.2,1) both; }
+.hero-chip { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); font-family: var(--font-tech); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #fff; transition: background-color .25s, color .25s, border-color .25s; }
+.hero-chip:hover { background: rgba(255,255,255,.1); }
+.hero-chip-on { background: #fff; color: #000; border-color: #fff; }
+.hero-chip-on:hover { background: rgba(255,255,255,.85); }
+/* the layers at different speeds as the page scrolls */
+.hero-stage .hero-word { translate: 0 calc(var(--hs, 0) * 12%); }
+.hero-stage .hero-me { translate: 0 calc(var(--hs, 0) * -8%); }
+.hero-stage .hero-side { opacity: calc(1 - var(--hs, 0) * 1.8); translate: 0 calc(var(--hs, 0) * -40px); }
+/* the character rises from below when the page opens, body first, like the reference */
+@keyframes heroMeRise { from { opacity: 0; transform: translateY(18%); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+.hero-me { animation: heroMeRise 1.4s .1s cubic-bezier(.16,.8,.2,1) both !important; }
+@media (prefers-reduced-motion: reduce) { .hero-in, .hero-me { animation: none !important; } }

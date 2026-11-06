@@ -5,10 +5,12 @@
 import Link from "next/link";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
 import { HeroMe } from "./HeroMe";
+import { HeroScroll } from "./HeroScroll";
 
 export function Hero() {
   return (
-    <section aria-label="Introduction" className="hero-stage relative overflow-hidden bg-black text-white">
+    <section id="hero" aria-label="Introduction" className="hero-stage relative overflow-hidden bg-black text-white">
+      <HeroScroll />
       <div className="relative mx-auto h-[min(100svh,1000px)] min-h-[640px] max-w-[2400px]">
         {/* the word, behind, along the bottom */}
         <h1 className="hero-word pointer-events-none absolute inset-x-0 bottom-[4%] select-none whitespace-nowrap text-center font-anton uppercase leading-[0.8]">
@@ -22,32 +24,44 @@ export function Hero() {
           <HeroMe />
         </div>
 
-        {/* the side text */}
-        <div className="container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[30vh]">
-          <div className="hero-rise max-w-[23rem]" style={{ animationDelay: "250ms" }}>
-            <p className="text-[12px] font-extrabold uppercase leading-[1.7] tracking-[0.12em] text-white">Software developer<br />AI and machine learning engineer<br />NLP researcher for African languages</p>
-            <p className="mt-4 text-[14px] font-semibold leading-relaxed text-white/70">
-              I research and build speech and language AI for African and other low-resource languages, and the software that puts it in people&apos;s hands.
+        {/* the side text, as in the reference: a title in light caps and a few small facts on the left, a short
+            line and the buttons on the right */}
+        <div className="hero-side container-padded relative z-10 flex h-full flex-col gap-6 pt-24 md:flex-row md:items-start md:justify-between md:pt-[34vh]">
+          <div className="max-w-[22rem] font-tech uppercase">
+            <p className="hero-in text-[clamp(1.35rem,1.8vw,1.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-white" style={{ animationDelay: "350ms" }}>
+              Software developer
+              <br />
+              AI and ML engineer
             </p>
+            <dl className="hero-in mt-5 space-y-1 text-[11px] font-medium tracking-[0.06em] text-white/60" style={{ animationDelay: "480ms" }}>
+              <dt>Research</dt>
+              <dd className="text-white/85">NLP for African and low-resource languages</dd>
+              <dt className="pt-2">More of my work:</dt>
+              <dd className="flex gap-4 font-bold text-white">
+                <a href="https://github.com/Ememzyvisuals" target="_blank" rel="noreferrer" className="hover:underline">GitHub</a>
+                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noreferrer" className="hover:underline">Hugging Face</a>
+              </dd>
+            </dl>
           </div>
-          <div className="hero-rise hidden max-w-[19rem] flex-col gap-4 md:flex md:items-end md:text-right" style={{ animationDelay: "380ms" }}>
-            <div className="flex flex-wrap gap-3 md:justify-end">
-              <Link href="/contact" className="btn-primary">Get in touch</Link>
-              <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
+          <div className="hidden max-w-[17rem] md:block">
+            <p className="hero-in text-[12.5px] font-medium leading-relaxed text-white/70" style={{ animationDelay: "560ms" }}>
+              I research and build speech and language AI for African languages, and the software that puts it in people&apos;s hands. Also building{" "}
+              <Link href="/axiveri" className="font-bold text-white underline decoration-white/30 underline-offset-4">Axiveri</Link>, open AI research for Africa.
+            </p>
+            <div className="hero-in mt-5 flex gap-2.5" style={{ animationDelay: "660ms" }}>
+              <Link href="/contact" className="hero-chip hero-chip-on">Get in touch</Link>
+              <Link href="/work" className="hero-chip">See my work</Link>
             </div>
-            <Link href="/axiveri" className="text-[13px] font-semibold leading-relaxed text-white/70 hover:text-white">
-              Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa
-            </Link>
-            <VisitorCounter />
+            <div className="hero-in mt-4" style={{ animationDelay: "720ms" }}><VisitorCounter /></div>
           </div>
         </div>
       </div>
 
       {/* phones: the buttons below the picture */}
       <div className="container-padded flex flex-col gap-4 pb-10 pt-6 md:hidden">
-        <div className="flex flex-wrap gap-3">
-          <Link href="/contact" className="btn-primary">Get in touch</Link>
-          <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
+        <div className="flex flex-wrap gap-2.5">
+          <Link href="/contact" className="hero-chip hero-chip-on">Get in touch</Link>
+          <Link href="/work" className="hero-chip">See my work</Link>
         </div>
         <Link href="/axiveri" className="text-[13px] font-semibold text-white/70">
           Also building <span className="font-extrabold text-white underline decoration-white/30 underline-offset-4">Axiveri</span>, open AI research for Africa

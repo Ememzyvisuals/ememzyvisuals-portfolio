@@ -13,6 +13,7 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-body)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['var(--font-display)', '-apple-system', 'sans-serif'],
+        tech: ['var(--font-tech)', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       // text sizes used by the contact section

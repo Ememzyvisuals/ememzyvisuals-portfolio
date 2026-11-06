@@ -41,7 +41,7 @@ export function Navbar() {
           <Link href="/" aria-label="Home" className="sr-only">{siteConfig.name}</Link>
 
           {/* desktop: the main pages spread evenly across the top, then the menu and the theme on the right */}
-          <nav aria-label="Main navigation" className="hidden flex-1 items-center justify-between pr-14 lg:flex">
+          <nav aria-label="Main navigation" className="hidden flex-1 items-center gap-9 lg:flex">
             {[{ label: "Home", href: "/" }, ...mainItems].map((item) => (
               <Link key={item.href} href={item.href} className={cn("nav-link", isActive(item.href) && "nav-link-on")}>
                 {item.label}
@@ -49,7 +49,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-5">
+          <div className="ml-auto flex items-center gap-5">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="nav-link"
@@ -64,25 +64,28 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* the menu: the whole screen, every page in big type */}
+      {/* the menu: a panel under the menu button with every page, in two columns; tap outside or Close to shut it */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 overflow-y-auto bg-background">
-          <nav aria-label="All pages" className="container-padded grid content-center gap-x-10 gap-y-1 pb-10 pt-24 md:min-h-full md:grid-cols-2 lg:grid-cols-3">
-            {navItems.map((item, i) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                style={{ animationDelay: `${i * 30}ms` }}
-                className={cn(
-                  "menu-rise font-anton uppercase leading-[1.05] transition-colors",
-                  isActive(item.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <span style={{ fontSize: "clamp(2rem, 9vw, 3.2rem)" }}>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-        </div>
+        <>
+          <button aria-label="Close the menu" className="fixed inset-0 z-40 cursor-default bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div className="menu-panel fixed right-4 top-[72px] z-50 w-[min(92vw,460px)] rounded-2xl border border-border bg-background p-3 shadow-card-hover md:right-[4.4vw]">
+            <nav aria-label="All pages" className="grid grid-cols-2 gap-1">
+              {navItems.map((item, i) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  style={{ animationDelay: `${i * 22}ms` }}
+                  className={cn(
+                    "menu-rise rounded-xl px-4 py-3 font-tech text-[13px] font-semibold uppercase tracking-[0.08em] transition-colors",
+                    isActive(item.href) ? "bg-foreground text-background" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </>
       )}
 
       {/* Spacer */}
