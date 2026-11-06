@@ -38,12 +38,12 @@ export function AboutClient() {
               Emmanuel Ariyo.
             </h1>
 
-            <p className="text-lg text-foreground/80 leading-relaxed">
+            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
               I build speech AI for African languages. Not voices that just read text aloud, but speech that
               carries emotion and expression and can hold a real conversation.
             </p>
 
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-[17px] text-muted-foreground leading-relaxed">
               By day I am a Machine Learning Engineer on the speech AI team at PlotWeaver. I am also the founder
               of Axiveri, where we publish open models so that AI can finally hear, understand and speak the
               languages Africa actually speaks. I am self-taught, and I still ship the full products around these
@@ -70,7 +70,14 @@ export function AboutClient() {
 
       {/* ── My Story ────────────────────────────────────────────── */}
       <div className="container-padded">
-        <div className="mx-auto max-w-2xl space-y-8 text-center">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.05fr_1.4fr] md:gap-16">
+          {/* my 3D character, rising in and floating gently */}
+          <motion.div {...fadeUp} transition={{ duration: 0.7 }} className="relative mx-auto w-full max-w-[520px]">
+            <div className="absolute inset-x-2 bottom-0 top-[22%] rounded-[44px] bg-secondary" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/me/laptop.webp" alt="My 3D character at a laptop" loading="lazy" className="about-float relative mx-auto w-[96%]" />
+          </motion.div>
+        <div className="space-y-8 text-center md:text-left">
           <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
             <h2 className="section-heading">My Story</h2>
           </motion.div>
@@ -78,7 +85,7 @@ export function AboutClient() {
           <motion.div
             {...fadeUp}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="space-y-5 text-muted-foreground leading-relaxed text-[16px]"
+            className="space-y-5 text-muted-foreground leading-relaxed text-[17px] md:text-[18.5px]"
           >
             <p>
               I did not study computer science and I never went to a bootcamp. I taught myself, one free tutorial,
@@ -106,6 +113,7 @@ export function AboutClient() {
               people actually touch.
             </p>
           </motion.div>
+        </div>
         </div>
       </div>
 
@@ -142,8 +150,8 @@ export function AboutClient() {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-surface p-6 space-y-4"
             >
-              <h3 className="font-extrabold text-foreground leading-tight">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+              <h3 className="text-xl font-extrabold text-foreground leading-tight">{title}</h3>
+              <p className="text-[15px] text-muted-foreground leading-relaxed">{desc}</p>
             </motion.div>
           ))}
         </div>
@@ -155,7 +163,7 @@ export function AboutClient() {
       <div className="container-padded space-y-10 text-center">
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">AI Research</h2>
-          <p className="text-muted-foreground mx-auto mt-3 text-lg max-w-2xl">
+          <p className="text-muted-foreground mx-auto mt-4 text-lg md:text-xl max-w-3xl">
             Open models and datasets for African speech and language, published under{" "}
             <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="text-foreground font-semibold underline underline-offset-4">Axiveri</a>{" "}
             so anyone can build on them.
@@ -171,26 +179,28 @@ export function AboutClient() {
           ].map((x) => (
             <div key={x.l}>
               <p className="font-display text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{x.n}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{x.l}</p>
+              <p className="mt-1 text-[15px] text-muted-foreground">{x.l}</p>
             </div>
           ))}
         </motion.div>
 
         <div className="grid gap-5 md:grid-cols-2">
           {[
-            { kind: "Speech recognition", title: "NaijaVox 2.0", desc: "Whisper fine-tuned with LoRA to transcribe Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian accented English, including speech that switches between them.", stat: "691 downloads this month", link: "https://huggingface.co/Axiveri/NaijaVox-2.0" },
-            { kind: "Text to speech", title: "WazobiaVoice", desc: "A multilingual text to speech and zero-shot voice cloning model that speaks several Nigerian languages from one model.", stat: "7 likes on Hugging Face", link: "https://huggingface.co/Axiveri/WazobiaVoice" },
-            { kind: "Text to speech", title: "Renpiper Pidgin", desc: "A small, fast Nigerian Pidgin voice, with an ONNX build that runs on modest hardware.", stat: "Pidgin dataset: 1,438 downloads this month", link: "https://huggingface.co/Axiveri/Renpiper-pcm-V1" },
-            { kind: "Language model", title: "Africlaude-7B", desc: "An open language model tuned for African context, with AfriclaudeBench to measure how well models understand it.", stat: "24 downloads this month", link: "https://huggingface.co/Axiveri/Africlaude-7B" },
-            { kind: "Image generation", title: "AfriVision", desc: "A FLUX LoRA trained on the AfriVision-30K dataset to generate African people, places and culture as they really look.", stat: "AfriVision-30K: 81 downloads this month", link: "https://huggingface.co/Axiveri/AfriVision-Base" },
-            { kind: "Benchmark", title: "TruthGuard", desc: "120 questions that test whether a language model knows when it does not know. Open on Kaggle.", stat: "CC BY-SA 4.0", link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation" },
+            { kind: "Speech recognition", title: "NaijaVox 2.0", desc: "Whisper fine-tuned with LoRA to transcribe Yoruba, Hausa, Igbo, Nigerian Pidgin and Nigerian accented English, including speech that switches between them.", icon: "mic", stat: "691 downloads this month", link: "https://huggingface.co/Axiveri/NaijaVox-2.0" },
+            { kind: "Text to speech", title: "WazobiaVoice", desc: "A multilingual text to speech and zero-shot voice cloning model that speaks several Nigerian languages from one model.", icon: "bubbles", stat: "7 likes on Hugging Face", link: "https://huggingface.co/Axiveri/WazobiaVoice" },
+            { kind: "Text to speech", title: "Renpiper Pidgin", desc: "A small, fast Nigerian Pidgin voice, with an ONNX build that runs on modest hardware.", icon: "bubbles", stat: "Pidgin dataset: 1,438 downloads this month", link: "https://huggingface.co/Axiveri/Renpiper-pcm-V1" },
+            { kind: "Language model", title: "Africlaude-7B", desc: "An open language model tuned for African context, with AfriclaudeBench to measure how well models understand it.", icon: "brain", stat: "24 downloads this month", link: "https://huggingface.co/Axiveri/Africlaude-7B" },
+            { kind: "Image generation", title: "AfriVision", desc: "A FLUX LoRA trained on the AfriVision-30K dataset to generate African people, places and culture as they really look.", icon: "lens", stat: "AfriVision-30K: 81 downloads this month", link: "https://huggingface.co/Axiveri/AfriVision-Base" },
+            { kind: "Benchmark", title: "TruthGuard", desc: "120 questions that test whether a language model knows when it does not know. Open on Kaggle.", icon: "brain", stat: "CC BY-SA 4.0", link: "https://www.kaggle.com/code/ememzyvisuals/truthguard-benchmark-metacognition-evaluation" },
           ].map((m, i) => (
             <motion.a key={m.title} href={m.link} target="_blank" rel="noopener noreferrer" {...fadeUp} transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="card-surface group flex flex-col p-6 transition-transform duration-300 hover:-translate-y-1">
-              <p className="text-xs font-medium text-muted-foreground">{m.kind}</p>
-              <h3 className="mt-2 font-display text-xl font-extrabold tracking-tight text-foreground">{m.title}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">{m.desc}</p>
-              <div className="mt-5 flex items-center justify-center gap-4 border-t border-border pt-4 text-xs">
+              className="card-surface group flex flex-col items-center p-7 md:p-9 transition-transform duration-300 hover:-translate-y-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/images/me/icon-${m.icon}.webp`} alt="" loading="lazy" className="about-float mb-5 h-24 w-auto md:h-28" style={{ animationDelay: `${i * -0.7}s` }} />
+              <p className="text-sm font-semibold text-muted-foreground">{m.kind}</p>
+              <h3 className="mt-2 font-display text-2xl font-extrabold tracking-tight text-foreground md:text-[1.7rem]">{m.title}</h3>
+              <p className="mt-3 flex-1 text-[15px] leading-relaxed text-foreground/70 md:text-base">{m.desc}</p>
+              <div className="mt-6 flex w-full items-center justify-center gap-4 border-t border-border pt-4 text-[13px]">
                 <span className="text-muted-foreground">{m.stat}</span>
                 <span className="inline-flex items-center gap-1 font-semibold text-foreground">View </span>
               </div>
@@ -211,7 +221,7 @@ export function AboutClient() {
           How I Work.
         </motion.h2>
 
-        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl">
           {[
             { title: "Ship, then sharpen", desc: "Real users teach more in a week than a month of planning. I get a working version out, listen, and improve it." },
             { title: "Build for real conditions", desc: "Slow networks, cheap phones, noisy rooms, people switching languages mid-sentence. If it works there, it works anywhere." },
@@ -224,8 +234,8 @@ export function AboutClient() {
               transition={{ duration: 0.5, delay: i * 0.06 }}
               className="card-surface p-6 space-y-2"
             >
-              <h3 className="font-extrabold text-foreground">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+              <h3 className="text-xl font-extrabold text-foreground">{title}</h3>
+              <p className="text-[15px] text-muted-foreground leading-relaxed">{desc}</p>
             </motion.div>
           ))}
         </div>
@@ -238,8 +248,10 @@ export function AboutClient() {
         <motion.div
           {...fadeUp}
           transition={{ duration: 0.5 }}
-          className="rounded-2xl bg-foreground text-background p-10 md:p-14 text-center space-y-5 max-w-2xl mx-auto"
+          className="relative rounded-3xl bg-foreground text-background p-10 pt-44 md:p-16 md:pl-[300px] text-center md:text-left space-y-5 max-w-5xl mx-auto"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/me/wave.webp" alt="My 3D character waving" loading="lazy" className="about-float absolute -top-16 left-1/2 w-56 -translate-x-1/2 md:bottom-0 md:left-6 md:top-auto md:w-[260px] md:translate-x-0" />
           <h2
             className="font-extrabold leading-tight"
             style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)", letterSpacing: "-0.04em" }}
@@ -250,7 +262,7 @@ export function AboutClient() {
             Open to freelance contracts, full-time roles, and interesting
             collaborations. If you have a project in mind, I&apos;d love to hear about it.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start pt-2">
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-background text-foreground font-bold text-sm hover:opacity-90 transition-opacity"

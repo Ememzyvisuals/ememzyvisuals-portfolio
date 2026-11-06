@@ -456,3 +456,8 @@ body::after {
 @media (prefers-reduced-motion: reduce) { .hero-slide * { transition: none !important; } }
 /* (inside the slides the show and hide is the transition above; the page-load keyframes would hold every layer visible) */
 .hero-slide .hero-word, .hero-slide .hero-me, .hero-slide .hero-char { animation: none !important; }
+
+/* the About page's 3D pieces float gently */
+@keyframes aboutFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.about-float { animation: aboutFloat 5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .about-float { animation: none; } }
