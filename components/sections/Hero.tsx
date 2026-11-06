@@ -1,60 +1,58 @@
 // components/sections/Hero.tsx
-// The opening screen: the name in the site's big condensed type, what I do and the way to reach me on the left,
-// the illustration on the right (stacked on phones), or the adire pattern tiles until it is added. No 3D scene.
-import fs from "node:fs";
-import path from "node:path";
+// The opening screen, after the character-slider reference: a huge name in the site's condensed type across the
+// screen, my 3D character (a short looping video on black) standing in front of it so his head and shoulders cover the
+// middle letters, and what I do with the way to reach me along the bottom. The section is pure black like the video,
+// and the video's sides fade into it, so the letters show again on either side of him.
 import Link from "next/link";
-import { HeroArt } from "./HeroArt";
 import { VisitorCounter } from "@/components/ui/VisitorCounter";
 
-// drop the illustration into public/illustrations/hero.(png|webp|svg|jpg) and it replaces the pattern tiles
-function findIllustration(): string | null {
-  for (const ext of ["png", "webp", "svg", "jpg"]) {
-    try {
-      if (fs.existsSync(path.join(process.cwd(), "public", "illustrations", `hero.${ext}`))) return `/illustrations/hero.${ext}`;
-    } catch {}
-  }
-  return null;
-}
-
 export function Hero() {
-  const art = findIllustration();
   return (
-    <section aria-label="Introduction" className="relative pt-28 pb-section md:pt-36 lg:flex lg:min-h-[min(100svh,980px)] lg:items-center">
-      <div className="container-padded grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-7">
-          <h1
-            className="hero-rise font-anton uppercase text-foreground"
-            style={{ fontWeight: 400, fontSize: "clamp(4rem, 10.5vw, 10rem)", lineHeight: 1.04, letterSpacing: "0" }}
-          >
-            Hi, I&apos;m
-            <br />
-            Emmanuel
-          </h1>
+    <section aria-label="Introduction" className="hero-stage relative overflow-hidden bg-black text-white">
+      <div className="relative mx-auto flex min-h-[min(100svh,1000px)] max-w-[2400px] flex-col justify-end">
+        {/* the name, behind */}
+        <h1
+          className="hero-word pointer-events-none absolute inset-x-0 top-[18%] select-none text-center font-anton uppercase md:top-[14%]"
+          style={{ fontSize: "clamp(5rem, 21vw, 24rem)", lineHeight: 0.86, fontWeight: 400 }}
+        >
+          <span className="sr-only">Hi, I&apos;m </span>Emmanuel
+        </h1>
 
-          <p className="hero-rise mt-7 max-w-[34rem] text-lead text-muted-foreground" style={{ animationDelay: "120ms" }}>
-            Machine learning engineer and full-stack developer from Nigeria, building speech and language AI for
-            African languages, and the web products that put it in people&apos;s hands.
-          </p>
-
-          <div className="hero-rise mt-9 flex flex-wrap items-center gap-3" style={{ animationDelay: "220ms" }}>
-            <Link href="/contact" className="btn-primary">Get in touch</Link>
-            <Link href="/work" className="btn-outline">See my work</Link>
-          </div>
-
-          <div className="hero-rise mt-9 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "300ms" }}>
-            <Link
-              href="/axiveri"
-              className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground hover:text-brand transition-colors"
-            >
-              Founder of Axiveri
-            </Link>
-            <VisitorCounter />
-          </div>
+        {/* me, in front */}
+        <div className="hero-me pointer-events-none absolute inset-x-0 bottom-0 top-[10%] flex justify-center">
+          <video
+            className="h-full w-auto max-w-none object-cover"
+            src="/images/me/hero.mp4"
+            poster="/images/me/hero.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="My 3D character, standing and looking around"
+          />
         </div>
 
-        <div className="lg:col-span-5">
-          <HeroArt src={art} />
+        {/* what I do, and the way in */}
+        <div className="container-padded relative z-10 grid gap-6 pb-10 pt-[70svh] md:grid-cols-2 md:items-end md:pb-14 md:pt-0">
+          <div className="hero-rise max-w-[26rem]" style={{ animationDelay: "250ms" }}>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.24em] text-white/55">Machine learning engineer</p>
+            <p className="mt-3 text-[17px] font-semibold leading-relaxed text-white/85">
+              I build speech and language AI for African languages, and the web products that put it in people&apos;s hands.
+            </p>
+          </div>
+          <div className="hero-rise flex flex-col gap-5 md:items-end" style={{ animationDelay: "380ms" }}>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/contact" className="btn-primary">Get in touch</Link>
+              <Link href="/work" className="btn-outline !border-white/30 !text-white hover:!bg-white/10">See my work</Link>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <Link href="/axiveri" className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/80 hover:text-white">
+                Founder of Axiveri
+              </Link>
+              <VisitorCounter />
+            </div>
+          </div>
         </div>
       </div>
     </section>
