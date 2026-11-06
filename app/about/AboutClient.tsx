@@ -13,11 +13,11 @@ const fadeUp = {
 
 export function AboutClient() {
   return (
-    <div className="py-16 md:py-24 space-y-24">
+    <div className="pb-16 pt-6 md:pb-24 md:pt-8 space-y-24">
 
       {/* ── Hero section, photo + name ─────────────────────────── */}
       <div className="container-padded">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
 
           {/* ID card on a lanyard: drag it, flick it, tap to flip */}
           <IdCard />
@@ -27,7 +27,7 @@ export function AboutClient() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.1 }}
-            className="space-y-5"
+            className="space-y-5 text-center md:pt-24"
           >
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.15em]">About me</p>
 
@@ -52,7 +52,7 @@ export function AboutClient() {
 
             <p className="text-sm text-muted-foreground">Based in Nigeria. Working with teams anywhere.</p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
               <Link href="/contact" className="btn-primary group text-sm">
                 Work With Me </Link>
               <Link href="/work" className="btn-outline text-sm">
@@ -70,7 +70,7 @@ export function AboutClient() {
 
       {/* ── My Story ────────────────────────────────────────────── */}
       <div className="container-padded">
-        <div className="max-w-2xl space-y-8">
+        <div className="mx-auto max-w-2xl space-y-8 text-center">
           <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
             <h2 className="section-heading">My Story</h2>
           </motion.div>
@@ -112,7 +112,7 @@ export function AboutClient() {
       <div className="container-padded"><div className="section-divider" /></div>
 
       {/* ── What I Do ───────────────────────────────────────────── */}
-      <div className="container-padded space-y-10">
+      <div className="container-padded space-y-10 text-center">
         <motion.h2
           {...fadeUp}
           transition={{ duration: 0.5 }}
@@ -152,10 +152,10 @@ export function AboutClient() {
       <div className="container-padded"><div className="section-divider" /></div>
 
       {/* ── AI Research: open models published under Axiveri, with numbers from Hugging Face ── */}
-      <div className="container-padded space-y-10">
+      <div className="container-padded space-y-10 text-center">
         <motion.div {...fadeUp} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">AI Research</h2>
-          <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
+          <p className="text-muted-foreground mx-auto mt-3 text-lg max-w-2xl">
             Open models and datasets for African speech and language, published under{" "}
             <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="text-foreground font-semibold underline underline-offset-4">Axiveri</a>{" "}
             so anyone can build on them.
@@ -190,7 +190,7 @@ export function AboutClient() {
               <p className="text-xs font-medium text-muted-foreground">{m.kind}</p>
               <h3 className="mt-2 font-display text-xl font-extrabold tracking-tight text-foreground">{m.title}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">{m.desc}</p>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
+              <div className="mt-5 flex items-center justify-center gap-4 border-t border-border pt-4 text-xs">
                 <span className="text-muted-foreground">{m.stat}</span>
                 <span className="inline-flex items-center gap-1 font-semibold text-foreground">View </span>
               </div>
@@ -202,7 +202,7 @@ export function AboutClient() {
       <div className="container-padded"><div className="section-divider" /></div>
 
       {/* ── Values ──────────────────────────────────────────────── */}
-      <div className="container-padded space-y-10">
+      <div className="container-padded space-y-10 text-center">
         <motion.h2
           {...fadeUp}
           transition={{ duration: 0.5 }}
@@ -211,7 +211,7 @@ export function AboutClient() {
           How I Work.
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
           {[
             { title: "Ship, then sharpen", desc: "Real users teach more in a week than a month of planning. I get a working version out, listen, and improve it." },
             { title: "Build for real conditions", desc: "Slow networks, cheap phones, noisy rooms, people switching languages mid-sentence. If it works there, it works anywhere." },
@@ -222,7 +222,7 @@ export function AboutClient() {
               key={title}
               {...fadeUp}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="card-surface p-6 space-y-2 border-l-2 border-foreground/20"
+              className="card-surface p-6 space-y-2"
             >
               <h3 className="font-extrabold text-foreground">{title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
