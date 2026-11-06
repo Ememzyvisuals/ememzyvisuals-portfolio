@@ -54,11 +54,11 @@ export default function AxiveriPage() {
 
       <div className="min-h-screen bg-background">
         {/* Hero: Axiveri orange, the real AX mark, the mission line, and the voice wave */}
-        <section className="relative overflow-hidden bg-[linear-gradient(140deg,#e85500,#fc6401_55%,#ff8a3d)] text-white">
+        <section className="lines-bg relative overflow-hidden bg-[radial-gradient(120%_90%_at_80%_0%,#3a1400,#0a0a0a_60%)] text-white">
           <div className="container-padded grid items-center gap-10 pb-16 pt-32 md:grid-cols-[1.05fr_1fr] md:pb-24 md:pt-40">
             <div>
               <div className="flex items-center gap-3">
-                <Image src="/brand/axiveri.png" alt="Axiveri" width={56} height={56} className="h-14 w-14 rounded-2xl shadow-[0_0_0_3px_rgba(255,255,255,0.9)]" priority />
+                <Image src="/brand/axiveri-mono.png" alt="Axiveri" width={56} height={46} className="h-12 w-auto" priority />
                 <div>
                   <p className="font-display text-2xl font-extrabold tracking-tight">Axiveri</p>
                   <p className="text-xs font-medium tracking-[0.28em] text-white/80">AI RESEARCH</p>
@@ -72,7 +72,7 @@ export default function AxiveriPage() {
                 emotion and expression, recognition that understands how people really talk, all free to build on.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#c44d00] hover:opacity-90">
+                <a href="https://huggingface.co/Axiveri" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#fc6401] px-6 py-3 text-sm font-bold text-white hover:opacity-90">
                   Open on Hugging Face <ExternalLink size={14} />
                 </a>
                 <a href="#partner" className="inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-3 text-sm font-semibold hover:bg-white/10">
@@ -81,7 +81,13 @@ export default function AxiveriPage() {
               </div>
               <p className="mt-8 text-sm text-white/80">Founded by Emmanuel Ariyo</p>
             </div>
-            <ModelVisual kind="tts" onBrand label="African language letters turning into a white voice wave" className="aspect-[5/4] w-full" />
+            {/* the four model icons, floating together */}
+            <div className="relative mx-auto aspect-square w-full max-w-[560px]">
+              {[["mic", "left-[4%] top-[6%] w-[46%]", "0s"], ["bubbles", "right-[2%] top-[14%] w-[40%]", "-1.4s"], ["brain", "left-[10%] bottom-[4%] w-[44%]", "-2.6s"], ["lens", "right-[8%] bottom-[10%] w-[36%]", "-3.6s"]].map(([n, pos, d]) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={n} src={`/images/me/icon-${n}.webp`} alt="" aria-hidden className={`about-float absolute ${pos} drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)]`} style={{ animationDelay: d }} />
+              ))}
+            </div>
           </div>
         </section>
 

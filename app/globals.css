@@ -558,3 +558,11 @@ footer .grid { justify-items: center; }
 html:not(.dark) .logo-mono { filter: grayscale(1) brightness(.55); }
 html:not(.dark) .logo-mono-dark { filter: grayscale(1); }
 .hero-stage[data-slide]:not([data-slide="0"]) .hero-hi { opacity: 0 !important; animation: none; }
+
+/* a field of fine curved lines, for the dark cards and banner */
+.lines-bg::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background: repeating-radial-gradient(ellipse 120% 90% at 80% 110%, transparent 0 14px, rgba(255,255,255,.09) 14px 15px);
+  -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 85%); mask-image: linear-gradient(to left, #000 30%, transparent 85%);
+}
+.lines-bg > * { position: relative; }
